@@ -1,119 +1,250 @@
 <div class="panel-header panel-header-sm">
 </div>
 <div class="main-content">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Stat CSC</h4>
-                    </div>
-                    <div class="card-body">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Stat CSC</h4>
+                </div>
+                <div class="card-body">
+                    <br />
+                    <form class="ng-untouched ng-pristine ng-invalid">
+                        <div>
+                            <label for="file">1er fichier extract :</label>
+                            <input type="file" #fileInput name="File Upload" id="csvFile1"
+                                (change)="fileChangeListener1($event)" accept=".csv" />
+                            <label for="file">2eme fichier extract :</label>
+                            <input type="file" #fileInput name="File Upload" id="csvFile2"
+                                (change)="fileChangeListener2($event)" accept=".csv" />
+
+                        </div>
                         <br />
-                        <form class="ng-untouched ng-pristine ng-invalid">
-                            <div>
-                                <label for="file">1er fichier extract :</label>
-                                <input type="file" #fileInput name="File Upload" id="csvFileUpload" (change)="fileChangeListener($event)" accept=".csv" />
-                                <label for="file">2eme fichier extract :</label>
-                                <input type="file" #fileInput name="File Upload" id="csvFileUpload" (change)="fileChangeListener($event)" accept=".csv" />
-                                
-                                <button mat-raised-button (click)="createFile()" class="btn pull-right">
-                  stats
-                </button>
-                            </div>
-                        </form>
+
+                        <mat-label>Choisir le(s) mois :</mat-label>
                         <br />
-                        <mat-spinner strokeWidth="3" [diameter]="100" *ngIf="dataSource.data.length === 0 && value === 0"></mat-spinner>
-                        <div class="table-responsive" [hidden]="dataSource.data.length === 0">
-                            <!-- Filtrage -->
-                            <mat-label>Filter By :</mat-label>
+                        <div>
                             <section class="example-section">
-                                <mat-checkbox [(ngModel)]="HiddenSN">Society</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="HiddenCode">ZipCode</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="HiddenCity">City</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="HiddenCountry">
-                                    Country
+                                <mat-checkbox [(ngModel)]="HiddenJan" name="HiddenJan">Janvier</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="HiddenFev" name="HiddenFev">Février</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="HiddenMar" name="HiddenMar">Mars</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="HiddenAvr" name="HiddenAvr">
+                                    Avril
+                                </mat-checkbox>
+                                <mat-checkbox [(ngModel)]="HiddenMai" name="HiddenMai">Mai</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="HiddenJuin" name="HiddenJuin">Juin</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="HiddenJuil" name="HiddenJuil">Juillet</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="HiddenAout" name="HiddenAout">
+                                    Août
+                                </mat-checkbox>
+                                <mat-checkbox [(ngModel)]="HiddenSep" name="HiddenSep">Septembre</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="HiddenOct" name="HiddenOct">Octobre</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="HiddenNov" name="HiddenNov">Novembre</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="HiddenDec" name="HiddenDec">
+                                    Décembre
                                 </mat-checkbox>
                             </section>
-
-                            <mat-form-field name="Society" *ngIf="HiddenSN" class="filter" floatLabel="never">
-                                <mat-label>Search the society name</mat-label>
-                                <input matInput [formControl]="Society" />
+                        </div>
+                        <br />
+                        <div id="budget">
+                            <mat-label
+                                *ngIf="HiddenJan || HiddenFev || HiddenMar || HiddenAvr || HiddenMai || HiddenJuin || HiddenJuil || HiddenAout || HiddenSep || HiddenOct || HiddenNov || HiddenDec">
+                                Le Budget :</mat-label>
+                            <br />
+                            <mat-form-field name="janvier" *ngIf="HiddenJan" floatLabel="never">
+                                <label>Budget de Janvier</label>
+                                <input type="number" matInput [formControl]="janvier" />
                             </mat-form-field>
 
-                            <mat-form-field name="ZipCode" *ngIf="HiddenCode" class="filter" floatLabel="never">
-                                <mat-label>Search the zip code</mat-label>
-                                <input matInput [formControl]="ZipCode" />
+                            <mat-form-field name="fevrier" *ngIf="HiddenFev" floatLabel="never">
+                                <label>Budget de Février</label>
+                                <input type="number" matInput [formControl]="fevrier" />
                             </mat-form-field>
 
-                            <mat-form-field name="City" *ngIf="HiddenCity" class="filter" floatLabel="never">
-                                <mat-label>Search the city</mat-label>
-                                <input matInput [formControl]="City" />
+                            <mat-form-field name="mars" *ngIf="HiddenMar" floatLabel="never">
+                                <label>Budget de Mars</label>
+                                <input type="number" matInput [formControl]="mars" />
                             </mat-form-field>
-                            <!--onkeyup="this.value = this.value.toLowerCase();"-->
-                            <mat-form-field name="Country" *ngIf="HiddenCountry" class="filter" floatLabel="never">
-                                <mat-label>Search the country</mat-label>
-                                <input matInput [formControl]="Country" />
+
+                            <mat-form-field name="avril" *ngIf="HiddenAvr" floatLabel="never">
+                                <label>Budget d'Avril</label>
+                                <input type="number" matInput [formControl]="avril" />
+                            </mat-form-field>
+                            <mat-form-field name="mai" *ngIf="HiddenMai" floatLabel="never">
+                                <label>Budget de Mai</label>
+                                <input type="number" matInput [formControl]="mai" />
+                            </mat-form-field>
+
+                            <mat-form-field name="juin" *ngIf="HiddenJuin" floatLabel="never">
+                                <label>Budget de Juin</label>
+                                <input type="number" matInput [formControl]="juin" />
+                            </mat-form-field>
+
+                            <mat-form-field name="juillet" *ngIf="HiddenJuil" floatLabel="never">
+                                <label>Budget de Juillet</label>
+                                <input type="number" matInput [formControl]="juillet" />
+                            </mat-form-field>
+
+                            <mat-form-field name="aout" *ngIf="HiddenAout" floatLabel="never">
+                                <label>Budget d'Août</label>
+                                <input type="number" matInput [formControl]="aout" />
+                            </mat-form-field>
+                            <mat-form-field name="septembre" *ngIf="HiddenSep" floatLabel="never">
+                                <label>Budget de Septembre</label>
+                                <input type="number" matInput [formControl]="septembre" />
+                            </mat-form-field>
+
+                            <mat-form-field name="octobre" *ngIf="HiddenOct" floatLabel="never">
+                                <label>Budget d'Octobre</label>
+                                <input type="number" matInput [formControl]="octobre" />
+                            </mat-form-field>
+
+                            <mat-form-field name="novembre" *ngIf="HiddenNov" floatLabel="never">
+                                <label>Budget de Novembre</label>
+                                <input type="number" matInput [formControl]="novembre" />
+                            </mat-form-field>
+
+                            <mat-form-field name="decembre" *ngIf="HiddenDec" floatLabel="never">
+                                <label>Budget de Décembre</label>
+                                <input type="number" matInput [formControl]="decembre" />
                             </mat-form-field>
                             <br />
-                            <!--Table-->
-
-                            <table mat-table matTableExporter bordered="true" class="mat-elevation-z8 table-hover table" [dataSource]="dataSource">
-
-                                <ng-container matColumnDef="CORSE">
-                                    <th mat-header-cell *matHeaderCellDef>
-                                        CORSE 
-                                    </th>
-                                    <td mat-cell *matCellDef="let element">
-                                        {{ element.CORSE }}
-                                    </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="CIBLE">
-                                    <th mat-header-cell *matHeaderCellDef>
-                                        CIBLE / JR
-                                    </th>
-                                    <td mat-cell *matCellDef="let element">
-                                        {{ element.CIBLE }}
-                                    </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="VENTE">
-                                    <th mat-header-cell *matHeaderCellDef>
-                                        VENTE JOUR
-                                    </th>
-                                    <td mat-cell *matCellDef="let element">
-                                        {{ element.VENTE }}
-                                    </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="CUMUL">
-                                    <th mat-header-cell *matHeaderCellDef>
-                                        CUMUL
-                                    </th>
-                                    <td mat-cell *matCellDef="let element">
-                                        {{ element.CUMUL }}
-                                    </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="BUDGET">
-                                    <th mat-header-cell *matHeaderCellDef>
-                                        BUDGET %
-                                    </th>
-                                    <td mat-cell *matCellDef="let element">{{ element.BUDGET }}</td>
-                                </ng-container>
-                                <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
-                                <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
-                            </table>
-                            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-                            <button mat-raised-button (click)="exporter.exportTable('csv')" class="btn pull-right">
-                Exporter en Excel
-              </button>
-                            <button mat-raised-button (click)="export()" class="btn pull-right">
-                Exporter en Image
-              </button>
                         </div>
+                        <div id="cible">
+                            <mat-label
+                                *ngIf="HiddenJan || HiddenFev || HiddenMar || HiddenAvr || HiddenMai || HiddenJuin || HiddenJuil || HiddenAout || HiddenSep || HiddenOct || HiddenNov || HiddenDec">
+                                La Cible / Jour :</mat-label>
+                            <br />
+                            <mat-form-field name="Cjanvier" *ngIf="HiddenJan" floatLabel="never">
+                                <label>Cible de Janvier</label>
+                                <input type="number" matInput [formControl]="Cjanvier" />
+                            </mat-form-field>
+
+                            <mat-form-field name="Cfevrier" *ngIf="HiddenFev" floatLabel="never">
+                                <label>Cible de Février</label>
+                                <input type="number" matInput [formControl]="Cfevrier" />
+                            </mat-form-field>
+
+                            <mat-form-field name="Cmars" *ngIf="HiddenMar" floatLabel="never">
+                                <label>Cible de Mars</label>
+                                <input type="number" matInput [formControl]="Cmars" />
+                            </mat-form-field>
+
+                            <mat-form-field name="Cavril" *ngIf="HiddenAvr" floatLabel="never">
+                                <label>Cible d'Avril</label>
+                                <input type="number" matInput [formControl]="Cavril" />
+                            </mat-form-field>
+                            <mat-form-field name="Cmai" *ngIf="HiddenMai" floatLabel="never">
+                                <label>Cible de Mai</label>
+                                <input type="number" matInput [formControl]="Cmai" />
+                            </mat-form-field>
+
+                            <mat-form-field name="Cjuin" *ngIf="HiddenJuin" floatLabel="never">
+                                <label>Cible de Juin</label>
+                                <input type="number" matInput [formControl]="Cjuin" />
+                            </mat-form-field>
+
+                            <mat-form-field name="Cjuillet" *ngIf="HiddenJuil" floatLabel="never">
+                                <label>Cible de Juillet</label>
+                                <input type="number" matInput [formControl]="Cjuillet" />
+                            </mat-form-field>
+
+                            <mat-form-field name="Caout" *ngIf="HiddenAout" floatLabel="never">
+                                <label>Cible d'Août</label>
+                                <input type="number" matInput [formControl]="Caout" />
+                            </mat-form-field>
+                            <mat-form-field name="Cseptembre" *ngIf="HiddenSep" floatLabel="never">
+                                <label>Cible de Septembre</label>
+                                <input type="number" matInput [formControl]="Cseptembre" />
+                            </mat-form-field>
+
+                            <mat-form-field name="Coctobre" *ngIf="HiddenOct" floatLabel="never">
+                                <label>Cible d'Octobre</label>
+                                <input type="number" matInput [formControl]="Coctobre" />
+                            </mat-form-field>
+
+                            <mat-form-field name="Cnovembre" *ngIf="HiddenNov" floatLabel="never">
+                                <label>Cible de Novembre</label>
+                                <input type="number" matInput [formControl]="Cnovembre" />
+                            </mat-form-field>
+
+                            <mat-form-field name="Cdecembre" *ngIf="HiddenDec" floatLabel="never">
+                                <label>Cible de Décembre</label>
+                                <input type="number" matInput [formControl]="Cdecembre" />
+                            </mat-form-field>
+                            <br />
+
+                        </div>
+
+                        <button mat-raised-button (click)="createFile()" class="btn pull-right">
+                            stats
+                        </button>
+                    </form>
+                    <br />
+                    <mat-spinner strokeWidth="3" [diameter]="100" *ngIf="dataSource.data.length === 0 && value === 0">
+                    </mat-spinner>
+                    <div class="table-responsive" [hidden]="dataSource.data.length === 0">
+
+                        <!--Table-->
+
+                        <table mat-table matTableExporter bordered="true" class="mat-elevation-z8 table-hover table"
+                            [dataSource]="dataSource">
+
+                            <ng-container matColumnDef="CORSE">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    CORSE
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.CORSE }}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="CIBLE">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    CIBLE / JR
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.CIBLE }}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="VENTE">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    VENTE JOUR
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.VENTE }}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="CUMUL">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    CUMUL
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.CUMUL }}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="BUDGET">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    BUDGET %
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{ element.BUDGET }}</td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+                            <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                        <button mat-raised-button (click)="exporter.exportTable('csv')" class="btn pull-right">
+                            Exporter en Excel
+                        </button>
+                        <button mat-raised-button (click)="export()" class="btn pull-right">
+                            Exporter en Image
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>

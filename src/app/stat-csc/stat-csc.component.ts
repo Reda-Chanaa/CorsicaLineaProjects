@@ -1,11 +1,10 @@
-import { Component, OnInit,Inject,ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { merge, Observable } from 'rxjs';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
@@ -19,10 +18,11 @@ export class ApiStandartization {
 
   }
 
-  sendFile(File: any): Observable<any> {
+  sendFile(File1: any, File2:any): Observable<any> {
 
     let formData = new FormData();
-    formData.append('file', File, File.name);
+    formData.append('file1', File1, File.name);
+    formData.append('file2', File2, File.name);
 
     var header = new HttpHeaders();
     header.append('Content-Type', 'multipart/form-data');
@@ -44,22 +44,60 @@ export interface StatData {
   styleUrls: ['./stat-csc.component.css'],
   providers: [ApiStandartization]
 })
-export class StatCscComponent{
+export class StatCscComponent {
 
+  HiddenJan = false
+  HiddenFev = false
+  HiddenMar = false
+  HiddenAvr = false
+  HiddenMai = false
+  HiddenJuin = false
+  HiddenJuil = false
+  HiddenAout = false
+  HiddenSep = false
+  HiddenOct = false
+  HiddenNov = false
+  HiddenDec = false
   renderedData: any;
   dataFrame: any;
-  
-  displayedColumns: string[] = ['CORSE','CIBLE' ,'VENTE', 'CUMULE','BUDGET'];
+
+  displayedColumns: string[] = ['CORSE', 'CIBLE', 'VENTE', 'CUMULE', 'BUDGET'];
   dataSource: MatTableDataSource<StatData>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  element: any;
-  df: any;
+  janvier = new FormControl('');
+  fevrier = new FormControl('');
+  mars = new FormControl('');
+  avril = new FormControl('');
+  mai = new FormControl('');
+  juin = new FormControl('');
+  juillet = new FormControl('');
+  aout = new FormControl('');
+  septembre = new FormControl('');
+  octobre = new FormControl('');
+  novembre = new FormControl('');
+  decembre = new FormControl('');
 
+  Cjanvier = new FormControl('');
+  Cfevrier = new FormControl('');
+  Cmars = new FormControl('');
+  Cavril = new FormControl('');
+  Cmai = new FormControl('');
+  Cjuin = new FormControl('');
+  Cjuillet = new FormControl('');
+  Caout = new FormControl('');
+  Cseptembre = new FormControl('');
+  Coctobre = new FormControl('');
+  Cnovembre = new FormControl('');
+  Cdecembre = new FormControl('');
+
+  element: any;
+  df1: any;
+  df2: any;
   value: number;
 
-  constructor(private DATACLEANING: ApiStandartization, public dialog: MatDialog, private router: Router) {
+  constructor(private DATACLEANING: ApiStandartization, private router: Router, fb: FormBuilder) {
 
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource([]);
@@ -67,15 +105,19 @@ export class StatCscComponent{
   }
 
   // function executed when file is changed
-  fileChangeListener($event: any): void {
-    this.df = $event.target.files[0]
+  fileChangeListener1($event: any): void {
+    this.df1 = $event.target.files[0]
+  }
+  // function executed when file is changed
+  fileChangeListener2($event: any): void {
+    this.df2 = $event.target.files[0]
   }
 
   // function executed when user click on standardize button
   createFile = () => {
-    if (this.df != null) {
+    if (this.df1 != null && this.df2 != null) {
       this.value = 0
-      this.DATACLEANING.sendFile(this.df).subscribe(
+      this.DATACLEANING.sendFile(this.df1,this.df2).subscribe(
         data => {
           this.value = 10
           this.dataFrame = data;

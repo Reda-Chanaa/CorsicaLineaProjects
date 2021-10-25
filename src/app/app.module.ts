@@ -25,6 +25,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatSortModule } from '@angular/material/sort'
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -53,6 +54,7 @@ import { MatIconModule } from '@angular/material/icon';
     CommonModule,
     MatSlideToggleModule,
     MatSelectModule,
+    MatInputModule
   ],
   declarations: [
     AppComponent,
