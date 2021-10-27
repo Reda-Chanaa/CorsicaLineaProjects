@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 // class pour les requettes GET et POST.
-export class ApiStandartization {
+export class ApiStat {
 
   baseurl = "http://127.0.0.1:8000";
 
@@ -18,11 +18,15 @@ export class ApiStandartization {
 
   }
 
-  sendFile(File1: any, File2:any): Observable<any> {
+  sendFile(File1: any, File2:any, Annee:any, Mois:any, Cible:any,Budget:any): Observable<any> {
 
     let formData = new FormData();
     formData.append('file1', File1, File.name);
     formData.append('file2', File2, File.name);
+    formData.append("annee",Annee,"Annee");
+    formData.append("mois",Mois,"Mois");
+    formData.append("cible",Cible,"Cible");
+    formData.append("budget",Budget,"Budget")
 
     var header = new HttpHeaders();
     header.append('Content-Type', 'multipart/form-data');
@@ -42,7 +46,7 @@ export interface StatData {
   selector: 'app-stat-csc',
   templateUrl: './stat-csc.component.html',
   styleUrls: ['./stat-csc.component.css'],
-  providers: [ApiStandartization]
+  providers: [ApiStat]
 })
 export class StatCscComponent {
 
@@ -95,9 +99,14 @@ export class StatCscComponent {
   element: any;
   df1: any;
   df2: any;
+  annee:any;
+  mois:any;
+  cible:any;
+  budget:any;
+
   value: number;
 
-  constructor(private DATACLEANING: ApiStandartization, private router: Router, fb: FormBuilder) {
+  constructor(private DATACLEANING: ApiStat, private router: Router, fb: FormBuilder) {
 
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource([]);
@@ -115,9 +124,11 @@ export class StatCscComponent {
 
   // function executed when user click on standardize button
   createFile = () => {
+    console.log("test");
     if (this.df1 != null && this.df2 != null) {
+      console.log("test2")
       this.value = 0
-      this.DATACLEANING.sendFile(this.df1,this.df2).subscribe(
+      this.DATACLEANING.sendFile(this.df1,this.df2,this.annee,this.mois,this.cible,this.budget).subscribe(
         data => {
           this.value = 10
           this.dataFrame = data;

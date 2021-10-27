@@ -1,35 +1,43 @@
-# [Now UI Dashboard Angular](https://creativetimofficial.github.io/now-ui-dashboard-angular) [![version][version-badge]][CHANGELOG] [![license][license-badge]][LICENSE]
+# A "Responsive" Web Application for Standardizing, Verifying and Validating Transport Data
 
-![alt text](https://s3.amazonaws.com/creativetim_bucket/products/85/original/opt_nud_angular_thumbnail.jpg)
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0 and angular 4.x.
 
-**[Now UI Dashboard Angular](https://creativetimofficial.github.io/now-ui-dashboard-angular)** is a responsive Bootstrap 4 kit provided for free by [Invision](https://www.invisionapp.com/) and [Creative Tim](https://www.creative-tim.com/). It combines colors that are easy on the eye, spacious cards, beautiful typography, and graphics. Now UI Dashboard comes packed with all plugins that you might need inside a project and documentation on how to get started. It is light and easy to use, and also very powerful.
+## Code scaffolding
 
-Now UI Dashboard Angular has the same design characteristics as Now UI Kit Angular, so it is quite convenient to use them together. Or you can choose between them depending on the project at hand. If you love Now UI Kit Angular, you'll love Now UI Dashboard Angular.
-Create awesome, lifelike prototypes with InVision and Now so your users can experience and give feedback on your vision!
+Run in FrontEnd Folder `ng generate component component-name` to generate a new component or `ng g c component-name`. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
+## Build
 
-**Bootstrap 4 Support**
-Now UI Dashboard Angular is built on top of the much awaited Bootstrap 4. This makes starting a new project very simple. It also provides benefits if you are already working on a Bootstrap 4 project; you can just import the Now UI Dashboard Angular style over it. Most of the elements have been redesigned; but if you are using an element we have not touched, it will fall back to the Bootstrap default.
+Run in FrontEnd Folder `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-**Example Pages**
-We wanted to fully display the power of this dashboard, so the kit comes packed with examples showing you how to use the components. Inside the product you will find:
+## Running unit tests
 
-## Links:
+Run in FrontEnd Folder `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-+ [Live Preview](https://creativetimofficial.github.io/now-ui-dashboard-angular)
+## Running end-to-end tests
 
-**Tutorial**
-In order for you to easily be able to use the Now UI Dashboard Angular, we have created a tutorial page in our documentation. It shows the structure for the files inside the archive and how to import them. It then features every components with a description and example how to use it. You can see the details [here](https://creativetimofficial.github.io/now-ui-dashboard-angular/documentation/tutorial).
+Run in FrontEnd Folder `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
 
 ## Terminal Commands
 
 1. Install NodeJs from [NodeJs Official Page](https://nodejs.org/en).
 2. Open Terminal
 3. Go to your file project
-4. Run in terminal: ```npm install -g @angular/cli```
-5. Then: ```npm install```
-6. And: ```npm start```
-7. Navigate to [localhost:4200](localhost:4200)
+4. Make sure you have installed [Angular CLI](https://github.com/angular/angular-cli) already. If not, please install by running in terminal: ```npm install -g @angular/cli```.
+5. Run in FrontEnd terminal: ```npm install```.
+6. For windows, Run in terminal of the BackEnd Folder : ``` py -m pip install --user virtualenv``` for installing a virtual envirenement, then ```py -m venv venv``` to create a venv folder then run ```./venv/scripts/activate``` to activate it,
+7. For Mac, Run in terminal of the BackEnd Folder : ``` python3 -m pip install --user``` for installing a virtual envirenement, then ```python3 -m venv venv``` to create a venv folder then run ``` source venv/bin/activate``` to activate virtual envirenement.
+8. Run ```pip install -r requirements.txt``` to install all the modules that you gonna need on your Mac.
+9. Run ```pip install -r requirements_win.txt``` to install all the modules that you gonna need on your windows.
+10. When its Ok, Run ```python manage.py runserver``` to run the server of the BackEnd.
+11. Back to the FrontEnd, Run `ng serve --open` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+12. if you add a package in backend, please run ```pip freeze > requirements.txt``` to add automatically the module name and his version (You can check the file in BackEnd folder). 
 
 ### What's included
 
