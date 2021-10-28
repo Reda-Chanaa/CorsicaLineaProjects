@@ -1,4 +1,4 @@
-# A "Responsive" Web Application for Standardizing, Verifying and Validating Transport Data
+# A "Responsive" Web Application for Statistique on Yield Management
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0 and angular 4.x.
 
