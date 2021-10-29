@@ -204,6 +204,12 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
     else:
         reporting = BS2
 
+    reporting.reset_index(inplace=True)
+    del reporting['index']
+
+    for i in range(len(reporting)):
+        reporting["BUDGET"][i]=str(reporting["BUDGET"][i])+' %'
+
     return reporting
 
 
