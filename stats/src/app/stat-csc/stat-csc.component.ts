@@ -18,19 +18,20 @@ export class ApiStat {
 
   }
 
-  sendFile(File1: any, File2:any, Annee:any, Mois:any, Cible:any,Budget:any): Observable<any> {
+  sendFile(File1: any, File2: any, annee: any, mois: any, cible: any, budget: any): Observable<any> {
 
     let formData = new FormData();
     formData.append('file1', File1, File.name);
     formData.append('file2', File2, File.name);
-    formData.append("annee",Annee,"Annee");
-    formData.append("mois",Mois,"Mois");
-    formData.append("cible",Cible,"Cible");
-    formData.append("budget",Budget,"Budget")
+    formData.append("annee", annee);
+    formData.append("mois", mois);
+    formData.append("cible", cible);
+    formData.append("budget", budget);
+    console.log(formData)
 
     var header = new HttpHeaders();
     header.append('Content-Type', 'multipart/form-data');
-    return this.http.post(this.baseurl + '/table-list/', formData, { headers: header })
+    return this.http.post(this.baseurl + '/stat-csc/', formData, { headers: header })
   }
 }
 
@@ -49,6 +50,21 @@ export interface StatData {
   providers: [ApiStat]
 })
 export class StatCscComponent {
+  /*
+    public checks: Array<any> = [
+      { description: "Janvier", value: "1" },
+      { description: "Février", value: "2" },
+      { description: "Mars", value: "3" },
+      { description: "Avril", value: "4" },
+      { description: "Mai", value: "5" },
+      { description: "Juin", value: "6" },
+      { description: "Juillet", value: "7" },
+      { description: "Août", value: "8" },
+      { description: "Septembre", value: "9" },
+      { description: "Octobre", value: "10" },
+      { description: "Novembre", value: "11" },
+      { description: "Décembre", value: "12" }
+    ];*/
 
   HiddenJan = false
   HiddenFev = false
@@ -62,6 +78,7 @@ export class StatCscComponent {
   HiddenOct = false
   HiddenNov = false
   HiddenDec = false
+
   renderedData: any;
   dataFrame: any;
 
@@ -96,13 +113,40 @@ export class StatCscComponent {
   Cnovembre = new FormControl('');
   Cdecembre = new FormControl('');
 
+  cible1: any;
+  cible2: any;
+  cible3: any;
+  cible4: any;
+  cible5: any;
+  cible6: any;
+  cible7: any;
+  cible8: any;
+  cible9: any;
+  cible10: any;
+  cible11: any;
+  cible12: any;
+
+  budget1: any;
+  budget2: any;
+  budget3: any;
+  budget4: any;
+  budget5: any;
+  budget6: any;
+  budget7: any;
+  budget8: any;
+  budget9: any;
+  budget10: any;
+  budget11: any;
+  budget12: any;
+
   element: any;
   df1: any;
   df2: any;
-  annee:any;
-  mois:any;
-  cible:any;
-  budget:any;
+  annee: number = 2021;
+  FAnnee = new FormControl('');
+  mois: any = [];
+  cible: any = [];
+  budget: any = [];
 
   value: number;
 
@@ -113,6 +157,7 @@ export class StatCscComponent {
 
   }
 
+
   // function executed when file is changed
   fileChangeListener1($event: any): void {
     this.df1 = $event.target.files[0]
@@ -122,13 +167,81 @@ export class StatCscComponent {
     this.df2 = $event.target.files[0]
   }
 
+  getMois() {
+    if (this.HiddenJan) {
+      this.mois.push(1)
+      this.cible.push(this.cible1)
+      this.budget.push(this.budget1)
+    }
+    if (this.HiddenFev) {
+      this.mois.push(2)
+      this.cible.push(this.cible2)
+      this.budget.push(this.budget2)
+    }
+    if (this.HiddenMar) {
+      this.mois.push(3)
+      this.cible.push(this.cible3)
+      this.budget.push(this.budget3)
+    }
+    if (this.HiddenAvr) {
+      this.mois.push(4)
+      this.cible.push(this.cible4)
+      this.budget.push(this.budget4)
+    }
+    if (this.HiddenMai) {
+      this.mois.push(5)
+      this.cible.push(this.cible5)
+      this.budget.push(this.budget5)
+    }
+    if (this.HiddenJuin) {
+      this.mois.push(6)
+      this.cible.push(this.cible6)
+      this.budget.push(this.budget6)
+    }
+    if (this.HiddenJuil) {
+      this.mois.push(7)
+      this.cible.push(this.cible7)
+      this.budget.push(this.budget7)
+    }
+    if (this.HiddenAout) {
+      this.mois.push(8)
+      this.cible.push(this.cible8)
+      this.budget.push(this.budget8)
+    }
+    if (this.HiddenSep) {
+      this.mois.push(9)
+      this.cible.push(this.cible9)
+      this.budget.push(this.budget9)
+    }
+    if (this.HiddenOct) {
+      this.mois.push(10)
+      this.cible.push(this.cible10)
+      this.budget.push(this.budget10)
+    }
+    if (this.HiddenNov) {
+      this.mois.push(11)
+      this.cible.push(this.cible11)
+      this.budget.push(this.budget11)
+    }
+    if (this.HiddenDec) {
+      this.mois.push(12)
+      this.cible.push(this.cible12)
+      this.budget.push(this.budget12)
+    }
+
+  }
   // function executed when user click on standardize button
   createFile = () => {
     console.log("test");
+    console.log(this.annee)
     if (this.df1 != null && this.df2 != null) {
       console.log("test2")
+      this.getMois()
+      console.log(this.mois)
+      console.log(this.cible)
+      console.log(this.budget)
       this.value = 0
-      this.DATACLEANING.sendFile(this.df1,this.df2,this.annee,this.mois,this.cible,this.budget).subscribe(
+      this.DATACLEANING.sendFile(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget).subscribe(
         data => {
           this.value = 10
           this.dataFrame = data;
@@ -148,21 +261,20 @@ export class StatCscComponent {
         }
       );
     }
-
   }
 
   //observable for the checkBox execute every time the checkBox is changed
   executeVisualisation() {
     let c0: Observable<boolean> = this.CORSE.valueChanges;
-    let c1: Observable<boolean> = this.INB.valueChanges;
-    let c2: Observable<boolean> = this.EXTB.valueChanges;
-    let c3: Observable<boolean> = this.POI.valueChanges;
+    let c1: Observable<boolean> = this.CIBLE.valueChanges;
+    let c2: Observable<boolean> = this.VENTE.valueChanges;
+    let c3: Observable<boolean> = this.CUMUL.valueChanges;
     let c4: Observable<boolean> = this.BUDGET.valueChanges;
     merge(c0, c1, c2, c3, c4).subscribe(v => {
       this.columnDefinitions[0].show = this.CORSE.value;
-      this.columnDefinitions[1].show = this.INB.value;
-      this.columnDefinitions[2].show = this.EXTB.value;
-      this.columnDefinitions[3].show = this.POI.value;
+      this.columnDefinitions[1].show = this.CIBLE.value;
+      this.columnDefinitions[2].show = this.VENTE.value;
+      this.columnDefinitions[3].show = this.CUMUL.value;
       this.columnDefinitions[4].show = this.BUDGET.value;
     });
   }
@@ -171,9 +283,9 @@ export class StatCscComponent {
   InitializeVisualization() {
     this.columnDefinitions = [
       { def: 'CORSE', label: 'CORSE', show: this.CORSE.value },
-      { def: 'CIBLE', label: 'CIBLE', show: this.INB.value },
-      { def: 'VENTE', label: 'VENTE', show: this.EXTB.value },
-      { def: 'CUMUL', label: 'POI', show: this.POI.value },
+      { def: 'CIBLE', label: 'CIBLE', show: this.CIBLE.value },
+      { def: 'VENTE', label: 'VENTE', show: this.VENTE.value },
+      { def: 'CUMUL', label: 'CUMUL', show: this.CUMUL.value },
       { def: 'BUDGET', label: 'BUDGET', show: this.BUDGET.value }
     ]
   }
@@ -189,17 +301,17 @@ export class StatCscComponent {
 
   // geting the checkBox
   CORSE = this.form.get('CORSE');
-  INB = this.form.get('CIBLE');
-  EXTB = this.form.get('VENTE');
-  POI = this.form.get('CUMUL');
+  CIBLE = this.form.get('CIBLE');
+  VENTE = this.form.get('VENTE');
+  CUMUL = this.form.get('CUMUL');
   BUDGET = this.form.get('BUDGET')
 
   //Control column ordering and which columns are displayed.
   columnDefinitions = [
     { def: 'CORSE', label: 'CORSE', show: this.CORSE.value },
-    { def: 'CIBLE', label: 'CIBLE', show: this.INB.value },
-    { def: 'VENTE', label: 'VENTE', show: this.EXTB.value },
-    { def: 'CUMUL', label: 'POI', show: this.POI.value },
+    { def: 'CIBLE', label: 'CIBLE', show: this.CIBLE.value },
+    { def: 'VENTE', label: 'VENTE', show: this.VENTE.value },
+    { def: 'CUMUL', label: 'CUMUL', show: this.CUMUL.value },
     { def: 'BUDGET', label: 'BUDGET', show: this.BUDGET.value }
   ]
 

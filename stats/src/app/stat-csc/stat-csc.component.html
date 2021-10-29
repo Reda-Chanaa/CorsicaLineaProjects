@@ -9,7 +9,7 @@
                 </div>
                 <div class="card-body">
                     <br />
-                    <form class="ng-untouched ng-pristine ng-invalid">
+                    <form class="ng-untouched ng-pristine ng-invalid" #myForm="ngForm" ngNativeValidate>
                         <div>
                             <label for="file">1er fichier extract :</label>
                             <input type="file" #fileInput name="File Upload" id="csvFile1"
@@ -21,27 +21,49 @@
                         </div>
                         <br />
 
+                        <label for="annee">Choisir l'année :</label>
+                        <input [formControl]="FAnnee" [(ngModel)]="annee" placeholder="Année" type="number" />
+
+                        <br />
+                        <br />
                         <mat-label>Choisir le(s) mois :</mat-label>
                         <br />
+                        <br />
+                        <!--
+                        <div *ngFor="let choice of checks; let i=index" class="col-md-2">
+                            <label>
+                                <input type="checkbox" [value]="choice.value" (change)="onCheckChange($event)">
+                                {{choice.description}}
+                            </label>
+                        </div>-->
                         <div>
                             <section class="example-section">
-                                <mat-checkbox [(ngModel)]="HiddenJan" name="HiddenJan">Janvier</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="HiddenFev" name="HiddenFev">Février</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="HiddenMar" name="HiddenMar">Mars</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="HiddenJan" name="HiddenJan"> Janvier &nbsp;&nbsp;&nbsp;
+                                </mat-checkbox>&nbsp;&nbsp;&nbsp;
+                                <mat-checkbox [(ngModel)]="HiddenFev" name="HiddenFev">Février &nbsp;&nbsp;&nbsp;
+                                </mat-checkbox>&nbsp;&nbsp;&nbsp;
+                                <mat-checkbox [(ngModel)]="HiddenMar" name="HiddenMar">Mars &nbsp;&nbsp;&nbsp;
+                                </mat-checkbox>&nbsp;&nbsp;&nbsp;
                                 <mat-checkbox [(ngModel)]="HiddenAvr" name="HiddenAvr">
-                                    Avril
-                                </mat-checkbox>
-                                <mat-checkbox [(ngModel)]="HiddenMai" name="HiddenMai">Mai</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="HiddenJuin" name="HiddenJuin">Juin</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="HiddenJuil" name="HiddenJuil">Juillet</mat-checkbox>
+                                    Avril &nbsp;&nbsp;&nbsp;
+                                </mat-checkbox>&nbsp;&nbsp;&nbsp;
+                                <mat-checkbox [(ngModel)]="HiddenMai" name="HiddenMai">Mai &nbsp;&nbsp;&nbsp;
+                                </mat-checkbox>&nbsp;&nbsp;&nbsp;
+                                <mat-checkbox [(ngModel)]="HiddenJuin" name="HiddenJuin">Juin &nbsp;&nbsp;&nbsp;
+                                </mat-checkbox>&nbsp;&nbsp;&nbsp;
+                                <mat-checkbox [(ngModel)]="HiddenJuil" name="HiddenJuil">Juillet &nbsp;&nbsp;&nbsp;
+                                </mat-checkbox>&nbsp;&nbsp;&nbsp;
                                 <mat-checkbox [(ngModel)]="HiddenAout" name="HiddenAout">
-                                    Août
-                                </mat-checkbox>
-                                <mat-checkbox [(ngModel)]="HiddenSep" name="HiddenSep">Septembre</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="HiddenOct" name="HiddenOct">Octobre</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="HiddenNov" name="HiddenNov">Novembre</mat-checkbox>
+                                    Août &nbsp;&nbsp;&nbsp;
+                                </mat-checkbox>&nbsp;&nbsp;&nbsp;
+                                <mat-checkbox [(ngModel)]="HiddenSep" name="HiddenSep">Septembre &nbsp;&nbsp;&nbsp;
+                                </mat-checkbox>&nbsp;&nbsp;&nbsp;
+                                <mat-checkbox [(ngModel)]="HiddenOct" name="HiddenOct">Octobre &nbsp;&nbsp;&nbsp;
+                                </mat-checkbox>&nbsp;&nbsp;&nbsp;
+                                <mat-checkbox [(ngModel)]="HiddenNov" name="HiddenNov">Novembre &nbsp;&nbsp;&nbsp;
+                                </mat-checkbox>&nbsp;&nbsp;&nbsp;
                                 <mat-checkbox [(ngModel)]="HiddenDec" name="HiddenDec">
-                                    Décembre
+                                    Décembre &nbsp;&nbsp;&nbsp;
                                 </mat-checkbox>
                             </section>
                         </div>
@@ -53,60 +75,63 @@
                             <br />
                             <mat-form-field name="janvier" *ngIf="HiddenJan" floatLabel="never">
                                 <label>Budget de Janvier</label>
-                                <input type="number" matInput [formControl]="janvier" />
+                                <input type="number" matInput [(ngModel)]="budget1" [formControl]="janvier" required />
                             </mat-form-field>
 
                             <mat-form-field name="fevrier" *ngIf="HiddenFev" floatLabel="never">
                                 <label>Budget de Février</label>
-                                <input type="number" matInput [formControl]="fevrier" />
+                                <input type="number" matInput [(ngModel)]="budget2" [formControl]="fevrier" required />
                             </mat-form-field>
 
                             <mat-form-field name="mars" *ngIf="HiddenMar" floatLabel="never">
                                 <label>Budget de Mars</label>
-                                <input type="number" matInput [formControl]="mars" />
+                                <input type="number" matInput [(ngModel)]="budget3" [formControl]="mars" required />
                             </mat-form-field>
 
                             <mat-form-field name="avril" *ngIf="HiddenAvr" floatLabel="never">
                                 <label>Budget d'Avril</label>
-                                <input type="number" matInput [formControl]="avril" />
+                                <input type="number" matInput [(ngModel)]="budget4" [formControl]="avril" required />
                             </mat-form-field>
                             <mat-form-field name="mai" *ngIf="HiddenMai" floatLabel="never">
                                 <label>Budget de Mai</label>
-                                <input type="number" matInput [formControl]="mai" />
+                                <input type="number" matInput [(ngModel)]="budget5" [formControl]="mai" required />
                             </mat-form-field>
 
                             <mat-form-field name="juin" *ngIf="HiddenJuin" floatLabel="never">
                                 <label>Budget de Juin</label>
-                                <input type="number" matInput [formControl]="juin" />
+                                <input type="number" matInput [(ngModel)]="budget6" [formControl]="juin" required />
                             </mat-form-field>
 
                             <mat-form-field name="juillet" *ngIf="HiddenJuil" floatLabel="never">
                                 <label>Budget de Juillet</label>
-                                <input type="number" matInput [formControl]="juillet" />
+                                <input type="number" matInput [(ngModel)]="budget7" [formControl]="juillet" required />
                             </mat-form-field>
 
                             <mat-form-field name="aout" *ngIf="HiddenAout" floatLabel="never">
                                 <label>Budget d'Août</label>
-                                <input type="number" matInput [formControl]="aout" />
+                                <input type="number" matInput [(ngModel)]="budget8" [formControl]="aout" required />
                             </mat-form-field>
                             <mat-form-field name="septembre" *ngIf="HiddenSep" floatLabel="never">
                                 <label>Budget de Septembre</label>
-                                <input type="number" matInput [formControl]="septembre" />
+                                <input type="number" matInput [(ngModel)]="budget9" [formControl]="septembre"
+                                    required />
                             </mat-form-field>
 
                             <mat-form-field name="octobre" *ngIf="HiddenOct" floatLabel="never">
                                 <label>Budget d'Octobre</label>
-                                <input type="number" matInput [formControl]="octobre" />
+                                <input type="number" matInput [(ngModel)]="budget10" [formControl]="octobre" required />
                             </mat-form-field>
 
                             <mat-form-field name="novembre" *ngIf="HiddenNov" floatLabel="never">
                                 <label>Budget de Novembre</label>
-                                <input type="number" matInput [formControl]="novembre" />
+                                <input type="number" matInput [(ngModel)]="budget11" [formControl]="novembre"
+                                    required />
                             </mat-form-field>
 
                             <mat-form-field name="decembre" *ngIf="HiddenDec" floatLabel="never">
                                 <label>Budget de Décembre</label>
-                                <input type="number" matInput [formControl]="decembre" />
+                                <input type="number" matInput [(ngModel)]="budget12" [formControl]="decembre"
+                                    required />
                             </mat-form-field>
                             <br />
                         </div>
@@ -117,66 +142,70 @@
                             <br />
                             <mat-form-field name="Cjanvier" *ngIf="HiddenJan" floatLabel="never">
                                 <label>Cible de Janvier</label>
-                                <input type="number" matInput [formControl]="Cjanvier" />
+                                <input type="number" matInput [(ngModel)]="cible1" [formControl]="Cjanvier" required />
                             </mat-form-field>
 
                             <mat-form-field name="Cfevrier" *ngIf="HiddenFev" floatLabel="never">
                                 <label>Cible de Février</label>
-                                <input type="number" matInput [formControl]="Cfevrier" />
+                                <input type="number" matInput [(ngModel)]="cible2" [formControl]="Cfevrier" required />
                             </mat-form-field>
 
                             <mat-form-field name="Cmars" *ngIf="HiddenMar" floatLabel="never">
                                 <label>Cible de Mars</label>
-                                <input type="number" matInput [formControl]="Cmars" />
+                                <input type="number" matInput [(ngModel)]="cible3" [formControl]="Cmars" required />
                             </mat-form-field>
 
                             <mat-form-field name="Cavril" *ngIf="HiddenAvr" floatLabel="never">
                                 <label>Cible d'Avril</label>
-                                <input type="number" matInput [formControl]="Cavril" />
+                                <input type="number" matInput [(ngModel)]="cible4" [formControl]="Cavril" required />
                             </mat-form-field>
                             <mat-form-field name="Cmai" *ngIf="HiddenMai" floatLabel="never">
                                 <label>Cible de Mai</label>
-                                <input type="number" matInput [formControl]="Cmai" />
+                                <input type="number" matInput [(ngModel)]="cible5" [formControl]="Cmai" required />
                             </mat-form-field>
 
                             <mat-form-field name="Cjuin" *ngIf="HiddenJuin" floatLabel="never">
                                 <label>Cible de Juin</label>
-                                <input type="number" matInput [formControl]="Cjuin" />
+                                <input type="number" matInput [(ngModel)]="cible6" [formControl]="Cjuin" required />
                             </mat-form-field>
 
                             <mat-form-field name="Cjuillet" *ngIf="HiddenJuil" floatLabel="never">
                                 <label>Cible de Juillet</label>
-                                <input type="number" matInput [formControl]="Cjuillet" />
+                                <input type="number" matInput [(ngModel)]="cible7" [formControl]="Cjuillet" required />
                             </mat-form-field>
 
                             <mat-form-field name="Caout" *ngIf="HiddenAout" floatLabel="never">
                                 <label>Cible d'Août</label>
-                                <input type="number" matInput [formControl]="Caout" />
+                                <input type="number" matInput [(ngModel)]="cible8" [formControl]="Caout" required />
                             </mat-form-field>
                             <mat-form-field name="Cseptembre" *ngIf="HiddenSep" floatLabel="never">
                                 <label>Cible de Septembre</label>
-                                <input type="number" matInput [formControl]="Cseptembre" />
+                                <input type="number" matInput [(ngModel)]="cible9" [formControl]="Cseptembre"
+                                    required />
                             </mat-form-field>
 
                             <mat-form-field name="Coctobre" *ngIf="HiddenOct" floatLabel="never">
                                 <label>Cible d'Octobre</label>
-                                <input type="number" matInput [formControl]="Coctobre" />
+                                <input type="number" matInput [(ngModel)]="cible10" [formControl]="Coctobre" required />
                             </mat-form-field>
 
                             <mat-form-field name="Cnovembre" *ngIf="HiddenNov" floatLabel="never">
                                 <label>Cible de Novembre</label>
-                                <input type="number" matInput [formControl]="Cnovembre" />
+                                <input type="number" matInput [(ngModel)]="cible11" [formControl]="Cnovembre"
+                                    required />
                             </mat-form-field>
 
                             <mat-form-field name="Cdecembre" *ngIf="HiddenDec" floatLabel="never">
                                 <label>Cible de Décembre</label>
-                                <input type="number" matInput [formControl]="Cdecembre" />
+                                <input type="number" matInput [(ngModel)]="cible12" [formControl]="Cdecembre"
+                                    required />
                             </mat-form-field>
                             <br />
 
                         </div>
 
-                        <button mat-raised-button (click)="createFile()" class="btn pull-right">
+                        <button mat-raised-button (click)="createFile()" [disabled]="!myForm.form.valid"
+                            class="btn pull-right">
                             stats
                         </button>
                     </form>
