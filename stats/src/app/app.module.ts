@@ -5,12 +5,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
-
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
-
 import { AppComponent } from './app.component';
-
+import { MatTableExporterModule} from "mat-table-exporter"
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
@@ -26,6 +24,7 @@ import { MatSortModule } from '@angular/material/sort'
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -54,7 +53,8 @@ import { MatInputModule } from '@angular/material/input';
     CommonModule,
     MatSlideToggleModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
+    MatTableExporterModule
   ],
   declarations: [
     AppComponent,

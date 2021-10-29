@@ -66,7 +66,7 @@ export class StatCscComponent {
       { description: "Décembre", value: "12" }
     ];*/
 
-  HiddenJan = false
+  HiddenJan = true
   HiddenFev = false
   HiddenMar = false
   HiddenAvr = false

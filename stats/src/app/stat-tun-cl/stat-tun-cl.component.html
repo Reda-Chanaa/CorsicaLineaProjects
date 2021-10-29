@@ -1,119 +1,123 @@
 <div class="panel-header panel-header-sm">
 </div>
 <div class="main-content">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Stat CSC</h4>
-                    </div>
-                    <div class="card-body">
-                        <br />
-                        <form class="ng-untouched ng-pristine ng-invalid">
-                            <div>
-                                <label for="file">1er fichier extract :</label>
-                                <input type="file" #fileInput name="File Upload" id="csvFileUpload" (change)="fileChangeListener($event)" accept=".csv" />
-                                <label for="file">2eme fichier extract :</label>
-                                <input type="file" #fileInput name="File Upload" id="csvFileUpload" (change)="fileChangeListener($event)" accept=".csv" />
-                                
-                                <button mat-raised-button (click)="createFile()" class="btn pull-right">
-                  stats
-                </button>
-                            </div>
-                        </form>
-                        <br />
-                        <mat-spinner strokeWidth="3" [diameter]="100" *ngIf="dataSource.data.length === 0 && value === 0"></mat-spinner>
-                        <div class="table-responsive" [hidden]="dataSource.data.length === 0">
-                            <!-- Filtrage -->
-                            <mat-label>Filter By :</mat-label>
-                            <section class="example-section">
-                                <mat-checkbox [(ngModel)]="HiddenSN">Society</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="HiddenCode">ZipCode</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="HiddenCity">City</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="HiddenCountry">
-                                    Country
-                                </mat-checkbox>
-                            </section>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Reporting de ventes TUN CL</h4>
+                </div>
+                <div class="card-body">
+                    <br />
+                    <form class="ng-untouched ng-pristine ng-invalid">
+                        <div>
+                            <label for="file">1er fichier extract :</label>
+                            <input type="file" #fileInput name="File Upload" id="csvFileUpload"
+                                (change)="fileChangeListener($event)" accept=".csv" />
+                            <label for="file">2eme fichier extract :</label>
+                            <input type="file" #fileInput name="File Upload" id="csvFileUpload"
+                                (change)="fileChangeListener($event)" accept=".csv" />
 
-                            <mat-form-field name="Society" *ngIf="HiddenSN" class="filter" floatLabel="never">
-                                <mat-label>Search the society name</mat-label>
-                                <input matInput [formControl]="Society" />
-                            </mat-form-field>
-
-                            <mat-form-field name="ZipCode" *ngIf="HiddenCode" class="filter" floatLabel="never">
-                                <mat-label>Search the zip code</mat-label>
-                                <input matInput [formControl]="ZipCode" />
-                            </mat-form-field>
-
-                            <mat-form-field name="City" *ngIf="HiddenCity" class="filter" floatLabel="never">
-                                <mat-label>Search the city</mat-label>
-                                <input matInput [formControl]="City" />
-                            </mat-form-field>
-                            <!--onkeyup="this.value = this.value.toLowerCase();"-->
-                            <mat-form-field name="Country" *ngIf="HiddenCountry" class="filter" floatLabel="never">
-                                <mat-label>Search the country</mat-label>
-                                <input matInput [formControl]="Country" />
-                            </mat-form-field>
-                            <br />
-                            <!--Table-->
-
-                            <table mat-table matTableExporter bordered="true" class="mat-elevation-z8 table-hover table" [dataSource]="dataSource">
-
-                                <ng-container matColumnDef="CORSE">
-                                    <th mat-header-cell *matHeaderCellDef>
-                                        CORSE 
-                                    </th>
-                                    <td mat-cell *matCellDef="let element">
-                                        {{ element.CORSE }}
-                                    </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="CIBLE">
-                                    <th mat-header-cell *matHeaderCellDef>
-                                        CIBLE / JR
-                                    </th>
-                                    <td mat-cell *matCellDef="let element">
-                                        {{ element.CIBLE }}
-                                    </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="VENTE">
-                                    <th mat-header-cell *matHeaderCellDef>
-                                        VENTE JOUR
-                                    </th>
-                                    <td mat-cell *matCellDef="let element">
-                                        {{ element.VENTE }}
-                                    </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="CUMUL">
-                                    <th mat-header-cell *matHeaderCellDef>
-                                        CUMUL
-                                    </th>
-                                    <td mat-cell *matCellDef="let element">
-                                        {{ element.CUMUL }}
-                                    </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="BUDGET">
-                                    <th mat-header-cell *matHeaderCellDef>
-                                        BUDGET %
-                                    </th>
-                                    <td mat-cell *matCellDef="let element">{{ element.BUDGET }}</td>
-                                </ng-container>
-                                <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
-                                <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
-                            </table>
-                            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-                            <button mat-raised-button (click)="exporter.exportTable('csv')" class="btn pull-right">
-                Exporter en Excel
-              </button>
-                            <button mat-raised-button (click)="export()" class="btn pull-right">
-                Exporter en Image
-              </button>
+                            <button mat-raised-button style="background-color: rgb(255, 87, 51);" (click)="createFile()" class="btn pull-right">
+                                Reporting de ventes
+                            </button>
                         </div>
+                    </form>
+                    <br />
+                    <mat-spinner strokeWidth="3" [diameter]="100" *ngIf="dataSource.data.length === 0 && value === 0">
+                    </mat-spinner>
+                    <div class="table-responsive" [hidden]="dataSource.data.length === 0">
+                        <!-- Filtrage -->
+                        <mat-label>Filter By :</mat-label>
+                        <section class="example-section">
+                            <mat-checkbox [(ngModel)]="HiddenSN">Society</mat-checkbox>
+                            <mat-checkbox [(ngModel)]="HiddenCode">ZipCode</mat-checkbox>
+                            <mat-checkbox [(ngModel)]="HiddenCity">City</mat-checkbox>
+                            <mat-checkbox [(ngModel)]="HiddenCountry">
+                                Country
+                            </mat-checkbox>
+                        </section>
+
+                        <mat-form-field name="Society" *ngIf="HiddenSN" class="filter" floatLabel="never">
+                            <mat-label>Search the society name</mat-label>
+                            <input matInput [formControl]="Society" />
+                        </mat-form-field>
+
+                        <mat-form-field name="ZipCode" *ngIf="HiddenCode" class="filter" floatLabel="never">
+                            <mat-label>Search the zip code</mat-label>
+                            <input matInput [formControl]="ZipCode" />
+                        </mat-form-field>
+
+                        <mat-form-field name="City" *ngIf="HiddenCity" class="filter" floatLabel="never">
+                            <mat-label>Search the city</mat-label>
+                            <input matInput [formControl]="City" />
+                        </mat-form-field>
+                        <!--onkeyup="this.value = this.value.toLowerCase();"-->
+                        <mat-form-field name="Country" *ngIf="HiddenCountry" class="filter" floatLabel="never">
+                            <mat-label>Search the country</mat-label>
+                            <input matInput [formControl]="Country" />
+                        </mat-form-field>
+                        <br />
+                        <!--Table-->
+
+                        <table mat-table matTableExporter bordered="true" class="mat-elevation-z8 table-hover table"
+                            [dataSource]="dataSource">
+
+                            <ng-container matColumnDef="CORSE">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    CORSE
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.CORSE }}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="CIBLE">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    CIBLE / JR
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.CIBLE }}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="VENTE">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    VENTE JOUR
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.VENTE }}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="CUMUL">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    CUMUL
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.CUMUL }}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="BUDGET">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    BUDGET %
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{ element.BUDGET }}</td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+                            <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                        <button mat-raised-button (click)="exporter.exportTable('csv')" class="btn pull-right">
+                            Exporter en Excel
+                        </button>
+                        <button mat-raised-button (click)="export()" class="btn pull-right">
+                            Exporter en Image
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>

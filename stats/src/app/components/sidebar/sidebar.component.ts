@@ -7,11 +7,11 @@ declare interface RouteInfo {
     class: string;
 }
 export const ROUTES: RouteInfo[] = [
-    { path: '/stat-csc', title: 'Stat CSC',  icon:'design_bullet-list-67', class: '' },
-    { path: '/stat-alg', title: 'Stat ALG',  icon:'design_bullet-list-67', class: '' },
-    { path: '/stat-tun-cl', title: 'Stat TUN CL',  icon:'design_bullet-list-67', class: '' },
-    { path: '/stat-tun-ctn', title: 'Stat TUN CTN',  icon:'design_bullet-list-67', class: '' },
-    { path: '/stat-ita-ctn', title: 'Stat ITA CTN',  icon:'design_bullet-list-67', class: '' },
+    { path: '/stat-csc', title: 'Reporting CSC',  icon:'design_bullet-list-67', class: '' },
+    { path: '/stat-alg', title: 'Reporting ALG',  icon:'design_bullet-list-67', class: '' },
+    { path: '/stat-tun-cl', title: 'Reporting TUN CL',  icon:'design_bullet-list-67', class: '' },
+    { path: '/stat-tun-ctn', title: 'Reporting TUN CTN',  icon:'design_bullet-list-67', class: '' },
+    { path: '/stat-ita-ctn', title: 'Reporting ITA CTN',  icon:'design_bullet-list-67', class: '' },
 ];
 
 @Component({

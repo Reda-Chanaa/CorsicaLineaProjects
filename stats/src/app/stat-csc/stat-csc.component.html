@@ -5,7 +5,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Stat CSC</h4>
+                    <h4 class="card-title">Reporting de ventes CSC</h4>
                 </div>
                 <div class="card-body">
                     <br />
@@ -204,11 +204,13 @@
 
                         </div>
 
-                        <button mat-raised-button (click)="createFile()" [disabled]="!myForm.form.valid"
+                        <button mat-raised-button (click)="createFile()" style="background-color: rgb(255, 87, 51);" [disabled]="!myForm.form.valid"
                             class="btn pull-right">
-                            stats
+                            Reporting de ventes
                         </button>
+                        <br />
                     </form>
+                    <br />
                     <br />
                     <mat-spinner strokeWidth="3" [diameter]="100" *ngIf="dataSource.data.length === 0 && value === 0">
                     </mat-spinner>
@@ -216,7 +218,7 @@
 
                         <!--Table-->
 
-                        <table mat-table matTableExporter bordered="true" class="mat-elevation-z8 table-hover table"
+                        <table mat-table matTableExporter bordered="true" #exporter="matTableExporter" class="mat-elevation-z8 table-hover table"
                             [dataSource]="dataSource">
 
                             <ng-container matColumnDef="CORSE">

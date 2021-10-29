@@ -9,6 +9,7 @@ import { StatTunCtnComponent } from '../../stat-tun-ctn/stat-tun-ctn.component';
 import { StatItaCtnComponent } from '../../stat-ita-ctn/stat-ita-ctn.component';
 import { StatCscComponent } from '../../stat-csc/stat-csc.component';
 import { ChartsModule } from 'ng2-charts';
+import { MatTableExporterModule} from "mat-table-exporter"
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 import { MatButtonModule } from '@angular/material/button';
@@ -55,6 +56,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatExpansionModule,
     MatCheckboxModule,
     MatSlideToggleModule,
+    MatTableExporterModule
   ],
   declarations: [
     StatAlgComponent,
