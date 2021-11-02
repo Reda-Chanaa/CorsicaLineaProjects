@@ -29,7 +29,7 @@ export class ApiStat {
 
     var header = new HttpHeaders();
     header.append('Content-Type', 'multipart/form-data');
-    return this.http.post(this.baseurl + '/stat-tun-ctn//', formData, { headers: header })
+    return this.http.post(this.baseurl + '/stat-tun-ctn/', formData, { headers: header })
   }
 }
 // interface StatData qui précise les données affichées dans le tableau ainsi que leur type.
