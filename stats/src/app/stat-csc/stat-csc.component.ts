@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { merge, Observable } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
@@ -352,14 +352,50 @@ export class StatCscComponent {
     }
 
   }
+  changed(value) {
+    if (value.target.value > (new Date().getFullYear()).toString()) {
+      this.HiddenJan = true
+      this.HiddenFev = true
+      this.HiddenMar = true
+      this.HiddenAvr = true
+      this.HiddenMai = true
+      this.HiddenJuin = true
+      this.HiddenJuil = true
+      this.HiddenAout = true
+      this.HiddenSep = true
+      this.HiddenOct = true
+      this.HiddenNov = true
+      this.HiddenDec = true
+    }
+    if (value.target.value == (new Date().getFullYear()).toString()) {
+      this.HiddenJan = false
+      this.HiddenFev = false
+      this.HiddenMar = false
+      this.HiddenAvr = false
+      this.HiddenMai = false
+      this.HiddenJuin = false
+      this.HiddenJuil = false
+      this.HiddenAout = false
+      this.HiddenSep = false
+      this.HiddenOct = false
+      this.HiddenNov = false
+      this.HiddenDec = false
+      this.getCurrentMonth()
+    }
+  }
+
+  deleteData() {
+    this.dataSource = new MatTableDataSource([]);
+  }
   // function executed when user click on standardize button
   createFile = () => {
-    console.log("test");
+    this.mois = []
+    this.budget = []
+    this.cible = []
     console.log(this.annee)
     if (this.df1 != null && this.df2 != null) {
       if (this.annee == (new Date().getFullYear()).toString()) {
         this.getMois()
-        console.log("test2")
         console.log(this.mois)
         console.log(this.cible)
         console.log(this.budget)
@@ -378,6 +414,8 @@ export class StatCscComponent {
             this.dataSource.connect().subscribe(d => this.renderedData = d);
             // add paginator to the data
             this.dataSource.paginator = this.paginator;
+            this.saveBudget()
+            this.SaveCible()
           },
           error => {
             console.log("error ", error);
@@ -386,7 +424,6 @@ export class StatCscComponent {
       }
       if (this.annee == (new Date().getFullYear() + 1).toString()) {
         this.getMois()
-        console.log("test2")
         console.log(this.mois)
         this.value = 0
         this.DATACLEANING.sendFilePlus(this.df1, this.df2, this.annee, this.mois).subscribe(
@@ -468,5 +505,35 @@ export class StatCscComponent {
   getDisplayedColumns(): string[] {
     return this.columnDefinitions.filter(cd => cd.show).map(cd => cd.def);
   }
+  saveBudget() {
+    localStorage.setItem('budget1', this.budget1)
+    localStorage.setItem('budget2', this.budget2)
+    localStorage.setItem('budget3', this.budget3)
+    localStorage.setItem('budget4', this.budget4)
+    localStorage.setItem('budget5', this.budget5)
+    localStorage.setItem('budget6', this.budget6)
+    localStorage.setItem('budget7', this.budget7)
+    localStorage.setItem('budget8', this.budget8)
+    localStorage.setItem('budget9', this.budget9)
+    localStorage.setItem('budget10', this.budget10)
+    localStorage.setItem('budget11', this.budget11)
+    localStorage.setItem('budget12', this.budget12)
+  }
+  SaveCible() {
+    localStorage.setItem('cible1', this.cible1)
+    localStorage.setItem('cible2', this.cible2)
+    localStorage.setItem('cible3', this.cible3)
+    localStorage.setItem('cible4', this.cible4)
+    localStorage.setItem('cible5', this.cible5)
+    localStorage.setItem('cible6', this.cible6)
+    localStorage.setItem('cible7', this.cible7)
+    localStorage.setItem('cible8', this.cible8)
+    localStorage.setItem('cible9', this.cible9)
+    localStorage.setItem('cible10', this.cible10)
+    localStorage.setItem('cible11', this.cible11)
+    localStorage.setItem('cible12', this.cible12)
+  }
 }
+
+
 
