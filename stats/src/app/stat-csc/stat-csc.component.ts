@@ -33,6 +33,19 @@ export class ApiStat {
     header.append('Content-Type', 'multipart/form-data');
     return this.http.post(this.baseurl + '/stat-csc/', formData, { headers: header })
   }
+  sendFilePlus(File1: any, File2: any, annee: any, mois: any): Observable<any> {
+
+    let formData = new FormData();
+    formData.append('file1', File1, File.name);
+    formData.append('file2', File2, File.name);
+    formData.append("annee", annee);
+    formData.append("mois", mois);
+    console.log(formData)
+
+    var header = new HttpHeaders();
+    header.append('Content-Type', 'multipart/form-data');
+    return this.http.post(this.baseurl + '/stat-csc-plus/', formData, { headers: header })
+  }
 }
 
 // interface StatData qui précise les données affichées dans le tableau ainsi que leur type.
@@ -163,7 +176,7 @@ export class StatCscComponent {
 
   getCurrentMonth() {
     let curdate = (new Date().getMonth() + 1).toString();
-    this.annee= (new Date().getFullYear()).toString()
+    this.annee = (new Date().getFullYear()).toString()
     if (curdate == "1") {
       this.HiddenJan = true
       this.HiddenFev = true
@@ -344,31 +357,58 @@ export class StatCscComponent {
     console.log("test");
     console.log(this.annee)
     if (this.df1 != null && this.df2 != null) {
-      console.log("test2")
-      this.getMois()
-      console.log(this.mois)
-      console.log(this.cible)
-      console.log(this.budget)
-      this.value = 0
-      this.DATACLEANING.sendFile(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget).subscribe(
-        data => {
-          this.value = 10
-          this.dataFrame = data;
-          // to choose witch data gonna be showing in the table
-          this.InitializeVisualization();
-          // puts data into the datasource table
-          this.dataSource = new MatTableDataSource(data);
-          // execute the visualisation function
-          this.executeVisualisation();
-          // put Data into a rendered Data to export
-          this.dataSource.connect().subscribe(d => this.renderedData = d);
-          // add paginator to the data
-          this.dataSource.paginator = this.paginator;
-        },
-        error => {
-          console.log("error ", error);
-        }
-      );
+      if (this.annee == (new Date().getFullYear()).toString()) {
+        this.getMois()
+        console.log("test2")
+        console.log(this.mois)
+        console.log(this.cible)
+        console.log(this.budget)
+        this.value = 0
+        this.DATACLEANING.sendFile(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget).subscribe(
+          data => {
+            this.value = 10
+            this.dataFrame = data;
+            // to choose witch data gonna be showing in the table
+            this.InitializeVisualization();
+            // puts data into the datasource table
+            this.dataSource = new MatTableDataSource(data);
+            // execute the visualisation function
+            this.executeVisualisation();
+            // put Data into a rendered Data to export
+            this.dataSource.connect().subscribe(d => this.renderedData = d);
+            // add paginator to the data
+            this.dataSource.paginator = this.paginator;
+          },
+          error => {
+            console.log("error ", error);
+          }
+        );
+      }
+      if (this.annee == (new Date().getFullYear() + 1).toString()) {
+        this.getMois()
+        console.log("test2")
+        console.log(this.mois)
+        this.value = 0
+        this.DATACLEANING.sendFilePlus(this.df1, this.df2, this.annee, this.mois).subscribe(
+          data => {
+            this.value = 10
+            this.dataFrame = data;
+            // to choose witch data gonna be showing in the table
+            this.InitializeVisualization();
+            // puts data into the datasource table
+            this.dataSource = new MatTableDataSource(data);
+            // execute the visualisation function
+            this.executeVisualisation();
+            // put Data into a rendered Data to export
+            this.dataSource.connect().subscribe(d => this.renderedData = d);
+            // add paginator to the data
+            this.dataSource.paginator = this.paginator;
+          },
+          error => {
+            console.log("error ", error);
+          }
+        );
+      }
     }
   }
 
