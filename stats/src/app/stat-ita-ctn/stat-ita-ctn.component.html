@@ -62,14 +62,14 @@
                             </section>
                         </div>
                         <br />
-                        
+
                         <button (click)="deleteData()" style="background-color: rgb(255, 87, 51);"
                             class="btn pull-right">
                             <b>Supprimer le tableau</b>
                         </button>
 
                         &nbsp;&nbsp;&nbsp;
-                        <button  (click)="createFile()" style="background-color: rgb(255, 87, 51);"
+                        <button (click)="createFile()" style="background-color: rgb(255, 87, 51);"
                             [disabled]="!myForm.form.valid" class="btn pull-right">
                             <b>Reporting de ventes</b>
                         </button>
@@ -87,12 +87,12 @@
                         <table mat-table matTableExporter bordered="true" #exporter="matTableExporter"
                             class="mat-elevation-z8 table-hover table" [dataSource]="dataSource">
 
-                            <ng-container matColumnDef="ALGERIE">
+                            <ng-container matColumnDef="ITALIE">
                                 <th mat-header-cell *matHeaderCellDef>
-                                    ALGERIE
+                                    ITALIE CTN
                                 </th>
                                 <td mat-cell *matCellDef="let element">
-                                    <b> {{ element.ALGERIE }} </b>
+                                    <b> {{ element.ITALIE }} </b>
                                 </td>
 
                             </ng-container>
@@ -117,7 +117,7 @@
 
                             <ng-container matColumnDef="CUMUL">
                                 <th mat-header-cell *matHeaderCellDef>
-                                    CUMUL
+                                    CUMUL {{annee}}
                                 </th>
                                 <td mat-cell *matCellDef="let element">
                                     <b> {{ element.CUMUL }}</b>
