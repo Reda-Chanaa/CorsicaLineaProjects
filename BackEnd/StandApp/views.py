@@ -424,106 +424,87 @@ def Stat_CSC_plus(data_yesterday, data_today, annee, mois):
     mesure["VENTE"] = df_mask_cumul['Vente journalière']
     mesure["CUMUL"] = df_mask_cumul['CUMUL-19']
 
-    BS1 = pd.DataFrame(columns=['CORSE', 'VENTE', "CUMUL"])
-    MS1 = pd.DataFrame(columns=['CORSE', 'VENTE', "CUMUL"])
-    HS = pd.DataFrame(columns=['CORSE', 'VENTE', "CUMUL"])
-    MS2 = pd.DataFrame(columns=['CORSE', 'VENTE', "CUMUL"])
-    BS2 = pd.DataFrame(columns=['CORSE', 'VENTE', "CUMUL"])
+    BS1=pd.DataFrame(columns = ['CORSE' , 'CIBLE/JR', 'VENTE JOUR',"CUMUL","BUDGET"])
+    MS1=pd.DataFrame(columns = ['CORSE' , 'CIBLE/JR', 'VENTE JOUR',"CUMUL","BUDGET"])
+    HS=pd.DataFrame(columns = ['CORSE' , 'CIBLE/JR', 'VENTE JOUR',"CUMUL","BUDGET"])
+    MS2=pd.DataFrame(columns = ['CORSE' , 'CIBLE/JR', 'VENTE JOUR',"CUMUL","BUDGET"])
+    BS2=pd.DataFrame(columns = ['CORSE' , 'CIBLE/JR', 'VENTE JOUR',"CUMUL","BUDGET"])
     for i in mesure.index:
-        #  1 BS
-        if mesure["CORSE"][i] == "Jan":
-            BS1.loc[0] = ["Janvier", mesure["VENTE"][i], mesure["CUMUL"][i]]
-        if mesure["CORSE"][i] == "Feb":
-            BS1.loc[1] = ["Février", mesure["VENTE"][i], mesure["CUMUL"][i]]
-        if mesure["CORSE"][i] == "Mar":
-            BS1.loc[2] = ["Mars", mesure["VENTE"][i], mesure["CUMUL"][i]]
-            if len(BS1) == 3:
-                BS1.loc[3] = [
-                    "BASSE SAISON 1",
-                    BS1["VENTE"][0] + BS1["VENTE"][1] + BS1["VENTE"][2],
-                    BS1["CUMUL"][0] + BS1["CUMUL"][1] + BS1["CUMUL"][2]
-                ]
-            elif len(BS1) == 2:
-                BS1.loc[3] = [
-                    "BASSE SAISON 1", BS1["VENTE"][1] + BS1["VENTE"][2],
-                    BS1["CUMUL"][1] + BS1["CUMUL"][2]
-                ]
-            else:
-                BS1.loc[3] = [
-                    "BASSE SAISON 1", BS1["VENTE"][1], BS1["CUMUL"][1]
-                ]
+    #  1 BS
+        if mesure["CORSE"][i]=="Jan":
+            BS1.loc[0]=["Janvier","",mesure["VENTE JOUR"][i],mesure["CUMUL"][i],""]
+        if mesure["CORSE"][i]=="Feb":
+            BS1.loc[1]=["Février","",mesure["VENTE JOUR"][i],mesure["CUMUL"][i],""]
+        if mesure["CORSE"][i]=="Mar":
+            BS1.loc[2]=["Mars","",mesure["VENTE JOUR"][i],mesure["CUMUL"][i],""]
         #  1 MS
-        if mesure["CORSE"][i] == "Apr":
-            MS1.loc[0] = ["Avril", mesure["VENTE"][i], mesure["CUMUL"][i]]
-        if mesure["CORSE"][i] == "May":
-            MS1.loc[1] = ["Mai", mesure["VENTE"][i], mesure["CUMUL"][i]]
-        if mesure["CORSE"][i] == "Jun":
-            MS1.loc[2] = ["juin", mesure["VENTE"][i], mesure["CUMUL"][i]]
-            if len(MS1) == 3:
-                MS1.loc[3] = [
-                    "MOYENNE SAISON 1",
-                    MS1["VENTE"][0] + MS1["VENTE"][1] + MS1["VENTE"][2],
-                    MS1["CUMUL"][0] + MS1["CUMUL"][1] + MS1["CUMUL"][2]
-                ]
-            elif len(MS1) == 2:
-                MS1.loc[3] = [
-                    "MOYENNE SAISON 1", MS1["VENTE"][1] + MS1["VENTE"][2],
-                    MS1["CUMUL"][1] + MS1["CUMUL"][2]
-                ]
-            else:
-                MS1.loc[3] = [
-                    "MOYENNE SAISON 1", MS1["VENTE"][1], MS1["CUMUL"][1]
-                ]
+        if mesure["CORSE"][i]=="Apr":
+            MS1.loc[0]=["Avril","",mesure["VENTE JOUR"][i],mesure["CUMUL"][i],""]
+        if mesure["CORSE"][i]=="May":
+            MS1.loc[1]=["Mai","",mesure["VENTE JOUR"][i],mesure["CUMUL"][i],""]
+        if mesure["CORSE"][i]=="Jun":
+            MS1.loc[2]=["juin","",mesure["VENTE JOUR"][i],mesure["CUMUL"][i],""]
         #  HS
-        if mesure["CORSE"][i] == "Jul":
-            HS.loc[0] = ["Juillet", mesure["VENTE"][i], mesure["CUMUL"][i]]
-        if mesure["CORSE"][i] == "Aug":
-            HS.loc[1] = ["Août", mesure["VENTE"][i], mesure["CUMUL"][i]]
-            if len(HS) == 2:
-                HS.loc[2] = [
-                    "HAUTE SAISON 2", HS["VENTE"][0] + HS["VENTE"][1],
-                    HS["CUMUL"][0] + HS["CUMUL"][1]
-                ]
-            else:
-                HS.loc[2] = ["HAUTE SAISON 2", HS["VENTE"][1], HS["CUMUL"][1]]
+        if mesure["CORSE"][i]=="Jul":
+            HS.loc[0]=["Juillet","",mesure["VENTE JOUR"][i],mesure["CUMUL"][i],""]
+        if mesure["CORSE"][i]=="Aug":
+            HS.loc[1]=["Août","",mesure["VENTE JOUR"][i],mesure["CUMUL"][i],""]
         #  2 MS
-        if mesure["CORSE"][i] == "Sep":
-            MS2.loc[0] = ["Septembre", mesure["VENTE"][i], mesure["CUMUL"][i]]
-        if mesure["CORSE"][i] == "Oct":
-            MS2.loc[1] = ["Octobre", mesure["VENTE"][i], mesure["CUMUL"][i]]
-            if len(MS2) == 2:
-                MS2.loc[2] = [
-                    "MOYENNE SAISON 2", MS2["VENTE"][0] + MS2["VENTE"][1],
-                    MS2["CUMUL"][0] + MS2["CUMUL"][1]
-                ]
-            else:
-                MS2.loc[2] = [
-                    "MOYENNE SAISON 2", MS2["VENTE"][1], MS2["CUMUL"][1]
-                ]
+        if mesure["CORSE"][i]=="Sep":
+            MS2.loc[0]=["Septembre","",mesure["VENTE JOUR"][i],mesure["CUMUL"][i],""]
+        if mesure["CORSE"][i]=="Oct":
+            MS2.loc[1]=["Octobre","",mesure["VENTE JOUR"][i],mesure["CUMUL"][i],""]
         #  2 BS
-        if mesure["CORSE"][i] == "Nov":
-            BS2.loc[0] = ["Novembre", mesure["VENTE"][i], mesure["CUMUL"][i]]
-        if mesure["CORSE"][i] == "Dec":
-            BS2.loc[1] = ["Décembre", mesure["VENTE"][i], mesure["CUMUL"][i]]
-            if len(BS2) == 2:
-                BS2.loc[2] = [
-                    "BASSE SAISON 2", BS2["VENTE"][0] + BS2["VENTE"][1],
-                    BS2["CUMUL"][0] + BS2["CUMUL"][1]
-                ]
-            else:
-                BS2.loc[2] = [
-                    "BASSE SAISON 2", BS2["VENTE"][1], BS2["CUMUL"][1]
-                ]
+        if mesure["CORSE"][i]=="Nov":
+            BS2.loc[0]=["Novembre","",mesure["VENTE JOUR"][i],mesure["CUMUL"][i],""]
+        if mesure["CORSE"][i]=="Dec":
+            BS2.loc[1]=["Décembre","",mesure["VENTE JOUR"][i],mesure["CUMUL"][i],""]
 
-    if len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
-            MS2) != 0 and len(BS2) != 0:
-        reporting = pd.concat([BS1, MS1, HS, MS2, BS2])
-    elif len(MS1) != 0 and len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
-        reporting = pd.concat([MS1, HS, MS2, BS2])
-    elif len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
-        reporting = pd.concat([HS, MS2, BS2])
-    elif len(MS2) != 0 and len(BS2) != 0:
-        reporting = pd.concat([MS2, BS2])
+        if len(BS1) == 3:
+            BS1.loc[3]=["BASSE SAISON 1", "",BS1["VENTE JOUR"][0]+BS1["VENTE JOUR"][1]+BS1["VENTE JOUR"][2],BS1["CUMUL"][0]+BS1["CUMUL"][1]+BS1["CUMUL"][2],""]
+        elif len(BS1) == 2:
+            BS1.loc[2]=["BASSE SAISON 1", "",BS1["VENTE JOUR"][1]+BS1["VENTE JOUR"][0],BS1["CUMUL"][1]+BS1["CUMUL"][0],""]
+        elif len(BS1) == 1:
+            BS1.loc[1]=["BASSE SAISON 1", "",BS1["VENTE JOUR"][0],BS1["CUMUL"][0],BS1["BUDGET"][0]]
+
+        if len(MS1) == 3:
+            MS1.loc[3]=["MOYENNE SAISON 1", "",MS1["VENTE JOUR"][0]+MS1["VENTE JOUR"][1]+MS1["VENTE JOUR"][2],MS1["CUMUL"][0]+MS1["CUMUL"][1]+MS1["CUMUL"][2],""]
+        elif len(MS1) == 2:
+            MS1.loc[2]=["MOYENNE SAISON 1", "",MS1["VENTE JOUR"][1]+MS1["VENTE JOUR"][0],MS1["CUMUL"][1]+MS1["CUMUL"][0],""]
+        elif len(MS1) == 1:
+            MS1.loc[1]=["MOYENNE SAISON 1", "",MS1["VENTE JOUR"][0],MS1["CUMUL"][0],MS1["BUDGET"][0]]
+
+        if len(HS) == 2:
+            HS.loc[2]=["HAUTE SAISON", "",HS["VENTE JOUR"][0]+HS["VENTE JOUR"][1],HS["CUMUL"][0]+HS["CUMUL"][1],""]
+        elif len(HS) == 1:
+            HS.loc[1]=["HAUTE SAISON", "",HS["VENTE JOUR"][0],HS["CUMUL"][0],HS["BUDGET"][0]]
+
+        if len(MS2) == 2:
+            MS2.loc[2]=["MOYENNE SAISON 2", "",MS2["VENTE JOUR"][0]+MS2["VENTE JOUR"][1],MS2["CUMUL"][0]+MS2["CUMUL"][1],""]
+        elif len(MS2) == 1:
+            MS2.loc[1]=["MOYENNE SAISON 2", "",MS2["VENTE JOUR"][0],MS2["CUMUL"][0],MS2["BUDGET"][0]]
+
+        if len(BS2) == 2:
+            BS2.loc[2]=["BASSE SAISON 2", "",BS2["VENTE JOUR"][0]+BS2["VENTE JOUR"][1],BS2["CUMUL"][0]+BS2["CUMUL"][1],""]
+        elif len(BS2) == 1:
+            BS2.loc[1]=["BASSE SAISON 2", "",BS2["VENTE JOUR"][0],BS2["CUMUL"][0],BS2["BUDGET"][0]]
+
+    if len(BS1)!=0 and len(MS1)!=0 and len(HS)!=0 and len(MS2) !=0 and len(BS2)!=0:
+        reporting = pd.concat([BS1,MS1,HS,MS2,BS2])
+    elif len(MS1)!=0 and len(HS)!=0 and len(MS2) !=0 and len(BS2)!=0:
+        reporting = pd.concat([MS1,HS,MS2,BS2])
+    elif len(HS)!=0 and len(MS2)!=0 and len(BS2)!=0:
+        reporting = pd.concat([HS,MS2,BS2])
+    elif len(MS2)!=0 and len(BS2)!=0:
+        reporting = pd.concat([MS2,BS2])
+    elif len(BS1)!=0 and len(MS1)!=0 and len(HS)!=0 and len(MS2) !=0 and len(BS2)==0:
+        reporting = pd.concat([BS1,MS1,HS,MS2])
+    elif len(BS1)!=0 and len(MS1)!=0 and len(HS)!=0 and len(MS2) ==0 and len(BS2)==0:
+        reporting = pd.concat([BS1,MS1,HS])
+    elif len(BS1)!=0 and len(MS1)!=0 and len(HS)==0 and len(MS2) ==0 and len(BS2)==0:
+        reporting = pd.concat([BS1,MS1])
+    elif len(BS1)!=0 and len(MS1)==0 and len(HS)==0 and len(MS2) ==0 and len(BS2)==0:
+        reporting = BS1
     else:
         reporting = BS2
 
