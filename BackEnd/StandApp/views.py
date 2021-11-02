@@ -1603,7 +1603,7 @@ def Stat_TUN_CL(data_yesterday, data_today, annee, mois):
     mesure["CUMUL"] = df_mask_cumul_2021['CUMUL'].apply(lambda x: x)
     mesure["ECART"] = (
         (df_mask_cumul_2021['CUMUL'] - df_mask_cumul_2020['CUMULYES']) /
-        df_mask_cumul_2020['CUMULYES']).apply(lambda x: int(x * 100))
+        df_mask_cumul_2020['CUMULYES']).apply(lambda x: x * 100)
 
     mesure = mesure.reset_index(drop=True)
 
@@ -1763,9 +1763,9 @@ def Stat_TUN_CL(data_yesterday, data_today, annee, mois):
                     BS2["VENTE"][0] + BS2["VENTE"][1],
                     BS2["CUMULYES"][0] + BS2["CUMULYES"][1],
                     BS2["CUMUL"][0] + BS2["CUMUL"][1],
-                    int((((BS2["CUMUL"][0] + BS2["CUMUL"][1]) -
+                    (((BS2["CUMUL"][0] + BS2["CUMUL"][1]) -
                           (BS2["CUMULYES"][0] + BS2["CUMULYES"][1])) /
-                         (BS2["CUMULYES"][0] + BS2["CUMULYES"][1])) * 100)
+                         (BS2["CUMULYES"][0] + BS2["CUMULYES"][1])) * 100
                 ]
             else:
                 BS2.loc[2] = [
