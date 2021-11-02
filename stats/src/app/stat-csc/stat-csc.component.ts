@@ -66,7 +66,10 @@ export class StatCscComponent {
       { description: "Décembre", value: "12" }
     ];*/
 
-  HiddenJan = true
+  HiddenBudget = false
+  HiddenCible = false
+
+  HiddenJan = false
   HiddenFev = false
   HiddenMar = false
   HiddenAvr = false
@@ -142,7 +145,7 @@ export class StatCscComponent {
   element: any;
   df1: any;
   df2: any;
-  annee: number = 2021;
+  annee: string;
   FAnnee = new FormControl('');
   mois: any = [];
   cible: any = [];
@@ -152,12 +155,118 @@ export class StatCscComponent {
 
   constructor(private DATACLEANING: ApiStat, private router: Router, fb: FormBuilder) {
 
+    this.getCurrentMonth()
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource([]);
 
   }
 
-
+  getCurrentMonth() {
+    let curdate = (new Date().getMonth() + 1).toString();
+    this.annee= (new Date().getFullYear()).toString()
+    if (curdate == "1") {
+      this.HiddenJan = true
+      this.HiddenFev = true
+      this.HiddenMar = true
+      this.HiddenAvr = true
+      this.HiddenMai = true
+      this.HiddenJuin = true
+      this.HiddenJuil = true
+      this.HiddenAout = true
+      this.HiddenSep = true
+      this.HiddenOct = true
+      this.HiddenNov = true
+      this.HiddenDec = true
+    }
+    else if (curdate == "2") {
+      this.HiddenFev = true
+      this.HiddenMar = true
+      this.HiddenAvr = true
+      this.HiddenMai = true
+      this.HiddenJuin = true
+      this.HiddenJuil = true
+      this.HiddenAout = true
+      this.HiddenSep = true
+      this.HiddenOct = true
+      this.HiddenNov = true
+      this.HiddenDec = true
+    }
+    if (curdate == "3") {
+      this.HiddenMar = true
+      this.HiddenAvr = true
+      this.HiddenMai = true
+      this.HiddenJuin = true
+      this.HiddenJuil = true
+      this.HiddenAout = true
+      this.HiddenSep = true
+      this.HiddenOct = true
+      this.HiddenNov = true
+      this.HiddenDec = true
+    }
+    if (curdate == "4") {
+      this.HiddenAvr = true
+      this.HiddenMai = true
+      this.HiddenJuin = true
+      this.HiddenJuil = true
+      this.HiddenAout = true
+      this.HiddenSep = true
+      this.HiddenOct = true
+      this.HiddenNov = true
+      this.HiddenDec = true
+    }
+    if (curdate == "5") {
+      this.HiddenMai = true
+      this.HiddenJuin = true
+      this.HiddenJuil = true
+      this.HiddenAout = true
+      this.HiddenSep = true
+      this.HiddenOct = true
+      this.HiddenNov = true
+      this.HiddenDec = true
+    }
+    if (curdate == "6") {
+      this.HiddenJuin = true
+      this.HiddenJuil = true
+      this.HiddenAout = true
+      this.HiddenSep = true
+      this.HiddenOct = true
+      this.HiddenNov = true
+      this.HiddenDec = true
+    }
+    if (curdate == "7") {
+      this.HiddenJuil = true
+      this.HiddenAout = true
+      this.HiddenSep = true
+      this.HiddenOct = true
+      this.HiddenNov = true
+      this.HiddenDec = true
+    }
+    if (curdate == "8") {
+      this.HiddenAout = true
+      this.HiddenSep = true
+      this.HiddenOct = true
+      this.HiddenNov = true
+      this.HiddenDec = true
+    }
+    if (curdate == "9") {
+      this.HiddenSep = true
+      this.HiddenOct = true
+      this.HiddenNov = true
+      this.HiddenDec = true
+    }
+    if (curdate == "10") {
+      this.HiddenOct = true
+      this.HiddenNov = true
+      this.HiddenDec = true
+    }
+    if (curdate == "11") {
+      this.HiddenNov = true
+      this.HiddenDec = true
+    }
+    if (curdate == "12") {
+      this.HiddenDec = true
+    }
+  }
   // function executed when file is changed
   fileChangeListener1($event: any): void {
     this.df1 = $event.target.files[0]
