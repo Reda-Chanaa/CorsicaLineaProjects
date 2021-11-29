@@ -63,13 +63,13 @@
                         </div>
                         <br />
 
-                        <button (click)="deleteData()" style="background-color: rgb(255, 87, 51);"
+                        <button (click)="deleteData()" style="background-color: rgb(255, 54, 54);"
                             class="btn pull-right">
                             <b>Supprimer le tableau</b>
                         </button>
 
                         &nbsp;&nbsp;&nbsp;
-                        <button (click)="createFile()" style="background-color: rgb(255, 87, 51);"
+                        <button (click)="createFile()" style="background-color: rgb(255, 54, 54);"
                             [disabled]="!myForm.form.valid" class="btn pull-right">
                             <b>Reporting de ventes</b>
                         </button>
@@ -77,7 +77,7 @@
                     </form>
                     <br />
                     <br />
-                    <mat-spinner style="stroke: rgb(255, 87, 51);" strokeWidth="3" [diameter]="100"
+                    <mat-spinner style="stroke: rgb(255, 54, 54);" strokeWidth="3" [diameter]="100"
                         *ngIf="dataSource.data.length === 0 && value === 0">
                     </mat-spinner>
                     <div class="table-responsive" [hidden]="dataSource.data.length === 0">
@@ -134,7 +134,7 @@
                             <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
                         </table>
 
-                        <button style="background-color: rgb(255, 87, 51);" mat-raised-button
+                        <button style="background-color: rgb(255, 54, 54);" mat-raised-button
                             (click)="exporter.exportTable('csv')" class="btn pull-right">
                             Exporter en Excel
                         </button>
