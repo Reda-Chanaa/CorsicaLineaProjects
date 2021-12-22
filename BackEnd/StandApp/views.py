@@ -1,8 +1,23 @@
 import calendar
 import numpy as np
+from pymongo import MongoClient
 import pandas as pd
 from pathlib import Path
 from django.http import HttpResponse
+
+# REFERENCE DATABASE CONNECTION
+
+client = MongoClient('localhost', 27017)
+
+# Nom de la base = TransportRefDB92
+# Nom de la collection = Companies92
+db = client['Reporting']
+cibleCSC = db['CibleCSC']
+budgetCSC = db['BudgetCSC']
+cibleALG = db['CibleALG']
+budgetALG = db['BudgetALG']
+cibleTUN = db['CibleTUN']
+budgetTUN = db['BudgetTUN']
 
 
 def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
@@ -119,23 +134,120 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                                 | df_mask.MOIS.eq(mois[9])
                                 | df_mask.MOIS.eq(mois[10])
                                 | df_mask.MOIS.eq(mois[11])]
-
-    df_mask_cumul['BUDGET'] = budget
+    print("df", df_mask_cumul)
+    if len(df_mask_cumul) == 1:
+        df_mask_cumul['BUDGET'] = budget[0]
+    if len(df_mask_cumul) == 2:
+        df_mask_cumul['BUDGET'] = [budget[0], budget[1]]
+    if len(df_mask_cumul) == 3:
+        df_mask_cumul['BUDGET'] = [budget[0], budget[1], budget[2]]
+    if len(df_mask_cumul) == 4:
+        df_mask_cumul['BUDGET'] = [budget[0], budget[1], budget[2], budget[3]]
+    if len(df_mask_cumul) == 5:
+        df_mask_cumul['BUDGET'] = [
+            budget[0], budget[1], budget[2], budget[3], budget[4]
+        ]
+    if len(df_mask_cumul) == 6:
+        df_mask_cumul['BUDGET'] = [
+            budget[0], budget[1], budget[2], budget[3], budget[4], budget[5]
+        ]
+    if len(df_mask_cumul) == 7:
+        df_mask_cumul['BUDGET'] = [
+            budget[0], budget[1], budget[2], budget[3], budget[4], budget[5],
+            budget[6]
+        ]
+    if len(df_mask_cumul) == 8:
+        df_mask_cumul['BUDGET'] = [
+            budget[0], budget[1], budget[2], budget[3], budget[4], budget[5],
+            budget[6], budget[7]
+        ]
+    if len(df_mask_cumul) == 9:
+        df_mask_cumul['BUDGET'] = [
+            budget[0], budget[1], budget[2], budget[3], budget[4], budget[5],
+            budget[6], budget[7], budget[8]
+        ]
+    if len(df_mask_cumul) == 10:
+        df_mask_cumul['BUDGET'] = [
+            budget[0], budget[1], budget[2], budget[3], budget[4], budget[5],
+            budget[6], budget[7], budget[8], budget[9]
+        ]
+    if len(df_mask_cumul) == 11:
+        df_mask_cumul['BUDGET'] = [
+            budget[0], budget[1], budget[2], budget[3], budget[4], budget[5],
+            budget[6], budget[7], budget[8], budget[9], budget[10]
+        ]
+    if len(df_mask_cumul) == 12:
+        df_mask_cumul['BUDGET'] = [
+            budget[0], budget[1], budget[2], budget[3], budget[4], budget[5],
+            budget[6], budget[7], budget[8], budget[9], budget[10], budget[11]
+        ]
     mesure = pd.DataFrame()
     mesure["CORSE"] = df_mask_cumul['MOIS'].apply(
         lambda x: calendar.month_abbr[int(x)])
-    mesure["CIBLE"] = cible
+    print("df", df_mask_cumul)
+    print("mesure", mesure)
+    print(len(mesure))
+    print(cible)
+    if len(mesure) == 1:
+        mesure['CIBLE'] = cible[0]
+    if len(mesure) == 2:
+        mesure['CIBLE'] = [cible[0], cible[1]]
+    if len(mesure) == 3:
+        mesure['CIBLE'] = [cible[0], cible[1], cible[2]]
+    if len(mesure) == 4:
+        mesure['CIBLE'] = [cible[0], cible[1], cible[2], cible[3]]
+    if len(mesure) == 5:
+        mesure['CIBLE'] = [cible[0], cible[1], cible[2], cible[3], cible[4]]
+    if len(mesure) == 6:
+        mesure['CIBLE'] = [
+            cible[0], cible[1], cible[2], cible[3], cible[4], cible[5]
+        ]
+    if len(mesure) == 7:
+        mesure['CIBLE'] = [
+            cible[0], cible[1], cible[2], cible[3], cible[4], cible[5],
+            cible[6]
+        ]
+    if len(mesure) == 8:
+        mesure['CIBLE'] = [
+            cible[0], cible[1], cible[2], cible[3], cible[4], cible[5],
+            cible[6], cible[7]
+        ]
+    if len(mesure) == 9:
+        mesure['CIBLE'] = [
+            cible[0], cible[1], cible[2], cible[3], cible[4], cible[5],
+            cible[6], cible[7], cible[8]
+        ]
+    if len(mesure) == 10:
+        mesure['CIBLE'] = [
+            cible[0], cible[1], cible[2], cible[3], cible[4], cible[5],
+            cible[6], cible[7], cible[8], cible[9]
+        ]
+    if len(mesure) == 11:
+        mesure['CIBLE'] = [
+            cible[0], cible[1], cible[2], cible[3], cible[4], cible[5],
+            cible[6], cible[7], cible[8], cible[9], cible[10]
+        ]
+    if len(mesure) == 12:
+        mesure['CIBLE'] = [
+            cible[0], cible[1], cible[2], cible[3], cible[4], cible[5],
+            cible[6], cible[7], cible[8], cible[9], cible[10], cible[11]
+        ]
     mesure["VENTE"] = df_mask_cumul['Vente journalière']
     mesure["CUMUL"] = df_mask_cumul['CUMUL-19']
     mesure["BUD"] = df_mask_cumul['BUDGET']
     mesure["BUDGET"] = round(
         (df_mask_cumul['CUMUL-19'] / df_mask_cumul['BUDGET']) * 100)
-
     BS1 = pd.DataFrame(columns=['CORSE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET"])
     MS1 = pd.DataFrame(columns=['CORSE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET"])
     HS = pd.DataFrame(columns=['CORSE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET"])
     MS2 = pd.DataFrame(columns=['CORSE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET"])
     BS2 = pd.DataFrame(columns=['CORSE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET"])
+    print("-------------------------------")
+    print(mesure)
+    bud=0
+    for i in mesure.index:
+        bud+=mesure["BUD"][i]
+    print(bud)
     for i in mesure.index:
         #  1 BS
         if mesure["CORSE"][i] == "Jan":
@@ -155,7 +267,7 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
             ]
             if len(BS1) == 3:
                 BS1.loc[3] = [
-                    "BASSE SAISON 1", "",
+                    "BASSE SAISON 1", BS1["CIBLE"][0] + BS1["CIBLE"][1] + BS1["CIBLE"][2],
                     BS1["VENTE"][0] + BS1["VENTE"][1] + BS1["VENTE"][2],
                     BS1["CUMUL"][0] + BS1["CUMUL"][1] + BS1["CUMUL"][2],
                     round((
@@ -165,14 +277,14 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                 ]
             elif len(BS1) == 2:
                 BS1.loc[3] = [
-                    "BASSE SAISON 1", "", BS1["VENTE"][1] + BS1["VENTE"][2],
+                    "BASSE SAISON 1", BS1["CIBLE"][1] + BS1["CIBLE"][2] , BS1["VENTE"][1] + BS1["VENTE"][2],
                     BS1["CUMUL"][1] + BS1["CUMUL"][2],
                     round(((BS1["CUMUL"][1] + BS1["CUMUL"][2]) /
                            (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100)
                 ]
             else:
                 BS1.loc[3] = [
-                    "BASSE SAISON 1", "", BS1["VENTE"][1], BS1["CUMUL"][1],
+                    "BASSE SAISON 1", BS1["CIBLE"][1], BS1["VENTE"][1], BS1["CUMUL"][1],
                     BS1["BUDGET"][1]
                 ]
         #  1 MS
@@ -193,7 +305,7 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
             ]
             if len(MS1) == 3:
                 MS1.loc[3] = [
-                    "MOYENNE SAISON 1", "",
+                    "MOYENNE SAISON 1", MS1["CIBLE"][0] + MS1["CIBLE"][1] + MS1["CIBLE"][2],
                     MS1["VENTE"][0] + MS1["VENTE"][1] + MS1["VENTE"][2],
                     MS1["CUMUL"][0] + MS1["CUMUL"][1] + MS1["CUMUL"][2],
                     round((
@@ -203,14 +315,14 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                 ]
             elif len(MS1) == 2:
                 MS1.loc[3] = [
-                    "MOYENNE SAISON 1", "", MS1["VENTE"][1] + MS1["VENTE"][2],
+                    "MOYENNE SAISON 1", MS1["CIBLE"][1] + MS1["CIBLE"][2], MS1["VENTE"][1] + MS1["VENTE"][2],
                     MS1["CUMUL"][1] + MS1["CUMUL"][2],
                     round(((MS1["CUMUL"][1] + MS1["CUMUL"][2]) /
                            (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100)
                 ]
             else:
                 MS1.loc[3] = [
-                    "MOYENNE SAISON 1", "", MS1["VENTE"][1], MS1["CUMUL"][1],
+                    "MOYENNE SAISON 1", MS1["CIBLE"][1], MS1["VENTE"][1], MS1["CUMUL"][1],
                     MS1["BUDGET"][1]
                 ]
         #  HS
@@ -226,14 +338,14 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
             ]
             if len(HS) == 2:
                 HS.loc[2] = [
-                    "HAUTE SAISON", "", HS["VENTE"][0] + HS["VENTE"][1],
+                    "HAUTE SAISON", HS["CIBLE"][0] + HS["CIBLE"][1], HS["VENTE"][0] + HS["VENTE"][1],
                     HS["CUMUL"][0] + HS["CUMUL"][1],
                     round(((HS["CUMUL"][0] + HS["CUMUL"][1]) /
                            (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100)
                 ]
             else:
                 HS.loc[2] = [
-                    "HAUTE SAISON", "", HS["VENTE"][1], HS["CUMUL"][1],
+                    "HAUTE SAISON", HS["CIBLE"][1], HS["VENTE"][1], HS["CUMUL"][1],
                     HS["BUDGET"][1]
                 ]
         #  2 MS
@@ -249,14 +361,14 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
             ]
             if len(MS2) == 2:
                 MS2.loc[2] = [
-                    "MOYENNE SAISON 2", "", MS2["VENTE"][0] + MS2["VENTE"][1],
+                    "MOYENNE SAISON 2", MS2["CIBLE"][0] + MS2["CIBLE"][1], MS2["VENTE"][0] + MS2["VENTE"][1],
                     MS2["CUMUL"][0] + MS2["CUMUL"][1],
                     round(((MS2["CUMUL"][0] + MS2["CUMUL"][1]) /
                            (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100)
                 ]
             else:
                 MS2.loc[2] = [
-                    "MOYENNE SAISON 2", "", MS2["VENTE"][1], MS2["CUMUL"][1],
+                    "MOYENNE SAISON 2", MS2["CIBLE"][1], MS2["VENTE"][1], MS2["CUMUL"][1],
                     MS2["BUDGET"][1]
                 ]
         #  2 BS
@@ -265,6 +377,11 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                 "Novembre", mesure["CIBLE"][i], mesure["VENTE"][i],
                 mesure["CUMUL"][i], mesure["BUDGET"][i]
             ]
+            if mesure["CORSE"][i+1] != "Dec":
+                if len(BS2) == 1:
+                    BS2.loc[1] = [
+                    "BASSE SAISON 2", BS2["CIBLE"][0], BS2["VENTE"][0], BS2["CUMUL"][0],BS2["BUDGET"][0]
+                ]
         if mesure["CORSE"][i] == "Dec":
             BS2.loc[1] = [
                 "Décembre", mesure["CIBLE"][i], mesure["VENTE"][i],
@@ -272,17 +389,21 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
             ]
             if len(BS2) == 2:
                 BS2.loc[2] = [
-                    "BASSE SAISON 2", "", BS2["VENTE"][0] + BS2["VENTE"][1],
+                    "BASSE SAISON 2", BS2["CIBLE"][0] + BS2["CIBLE"][1], BS2["VENTE"][0] + BS2["VENTE"][1],
                     BS2["CUMUL"][0] + BS2["CUMUL"][1],
                     round(((BS2["CUMUL"][0] + BS2["CUMUL"][1]) /
                            (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100)
                 ]
             else:
                 BS2.loc[2] = [
-                    "BASSE SAISON 2", "", BS2["VENTE"][1], BS2["CUMUL"][1],
+                    "BASSE SAISON 2", BS2["CIBLE"][1], BS2["VENTE"][1], BS2["CUMUL"][1],
                     BS2["BUDGET"][1]
                 ]
-
+    print("BS1", len(BS1))
+    print("BS2", len(BS2))
+    print("HS", len(HS))
+    print("MS1", len(MS1))
+    print("MS2", len(MS2))
     if len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
             MS2) != 0 and len(BS2) != 0:
         reporting = pd.concat([BS1, MS1, HS, MS2, BS2])
@@ -292,10 +413,41 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
         reporting = pd.concat([HS, MS2, BS2])
     elif len(MS2) != 0 and len(BS2) != 0:
         reporting = pd.concat([MS2, BS2])
+    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
+            MS2) != 0 and len(BS2) == 0:
+        reporting = pd.concat([BS1, MS1, HS, MS2])
+    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
+            MS2) == 0 and len(BS2) == 0:
+        reporting = pd.concat([BS1, MS1, HS])
+    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) == 0 and len(
+            MS2) == 0 and len(BS2) == 0:
+        reporting = pd.concat([BS1, MS1])
+    elif len(BS1) != 0 and len(MS1) == 0 and len(HS) == 0 and len(
+            MS2) == 0 and len(BS2) == 0:
+        reporting = BS1
     else:
         reporting = BS2
-
+    print("reporting", reporting)
     reporting.reset_index(inplace=True)
+    if len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
+        reporting=reporting.append({'CORSE':'TOUTES SAISONS '+annee, 'CIBLE':BS1["CIBLE"][len(BS1)-1]+BS2["CIBLE"][len(BS2)-1]+HS["CIBLE"][len(HS)-1]+MS1["CIBLE"][len(MS1)-1]+MS2["CIBLE"][len(MS2)-1], 'VENTE':BS1["VENTE"][len(BS1)-1]+BS2["VENTE"][len(BS2)-1]+HS["VENTE"][len(HS)-1]+MS1["VENTE"][len(MS1)-1]+MS2["VENTE"][len(MS2)-1], "CUMUL":BS1["CUMUL"][len(BS1)-1]+BS2["CUMUL"][len(BS2)-1]+HS["CUMUL"][len(HS)-1]+MS1["CUMUL"][len(MS1)-1]+MS2["CUMUL"][len(MS2)-1], "BUDGET":round(((BS1["CUMUL"][len(BS1)-1]+BS2["CUMUL"][len(BS2)-1]+HS["CUMUL"][len(HS)-1]+MS1["CUMUL"][len(MS1)-1]+MS2["CUMUL"][len(MS2)-1])/(bud))*100)} , ignore_index=True)
+    elif len(MS1) != 0 and len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
+        reporting=reporting.append({'CORSE':'TOUTES SAISONS '+annee, 'CIBLE':BS2["CIBLE"][len(BS2)-1]+HS["CIBLE"][len(HS)-1]+MS1["CIBLE"][len(MS1)-1]+MS2["CIBLE"][len(MS2)-1], 'VENTE':BS2["VENTE"][len(BS2)-1]+HS["VENTE"][len(HS)-1]+MS1["VENTE"][len(MS1)-1]+MS2["VENTE"][len(MS2)-1], "CUMUL":BS2["CUMUL"][len(BS2)-1]+HS["CUMUL"][len(HS)-1]+MS1["CUMUL"][len(MS1)-1]+MS2["CUMUL"][len(MS2)-1], "BUDGET":round(((BS2["CUMUL"][len(BS2)-1]+HS["CUMUL"][len(HS)-1]+MS1["CUMUL"][len(MS1)-1]+MS2["CUMUL"][len(MS2)-1])/(bud))*100)} , ignore_index=True)
+    elif len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
+        reporting=reporting.append({'CORSE':'TOUTES SAISONS '+annee, 'CIBLE':BS2["CIBLE"][len(BS2)-1]+HS["CIBLE"][len(HS)-1]+MS2["CIBLE"][len(MS2)-1], 'VENTE':BS2["VENTE"][len(BS2)-1]+HS["VENTE"][len(HS)-1]+MS2["VENTE"][len(MS2)-1], "CUMUL":BS2["CUMUL"][len(BS2)-1]+HS["CUMUL"][len(HS)-1]+MS2["CUMUL"][len(MS2)-1], "BUDGET":round(((BS2["CUMUL"][len(BS2)-1]+HS["CUMUL"][len(HS)-1]+MS2["CUMUL"][len(MS2)-1])/(bud))*100)} , ignore_index=True)
+    elif len(MS2) != 0 and len(BS2) != 0:
+        reporting=reporting.append({'CORSE':'TOUTES SAISONS '+annee, 'CIBLE':BS2["CIBLE"][len(BS2)-1]+MS2["CIBLE"][len(MS2)-1], 'VENTE':BS2["VENTE"][len(BS2)-1]+MS2["VENTE"][len(MS2)-1], "CUMUL":BS2["CUMUL"][len(BS2)-1]+MS2["CUMUL"][len(MS2)-1], "BUDGET":round(((BS2["CUMUL"][len(BS2)-1]+MS2["CUMUL"][len(MS2)-1])/(bud))*100)} , ignore_index=True)
+    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(MS2) != 0 and len(BS2) == 0:
+        reporting=reporting.append({'CORSE':'TOUTES SAISONS '+annee, 'CIBLE':BS1["CIBLE"][len(BS1)-1]+HS["CIBLE"][len(HS)-1]+MS1["CIBLE"][len(MS1)-1]+MS2["CIBLE"][len(MS2)-1], 'VENTE':BS1["VENTE"][len(BS1)-1]+HS["VENTE"][len(HS)-1]+MS1["VENTE"][len(MS1)-1]+MS2["VENTE"][len(MS2)-1], "CUMUL":BS1["CUMUL"][len(BS1)-1]+HS["CUMUL"][len(HS)-1]+MS1["CUMUL"][len(MS1)-1]+MS2["CUMUL"][len(MS2)-1], "BUDGET":round(((BS1["CUMUL"][len(BS1)-1]+HS["CUMUL"][len(HS)-1]+MS1["CUMUL"][len(MS1)-1]+MS2["CUMUL"][len(MS2)-1])/(bud))*100)} , ignore_index=True)
+    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(MS2) == 0 and len(BS2) == 0:
+        reporting=reporting.append({'CORSE':'TOUTES SAISONS '+annee, 'CIBLE':BS1["CIBLE"][len(BS1)-1]+HS["CIBLE"][len(HS)-1]+MS1["CIBLE"][len(MS1)-1], 'VENTE':BS1["VENTE"][len(BS1)-1]+HS["VENTE"][len(HS)-1]+MS1["VENTE"][len(MS1)-1], "CUMUL":BS1["CUMUL"][len(BS1)-1]+HS["CUMUL"][len(HS)-1]+MS1["CUMUL"][len(MS1)-1], "BUDGET":round(((BS1["CUMUL"][len(BS1)-1]+HS["CUMUL"][len(HS)-1]+MS1["CUMUL"][len(MS1)-1])/(bud))*100)} , ignore_index=True)
+    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) == 0 and len(MS2) == 0 and len(BS2) == 0:
+        reporting=reporting.append({'CORSE':'TOUTES SAISONS '+annee, 'CIBLE':BS1["CIBLE"][len(BS1)-1]+MS1["CIBLE"][len(MS1)-1], 'VENTE':BS1["VENTE"][len(BS1)-1]+MS1["VENTE"][len(MS1)-1], "CUMUL":BS1["CUMUL"][len(BS1)-1]+MS1["CUMUL"][len(MS1)-1], "BUDGET":round(((BS1["CUMUL"][len(BS1)-1]+MS1["CUMUL"][len(MS1)-1])/(bud))*100)} , ignore_index=True)
+    elif len(BS1) != 0 and len(MS1) == 0 and len(HS) == 0 and len(MS2) == 0 and len(BS2) == 0:
+        reporting=reporting.append({'CORSE':'TOUTES SAISONS '+annee, 'CIBLE':BS1["CIBLE"][len(BS1)-1], 'VENTE':BS1["VENTE"][len(BS1)-1], "CUMUL":BS1["CUMUL"][len(BS1)-1], "BUDGET":round(((BS1["CUMUL"][len(BS1)-1])/(bud))*100)} , ignore_index=True)
+    else:
+        reporting=reporting.append({'CORSE':'TOUTES SAISONS '+annee, 'CIBLE':BS2["CIBLE"][len(BS2)-1], 'VENTE':BS2["VENTE"][len(BS2)-1], "CUMUL":BS2["CUMUL"][len(BS2)-1], "BUDGET":round(((BS2["CUMUL"][len(BS2)-1])/(bud))*100)} , ignore_index=True)
+
     del reporting['index']
 
     for i in range(len(reporting)):
@@ -1390,6 +1542,7 @@ def Stat_ITA(data_yesterday, data_today, annee, mois):
 
     return reporting
 
+
 def Stat_TUN_CL(data_yesterday, data_today, annee, mois):
     table_reseau_armateur_today = pd.pivot_table(
         data_today[(data_today.RESEAU == "TUNISIE")
@@ -1764,8 +1917,8 @@ def Stat_TUN_CL(data_yesterday, data_today, annee, mois):
                     BS2["CUMULYES"][0] + BS2["CUMULYES"][1],
                     BS2["CUMUL"][0] + BS2["CUMUL"][1],
                     (((BS2["CUMUL"][0] + BS2["CUMUL"][1]) -
-                          (BS2["CUMULYES"][0] + BS2["CUMULYES"][1])) /
-                         (BS2["CUMULYES"][0] + BS2["CUMULYES"][1])) * 100
+                      (BS2["CUMULYES"][0] + BS2["CUMULYES"][1])) /
+                     (BS2["CUMULYES"][0] + BS2["CUMULYES"][1])) * 100
                 ]
             else:
                 BS2.loc[2] = [
@@ -1791,6 +1944,7 @@ def Stat_TUN_CL(data_yesterday, data_today, annee, mois):
         reporting["ECART"][i] = str(reporting["ECART"][i]) + ' %'
 
     return reporting
+
 
 def Stat_TUN_CTN(data_yesterday, data_today, annee, mois):
     table_reseau_armateur_today = pd.pivot_table(
@@ -2193,25 +2347,31 @@ def Stat_TUN_CTN(data_yesterday, data_today, annee, mois):
         reporting["ECART"][i] = str(reporting["ECART"][i]) + ' %'
 
     return reporting
+
+
 # Files stats with Django
 
+def StatCSCInfo(request):
+    if request.method == 'POST':
+        annee = request.POST["annee"]
+        z=cibleCSC.find({'Annee': annee})
+        data = pd.DataFrame(columns=['Mois', 'Cible', 'Budget'])
+        if cibleCSC.count_documents({'Annee': annee})!=0:
+            for i in range(cibleCSC.count_documents({'Annee': annee})):
+                data.loc[i]=z[i]["Mois"],z[i]["Cible"],z[i]["Budget"]
+        print(data)
+    return HttpResponse(data.to_json(orient='records'))
 
 def StatCSC(request):
     if request.method == 'POST':
         File1 = request.FILES["file1"]
         File2 = request.FILES["file2"]
         annee = request.POST["annee"]
-        print(annee)
         mois = request.POST["mois"]
-        print(mois)
         cible = request.POST["cible"]
-        print(cible)
         budget = request.POST["budget"]
-        print(budget)
         df1 = pd.read_csv(File1, sep=';', index_col=False)
-        print(df1)
         df2 = pd.read_csv(File2, sep=';', index_col=False)
-        print(df2)
         MOIS = mois.split(",")
         MOIS = list(map(int, MOIS))
         CIBLE = cible.split(",")
@@ -2221,6 +2381,20 @@ def StatCSC(request):
         # Stats
         data = Stat_CSC(df1, df2, annee, MOIS, CIBLE, BUDGET)
         print('data : ', data)
+
+        for i in range(len(MOIS)):
+            z=cibleCSC.count_documents({'Annee': annee, "Mois":MOIS[i]})
+            if (z == 0):
+                cibleCSC.insert_one({
+                "id": i,
+                "Annee": annee,
+                "Mois": MOIS[i],
+                "Cible": CIBLE[i],
+                "Budget": BUDGET[i]
+            })
+            else:
+                cibleCSC.update_one({'Annee': annee, "Mois":MOIS[i]},{'$set': {'Cible': CIBLE[i],"Budget": BUDGET[i]}}, upsert=False)
+
     return HttpResponse(data.to_json(orient='records'))
 
 
@@ -2233,9 +2407,7 @@ def StatCSCPLUS(request):
         mois = request.POST["mois"]
         print(mois)
         df1 = pd.read_csv(File1, sep=';', index_col=False)
-        print(df1)
         df2 = pd.read_csv(File2, sep=';', index_col=False)
-        print(df2)
         MOIS = mois.split(",")
         MOIS = list(map(int, MOIS))
         # Stats

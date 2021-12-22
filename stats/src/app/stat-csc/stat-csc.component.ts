@@ -2,10 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { merge, Observable } from 'rxjs';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { TableUtil } from "../tableUtil";
 @Injectable({
   providedIn: 'root'
 })
@@ -18,6 +18,16 @@ export class ApiStat {
 
   }
 
+  getInf(annee: any): Observable<any> {
+
+    let formData = new FormData();
+    formData.append("annee", annee);
+    console.log(formData)
+
+    var header = new HttpHeaders();
+    header.append('Content-Type', 'multipart/form-data');
+    return this.http.post(this.baseurl + '/stat-csc-info/', formData, { headers: header })
+  }
   sendFile(File1: any, File2: any, annee: any, mois: any, cible: any, budget: any): Observable<any> {
 
     let formData = new FormData();
@@ -63,21 +73,6 @@ export interface StatData {
   providers: [ApiStat]
 })
 export class StatCscComponent {
-  /*
-    public checks: Array<any> = [
-      { description: "Janvier", value: "1" },
-      { description: "Février", value: "2" },
-      { description: "Mars", value: "3" },
-      { description: "Avril", value: "4" },
-      { description: "Mai", value: "5" },
-      { description: "Juin", value: "6" },
-      { description: "Juillet", value: "7" },
-      { description: "Août", value: "8" },
-      { description: "Septembre", value: "9" },
-      { description: "Octobre", value: "10" },
-      { description: "Novembre", value: "11" },
-      { description: "Décembre", value: "12" }
-    ];*/
 
   HiddenBudget = false
   HiddenCible = false
@@ -98,7 +93,8 @@ export class StatCscComponent {
   renderedData: any;
   dataFrame: any;
 
-  displayedColumns: string[] = ['CORSE', 'CIBLE', 'VENTE', 'CUMULE', 'BUDGET'];
+  displayedColumns: string[] = ['CORSE', 'CIBLE', 'VENTE', 'CUMULE', 'BUDGET','customColumn1'];
+  columnsToDisplay: string[] = this.displayedColumns.slice();
   dataSource: MatTableDataSource<StatData>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -166,12 +162,72 @@ export class StatCscComponent {
 
   value: number;
 
-  constructor(private DATACLEANING: ApiStat, private router: Router, fb: FormBuilder) {
+  constructor(private DATACLEANING: ApiStat) {
 
     this.getCurrentMonth()
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource([]);
-
+    this.getMois()
+    this.getInfo()
+  }
+  getInfo() {
+    this.DATACLEANING.getInf(this.annee).subscribe(
+      data => {
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].Mois == 1) {
+            this.cible1 = data[i].Cible
+            this.budget1 = data[i].Budget
+          }
+          if (data[i].Mois == 2) {
+            this.cible2 = data[i].Cible
+            this.budget2 = data[i].Budget
+          }
+          if (data[i].Mois == 3) {
+            this.cible3 = data[i].Cible
+            this.budget3 = data[i].Budget
+          }
+          if (data[i].Mois == 4) {
+            this.cible4 = data[i].Cible
+            this.budget4 = data[i].Budget
+          }
+          if (data[i].Mois == 5) {
+            this.cible5 = data[i].Cible
+            this.budget5 = data[i].Budget
+          }
+          if (data[i].Mois == 6) {
+            this.cible6 = data[i].Cible
+            this.budget6 = data[i].Budget
+          }
+          if (data[i].Mois == 7) {
+            this.cible7 = data[i].Cible
+            this.budget7 = data[i].Budget
+          }
+          if (data[i].Mois == 8) {
+            this.cible8 = data[i].Cible
+            this.budget8 = data[i].Budget
+          }
+          if (data[i].Mois == 9) {
+            this.cible9 = data[i].Cible
+            this.budget9 = data[i].Budget
+          }
+          if (data[i].Mois == 10) {
+            this.cible10 = data[i].Cible
+            this.budget10 = data[i].Budget
+          }
+          if (data[i].Mois == 11) {
+            this.cible11 = data[i].Cible
+            this.budget11 = data[i].Budget
+          }
+          if (data[i].Mois == 12) {
+            this.cible12 = data[i].Cible
+            this.budget12 = data[i].Budget
+          }
+        }
+      },
+      error => {
+        console.log("error ", error);
+      }
+    );
   }
 
   getCurrentMonth() {
@@ -292,67 +348,192 @@ export class StatCscComponent {
   getMois() {
     if (this.HiddenJan) {
       this.mois.push(1)
-      this.cible.push(this.cible1)
-      this.budget.push(this.budget1)
+      if (this.cible1 == null) {
+        this.cible.push(0)
+      }
+      else {
+        this.cible.push(this.cible1)
+      }
+      if (this.budget1 == null) {
+        this.budget.push(0)
+      }
+      else {
+        this.budget.push(this.budget1)
+      }
     }
     if (this.HiddenFev) {
       this.mois.push(2)
-      this.cible.push(this.cible2)
-      this.budget.push(this.budget2)
+      if (this.cible2 == null) {
+        this.cible.push(0)
+      }
+      else {
+        this.cible.push(this.cible2)
+      }
+      if (this.budget2 == null) {
+        this.budget.push(0)
+      }
+      else {
+        this.budget.push(this.budget2)
+      }
     }
     if (this.HiddenMar) {
       this.mois.push(3)
-      this.cible.push(this.cible3)
-      this.budget.push(this.budget3)
+      if (this.cible3 == null) {
+        this.cible.push(0)
+      }
+      else {
+        this.cible.push(this.cible3)
+      }
+      if (this.budget3 == null) {
+        this.budget.push(0)
+      }
+      else {
+        this.budget.push(this.budget3)
+      }
     }
     if (this.HiddenAvr) {
       this.mois.push(4)
-      this.cible.push(this.cible4)
-      this.budget.push(this.budget4)
+      if (this.cible4 == null) {
+        this.cible.push(0)
+      }
+      else {
+        this.cible.push(this.cible4)
+      }
+      if (this.budget4 == null) {
+        this.budget.push(0)
+      }
+      else {
+        this.budget.push(this.budget4)
+      }
     }
     if (this.HiddenMai) {
       this.mois.push(5)
-      this.cible.push(this.cible5)
-      this.budget.push(this.budget5)
+      if (this.cible5 == null) {
+        this.cible.push(0)
+      }
+      else {
+        this.cible.push(this.cible5)
+      }
+      if (this.budget5 == null) {
+        this.budget.push(0)
+      }
+      else {
+        this.budget.push(this.budget5)
+      }
     }
     if (this.HiddenJuin) {
       this.mois.push(6)
-      this.cible.push(this.cible6)
-      this.budget.push(this.budget6)
+      if (this.cible6 == null) {
+        this.cible.push(0)
+      }
+      else {
+        this.cible.push(this.cible6)
+      }
+      if (this.budget6 == null) {
+        this.budget.push(0)
+      }
+      else {
+        this.budget.push(this.budget6)
+      }
     }
     if (this.HiddenJuil) {
       this.mois.push(7)
-      this.cible.push(this.cible7)
-      this.budget.push(this.budget7)
+      if (this.cible7 == null) {
+        this.cible.push(0)
+      }
+      else {
+        this.cible.push(this.cible7)
+      }
+      if (this.budget7 == null) {
+        this.budget.push(0)
+      }
+      else {
+        this.budget.push(this.budget7)
+      }
     }
     if (this.HiddenAout) {
       this.mois.push(8)
-      this.cible.push(this.cible8)
-      this.budget.push(this.budget8)
+      if (this.cible8 == null) {
+        this.cible.push(0)
+      }
+      else {
+        this.cible.push(this.cible8)
+      }
+      if (this.budget8 == null) {
+        this.budget.push(0)
+      }
+      else {
+        this.budget.push(this.budget8)
+      }
     }
     if (this.HiddenSep) {
       this.mois.push(9)
-      this.cible.push(this.cible9)
-      this.budget.push(this.budget9)
+      if (this.cible9 == null) {
+        this.cible.push(0)
+      }
+      else {
+        this.cible.push(this.cible9)
+      }
+      if (this.budget9 == null) {
+        this.budget.push(0)
+      }
+      else {
+        this.budget.push(this.budget9)
+      }
     }
     if (this.HiddenOct) {
       this.mois.push(10)
-      this.cible.push(this.cible10)
-      this.budget.push(this.budget10)
+      if (this.cible10 == null) {
+        this.cible.push(0)
+      }
+      else {
+        this.cible.push(this.cible10)
+      }
+      if (this.budget10 == null) {
+        this.budget.push(0)
+      }
+      else {
+        this.budget.push(this.budget10)
+      }
     }
     if (this.HiddenNov) {
       this.mois.push(11)
-      this.cible.push(this.cible11)
-      this.budget.push(this.budget11)
+      if (this.cible11 == null) {
+        this.cible.push(0)
+      }
+      else {
+        this.cible.push(this.cible11)
+      }
+      if (this.budget11 == null) {
+        this.budget.push(0)
+      }
+      else {
+        this.budget.push(this.budget11)
+      }
     }
     if (this.HiddenDec) {
       this.mois.push(12)
-      this.cible.push(this.cible12)
-      this.budget.push(this.budget12)
+      if (this.cible12 == null) {
+        this.cible.push(0)
+      }
+      else {
+        this.cible.push(this.cible12)
+      }
+      if (this.budget12 == null) {
+        this.budget.push(0)
+      }
+      else {
+        this.budget.push(this.budget12)
+      }
     }
 
   }
+  addColumn() {
+    this.displayedColumns.push("OBJECTIF BUDGET (fin du mois en cours)");
+    console.log(this.getDisplayedColumns())
+  }
   changed(value) {
+    this.getInfo()
     if (value.target.value > (new Date().getFullYear()).toString()) {
       this.HiddenJan = true
       this.HiddenFev = true
@@ -392,59 +573,100 @@ export class StatCscComponent {
     this.mois = []
     this.budget = []
     this.cible = []
-    console.log(this.annee)
     if (this.df1 != null && this.df2 != null) {
       if (this.annee == (new Date().getFullYear()).toString()) {
         this.getMois()
-        console.log(this.mois)
-        console.log(this.cible)
-        console.log(this.budget)
-        this.value = 0
-        this.DATACLEANING.sendFile(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget).subscribe(
-          data => {
-            this.value = 10
-            this.dataFrame = data;
-            // to choose witch data gonna be showing in the table
-            this.InitializeVisualization();
-            // puts data into the datasource table
-            this.dataSource = new MatTableDataSource(data);
-            // execute the visualisation function
-            this.executeVisualisation();
-            // put Data into a rendered Data to export
-            this.dataSource.connect().subscribe(d => this.renderedData = d);
-            // add paginator to the data
-            this.dataSource.paginator = this.paginator;
-            this.saveBudget()
-            this.SaveCible()
-          },
-          error => {
-            console.log("error ", error);
+        if (this.HiddenCible && this.HiddenBudget) {
+          if (this.cible.length != 0) {
+            if (this.budget.length != 0) {
+              this.DATACLEANING.sendFile(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget).subscribe(
+                data => {
+                  this.dataFrame = data;
+                  // to choose witch data gonna be showing in the table
+                  this.InitializeVisualization();
+                  // puts data into the datasource table
+                  this.dataSource = new MatTableDataSource(data);
+                  // execute the visualisation function
+                  this.executeVisualisation();
+                  // put Data into a rendered Data to export
+                  this.dataSource.connect().subscribe(d => this.renderedData = d);
+                  // add paginator to the data
+                  this.dataSource.paginator = this.paginator;
+                },
+                error => {
+                  console.log("error ", error);
+                }
+              );
+            }
           }
-        );
+        }
+        else {
+          this.DATACLEANING.sendFilePlus(this.df1, this.df2, this.annee, this.mois).subscribe(
+            data => {
+              this.dataFrame = data;
+              // to choose witch data gonna be showing in the table
+              this.InitializeVisualization();
+              // puts data into the datasource table
+              this.dataSource = new MatTableDataSource(data);
+              // execute the visualisation function
+              this.executeVisualisation();
+              // put Data into a rendered Data to export
+              this.dataSource.connect().subscribe(d => this.renderedData = d);
+              // add paginator to the data
+              this.dataSource.paginator = this.paginator;
+            },
+            error => {
+              console.log("error ", error);
+            }
+          );
+        }
       }
       if (this.annee == (new Date().getFullYear() + 1).toString()) {
         this.getMois()
-        console.log(this.mois)
-        this.value = 0
-        this.DATACLEANING.sendFilePlus(this.df1, this.df2, this.annee, this.mois).subscribe(
-          data => {
-            this.value = 10
-            this.dataFrame = data;
-            // to choose witch data gonna be showing in the table
-            this.InitializeVisualization();
-            // puts data into the datasource table
-            this.dataSource = new MatTableDataSource(data);
-            // execute the visualisation function
-            this.executeVisualisation();
-            // put Data into a rendered Data to export
-            this.dataSource.connect().subscribe(d => this.renderedData = d);
-            // add paginator to the data
-            this.dataSource.paginator = this.paginator;
-          },
-          error => {
-            console.log("error ", error);
+        if (this.HiddenCible && this.HiddenBudget) {
+          if (this.cible.length != 0) {
+            if (this.budget.length != 0) {
+              this.DATACLEANING.sendFile(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget).subscribe(
+                data => {
+                  this.dataFrame = data;
+                  // to choose witch data gonna be showing in the table
+                  this.InitializeVisualization();
+                  // puts data into the datasource table
+                  this.dataSource = new MatTableDataSource(data);
+                  // execute the visualisation function
+                  this.executeVisualisation();
+                  // put Data into a rendered Data to export
+                  this.dataSource.connect().subscribe(d => this.renderedData = d);
+                  // add paginator to the data
+                  this.dataSource.paginator = this.paginator;
+                },
+                error => {
+                  console.log("error ", error);
+                }
+              );
+            }
           }
-        );
+        }
+        else {
+          this.DATACLEANING.sendFilePlus(this.df1, this.df2, this.annee, this.mois).subscribe(
+            data => {
+              this.dataFrame = data;
+              // to choose witch data gonna be showing in the table
+              this.InitializeVisualization();
+              // puts data into the datasource table
+              this.dataSource = new MatTableDataSource(data);
+              // execute the visualisation function
+              this.executeVisualisation();
+              // put Data into a rendered Data to export
+              this.dataSource.connect().subscribe(d => this.renderedData = d);
+              // add paginator to the data
+              this.dataSource.paginator = this.paginator;
+            },
+            error => {
+              console.log("error ", error);
+            }
+          );
+        }
       }
     }
   }
@@ -464,7 +686,14 @@ export class StatCscComponent {
       this.columnDefinitions[4].show = this.BUDGET.value;
     });
   }
+  exportTable() {
+    let day = new Date().getDate()
+    let mois = new Date().getMonth() + 1
+    let annee = new Date().getFullYear()
+    let date = "ReportingCSC_" + this.annee + "_" + day + "-" + mois + "-" + annee
+    TableUtil.exportTableToExcel("reporting", date.toString());
 
+  }
   // to initialize the visualisation with user's checkBox
   InitializeVisualization() {
     this.columnDefinitions = [
@@ -472,7 +701,8 @@ export class StatCscComponent {
       { def: 'CIBLE', label: 'CIBLE', show: this.CIBLE.value },
       { def: 'VENTE', label: 'VENTE', show: this.VENTE.value },
       { def: 'CUMUL', label: 'CUMUL', show: this.CUMUL.value },
-      { def: 'BUDGET', label: 'BUDGET', show: this.BUDGET.value }
+      { def: 'BUDGET', label: 'BUDGET', show: this.BUDGET.value },
+      { def:'customColumn1', label:'customColumn1', show: this.BUDGET.value}
     ]
   }
 
@@ -482,7 +712,8 @@ export class StatCscComponent {
     CIBLE: new FormControl(true),
     VENTE: new FormControl(true),
     CUMUL: new FormControl(true),
-    BUDGET: new FormControl(true)
+    BUDGET: new FormControl(true),
+    customColumn1: new FormControl(false)
   });
 
   // geting the checkBox
@@ -490,7 +721,8 @@ export class StatCscComponent {
   CIBLE = this.form.get('CIBLE');
   VENTE = this.form.get('VENTE');
   CUMUL = this.form.get('CUMUL');
-  BUDGET = this.form.get('BUDGET')
+  BUDGET = this.form.get('BUDGET');
+  customColumn1= this.form.get('customColumn1')
 
   //Control column ordering and which columns are displayed.
   columnDefinitions = [
@@ -498,40 +730,13 @@ export class StatCscComponent {
     { def: 'CIBLE', label: 'CIBLE', show: this.CIBLE.value },
     { def: 'VENTE', label: 'VENTE', show: this.VENTE.value },
     { def: 'CUMUL', label: 'CUMUL', show: this.CUMUL.value },
-    { def: 'BUDGET', label: 'BUDGET', show: this.BUDGET.value }
+    { def: 'BUDGET', label: 'BUDGET', show: this.BUDGET.value },
+    { def:'customColumn1', label:'customColumn1', show: this.BUDGET.value}
   ]
 
   // Filter data in witch columns is checked
   getDisplayedColumns(): string[] {
     return this.columnDefinitions.filter(cd => cd.show).map(cd => cd.def);
-  }
-  saveBudget() {
-    localStorage.setItem('budget1', this.budget1)
-    localStorage.setItem('budget2', this.budget2)
-    localStorage.setItem('budget3', this.budget3)
-    localStorage.setItem('budget4', this.budget4)
-    localStorage.setItem('budget5', this.budget5)
-    localStorage.setItem('budget6', this.budget6)
-    localStorage.setItem('budget7', this.budget7)
-    localStorage.setItem('budget8', this.budget8)
-    localStorage.setItem('budget9', this.budget9)
-    localStorage.setItem('budget10', this.budget10)
-    localStorage.setItem('budget11', this.budget11)
-    localStorage.setItem('budget12', this.budget12)
-  }
-  SaveCible() {
-    localStorage.setItem('cible1', this.cible1)
-    localStorage.setItem('cible2', this.cible2)
-    localStorage.setItem('cible3', this.cible3)
-    localStorage.setItem('cible4', this.cible4)
-    localStorage.setItem('cible5', this.cible5)
-    localStorage.setItem('cible6', this.cible6)
-    localStorage.setItem('cible7', this.cible7)
-    localStorage.setItem('cible8', this.cible8)
-    localStorage.setItem('cible9', this.cible9)
-    localStorage.setItem('cible10', this.cible10)
-    localStorage.setItem('cible11', this.cible11)
-    localStorage.setItem('cible12', this.cible12)
   }
 }
 
