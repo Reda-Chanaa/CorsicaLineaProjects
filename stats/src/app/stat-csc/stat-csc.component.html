@@ -232,11 +232,11 @@
                     <mat-spinner style="stroke: rgb(256,54,54);" strokeWidth="3" [diameter]="100"
                         *ngIf="dataSource.data.length === 0 && value === 0">
                     </mat-spinner>
-                    <div class="table-responsive" [hidden]="dataSource.data.length === 0">
+                    <div #TABLE class="table-responsive" [hidden]="dataSource.data.length === 0">
 
                         <!--Table-->
 
-                        <table id="reporting" mat-table bordered="true" class="mat-elevation-z8 table-hover table"
+                        <table #table id="reporting" mat-table bordered="true" class="mat-elevation-z8 table-hover table"
                             [dataSource]="dataSource">
 
                             <ng-container matColumnDef="CORSE">
@@ -282,13 +282,15 @@
                                 </th>
                                 <td mat-cell *matCellDef="let element"> <b>{{ element.BUDGET }} </b></td>
                             </ng-container>
-                            <ng-container matColumnDef="customColumn1">
-                                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-                                <mat-cell *matCellDef="let element">
-                                    <mat-form-field floatLabel="never">
-                                        <input matInput placeholder="Name" [value]="element.name" [(ngModel)]="element.name">
-                                    </mat-form-field>
-                                </mat-cell>
+                            
+                            <ng-container matColumnDef="CUSTOM">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    OBJECTIF BUDGET
+                                </th>
+                                <td mat-cell *matCellDef="let element"> 
+                                    <b> <input matInput placeholder="{{element.CUSTOM}}" [(ngModel)]="element.CUSTOM"/> </b>
+                                </td>
+                                
                             </ng-container>
                             <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
                             <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { merge, Observable } from 'rxjs';
@@ -6,6 +6,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { TableUtil } from "../tableUtil";
+import * as XLSX from 'xlsx';
 @Injectable({
   providedIn: 'root'
 })
@@ -74,6 +75,7 @@ export interface StatData {
 })
 export class StatCscComponent {
 
+  @ViewChild('TABLE') table: ElementRef;
   HiddenBudget = false
   HiddenCible = false
 
@@ -90,11 +92,9 @@ export class StatCscComponent {
   HiddenNov = false
   HiddenDec = false
 
-  renderedData: any;
   dataFrame: any;
 
-  displayedColumns: string[] = ['CORSE', 'CIBLE', 'VENTE', 'CUMULE', 'BUDGET','customColumn1'];
-  columnsToDisplay: string[] = this.displayedColumns.slice();
+  displayedColumns: string[] = ['CORSE', 'CIBLE', 'VENTE', 'CUMULE', 'BUDGET', 'CUSTOM'];
   dataSource: MatTableDataSource<StatData>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -529,8 +529,21 @@ export class StatCscComponent {
 
   }
   addColumn() {
-    this.displayedColumns.push("OBJECTIF BUDGET (fin du mois en cours)");
+    if (this.columnDefinitions[5].show == true) {
+      this.columnDefinitions[5].show = false
+      console.log("true ", this.columnDefinitions[5].show)
+    }
+    else {
+      this.columnDefinitions[5].show = true
+      console.log("false ", this.columnDefinitions[5].show)
+    }
     console.log(this.getDisplayedColumns())
+  }
+  saveChanges() {
+    // puts data into the datasource table
+    this.dataSource = new MatTableDataSource(this.dataFrame);
+    console.log("frame ", this.dataFrame)
+    console.log("source ", this.dataSource)
   }
   changed(value) {
     this.getInfo()
@@ -568,7 +581,7 @@ export class StatCscComponent {
   deleteData() {
     this.dataSource = new MatTableDataSource([]);
   }
-  // function executed when user click on standardize button
+  // function executed when user click on Reporting button
   createFile = () => {
     this.mois = []
     this.budget = []
@@ -588,8 +601,6 @@ export class StatCscComponent {
                   this.dataSource = new MatTableDataSource(data);
                   // execute the visualisation function
                   this.executeVisualisation();
-                  // put Data into a rendered Data to export
-                  this.dataSource.connect().subscribe(d => this.renderedData = d);
                   // add paginator to the data
                   this.dataSource.paginator = this.paginator;
                 },
@@ -610,8 +621,6 @@ export class StatCscComponent {
               this.dataSource = new MatTableDataSource(data);
               // execute the visualisation function
               this.executeVisualisation();
-              // put Data into a rendered Data to export
-              this.dataSource.connect().subscribe(d => this.renderedData = d);
               // add paginator to the data
               this.dataSource.paginator = this.paginator;
             },
@@ -635,8 +644,6 @@ export class StatCscComponent {
                   this.dataSource = new MatTableDataSource(data);
                   // execute the visualisation function
                   this.executeVisualisation();
-                  // put Data into a rendered Data to export
-                  this.dataSource.connect().subscribe(d => this.renderedData = d);
                   // add paginator to the data
                   this.dataSource.paginator = this.paginator;
                 },
@@ -657,8 +664,6 @@ export class StatCscComponent {
               this.dataSource = new MatTableDataSource(data);
               // execute the visualisation function
               this.executeVisualisation();
-              // put Data into a rendered Data to export
-              this.dataSource.connect().subscribe(d => this.renderedData = d);
               // add paginator to the data
               this.dataSource.paginator = this.paginator;
             },
@@ -687,11 +692,20 @@ export class StatCscComponent {
     });
   }
   exportTable() {
+    this.saveChanges()
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+
     let day = new Date().getDate()
     let mois = new Date().getMonth() + 1
     let annee = new Date().getFullYear()
-    let date = "ReportingCSC_" + this.annee + "_" + day + "-" + mois + "-" + annee
-    TableUtil.exportTableToExcel("reporting", date.toString());
+    let date = "ReportingCSC_" + this.annee + "_" + day + "-" + mois + "-" + annee + ".xlsx"
+    console.log(date)
+    /* save to file */
+    XLSX.writeFile(wb, date.toString());
+    //TableUtil.exportTableToExcel("reporting", date.toString());
 
   }
   // to initialize the visualisation with user's checkBox
@@ -702,7 +716,7 @@ export class StatCscComponent {
       { def: 'VENTE', label: 'VENTE', show: this.VENTE.value },
       { def: 'CUMUL', label: 'CUMUL', show: this.CUMUL.value },
       { def: 'BUDGET', label: 'BUDGET', show: this.BUDGET.value },
-      { def:'customColumn1', label:'customColumn1', show: this.BUDGET.value}
+      { def: 'CUSTOM', label: 'CUSTOM', show: this.CUSTOM.value }
     ]
   }
 
@@ -713,7 +727,7 @@ export class StatCscComponent {
     VENTE: new FormControl(true),
     CUMUL: new FormControl(true),
     BUDGET: new FormControl(true),
-    customColumn1: new FormControl(false)
+    CUSTOM: new FormControl(false)
   });
 
   // geting the checkBox
@@ -722,7 +736,7 @@ export class StatCscComponent {
   VENTE = this.form.get('VENTE');
   CUMUL = this.form.get('CUMUL');
   BUDGET = this.form.get('BUDGET');
-  customColumn1= this.form.get('customColumn1')
+  CUSTOM = this.form.get('CUSTOM')
 
   //Control column ordering and which columns are displayed.
   columnDefinitions = [
@@ -731,7 +745,7 @@ export class StatCscComponent {
     { def: 'VENTE', label: 'VENTE', show: this.VENTE.value },
     { def: 'CUMUL', label: 'CUMUL', show: this.CUMUL.value },
     { def: 'BUDGET', label: 'BUDGET', show: this.BUDGET.value },
-    { def:'customColumn1', label:'customColumn1', show: this.BUDGET.value}
+    { def: 'CUSTOM', label: 'CUSTOM', show: this.CUSTOM.value }
   ]
 
   // Filter data in witch columns is checked

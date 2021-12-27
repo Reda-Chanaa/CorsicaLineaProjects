@@ -274,7 +274,7 @@ export class StatTunCtnComponent {
   deleteData() {
     this.dataSource = new MatTableDataSource([]);
   }
-  // function executed when user click on standardize button
+  // function executed when user click on reporting button
   createFile = () => {
     this.deleteData()
     this.mois = []

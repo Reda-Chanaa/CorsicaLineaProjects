@@ -10,5 +10,4 @@ urlpatterns = [
     url(r'stat-ita-ctn/', csrf_exempt(views.StatITA), name='file'),
     url(r'stat-tun-ctn/', csrf_exempt(views.StatTUNCTN), name='file'),
     url(r'stat-tun-cl/', csrf_exempt(views.StatTUNCL), name='file'),
-    
 ]
