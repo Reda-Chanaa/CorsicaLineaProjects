@@ -29,6 +29,18 @@ export class ApiStat {
     header.append('Content-Type', 'multipart/form-data');
     return this.http.post(this.baseurl + '/stat-csc-info/', formData, { headers: header })
   }
+  getObj(annee: any, mois: any, objectif: any): Observable<any> {
+
+    let formData = new FormData();
+    formData.append("annee", annee);
+    formData.append("mois", mois);
+    formData.append("objectif", objectif);
+    console.log(formData)
+
+    var header = new HttpHeaders();
+    header.append('Content-Type', 'multipart/form-data');
+    return this.http.post(this.baseurl + '/stat-csc-obj/', formData, { headers: header })
+  }
   sendFile(File1: any, File2: any, annee: any, mois: any, cible: any, budget: any): Observable<any> {
 
     let formData = new FormData();
@@ -66,6 +78,7 @@ export interface StatData {
   VENTE: string;
   CUMUL: string;
   BUDGET: string;
+  OBJECTIF: string
 }
 @Component({
   selector: 'app-stat-csc',
@@ -78,6 +91,7 @@ export class StatCscComponent {
   @ViewChild('TABLE') table: ElementRef;
   HiddenBudget = false
   HiddenCible = false
+  HiddenObjectif=false
 
   HiddenJan = false
   HiddenFev = false
@@ -94,7 +108,7 @@ export class StatCscComponent {
 
   dataFrame: any;
 
-  displayedColumns: string[] = ['CORSE', 'CIBLE', 'VENTE', 'CUMULE', 'BUDGET', 'CUSTOM'];
+  displayedColumns: string[] = ['CORSE', 'CIBLE', 'VENTE', 'CUMULE', 'BUDGET', 'OBJECTIF'];
   dataSource: MatTableDataSource<StatData>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -125,6 +139,19 @@ export class StatCscComponent {
   Cnovembre = new FormControl('');
   Cdecembre = new FormControl('');
 
+  Ojanvier = new FormControl('');
+  Ofevrier = new FormControl('');
+  Omars = new FormControl('');
+  Oavril = new FormControl('');
+  Omai = new FormControl('');
+  Ojuin = new FormControl('');
+  Ojuillet = new FormControl('');
+  Oaout = new FormControl('');
+  Oseptembre = new FormControl('');
+  Ooctobre = new FormControl('');
+  Onovembre = new FormControl('');
+  Odecembre = new FormControl('');
+  
   cible1: any;
   cible2: any;
   cible3: any;
@@ -151,6 +178,19 @@ export class StatCscComponent {
   budget11: any;
   budget12: any;
 
+  Objectif1: any;
+  Objectif2: any;
+  Objectif3: any;
+  Objectif4: any;
+  Objectif5: any;
+  Objectif6: any;
+  Objectif7: any;
+  Objectif8: any;
+  Objectif9: any;
+  Objectif10: any;
+  Objectif11: any;
+  Objectif12: any;
+
   element: any;
   df1: any;
   df2: any;
@@ -159,6 +199,7 @@ export class StatCscComponent {
   mois: any = [];
   cible: any = [];
   budget: any = [];
+  objectif:any=[];
 
   value: number;
 
@@ -177,50 +218,62 @@ export class StatCscComponent {
           if (data[i].Mois == 1) {
             this.cible1 = data[i].Cible
             this.budget1 = data[i].Budget
+            this.Objectif1=data[i].Objectif
           }
           if (data[i].Mois == 2) {
             this.cible2 = data[i].Cible
             this.budget2 = data[i].Budget
+            this.Objectif2=data[i].Objectif
           }
           if (data[i].Mois == 3) {
             this.cible3 = data[i].Cible
             this.budget3 = data[i].Budget
+            this.Objectif3=data[i].Objectif
           }
           if (data[i].Mois == 4) {
             this.cible4 = data[i].Cible
             this.budget4 = data[i].Budget
+            this.Objectif4=data[i].Objectif
           }
           if (data[i].Mois == 5) {
             this.cible5 = data[i].Cible
             this.budget5 = data[i].Budget
+            this.Objectif5=data[i].Objectif
           }
           if (data[i].Mois == 6) {
             this.cible6 = data[i].Cible
             this.budget6 = data[i].Budget
+            this.Objectif6=data[i].Objectif
           }
           if (data[i].Mois == 7) {
             this.cible7 = data[i].Cible
             this.budget7 = data[i].Budget
+            this.Objectif7=data[i].Objectif
           }
           if (data[i].Mois == 8) {
             this.cible8 = data[i].Cible
             this.budget8 = data[i].Budget
+            this.Objectif8=data[i].Objectif
           }
           if (data[i].Mois == 9) {
             this.cible9 = data[i].Cible
             this.budget9 = data[i].Budget
+            this.Objectif9=data[i].Objectif
           }
           if (data[i].Mois == 10) {
             this.cible10 = data[i].Cible
             this.budget10 = data[i].Budget
+            this.Objectif10=data[i].Objectif
           }
           if (data[i].Mois == 11) {
             this.cible11 = data[i].Cible
             this.budget11 = data[i].Budget
+            this.Objectif11=data[i].Objectif
           }
           if (data[i].Mois == 12) {
             this.cible12 = data[i].Cible
             this.budget12 = data[i].Budget
+            this.Objectif12=data[i].Objectif
           }
         }
       },
@@ -360,6 +413,12 @@ export class StatCscComponent {
       else {
         this.budget.push(this.budget1)
       }
+      if (this.Objectif1 == null) {
+        this.objectif.push(0)
+      }
+      else {
+        this.objectif.push(this.Objectif1)
+      }
     }
     if (this.HiddenFev) {
       this.mois.push(2)
@@ -374,6 +433,12 @@ export class StatCscComponent {
       }
       else {
         this.budget.push(this.budget2)
+      }
+      if (this.Objectif2 == null) {
+        this.objectif.push(0)
+      }
+      else {
+        this.objectif.push(this.Objectif2)
       }
     }
     if (this.HiddenMar) {
@@ -390,6 +455,12 @@ export class StatCscComponent {
       else {
         this.budget.push(this.budget3)
       }
+      if (this.Objectif3 == null) {
+        this.objectif.push(0)
+      }
+      else {
+        this.objectif.push(this.Objectif3)
+      }
     }
     if (this.HiddenAvr) {
       this.mois.push(4)
@@ -404,6 +475,12 @@ export class StatCscComponent {
       }
       else {
         this.budget.push(this.budget4)
+      }
+      if (this.Objectif4 == null) {
+        this.objectif.push(0)
+      }
+      else {
+        this.objectif.push(this.Objectif4)
       }
     }
     if (this.HiddenMai) {
@@ -420,6 +497,12 @@ export class StatCscComponent {
       else {
         this.budget.push(this.budget5)
       }
+      if (this.Objectif5 == null) {
+        this.objectif.push(0)
+      }
+      else {
+        this.objectif.push(this.Objectif5)
+      }
     }
     if (this.HiddenJuin) {
       this.mois.push(6)
@@ -434,6 +517,12 @@ export class StatCscComponent {
       }
       else {
         this.budget.push(this.budget6)
+      }
+      if (this.Objectif6 == null) {
+        this.objectif.push(0)
+      }
+      else {
+        this.objectif.push(this.Objectif6)
       }
     }
     if (this.HiddenJuil) {
@@ -450,6 +539,12 @@ export class StatCscComponent {
       else {
         this.budget.push(this.budget7)
       }
+      if (this.Objectif7 == null) {
+        this.objectif.push(0)
+      }
+      else {
+        this.objectif.push(this.Objectif7)
+      }
     }
     if (this.HiddenAout) {
       this.mois.push(8)
@@ -464,6 +559,12 @@ export class StatCscComponent {
       }
       else {
         this.budget.push(this.budget8)
+      }
+      if (this.Objectif8 == null) {
+        this.objectif.push(0)
+      }
+      else {
+        this.objectif.push(this.Objectif8)
       }
     }
     if (this.HiddenSep) {
@@ -480,6 +581,12 @@ export class StatCscComponent {
       else {
         this.budget.push(this.budget9)
       }
+      if (this.Objectif9 == null) {
+        this.objectif.push(0)
+      }
+      else {
+        this.objectif.push(this.Objectif9)
+      }
     }
     if (this.HiddenOct) {
       this.mois.push(10)
@@ -494,6 +601,12 @@ export class StatCscComponent {
       }
       else {
         this.budget.push(this.budget10)
+      }
+      if (this.Objectif10 == null) {
+        this.objectif.push(0)
+      }
+      else {
+        this.objectif.push(this.Objectif10)
       }
     }
     if (this.HiddenNov) {
@@ -510,6 +623,12 @@ export class StatCscComponent {
       else {
         this.budget.push(this.budget11)
       }
+      if (this.Objectif11 == null) {
+        this.objectif.push(0)
+      }
+      else {
+        this.objectif.push(this.Objectif11)
+      }
     }
     if (this.HiddenDec) {
       this.mois.push(12)
@@ -525,6 +644,12 @@ export class StatCscComponent {
       else {
         this.budget.push(this.budget12)
       }
+      if (this.Objectif12 == null) {
+        this.objectif.push(0)
+      }
+      else {
+        this.objectif.push(this.Objectif12)
+      }
     }
 
   }
@@ -538,12 +663,6 @@ export class StatCscComponent {
       console.log("false ", this.columnDefinitions[5].show)
     }
     console.log(this.getDisplayedColumns())
-  }
-  saveChanges() {
-    // puts data into the datasource table
-    this.dataSource = new MatTableDataSource(this.dataFrame);
-    console.log("frame ", this.dataFrame)
-    console.log("source ", this.dataSource)
   }
   changed(value) {
     this.getInfo()
@@ -592,7 +711,7 @@ export class StatCscComponent {
         if (this.HiddenCible && this.HiddenBudget) {
           if (this.cible.length != 0) {
             if (this.budget.length != 0) {
-              this.DATACLEANING.sendFile(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget).subscribe(
+              this.DATACLEANING.sendFile(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget, this.objectif).subscribe(
                 data => {
                   this.dataFrame = data;
                   // to choose witch data gonna be showing in the table
@@ -635,7 +754,7 @@ export class StatCscComponent {
         if (this.HiddenCible && this.HiddenBudget) {
           if (this.cible.length != 0) {
             if (this.budget.length != 0) {
-              this.DATACLEANING.sendFile(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget).subscribe(
+              this.DATACLEANING.sendFile(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget,this.objectif).subscribe(
                 data => {
                   this.dataFrame = data;
                   // to choose witch data gonna be showing in the table
@@ -683,16 +802,17 @@ export class StatCscComponent {
     let c2: Observable<boolean> = this.VENTE.valueChanges;
     let c3: Observable<boolean> = this.CUMUL.valueChanges;
     let c4: Observable<boolean> = this.BUDGET.valueChanges;
-    merge(c0, c1, c2, c3, c4).subscribe(v => {
+    let c5:Observable<boolean>=this.OBJECTIF.valueChanges;
+    merge(c0, c1, c2, c3, c4,c5).subscribe(v => {
       this.columnDefinitions[0].show = this.CORSE.value;
       this.columnDefinitions[1].show = this.CIBLE.value;
       this.columnDefinitions[2].show = this.VENTE.value;
       this.columnDefinitions[3].show = this.CUMUL.value;
       this.columnDefinitions[4].show = this.BUDGET.value;
+      this.columnDefinitions[5].show = this.OBJECTIF.value;
     });
   }
   exportTable() {
-    this.saveChanges()
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
@@ -716,7 +836,7 @@ export class StatCscComponent {
       { def: 'VENTE', label: 'VENTE', show: this.VENTE.value },
       { def: 'CUMUL', label: 'CUMUL', show: this.CUMUL.value },
       { def: 'BUDGET', label: 'BUDGET', show: this.BUDGET.value },
-      { def: 'CUSTOM', label: 'CUSTOM', show: this.CUSTOM.value }
+      { def: 'OBJECTIF', label: 'OBJECTIF', show: this.OBJECTIF.value }
     ]
   }
 
@@ -727,7 +847,7 @@ export class StatCscComponent {
     VENTE: new FormControl(true),
     CUMUL: new FormControl(true),
     BUDGET: new FormControl(true),
-    CUSTOM: new FormControl(false)
+    OBJECTIF: new FormControl(true)
   });
 
   // geting the checkBox
@@ -736,7 +856,7 @@ export class StatCscComponent {
   VENTE = this.form.get('VENTE');
   CUMUL = this.form.get('CUMUL');
   BUDGET = this.form.get('BUDGET');
-  CUSTOM = this.form.get('CUSTOM')
+  OBJECTIF = this.form.get('OBJECTIF')
 
   //Control column ordering and which columns are displayed.
   columnDefinitions = [
@@ -745,7 +865,7 @@ export class StatCscComponent {
     { def: 'VENTE', label: 'VENTE', show: this.VENTE.value },
     { def: 'CUMUL', label: 'CUMUL', show: this.CUMUL.value },
     { def: 'BUDGET', label: 'BUDGET', show: this.BUDGET.value },
-    { def: 'CUSTOM', label: 'CUSTOM', show: this.CUSTOM.value }
+    { def: 'OBJECTIF', label: 'OBJECTIF', show: this.OBJECTIF.value }
   ]
 
   // Filter data in witch columns is checked

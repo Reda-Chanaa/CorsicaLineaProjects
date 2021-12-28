@@ -32,6 +32,8 @@
                                 </mat-checkbox>&nbsp;&nbsp;&nbsp;
                                 <mat-checkbox [(ngModel)]="HiddenCible" name="HiddenCible">Cible / J &nbsp;&nbsp;&nbsp;
                                 </mat-checkbox>
+                                <mat-checkbox [(ngModel)]="HiddenObjectif" name="HiddenObjectif">Objectif &nbsp;&nbsp;&nbsp;
+                                </mat-checkbox>
                             </section>
                         </div>
                         <br />
@@ -214,6 +216,73 @@
                             <br />
 
                         </div>
+                        <div id="objectif">
+                            <mat-label
+                                *ngIf="(HiddenJan || HiddenFev || HiddenMar || HiddenAvr || HiddenMai || HiddenJuin || HiddenJuil || HiddenAout || HiddenSep || HiddenOct || HiddenNov || HiddenDec) && HiddenObjectif">
+                                Objectif Budget :</mat-label>
+                            <br />
+                            <mat-form-field name="Ojanvier" *ngIf="HiddenJan && HiddenObjectif" floatLabel="never">
+                                <label>Objectif de Janvier</label>
+                                <input type="number" matInput [(ngModel)]="Objectif1" [formControl]="Ojanvier" required />
+                            </mat-form-field>
+
+                            <mat-form-field name="Ofevrier" *ngIf="HiddenFev && HiddenObjectif" floatLabel="never">
+                                <label>Objectif de Février</label>
+                                <input type="number" matInput [(ngModel)]="Objectif2" [formControl]="Ofevrier" required />
+                            </mat-form-field>
+
+                            <mat-form-field name="Omars" *ngIf="HiddenMar && HiddenObjectif" floatLabel="never">
+                                <label>Objectif de Mars</label>
+                                <input type="number" matInput [(ngModel)]="Objectif3" [formControl]="Omars" required />
+                            </mat-form-field>
+
+                            <mat-form-field name="Oavril" *ngIf="HiddenAvr && HiddenObjectif" floatLabel="never">
+                                <label>Objectif d'Avril</label>
+                                <input type="number" matInput [(ngModel)]="Objectif4" [formControl]="Oavril" required />
+                            </mat-form-field>
+                            <mat-form-field name="Omai" *ngIf="HiddenMai && HiddenObjectif" floatLabel="never">
+                                <label>Objectif de Mai</label>
+                                <input type="number" matInput [(ngModel)]="Objectif5" [formControl]="Omai" required />
+                            </mat-form-field>
+
+                            <mat-form-field name="Ojuin" *ngIf="HiddenJuin && HiddenObjectif" floatLabel="never">
+                                <label>Objectif de Juin</label>
+                                <input type="number" matInput [(ngModel)]="Objectif6" [formControl]="Ojuin" required />
+                            </mat-form-field>
+
+                            <mat-form-field name="Ojuillet" *ngIf="HiddenJuil && HiddenObjectif" floatLabel="never">
+                                <label>Objectif de Juillet</label>
+                                <input type="number" matInput [(ngModel)]="Objectif7" [formControl]="Ojuillet" required />
+                            </mat-form-field>
+
+                            <mat-form-field name="Oaout" *ngIf="HiddenAout && HiddenObjectif" floatLabel="never">
+                                <label>Objectif d'Août</label>
+                                <input type="number" matInput [(ngModel)]="Objectif8" [formControl]="Oaout" required />
+                            </mat-form-field>
+                            <mat-form-field name="Oseptembre" *ngIf="HiddenSep && HiddenObjectif" floatLabel="never">
+                                <label>Objectif de Septembre</label>
+                                <input type="number" matInput [(ngModel)]="Objectif9" [formControl]="Oseptembre"
+                                    required />
+                            </mat-form-field>
+
+                            <mat-form-field name="Ooctobre" *ngIf="HiddenOct && HiddenObjectif" floatLabel="never">
+                                <label>Objectif d'Octobre</label>
+                                <input type="number" matInput [(ngModel)]="Objectif10" [formControl]="Ooctobre" required />
+                            </mat-form-field>
+
+                            <mat-form-field name="Onovembre" *ngIf="HiddenNov && HiddenObjectif" floatLabel="never">
+                                <label>Objectif de Novembre</label>
+                                <input type="number" matInput [(ngModel)]="Objectif11" [formControl]="Onovembre"
+                                    required />
+                            </mat-form-field>
+
+                            <mat-form-field name="Odecembre" *ngIf="HiddenDec && HiddenObjectif" floatLabel="never">
+                                <label>Objectif de Décembre</label>
+                                <input type="number" matInput [(ngModel)]="Objectif12" [formControl]="Odecembre"
+                                    required />
+                            </mat-form-field>
+                            <br />
+                        </div>
                         <button (click)="deleteData()" [hidden]="dataSource.data.length === 0" style="background-color: rgb(256,54,54);" class="btn pull-right">
                             <b>Supprimer le tableau</b>
                         </button>
@@ -224,7 +293,7 @@
                             <b>Reporting de ventes</b>
                         </button>
                         &nbsp;&nbsp;&nbsp;
-                        <button [hidden]="dataSource.data.length === 0" class="btn pull-right" style="background-color: rgb(256,54,54);" (click)="addColumn()"> <b>Add column</b> </button>
+                        <button [hidden]="dataSource.data.length === 0" class="btn pull-right" style="background-color: rgb(256,54,54);" (click)="addColumn()"> <b>Ajouter une colonne</b> </button>
                         <br />
                     </form>
                     <br />
@@ -236,7 +305,7 @@
 
                         <!--Table-->
 
-                        <table #table id="reporting" mat-table bordered="true" class="mat-elevation-z8 table-hover table"
+                        <table id="reporting" mat-table bordered="true" matTableExporter #exporter="matTableExporter" class="mat-elevation-z8 table-hover table"
                             [dataSource]="dataSource">
 
                             <ng-container matColumnDef="CORSE">
@@ -283,13 +352,11 @@
                                 <td mat-cell *matCellDef="let element"> <b>{{ element.BUDGET }} </b></td>
                             </ng-container>
                             
-                            <ng-container matColumnDef="CUSTOM">
+                            <ng-container matColumnDef="OBJECTIF">
                                 <th mat-header-cell *matHeaderCellDef>
                                     OBJECTIF BUDGET
                                 </th>
-                                <td mat-cell *matCellDef="let element"> 
-                                    <b> <input matInput placeholder="{{element.CUSTOM}}" [(ngModel)]="element.CUSTOM"/> </b>
-                                </td>
+                                <td mat-cell *matCellDef="let element"> <b> <input matInput placeholder="{{element.OBJECTIF}}" [(ngModel)]="element.OBJECTIF"/> </b></td>
                                 
                             </ng-container>
                             <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
@@ -299,10 +366,10 @@
                             <button style="background-color: rgb(256,54,54);" class="btn pull-right" mat-raised-button
                                 (click)="exportTable()">Exporter en Excel</button>
                         </div>
-                        <!--<button style="background-color: rgb(256,54,54);" mat-raised-button
-                            (click)="exporter.exportTable('csv')" class="btn pull-right">
+                        <button style="background-color: rgb(256,54,54);" mat-raised-button
+                            (click)="exporter.exportTable('csv', {fileName:'Reporting',delimiter:';'})" class="btn pull-right">
                             Exporter en Excel
-                        </button>-->
+                        </button>
                     </div>
                 </div>
             </div>
