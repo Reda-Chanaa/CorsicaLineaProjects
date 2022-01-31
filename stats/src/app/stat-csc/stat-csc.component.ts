@@ -5,7 +5,6 @@ import { merge, Observable } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { TableUtil } from "../tableUtil";
 import * as XLSX from 'xlsx';
 @Injectable({
   providedIn: 'root'
@@ -29,18 +28,6 @@ export class ApiStat {
     header.append('Content-Type', 'multipart/form-data');
     return this.http.post(this.baseurl + '/stat-csc-info/', formData, { headers: header })
   }
-  getObj(annee: any, mois: any, objectif: any): Observable<any> {
-
-    let formData = new FormData();
-    formData.append("annee", annee);
-    formData.append("mois", mois);
-    formData.append("objectif", objectif);
-    console.log(formData)
-
-    var header = new HttpHeaders();
-    header.append('Content-Type', 'multipart/form-data');
-    return this.http.post(this.baseurl + '/stat-csc-obj/', formData, { headers: header })
-  }
   sendFile(File1: any, File2: any, annee: any, mois: any, cible: any, budget: any): Observable<any> {
 
     let formData = new FormData();
@@ -55,6 +42,22 @@ export class ApiStat {
     var header = new HttpHeaders();
     header.append('Content-Type', 'multipart/form-data');
     return this.http.post(this.baseurl + '/stat-csc/', formData, { headers: header })
+  }
+  sendFileObj(File1: any, File2: any, annee: any, mois: any, cible: any, budget: any, objectif: any): Observable<any> {
+
+    let formData = new FormData();
+    formData.append('file1', File1, File.name);
+    formData.append('file2', File2, File.name);
+    formData.append("annee", annee);
+    formData.append("mois", mois);
+    formData.append("cible", cible);
+    formData.append("budget", budget);
+    formData.append("objectif", objectif);
+    console.log(formData)
+
+    var header = new HttpHeaders();
+    header.append('Content-Type', 'multipart/form-data');
+    return this.http.post(this.baseurl + '/stat-csc-obj/', formData, { headers: header })
   }
   sendFilePlus(File1: any, File2: any, annee: any, mois: any): Observable<any> {
 
@@ -91,7 +94,7 @@ export class StatCscComponent {
   @ViewChild('TABLE') table: ElementRef;
   HiddenBudget = false
   HiddenCible = false
-  HiddenObjectif=false
+  HiddenObjectif = false
 
   HiddenJan = false
   HiddenFev = false
@@ -151,7 +154,7 @@ export class StatCscComponent {
   Ooctobre = new FormControl('');
   Onovembre = new FormControl('');
   Odecembre = new FormControl('');
-  
+
   cible1: any;
   cible2: any;
   cible3: any;
@@ -199,7 +202,7 @@ export class StatCscComponent {
   mois: any = [];
   cible: any = [];
   budget: any = [];
-  objectif:any=[];
+  objectif: any = [];
 
   value: number;
 
@@ -218,62 +221,62 @@ export class StatCscComponent {
           if (data[i].Mois == 1) {
             this.cible1 = data[i].Cible
             this.budget1 = data[i].Budget
-            this.Objectif1=data[i].Objectif
+            this.Objectif1 = data[i].Objectif
           }
           if (data[i].Mois == 2) {
             this.cible2 = data[i].Cible
             this.budget2 = data[i].Budget
-            this.Objectif2=data[i].Objectif
+            this.Objectif2 = data[i].Objectif
           }
           if (data[i].Mois == 3) {
             this.cible3 = data[i].Cible
             this.budget3 = data[i].Budget
-            this.Objectif3=data[i].Objectif
+            this.Objectif3 = data[i].Objectif
           }
           if (data[i].Mois == 4) {
             this.cible4 = data[i].Cible
             this.budget4 = data[i].Budget
-            this.Objectif4=data[i].Objectif
+            this.Objectif4 = data[i].Objectif
           }
           if (data[i].Mois == 5) {
             this.cible5 = data[i].Cible
             this.budget5 = data[i].Budget
-            this.Objectif5=data[i].Objectif
+            this.Objectif5 = data[i].Objectif
           }
           if (data[i].Mois == 6) {
             this.cible6 = data[i].Cible
             this.budget6 = data[i].Budget
-            this.Objectif6=data[i].Objectif
+            this.Objectif6 = data[i].Objectif
           }
           if (data[i].Mois == 7) {
             this.cible7 = data[i].Cible
             this.budget7 = data[i].Budget
-            this.Objectif7=data[i].Objectif
+            this.Objectif7 = data[i].Objectif
           }
           if (data[i].Mois == 8) {
             this.cible8 = data[i].Cible
             this.budget8 = data[i].Budget
-            this.Objectif8=data[i].Objectif
+            this.Objectif8 = data[i].Objectif
           }
           if (data[i].Mois == 9) {
             this.cible9 = data[i].Cible
             this.budget9 = data[i].Budget
-            this.Objectif9=data[i].Objectif
+            this.Objectif9 = data[i].Objectif
           }
           if (data[i].Mois == 10) {
             this.cible10 = data[i].Cible
             this.budget10 = data[i].Budget
-            this.Objectif10=data[i].Objectif
+            this.Objectif10 = data[i].Objectif
           }
           if (data[i].Mois == 11) {
             this.cible11 = data[i].Cible
             this.budget11 = data[i].Budget
-            this.Objectif11=data[i].Objectif
+            this.Objectif11 = data[i].Objectif
           }
           if (data[i].Mois == 12) {
             this.cible12 = data[i].Cible
             this.budget12 = data[i].Budget
-            this.Objectif12=data[i].Objectif
+            this.Objectif12 = data[i].Objectif
           }
         }
       },
@@ -653,6 +656,7 @@ export class StatCscComponent {
     }
 
   }
+  /*
   addColumn() {
     if (this.columnDefinitions[5].show == true) {
       this.columnDefinitions[5].show = false
@@ -663,7 +667,7 @@ export class StatCscComponent {
       console.log("false ", this.columnDefinitions[5].show)
     }
     console.log(this.getDisplayedColumns())
-  }
+  }*/
   changed(value) {
     this.getInfo()
     if (value.target.value > (new Date().getFullYear()).toString()) {
@@ -705,13 +709,40 @@ export class StatCscComponent {
     this.mois = []
     this.budget = []
     this.cible = []
+    this.objectif = []
     if (this.df1 != null && this.df2 != null) {
       if (this.annee == (new Date().getFullYear()).toString()) {
         this.getMois()
-        if (this.HiddenCible && this.HiddenBudget) {
+        if (this.HiddenCible && this.HiddenBudget && this.HiddenObjectif) {
+          if (this.cible.length != 0) {
+            if (this.budget.length != 0 && this.objectif.length) {
+              this.DATACLEANING.sendFileObj(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget, this.objectif).subscribe(
+                data => {
+                  this.dataFrame = data;
+                  console.log(data)
+                  // to choose witch data gonna be showing in the table
+                  this.InitializeVisualization();
+                  if (this.columnDefinitions[5].show == false) {
+                    this.columnDefinitions[5].show = true
+                  }
+                  // puts data into the datasource table
+                  this.dataSource = new MatTableDataSource(data);
+                  // execute the visualisation function
+                  this.executeVisualisation();
+                  // add paginator to the data
+                  this.dataSource.paginator = this.paginator;
+                },
+                error => {
+                  console.log("error ", error);
+                }
+              );
+            }
+          }
+        }
+        else if (this.HiddenCible && this.HiddenBudget) {
           if (this.cible.length != 0) {
             if (this.budget.length != 0) {
-              this.DATACLEANING.sendFile(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget, this.objectif).subscribe(
+              this.DATACLEANING.sendFile(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget).subscribe(
                 data => {
                   this.dataFrame = data;
                   // to choose witch data gonna be showing in the table
@@ -751,10 +782,37 @@ export class StatCscComponent {
       }
       if (this.annee == (new Date().getFullYear() + 1).toString()) {
         this.getMois()
-        if (this.HiddenCible && this.HiddenBudget) {
+        console.log(this.objectif)
+        if (this.HiddenCible && this.HiddenBudget && this.HiddenObjectif) {
+          if (this.cible.length != 0) {
+            if (this.budget.length != 0 && this.objectif.length) {
+              this.DATACLEANING.sendFileObj(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget, this.objectif).subscribe(
+                data => {
+                  this.dataFrame = data;
+                  console.log(data)
+                  // to choose witch data gonna be showing in the table
+                  this.InitializeVisualization();
+                  if (this.columnDefinitions[5].show == false) {
+                    this.columnDefinitions[5].show = true
+                  }
+                  // puts data into the datasource table
+                  this.dataSource = new MatTableDataSource(data);
+                  // execute the visualisation function
+                  this.executeVisualisation();
+                  // add paginator to the data
+                  this.dataSource.paginator = this.paginator;
+                },
+                error => {
+                  console.log("error ", error);
+                }
+              );
+            }
+          }
+        }
+        else if (this.HiddenCible && this.HiddenBudget) {
           if (this.cible.length != 0) {
             if (this.budget.length != 0) {
-              this.DATACLEANING.sendFile(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget,this.objectif).subscribe(
+              this.DATACLEANING.sendFile(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget).subscribe(
                 data => {
                   this.dataFrame = data;
                   // to choose witch data gonna be showing in the table
@@ -802,8 +860,8 @@ export class StatCscComponent {
     let c2: Observable<boolean> = this.VENTE.valueChanges;
     let c3: Observable<boolean> = this.CUMUL.valueChanges;
     let c4: Observable<boolean> = this.BUDGET.valueChanges;
-    let c5:Observable<boolean>=this.OBJECTIF.valueChanges;
-    merge(c0, c1, c2, c3, c4,c5).subscribe(v => {
+    let c5: Observable<boolean> = this.OBJECTIF.valueChanges;
+    merge(c0, c1, c2, c3, c4, c5).subscribe(v => {
       this.columnDefinitions[0].show = this.CORSE.value;
       this.columnDefinitions[1].show = this.CIBLE.value;
       this.columnDefinitions[2].show = this.VENTE.value;
@@ -847,7 +905,7 @@ export class StatCscComponent {
     VENTE: new FormControl(true),
     CUMUL: new FormControl(true),
     BUDGET: new FormControl(true),
-    OBJECTIF: new FormControl(true)
+    OBJECTIF: new FormControl(false)
   });
 
   // geting the checkBox
