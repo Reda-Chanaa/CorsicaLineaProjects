@@ -4,9 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { StatAlgComponent } from '../../stat-alg/stat-alg.component';
-import { StatTunClComponent } from '../../stat-tun-cl/stat-tun-cl.component';
-import { StatTunCtnComponent } from '../../stat-tun-ctn/stat-tun-ctn.component';
-import { StatItaCtnComponent } from '../../stat-ita-ctn/stat-ita-ctn.component';
+import { StatTunClComponent } from '../../stat-tun/stat-tun.component';
 import { StatCscComponent } from '../../stat-csc/stat-csc.component';
 import { ChartsModule } from 'ng2-charts';
 import { MatTableExporterModule} from "mat-table-exporter"
@@ -61,8 +59,6 @@ import { MatDialogModule } from '@angular/material/dialog';
   declarations: [
     StatAlgComponent,
     StatTunClComponent,
-    StatTunCtnComponent,
-    StatItaCtnComponent,
     StatCscComponent
   ]
 })

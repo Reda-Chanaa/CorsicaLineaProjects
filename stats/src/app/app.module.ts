@@ -24,6 +24,7 @@ import { MatSortModule } from '@angular/material/sort'
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MesureCscComponent } from './mesure-csc/mesure-csc.component';
 
 @NgModule({
   imports: [
@@ -59,6 +60,7 @@ import { MatInputModule } from '@angular/material/input';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
+    MesureCscComponent,
 
   ],
   providers: [],

@@ -9,11 +9,8 @@ declare interface RouteInfo {
 export const ROUTES: RouteInfo[] = [
     { path: '/stat-csc', title: 'Reporting CSC',  icon:'design_bullet-list-67', class: '' },
     { path: '/stat-alg', title: 'Reporting ALG',  icon:'design_bullet-list-67', class: '' },
-    { path: '/stat-tun-cl', title: 'Reporting TUN',  icon:'design_bullet-list-67', class: '' },
+    { path: '/stat-tun', title: 'Reporting TUN',  icon:'design_bullet-list-67', class: '' },
 ];
-
-//{ path: '/stat-tun-ctn', title: 'Reporting TUN CTN',  icon:'design_bullet-list-67', class: '' },
-//{ path: '/stat-ita-ctn', title: 'Reporting ITA CTN',  icon:'design_bullet-list-67', class: '' },
 
 @Component({
   selector: 'app-sidebar',
