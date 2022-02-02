@@ -1,0 +1,129 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Mesure de ventes CSC</h4>
+                </div>
+                <div class="card-body">
+                    <br />
+                    <form class="ng-untouched ng-pristine ng-invalid" #myForm="ngForm" ngNativeValidate>
+                        <div>
+                            <label for="file"> <b>1er fichier du jour J-1 :</b></label>
+                            <input type="file" #fileInput name="File Upload" id="csvFile1"
+                                (change)="fileChangeListener1($event)" />
+                            <br/>
+                                <label for="file"><b>2eme fichier du jour J :</b></label>
+                            <input type="file" #fileInput name="File Upload" id="csvFile2"
+                                (change)="fileChangeListener2($event)" />
+                        </div>
+                        <br />
+                        <button (click)="deleteData()" [hidden]="dataSource.data.length === 0" style="background-color: rgb(256,54,54);" class="btn pull-right">
+                            <b>Supprimer le tableau</b>
+                        </button>
+
+                        &nbsp;&nbsp;&nbsp;
+                        <button (click)="createFile()" [hidden]="dataSource.data.length !== 0" style="background-color: rgb(256,54,54);"
+                         class="btn pull-right">
+                            <b>Mesures de ventes</b>
+                        </button><br />
+                    </form>
+                    <br />
+                    <br />
+                    <mat-spinner style="stroke: rgb(256,54,54);" strokeWidth="3" [diameter]="100"
+                        *ngIf="dataSource.data.length === 0 && value === 0">
+                    </mat-spinner>
+                    <div #TABLE class="table-responsive" [hidden]="dataSource.data.length === 0">
+
+                        <!--Table-->
+
+                        <table id="reporting" mat-table bordered="true" matTableExporter #exporter="matTableExporter" class="mat-elevation-z8 table-hover table"
+                            [dataSource]="dataSource">
+
+                            <ng-container matColumnDef="ID">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    ID
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.ID }} </b>
+                                </td>
+
+                            </ng-container>
+
+                            <ng-container matColumnDef="NAVIRE">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    NAVIRE
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.NAVIRE }} </b>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="SENS">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    SENS
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.SENS }} </b>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="DATE">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    DATE
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.DATE }}</b>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="HEURE">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    HEURE
+                                </th>
+                                <td mat-cell *matCellDef="let element"> <b>{{ element.HEURE }} </b></td>
+                            </ng-container>
+                            
+                            <ng-container matColumnDef="NIVEAU">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    NIVEAU
+                                </th>
+                                <td mat-cell *matCellDef="let element"> <b> {{ element.NIVEAU }} </b></td>
+                                
+                            </ng-container>
+                            <ng-container matColumnDef="VENTE J">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    VENTE J
+                                </th>
+                                <td mat-cell *matCellDef="let element"> <b> {{ element.VENTE J }} </b></td>
+                                
+                            </ng-container>
+                            <ng-container matColumnDef="VENTE J-1">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    VENTE J-1
+                                </th>
+                                <td mat-cell *matCellDef="let element"> <b> {{ element.VENTE J-1 }} </b></td>
+                                
+                            </ng-container>
+                            <ng-container matColumnDef="ECART">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    ECART
+                                </th>
+                                <td mat-cell *matCellDef="let element"> <b> {{ element.ECART }} </b></td>
+                                
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+                            <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
+                        </table>
+                        <div class="export-container">
+                            <button style="background-color: rgb(256,54,54);" class="btn pull-right" mat-raised-button
+                                (click)="exportTable()">Exporter en Excel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
