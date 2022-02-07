@@ -40,10 +40,11 @@ export interface StatData {
   NAVIRE: string;
   SENS: string;
   DATE: string;
+  ECART: string;
   NIVEAU: string;
   VENTE: string;
   VENTEJ: string;
-  ECART: string;
+  
 }
 @Component({
   selector: 'app-mesure-csc',
@@ -55,7 +56,7 @@ export class MesureCscComponent {
 
   dataFrame: any;
   @ViewChild('TABLE') table: ElementRef;
-  displayedColumns: string[] = ['ID', 'NAVIRE', 'SENS', 'DATE', 'NIVEAU', 'VENTE', 'VENTEJ', 'ECART'];
+  displayedColumns: string[] = ['ID', 'NAVIRE', 'SENS', 'DATE', 'ECART', 'VENTE', 'VENTEJ'];
   dataSource: MatTableDataSource<StatData>;
 
   ecart: string;
@@ -86,7 +87,25 @@ export class MesureCscComponent {
   }
 
   printTable() {
-
+    const printContents = document.getElementById("reporting").outerHTML
+    var newWin = window.open("");  
+    newWin.document.write(`
+      <html>
+        <head>
+          <title>Mesure Vente CSC</title>
+          <style>
+          table th, table td {
+            border-top: 0.5px solid #000;
+            padding:0.5em;
+          }
+          </style>
+        </head>
+    <body onload="window.print();window.close()">${printContents}</body>
+      </html>`
+    );
+    newWin.print();  
+    newWin.close();
+    
   }
   // function executed when user click on Reporting button
   createFile = () => {
@@ -115,19 +134,19 @@ export class MesureCscComponent {
     let c1: Observable<boolean> = this.NAVIRE.valueChanges;
     let c2: Observable<boolean> = this.SENS.valueChanges;
     let c3: Observable<boolean> = this.DATE.valueChanges;
-    let c4: Observable<boolean> = this.NIVEAU.valueChanges;
+    let c4: Observable<boolean> = this.ECART.valueChanges;
     let c5: Observable<boolean> = this.VENTE.valueChanges;
     let c6: Observable<boolean> = this.VENTEJ.valueChanges;
-    let c7: Observable<boolean> = this.ECART.valueChanges;
-    merge(c0, c1, c2, c3, c4, c5, c6, c7).subscribe(v => {
+    
+    merge(c0, c1, c2, c3, c4, c5, c6).subscribe(v => {
       this.columnDefinitions[0].show = this.ID.value;
       this.columnDefinitions[1].show = this.NAVIRE.value;
       this.columnDefinitions[2].show = this.SENS.value;
       this.columnDefinitions[3].show = this.DATE.value;
-      this.columnDefinitions[4].show = this.NIVEAU.value;
+      this.columnDefinitions[4].show = this.ECART.value;
       this.columnDefinitions[5].show = this.VENTE.value;
       this.columnDefinitions[6].show = this.VENTEJ.value;
-      this.columnDefinitions[7].show = this.ECART.value;
+      
     });
   }
   exportTable() {
@@ -153,10 +172,10 @@ export class MesureCscComponent {
       { def: 'NAVIRE', label: 'NAVIRE', show: this.NAVIRE.value },
       { def: 'SENS', label: 'SENS', show: this.SENS.value },
       { def: 'DATE', label: 'DATE', show: this.DATE.value },
-      { def: 'NIVEAU', label: 'NIVEAU', show: this.NIVEAU.value },
+      { def: 'ECART', label: 'ECART', show: this.ECART.value },
       { def: 'VENTE', label: 'VENTE', show: this.VENTE.value },
       { def: 'VENTEJ', label: 'VENTEJ', show: this.VENTEJ.value },
-      { def: 'ECART', label: 'ECART', show: this.ECART.value }
+      
     ]
   }
 
@@ -166,10 +185,10 @@ export class MesureCscComponent {
     NAVIRE: new FormControl(true),
     SENS: new FormControl(true),
     DATE: new FormControl(true),
-    NIVEAU: new FormControl(true),
+    ECART: new FormControl(true),
     VENTE: new FormControl(true),
     VENTEJ: new FormControl(true),
-    ECART: new FormControl(true)
+    
   });
 
   // geting the checkBox
@@ -177,10 +196,10 @@ export class MesureCscComponent {
   NAVIRE = this.form.get('NAVIRE');
   SENS = this.form.get('SENS');
   DATE = this.form.get('DATE');
-  NIVEAU = this.form.get('NIVEAU')
+  ECART = this.form.get('ECART');
   VENTE = this.form.get('VENTE');
   VENTEJ = this.form.get('VENTEJ');
-  ECART = this.form.get('ECART')
+  
 
   //Control column ordering and which columns are displayed.
   columnDefinitions = [
@@ -188,10 +207,9 @@ export class MesureCscComponent {
     { def: 'NAVIRE', label: 'NAVIRE', show: this.NAVIRE.value },
     { def: 'SENS', label: 'SENS', show: this.SENS.value },
     { def: 'DATE', label: 'DATE', show: this.DATE.value },
-    { def: 'NIVEAU', label: 'NIVEAU', show: this.NIVEAU.value },
+    { def: 'ECART', label: 'ECART', show: this.ECART.value },
     { def: 'VENTE', label: 'VENTE', show: this.VENTE.value },
     { def: 'VENTEJ', label: 'VENTEJ', show: this.VENTEJ.value },
-    { def: 'ECART', label: 'ECART', show: this.ECART.value }
   ]
 
   // Filter data in witch columns is checked

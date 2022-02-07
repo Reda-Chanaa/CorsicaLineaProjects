@@ -12,6 +12,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'stat-tun',     component: StatTunClComponent },
     { path: 'mesure-csc',     component: MesureCscComponent },
     { path: 'mesure-alg',     component: MesureAlgComponent },
-    { path: 'mesure-alg',     component: MesureTunComponent },
+    { path: 'mesure-tun',     component: MesureTunComponent },
 
 ];

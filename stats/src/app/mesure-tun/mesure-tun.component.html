@@ -1,4 +1,3 @@
-
 <div class="panel-header panel-header-sm">
 </div>
 <div class="main-content">
@@ -14,11 +13,11 @@
                         <div>
                             <label for="file"> <b>1er fichier du jour J-1 :</b></label>
                             <input type="file" #fileInput name="File Upload" id="csvFile1"
-                                (change)="fileChangeListener1($event)" />
+                                (change)="fileChangeListener1($event)" accept=".csv"/>
                             <br/>
                                 <label for="file"><b>2eme fichier du jour J :</b></label>
                             <input type="file" #fileInput name="File Upload" id="csvFile2"
-                                (change)="fileChangeListener2($event)" />
+                                (change)="fileChangeListener2($event)" accept=".csv" />
                                 
                         </div>
                         <br />
@@ -84,22 +83,16 @@
                                     <b> {{ element.DATE }}</b>
                                 </td>
                             </ng-container>
+
                             
-                            <ng-container matColumnDef="DEPART">
+                            <ng-container matColumnDef="ECART">
                                 <th mat-header-cell *matHeaderCellDef>
-                                    DEPART
+                                    ECART
                                 </th>
-                                <td mat-cell *matCellDef="let element"> <b> {{ element.DEPART }} </b></td>
-                                
+                                <td mat-cell *matCellDef="let element"> <b> {{ element.ECART }} </b></td>
                             </ng-container>
 
-                            <ng-container matColumnDef="ARRIVEE">
-                                <th mat-header-cell *matHeaderCellDef>
-                                    ARRIVEE
-                                </th>
-                                <td mat-cell *matCellDef="let element"> <b> {{ element.ARRIVEE }} </b></td>
-                                
-                            </ng-container>
+                            
                             <ng-container matColumnDef="VENTE">
                                 <th mat-header-cell *matHeaderCellDef>
                                     VENTE J-1
@@ -114,13 +107,7 @@
                                 <td mat-cell *matCellDef="let element"> <b> {{ element.VENTEJ }} </b></td>
                                 
                             </ng-container>
-                            
-                            <ng-container matColumnDef="ECART">
-                                <th mat-header-cell *matHeaderCellDef>
-                                    ECART
-                                </th>
-                                <td mat-cell *matCellDef="let element"> <b> {{ element.ECART }} </b></td>
-                            </ng-container>
+                        
                             <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
                             <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
                         </table>

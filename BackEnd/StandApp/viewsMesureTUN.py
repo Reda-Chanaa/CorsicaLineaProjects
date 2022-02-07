@@ -3,22 +3,10 @@ from django.http import HttpResponse
 import pandas as pd
 import numpy as np
 from datetime import date
-from pymongo import MongoClient
 from datetime import datetime
 
-from django.http import HttpResponse
 
-# REFERENCE DATABASE CONNECTION
-
-client = MongoClient('localhost', 27017)
-
-# Nom de la base = Reporting
-
-db = client['Mesure']
-mesure = db['MesureCSC']
-
-
-def MesureCSC(request):
+def MesureTUN(request):
     start_time = time.time()
     if request.method == 'POST':
         File1 = request.FILES["file1"]
@@ -29,7 +17,7 @@ def MesureCSC(request):
         df_JOUR = pd.read_csv(File2,sep=";", index_col=False)
 
         # mesure 1
-        df_sauv=pd.pivot_table(df_sauv[(df_sauv.RESEAU == "CORSE") &(df_sauv.ARMATEUR == "CL")], index=['SAIL_ID','NAVIRE','MOIS','DATE_DEPART','PORT_DEPART','PORT_ARRIVEE'],aggfunc={'PAX':np.sum})
+        df_sauv=pd.pivot_table(df_sauv[(df_sauv.RESEAU == "TUNISIE") &(df_sauv.ARMATEUR == "CL")], index=['SAIL_ID','NAVIRE','MOIS','DATE_DEPART','PORT_DEPART','PORT_ARRIVEE'],aggfunc={'PAX':np.sum})
         df_sauv.reset_index(inplace=True)
         datetimes = pd.to_datetime(df_sauv["DATE_DEPART"],format='%d/%m/%Y %H:%M')
         df_sauv[['year','month','day']] = datetimes.dt.date.astype(str).str.split('-',expand=True)
@@ -53,7 +41,7 @@ def MesureCSC(request):
         print(df_sauv)
 
         # mesure 2
-        df_JOUR=pd.pivot_table(df_JOUR[(df_JOUR.RESEAU == "CORSE") &(df_JOUR.ARMATEUR == "CL")], index=['SAIL_ID','NAVIRE','MOIS','DATE_DEPART','PORT_DEPART','PORT_ARRIVEE'],aggfunc={'PAX':np.sum})
+        df_JOUR=pd.pivot_table(df_JOUR[(df_JOUR.RESEAU == "TUNISIE") &(df_JOUR.ARMATEUR == "CL")], index=['SAIL_ID','NAVIRE','MOIS','DATE_DEPART','PORT_DEPART','PORT_ARRIVEE'],aggfunc={'PAX':np.sum})
         df_JOUR.reset_index(inplace=True)
         df_JOUR=df_JOUR.sort_values(by = 'SAIL_ID')
         mycolumns = ['SAIL_ID','NAVIRE','MOIS','DATE_DEPART','PORT_DEPART','PORT_ARRIVEE','PAX'] 

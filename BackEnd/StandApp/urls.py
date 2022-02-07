@@ -3,6 +3,7 @@ from StandApp import viewsALG
 from StandApp import viewsTUN
 from StandApp import viewsMesure
 from StandApp import viewsMesureALG
+from StandApp import viewsMesureTUN
 from django.conf.urls import url
 from django.views.decorators.csrf import csrf_exempt
 
@@ -23,6 +24,7 @@ urlpatterns = [
     url(r'stat-tun-plus/', csrf_exempt(viewsTUN.StatTUNPLUS), name='file'),
 
     url(r'mesure-csc/', csrf_exempt(viewsMesure.MesureCSC), name='file'),
-    url(r'mesure-alg/', csrf_exempt(viewsMesureALG.MesureCSC), name='file'),
+    url(r'mesure-alg/', csrf_exempt(viewsMesureALG.MesureALG), name='file'),
+    url(r'mesure-tun/', csrf_exempt(viewsMesureTUN.MesureTUN), name='file'),
 
 ]
