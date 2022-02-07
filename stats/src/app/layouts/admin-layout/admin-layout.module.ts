@@ -6,6 +6,7 @@ import { AdminLayoutRoutes } from './admin-layout.routing';
 import { StatAlgComponent } from '../../stat-alg/stat-alg.component';
 import { StatTunClComponent } from '../../stat-tun/stat-tun.component';
 import { StatCscComponent } from '../../stat-csc/stat-csc.component';
+import { MesureCscComponent } from '../../mesure-csc/mesure-csc.component';
 import { ChartsModule } from 'ng2-charts';
 import { MatTableExporterModule} from "mat-table-exporter"
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -26,6 +27,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatSortModule} from '@angular/material/sort'
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MesureAlgComponent } from '../../mesure-alg/mesure-alg.component';
+import { MesureTunComponent } from '../../mesure-tun/mesure-tun.component';
 
 @NgModule({
   imports: [
@@ -59,7 +62,10 @@ import { MatDialogModule } from '@angular/material/dialog';
   declarations: [
     StatAlgComponent,
     StatTunClComponent,
-    StatCscComponent
+    StatCscComponent,
+    MesureCscComponent,
+    MesureAlgComponent,
+    MesureTunComponent,
   ]
 })
 

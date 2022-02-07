@@ -30,7 +30,7 @@ export class ApiStat {
 
     var header = new HttpHeaders();
     header.append('Content-Type', 'multipart/form-data');
-    return this.http.post(this.baseurl + '/mesure-csc/', formData, { headers: header })
+    return this.http.post(this.baseurl + '/mesure-alg/', formData, { headers: header })
   }
 }
 
@@ -40,22 +40,23 @@ export interface StatData {
   NAVIRE: string;
   SENS: string;
   DATE: string;
-  NIVEAU: string;
+  DEPART: string;
+  ARRIVEE: string;
   VENTE: string;
   VENTEJ: string;
   ECART: string;
 }
 @Component({
-  selector: 'app-mesure-csc',
-  templateUrl: './mesure-csc.component.html',
-  styleUrls: ['./mesure-csc.component.css'],
+  selector: 'app-mesure-alg',
+  templateUrl: './mesure-alg.component.html',
+  styleUrls: ['./mesure-alg.component.css'],
   providers: [ApiStat]
 })
-export class MesureCscComponent {
+export class MesureAlgComponent{
 
   dataFrame: any;
   @ViewChild('TABLE') table: ElementRef;
-  displayedColumns: string[] = ['ID', 'NAVIRE', 'SENS', 'DATE', 'NIVEAU', 'VENTE', 'VENTEJ', 'ECART'];
+  displayedColumns: string[] = ['ID', 'NAVIRE', 'SENS', 'DATE', 'DEPART', 'ARRIVEE', 'VENTE', 'VENTEJ', 'ECART'];
   dataSource: MatTableDataSource<StatData>;
 
   ecart: string;
@@ -115,31 +116,33 @@ export class MesureCscComponent {
     let c1: Observable<boolean> = this.NAVIRE.valueChanges;
     let c2: Observable<boolean> = this.SENS.valueChanges;
     let c3: Observable<boolean> = this.DATE.valueChanges;
-    let c4: Observable<boolean> = this.NIVEAU.valueChanges;
-    let c5: Observable<boolean> = this.VENTE.valueChanges;
-    let c6: Observable<boolean> = this.VENTEJ.valueChanges;
-    let c7: Observable<boolean> = this.ECART.valueChanges;
-    merge(c0, c1, c2, c3, c4, c5, c6, c7).subscribe(v => {
+    let c4: Observable<boolean> = this.DEPART.valueChanges;
+    let c5: Observable<boolean> = this.ARRIVEE.valueChanges;
+    let c6: Observable<boolean> = this.VENTE.valueChanges;
+    let c7: Observable<boolean> = this.VENTEJ.valueChanges;
+    let c8: Observable<boolean> = this.ECART.valueChanges;
+    merge(c0, c1, c2, c3, c4, c5, c6, c7,c8).subscribe(v => {
       this.columnDefinitions[0].show = this.ID.value;
       this.columnDefinitions[1].show = this.NAVIRE.value;
       this.columnDefinitions[2].show = this.SENS.value;
       this.columnDefinitions[3].show = this.DATE.value;
-      this.columnDefinitions[4].show = this.NIVEAU.value;
-      this.columnDefinitions[5].show = this.VENTE.value;
-      this.columnDefinitions[6].show = this.VENTEJ.value;
-      this.columnDefinitions[7].show = this.ECART.value;
+      this.columnDefinitions[4].show = this.DEPART.value;
+      this.columnDefinitions[5].show = this.ARRIVEE.value;
+      this.columnDefinitions[6].show = this.VENTE.value;
+      this.columnDefinitions[7].show = this.VENTEJ.value;
+      this.columnDefinitions[8].show = this.ECART.value;
     });
   }
   exportTable() {
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'CSC');
+    XLSX.utils.book_append_sheet(wb, ws, 'ALG');
 
 
     let day = new Date().getDate()
     let mois = new Date().getMonth() + 1
     let annee = new Date().getFullYear()
-    let date = "MesureCSC_" + day + "-" + mois + "-" + annee + ".xlsx"
+    let date = "MesureALG_" + day + "-" + mois + "-" + annee + ".xlsx"
     console.log(date)
     /* save to file */
     XLSX.writeFile(wb, date.toString());
@@ -153,7 +156,8 @@ export class MesureCscComponent {
       { def: 'NAVIRE', label: 'NAVIRE', show: this.NAVIRE.value },
       { def: 'SENS', label: 'SENS', show: this.SENS.value },
       { def: 'DATE', label: 'DATE', show: this.DATE.value },
-      { def: 'NIVEAU', label: 'NIVEAU', show: this.NIVEAU.value },
+      { def: 'DEPART', label: 'DEPART', show: this.DEPART.value },
+      { def: 'ARRIVEE', label: 'ARRIVEE', show: this.ARRIVEE.value },
       { def: 'VENTE', label: 'VENTE', show: this.VENTE.value },
       { def: 'VENTEJ', label: 'VENTEJ', show: this.VENTEJ.value },
       { def: 'ECART', label: 'ECART', show: this.ECART.value }
@@ -166,7 +170,8 @@ export class MesureCscComponent {
     NAVIRE: new FormControl(true),
     SENS: new FormControl(true),
     DATE: new FormControl(true),
-    NIVEAU: new FormControl(true),
+    DEPART: new FormControl(true),
+    ARRIVEE: new FormControl(true),
     VENTE: new FormControl(true),
     VENTEJ: new FormControl(true),
     ECART: new FormControl(true)
@@ -177,7 +182,8 @@ export class MesureCscComponent {
   NAVIRE = this.form.get('NAVIRE');
   SENS = this.form.get('SENS');
   DATE = this.form.get('DATE');
-  NIVEAU = this.form.get('NIVEAU')
+  DEPART = this.form.get('DEPART')
+  ARRIVEE = this.form.get('ARRIVEE')
   VENTE = this.form.get('VENTE');
   VENTEJ = this.form.get('VENTEJ');
   ECART = this.form.get('ECART')
@@ -188,7 +194,8 @@ export class MesureCscComponent {
     { def: 'NAVIRE', label: 'NAVIRE', show: this.NAVIRE.value },
     { def: 'SENS', label: 'SENS', show: this.SENS.value },
     { def: 'DATE', label: 'DATE', show: this.DATE.value },
-    { def: 'NIVEAU', label: 'NIVEAU', show: this.NIVEAU.value },
+    { def: 'DEPART', label: 'DEPART', show: this.DEPART.value },
+    { def: 'ARRIVEE', label: 'ARRIVEE', show: this.ARRIVEE.value },
     { def: 'VENTE', label: 'VENTE', show: this.VENTE.value },
     { def: 'VENTEJ', label: 'VENTEJ', show: this.VENTEJ.value },
     { def: 'ECART', label: 'ECART', show: this.ECART.value }
