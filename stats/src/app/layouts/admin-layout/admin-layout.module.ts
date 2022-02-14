@@ -29,6 +29,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MesureAlgComponent } from '../../mesure-alg/mesure-alg.component';
 import { MesureTunComponent } from '../../mesure-tun/mesure-tun.component';
+import { ChartCscComponent } from '../../chart-csc/chart-csc.component';
 
 @NgModule({
   imports: [
@@ -66,6 +67,7 @@ import { MesureTunComponent } from '../../mesure-tun/mesure-tun.component';
     MesureCscComponent,
     MesureAlgComponent,
     MesureTunComponent,
+    ChartCscComponent,
   ]
 })
 

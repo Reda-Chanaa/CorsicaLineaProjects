@@ -54,7 +54,8 @@ import { MatInputModule } from '@angular/material/input';
     MatSlideToggleModule,
     MatSelectModule,
     MatInputModule,
-    MatTableExporterModule
+    MatTableExporterModule,
+
   ],
   declarations: [
     AppComponent,

@@ -23,8 +23,8 @@ def MesureTUN(request):
         df_sauv[['year','month','day']] = datetimes.dt.date.astype(str).str.split('-',expand=True)
         datetimes = pd.to_datetime(df_JOUR["DATE_DEPART"],format='%d/%m/%Y %H:%M')
         df_JOUR[['year','month','day']] = datetimes.dt.date.astype(str).str.split('-',expand=True)
-        df_sauv = df_sauv[(df_sauv["day"].astype(int) >= datetime.now().day) & (df_sauv["month"].astype(int) >= datetime.now().month) & (df_sauv["year"].astype(int) >= datetime.now().year)]
-        df_JOUR = df_JOUR[(df_JOUR["day"].astype(int) >= datetime.now().day) & (df_JOUR["month"].astype(int) >= datetime.now().month) & (df_JOUR["year"].astype(int) >= datetime.now().year)]
+        df_sauv = df_sauv[((df_sauv["year"].astype(int) == datetime.now().year) & (df_sauv["month"].astype(int) == datetime.now().month) & (df_sauv["day"].astype(int) > datetime.now().day)) | ((df_sauv["year"].astype(int) == datetime.now().year) & (df_sauv["month"].astype(int) > datetime.now().month)) | ((df_sauv["year"].astype(int) > datetime.now().year))]
+        df_JOUR = df_JOUR[((df_JOUR["year"].astype(int) == datetime.now().year) & (df_JOUR["month"].astype(int) == datetime.now().month) & (df_JOUR["day"].astype(int) > datetime.now().day)) | ((df_JOUR["year"].astype(int) == datetime.now().year) & (df_JOUR["month"].astype(int) > datetime.now().month)) | ((df_JOUR["year"].astype(int) > datetime.now().year))]
         df_JOUR.reset_index(inplace=True, drop=True)
         df_sauv.reset_index(inplace=True, drop=True)
         for i in range(len(df_JOUR)):

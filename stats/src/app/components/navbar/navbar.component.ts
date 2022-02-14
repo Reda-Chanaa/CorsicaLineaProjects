@@ -1,8 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
-import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
+import {Location} from '@angular/common';
 import { Router } from '@angular/router';
-import Chart from 'chart.js';
 
 @Component({
   selector: 'app-navbar',
@@ -144,12 +143,11 @@ export class NavbarComponent implements OnInit {
           titlee = titlee.slice( 2 );
       }
       titlee = titlee.split('/').pop();
-
       for(var item = 0; item < this.listTitles.length; item++){
           if(this.listTitles[item].path === titlee){
               return this.listTitles[item].title;
           }
       }
-      return 'Reporting de ventes';
+      return titlee;
     }
 }

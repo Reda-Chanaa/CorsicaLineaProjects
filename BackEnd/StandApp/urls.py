@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'mesure-alg/', csrf_exempt(viewsMesureALG.MesureALG), name='file'),
     url(r'mesure-tun/', csrf_exempt(viewsMesureTUN.MesureTUN), name='file'),
 
+    url(r'report-csc/', csrf_exempt(viewsMesure.ReportCSC), name='file'),
 ]
