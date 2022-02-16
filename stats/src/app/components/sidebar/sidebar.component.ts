@@ -14,6 +14,8 @@ export const ROUTES: RouteInfo[] = [
     { path: '/mesure-alg', title: 'Mesure Ventes ALG',  icon:'files_paper', class: '' },
     { path: '/mesure-tun', title: 'Mesure Ventes TUN',  icon:'files_paper', class: '' },
     { path: '/chart-csc', title: 'Report Quotidien CSC',  icon:'business_chart-pie-36', class: '' },
+    { path: '/chart-alg', title: 'Report Quotidien ALG',  icon:'business_chart-pie-36', class: '' },
+    { path: '/chart-tun', title: 'Report Quotidien TUN',  icon:'business_chart-pie-36', class: '' },
 ];
 
 @Component({

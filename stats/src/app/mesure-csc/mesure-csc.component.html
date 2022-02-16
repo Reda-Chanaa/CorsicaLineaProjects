@@ -25,9 +25,7 @@
                         <input [formControl]="Fecart" [(ngModel)]="ecart" value="0" (change)='changed($event)'
                             placeholder="Ecart" type="number" />
                         <br />
-                        <button (click)="dashboard()" style="background-color: rgb(256,54,54);" class="btn pull-right">
-                            <b>Report Quotidien</b>
-                        </button>
+                        
                         &nbsp;&nbsp;&nbsp;
                         <button (click)="deleteData()" [hidden]="dataSource.data.length === 0"
                             style="background-color: rgb(256,54,54);" class="btn pull-right">

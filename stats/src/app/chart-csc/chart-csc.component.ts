@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Injectable, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import * as Highcharts from "highcharts";
 import { Observable } from 'rxjs';
 
@@ -16,11 +17,14 @@ export class ApiStat {
   constructor(private http: HttpClient) {
 
   }
-  getReport(): Observable<any> {
+  getReport(annee:any): Observable<any> {
 
+    let formData = new FormData();
+    formData.append('annee', annee);
+    console.log(formData)
     var header = new HttpHeaders();
     header.append('Content-Type', 'multipart/form-data');
-    return this.http.post(this.baseurl + '/report-csc/', { headers: header })
+    return this.http.post(this.baseurl + '/report-csc/', formData, { headers: header })
   }
 }
 
@@ -34,21 +38,26 @@ export class ChartCscComponent implements OnInit {
 
   options: any
   data: any
+  Fannee = new FormControl('');
+  annee :any
   constructor(private DATACLEANING: ApiStat) {
-
+    
   }
+  changed(value) {
+    this.annee = value.target.value
+  }
+
   ngOnInit() {
-    this.getReport()
-
-    this.getOptions(this.data)
-
-    Highcharts.chart('container', this.options)
+    
   }
-  getReport = () => {
-    this.DATACLEANING.getReport().subscribe(
+
+  async getReport(){
+    this.DATACLEANING.getReport(this.annee).subscribe(
       data => {
-        console.log(data)
         this.data = data;
+        console.log(data[0])
+        this.getOptions(this.data)
+        Highcharts.chart('container', this.options)
       },
       error => {
         console.log("error ", error);
@@ -56,7 +65,24 @@ export class ChartCscComponent implements OnInit {
     );
   }
 
-  getOptions(data) {
+  async dashboard(){
+    await this.getReport()
+  }
+
+  async getOptions(data:any) {
+    var df=[]
+    console.log(data.length)
+    for (let index = 0; index < data.length; index++) {
+      var series1 = {
+      name: 0,
+      data: []
+    }
+    series1.name=index+1;
+      series1.data=[Number(data[index].Jan), Number(data[index].Feb), Number(data[index].Mar), Number(data[index].Apr), Number(data[index].May), Number(data[index].Jun), Number(data[index].Jul), Number(data[index].Aug), Number(data[index].Sep), Number(data[index].Oct), Number(data[index].Nov), Number(data[index].Dec)]
+      df.push(series1)
+    }
+    console.log(df)
+
     this.options = {
       chart: {
         type: 'column'
@@ -93,7 +119,7 @@ export class ChartCscComponent implements OnInit {
       tooltip: {
         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-          '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+          '<td style="padding:0"><b>{point.y}</b></td></tr>',
         footerFormat: '</table>',
         shared: true,
         useHTML: true
@@ -101,141 +127,10 @@ export class ChartCscComponent implements OnInit {
       plotOptions: {
         column: {
           pointPadding: 0.2,
-          borderWidth: 0
+          borderWidth: 0.01
         }
       },
-      series: [{
-        name: '1',
-        data: [-49.9, 71.5, 1060.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-
-      }, {
-        name: '2',
-        data: [-83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
-
-      }, {
-        name: '3',
-        data: [-48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 590.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-
-      }, {
-        name: '4',
-        data: [-42.4, 33.2, 34.5, 390.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
-
-      },
-      {
-        name: '5',
-        data: [-49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-
-      }, {
-        name: '6',
-        data: [-83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 830.5, 106.6, 92.3]
-
-      }, {
-        name: '7',
-        data: [-48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-
-      }, {
-        name: '8',
-        data: [-42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
-
-      },
-      {
-        name: '9',
-        data: [49.9, 701.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-
-      }, {
-        name: '10',
-        data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
-
-      }, {
-        name: '11',
-        data: [48.9, 38.8, 39.3, 41.4, 407.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 501.2]
-
-      }, {
-        name: '12',
-        data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 390.1, 46.8, 51.1]
-
-      },
-      {
-        name: '13',
-        data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-
-      }, {
-        name: '14',
-        data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 830.5, 106.6, 92.3]
-
-      }, {
-        name: '15',
-        data: [48.9, 38.8, 39.3, 410.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-
-      }, {
-        name: '16',
-        data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 390.1, 46.8, 51.1]
-
-      },
-      {
-        name: '17',
-        data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-
-      }, {
-        name: '18',
-        data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
-
-      }, {
-        name: '19',
-        data: [-3, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-
-      }, {
-        name: '20',
-        data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, -80, 46.8, 51.1]
-
-      },
-      {
-        name: '21',
-        data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-
-      }, {
-        name: '22',
-        data: [83.6, 78.8, 98.5, -40, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
-
-      }, {
-        name: '23',
-        data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-
-      }, {
-        name: '24',
-        data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, -60, 60.4, 47.6, 39.1, 46.8, 51.1]
-
-      },
-      {
-        name: '25',
-        data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-
-      }, {
-        name: '26',
-        data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
-
-      }, {
-        name: '27',
-        data: [-3, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-
-      }, {
-        name: '28',
-        data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, -80, 46.8, 51.1]
-
-      },
-      {
-        name: '29',
-        data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-
-      }, {
-        name: '30',
-        data: [83.6, 78.8, 98.5, -40, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
-
-      }, {
-        name: '31',
-        data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-
-      }]
+      series: df
     }
     return this.options
   }

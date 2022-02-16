@@ -28,4 +28,6 @@ urlpatterns = [
     url(r'mesure-tun/', csrf_exempt(viewsMesureTUN.MesureTUN), name='file'),
 
     url(r'report-csc/', csrf_exempt(viewsMesure.ReportCSC), name='file'),
+    url(r'report-alg/', csrf_exempt(viewsMesureALG.ReportALG), name='file'),
+    url(r'report-tun/', csrf_exempt(viewsMesureTUN.ReportTUN), name='file'),
 ]
