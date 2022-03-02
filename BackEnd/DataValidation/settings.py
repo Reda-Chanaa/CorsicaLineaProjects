@@ -23,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-da8*f5&zig^m^2^jl=^-p66vzb$k6hqgd^c%(#r6sop3-ia1w@'
+SECRET_KEY = "django-insecure-da8*f5&zig^m^2^jl=^-p66vzb$k6hqgd^c%(#r6sop3-ia1w@"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 #print("setting path :: ",SETTINGS_PATH)
@@ -58,6 +58,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -91,14 +92,14 @@ WSGI_APPLICATION = 'DataValidation.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'TransportRefDB92'
+        'NAME': 'MesureVente'
     }
 }
 '''
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'TransportRefDB92',
+        'NAME': 'MesureVente',
     }
 }'''
 

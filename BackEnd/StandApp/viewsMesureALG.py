@@ -90,7 +90,7 @@ def MesureALG(request):
 
         df_sauv.reset_index(drop=True, inplace=True)
         df_sauv.dropna(inplace=True)
-        print(df_sauv)
+        
 
         # mesure 2
         df_JOUR = pd.pivot_table(
@@ -126,7 +126,7 @@ def MesureALG(request):
                                                 format='%d/%m/%Y %H:%M')
         df_JOUR.dropna(inplace=True)
         df_JOUR.reset_index(inplace=True, drop=True)
-        print(df_JOUR)
+        
 
         # Mesure final
         df = pd.merge(df_JOUR,
@@ -156,7 +156,7 @@ def MesureALG(request):
             'YEAR', 'VENTE', 'ECART', 'SENS'
         ]
         df_test['DATE'] = df_test["DATE"].map(str)
-        print('--------------------', df_test.head())
+        
 
         # df de mesure
         df = df[(df["ECART"] >= float(ecart))]
@@ -177,122 +177,263 @@ def MesureALG(request):
             'YEAR', 'VENTE', 'ECART', 'SENS'
         ]
         df['DATE'] = df["DATE"].map(str)
-        print(df.head())
-
+        
         # Report
-        df_report = pd.pivot_table(df_test[(df_test.YEAR == str(
-            datetime.now().year))],
-                                   index=['MOIS'],
-                                   aggfunc={'ECART': np.sum})
-        df_report.reset_index(inplace=True)
-        print('*************', df_report)
-        for i in range(len(df_report)):
-            if 1 not in df_report["MOIS"].values:
-                df_report = df_report.append({
-                    "MOIS": 1,
-                    'ECART': 0
-                },
-                                             ignore_index=True)
-            if 2 not in df_report["MOIS"].values:
-                df_report = df_report.append({
-                    "MOIS": 2,
-                    'ECART': 0
-                },
-                                             ignore_index=True)
-            if 3 not in df_report["MOIS"].values:
-                df_report = df_report.append({
-                    "MOIS": 3,
-                    'ECART': 0
-                },
-                                             ignore_index=True)
-            if 4 not in df_report["MOIS"].values:
-                df_report = df_report.append({
-                    "MOIS": 4,
-                    'ECART': 0
-                },
-                                             ignore_index=True)
-            if 5 not in df_report["MOIS"].values:
-                df_report = df_report.append({
-                    "MOIS": 5,
-                    'ECART': 0
-                },
-                                             ignore_index=True)
-            if 6 not in df_report["MOIS"].values:
-                df_report = df_report.append({
-                    "MOIS": 6,
-                    'ECART': 0
-                },
-                                             ignore_index=True)
-            if 7 not in df_report["MOIS"].values:
-                df_report = df_report.append({
-                    "MOIS": 7,
-                    'ECART': 0
-                },
-                                             ignore_index=True)
-            if 8 not in df_report["MOIS"].values:
-                df_report = df_report.append({
-                    "MOIS": 8,
-                    'ECART': 0
-                },
-                                             ignore_index=True)
-            if 9 not in df_report["MOIS"].values:
-                df_report = df_report.append({
-                    "MOIS": 9,
-                    'ECART': 0
-                },
-                                             ignore_index=True)
-            if 10 not in df_report["MOIS"].values:
-                df_report = df_report.append({
-                    "MOIS": 10,
-                    'ECART': 0
-                },
-                                             ignore_index=True)
-            if 11 not in df_report["MOIS"].values:
-                df_report = df_report.append({
-                    "MOIS": 11,
-                    'ECART': 0
-                },
-                                             ignore_index=True)
-            if 12 not in df_report["MOIS"].values:
-                df_report = df_report.append({
-                    "MOIS": 12,
-                    'ECART': 0
-                },
-                                             ignore_index=True)
-        df_report = df_report.sort_values(by='MOIS')
-        df_report.reset_index(inplace=True, drop=True)
-        print('*************', df_report)
-        if datetime.now().month<=9:
-            date=str(datetime.now().day)+'/0'+ str(datetime.now().month) +'/'+str(datetime.now().year)
-        else:
-            date=str(datetime.now().day)+'/'+ str(datetime.now().month) +'/'+str(datetime.now().year)
-        print(date)
-        z = mesure.count_documents({
-            'Annee Report': str(datetime.now().year),
-            'Date': date
-        })
+        if str(datetime.now().year) in df_test["YEAR"].values:
+            df_report = pd.pivot_table(df_test[(df_test.YEAR == str(
+                datetime.now().year))],
+                                    index=['MOIS'],
+                                    aggfunc={'ECART': np.sum})
+            df_report.reset_index(inplace=True)
+            
+            for i in range(len(df_report)):
+                if 1 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 1,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 2 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 2,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 3 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 3,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 4 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 4,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 5 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 5,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 6 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 6,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 7 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 7,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 8 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 8,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 9 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 9,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 10 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 10,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 11 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 11,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 12 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 12,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+            df_report = df_report.sort_values(by='MOIS')
+            df_report.reset_index(inplace=True, drop=True)
+            print(df_report)
 
-        if (z == 0):
-            mesure.insert_one({
-                "Annee Report": str(datetime.now().year),
-                "Date": date,
-                "Annee": str(datetime.now().year),
-                "Mois": str(datetime.now().month),
-                "Jour": str(datetime.now().day),
-                'Jan': str(df_report.ECART[0]),
-                'Feb': str(df_report.ECART[1]),
-                'Mar': str(df_report.ECART[2]),
-                'Apr': str(df_report.ECART[3]),
-                'May': str(df_report.ECART[4]),
-                'Jun': str(df_report.ECART[5]),
-                'Jul': str(df_report.ECART[6]),
-                'Aug': str(df_report.ECART[7]),
-                'Sep': str(df_report.ECART[8]),
-                'Oct': str(df_report.ECART[9]),
-                'Nov': str(df_report.ECART[10]),
-                'Dec': str(df_report.ECART[11])
-            }),
+            if datetime.now().month<=9:
+                month= '0'+ str(datetime.now().month)
+            else:
+                month= str(datetime.now().month)
+            if datetime.now().day<=9:
+                day='0'+str(datetime.now().day)
+            else:
+                day=str(datetime.now().day)
+            date=day+'/'+ month +'/'+str(datetime.now().year)
+            print(date)
+            z = mesure.count_documents({
+                'Annee Report': str(datetime.now().year),
+                'Date': date
+            })
 
+            if (z == 0):
+                print('introuvable')
+                if ((df_report.ECART[0]!=0) | (df_report.ECART[1]!=0) | (df_report.ECART[2]!=0) | (df_report.ECART[3]!=0) | (df_report.ECART[4]!=0) | (df_report.ECART[5]!=0) | (df_report.ECART[6]!=0) | (df_report.ECART[7]!=0) | (df_report.ECART[8]!=0) | (df_report.ECART[9]!=0) | (df_report.ECART[10]!=0) | (df_report.ECART[11]!=0)):
+                    print("rentré")
+                    mesure.insert_one({
+                    "Annee Report": str(datetime.now().year),
+                    "Date": date,
+                    "Annee": str(datetime.now().year),
+                    "Mois": str(datetime.now().month),
+                    "Jour": str(datetime.now().day),
+                    'Jan': str(df_report.ECART[0]),
+                    'Feb': str(df_report.ECART[1]),
+                    'Mar': str(df_report.ECART[2]),
+                    'Apr': str(df_report.ECART[3]),
+                    'May': str(df_report.ECART[4]),
+                    'Jun': str(df_report.ECART[5]),
+                    'Jul': str(df_report.ECART[6]),
+                    'Aug': str(df_report.ECART[7]),
+                    'Sep': str(df_report.ECART[8]),
+                    'Oct': str(df_report.ECART[9]),
+                    'Nov': str(df_report.ECART[10]),
+                    'Dec': str(df_report.ECART[11])
+                }),
+                    print("ajouté")
+                else:
+                    print("pas ajouté")
+            else:
+                print("trouvable")
+
+        if str(datetime.now().year+1) in df_test["YEAR"].values:
+            df_report = pd.pivot_table(df_test[(df_test.YEAR == str(
+                datetime.now().year+1))],
+                                    index=['MOIS'],
+                                    aggfunc={'ECART': np.sum})
+            df_report.reset_index(inplace=True)
+            
+            for i in range(len(df_report)):
+                if 1 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 1,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 2 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 2,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 3 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 3,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 4 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 4,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 5 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 5,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 6 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 6,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 7 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 7,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 8 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 8,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 9 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 9,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 10 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 10,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 11 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 11,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+                if 12 not in df_report["MOIS"].values:
+                    df_report = df_report.append({
+                        "MOIS": 12,
+                        'ECART': 0
+                    },
+                                                ignore_index=True)
+            df_report = df_report.sort_values(by='MOIS')
+            df_report.reset_index(inplace=True, drop=True)
+
+            print(df_report)
+            if datetime.now().month<=9:
+                month= '0'+ str(datetime.now().month)
+            else:
+                month= str(datetime.now().month)
+            if datetime.now().day<=9:
+                day='0'+str(datetime.now().day)
+            else:
+                day=str(datetime.now().day)
+            date=day+'/'+ month +'/'+str(datetime.now().year)
+            print(date)
+            z = mesure.count_documents({
+                'Annee Report': str(datetime.now().year+1),
+                'Date': date
+            })
+
+            if (z == 0):
+                print('introuvable +')
+                if ((df_report.ECART[0]!=0) | (df_report.ECART[1]!=0) | (df_report.ECART[2]!=0) | (df_report.ECART[3]!=0) | (df_report.ECART[4]!=0) | (df_report.ECART[5]!=0) | (df_report.ECART[6]!=0) | (df_report.ECART[7]!=0) | (df_report.ECART[8]!=0) | (df_report.ECART[9]!=0) | (df_report.ECART[10]!=0) | (df_report.ECART[11]!=0)):
+                    print("rentré +")
+                    mesure.insert_one({
+                        "Annee Report": str(datetime.now().year+1),
+                        "Date": date,
+                        "Annee": str(datetime.now().year),
+                        "Mois": str(datetime.now().month),
+                        "Jour": str(datetime.now().day),
+                        'Jan': str(df_report.ECART[0]),
+                        'Feb': str(df_report.ECART[1]),
+                        'Mar': str(df_report.ECART[2]),
+                        'Apr': str(df_report.ECART[3]),
+                        'May': str(df_report.ECART[4]),
+                        'Jun': str(df_report.ECART[5]),
+                        'Jul': str(df_report.ECART[6]),
+                        'Aug': str(df_report.ECART[7]),
+                        'Sep': str(df_report.ECART[8]),
+                        'Oct': str(df_report.ECART[9]),
+                        'Nov': str(df_report.ECART[10]),
+                        'Dec': str(df_report.ECART[11])
+                    }),
+                    print("ajouté +")
+                else:
+                    print("pas ajouté +")
+            else:
+                print("trouvable +")
     total = time.time() - start_time
     print(total)
     return HttpResponse(df.to_json(orient='records'))
@@ -318,6 +459,7 @@ def ReportALG(request):
             ]
         df = df.sort_values(by=['Annee','Mois','Jour'])
         df.reset_index(inplace=True,drop=True)
+        print("#######")
         print(df)
     total = time.time() - start_time
     print(total)
