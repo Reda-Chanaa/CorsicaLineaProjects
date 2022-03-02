@@ -20,13 +20,15 @@ objectifTUN = db['ObjectifTUN']
 def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
     table_reseau_armateur_today = pd.pivot_table(
         data_today[(data_today.RESEAU == "TUNISIE")
-                   & (data_today.ARMATEUR == "CL")],
+                   & (data_today.ARMATEUR == "CL") &
+                   (data_today.ANNEE.eq(int(annee)))],
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
     table_reseau_armateur_today.reset_index(inplace=True)
     table_reseau_armateur_yesterday = pd.pivot_table(
         data_yesterday[(data_yesterday.RESEAU == "TUNISIE")
-                       & (data_yesterday.ARMATEUR == "CL")],
+                       & (data_yesterday.ARMATEUR == "CL") &
+                   (data_yesterday.ANNEE.eq(int(annee)))],
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
     table_reseau_armateur_yesterday.reset_index(inplace=True)
@@ -407,8 +409,8 @@ def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
                 ]
             else:
                 BS1.loc[3] = [
-                    "BASSE SAISON 1", BS1["CIBLE"][1], BS1["VENTE"][1],
-                    BS1["CUMUL"][1], BS1["BUDGET"][1]
+                    "BASSE SAISON 1", BS1["CIBLE"][2], BS1["VENTE"][2],
+                    BS1["CUMUL"][2], BS1["BUDGET"][2]
                 ]
         #  1 MS
         if mesure["TUNISIE"][i] == "Apr":
@@ -447,8 +449,8 @@ def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
                 ]
             else:
                 MS1.loc[3] = [
-                    "MOYENNE SAISON 1", MS1["CIBLE"][1], MS1["VENTE"][1],
-                    MS1["CUMUL"][1], MS1["BUDGET"][1]
+                    "MOYENNE SAISON 1", MS1["CIBLE"][2], MS1["VENTE"][2],
+                    MS1["CUMUL"][2], MS1["BUDGET"][2]
                 ]
         #  HS
         if mesure["TUNISIE"][i] == "Jul":
@@ -732,13 +734,15 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                       objectif):
     table_reseau_armateur_today = pd.pivot_table(
         data_today[(data_today.RESEAU == "TUNISIE")
-                   & (data_today.ARMATEUR == "CL")],
+                   & (data_today.ARMATEUR == "CL") &
+                   (data_today.ANNEE.eq(int(annee)))],
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
     table_reseau_armateur_today.reset_index(inplace=True)
     table_reseau_armateur_yesterday = pd.pivot_table(
         data_yesterday[(data_yesterday.RESEAU == "TUNISIE")
-                       & (data_yesterday.ARMATEUR == "CL")],
+                       & (data_yesterday.ARMATEUR == "CL") &
+                   (data_yesterday.ANNEE.eq(int(annee)))],
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
     table_reseau_armateur_yesterday.reset_index(inplace=True)
@@ -1180,8 +1184,8 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                     ]
             else:
                 BS1.loc[3] = [
-                    "BASSE SAISON 1", BS1["CIBLE"][1], BS1["VENTE"][1],
-                    BS1["CUMUL"][1], BS1["BUDGET"][1], BS1["OBJECTIF"][1]
+                    "BASSE SAISON 1", BS1["CIBLE"][2], BS1["VENTE"][2],
+                    BS1["CUMUL"][2], BS1["BUDGET"][2], BS1["OBJECTIF"][2]
                 ]
         #  1 MS
         if mesure["TUNISIE"][i] == "Apr":
@@ -1582,13 +1586,15 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
 def Stat_TUN_plus(data_yesterday, data_today, annee, mois):
     table_reseau_armateur_today = pd.pivot_table(
         data_today[(data_today.RESEAU == "TUNISIE")
-                   & (data_today.ARMATEUR == "CL")],
+                   & (data_today.ARMATEUR == "CL") &
+                   (data_today.ANNEE.eq(int(annee)))],
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
     table_reseau_armateur_today.reset_index(inplace=True)
     table_reseau_armateur_yesterday = pd.pivot_table(
         data_yesterday[(data_yesterday.RESEAU == "TUNISIE")
-                       & (data_yesterday.ARMATEUR == "CL")],
+                       & (data_yesterday.ARMATEUR == "CL") &
+                   (data_yesterday.ANNEE.eq(int(annee)))],
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
     table_reseau_armateur_yesterday.reset_index(inplace=True)
@@ -1868,8 +1874,8 @@ def Stat_TUN_plus(data_yesterday, data_today, annee, mois):
                     ]
             else:
                 BS1.loc[3] = [
-                    "BASSE SAISON 1", "", BS1["VENTE"][1],
-                    BS1["CUMUL"][1], ""
+                    "BASSE SAISON 1", "", BS1["VENTE"][2],
+                    BS1["CUMUL"][2], ""
                 ]
         #  1 MS
         if mesure["TUNISIE"][i] == "Apr":
@@ -1902,8 +1908,8 @@ def Stat_TUN_plus(data_yesterday, data_today, annee, mois):
                     ]
             else:
                 MS1.loc[3] = [
-                    "MOYENNE SAISON 1", "", MS1["VENTE"][1],
-                    MS1["CUMUL"][1], ""
+                    "MOYENNE SAISON 1", "", MS1["VENTE"][2],
+                    MS1["CUMUL"][2], ""
                 ]
         #  HS
         if mesure["TUNISIE"][i] == "Jul":

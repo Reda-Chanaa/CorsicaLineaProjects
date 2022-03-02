@@ -3,10 +3,6 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
-import { StatAlgComponent } from '../../stat-alg/stat-alg.component';
-import { StatTunClComponent } from '../../stat-tun/stat-tun.component';
-import { StatCscComponent } from '../../stat-csc/stat-csc.component';
-import { MesureCscComponent } from '../../mesure-csc/mesure-csc.component';
 import { ChartsModule } from 'ng2-charts';
 import { MatTableExporterModule} from "mat-table-exporter"
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -27,9 +23,16 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatSortModule} from '@angular/material/sort'
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { StatAlgComponent } from '../../stat-alg/stat-alg.component';
+import { StatTunClComponent } from '../../stat-tun/stat-tun.component';
+import { StatCscComponent } from '../../stat-csc/stat-csc.component';
+import { MesureCscComponent } from '../../mesure-csc/mesure-csc.component';
 import { MesureAlgComponent } from '../../mesure-alg/mesure-alg.component';
 import { MesureTunComponent } from '../../mesure-tun/mesure-tun.component';
+import { DashboardComponent } from '../../dashboard/dashboard.component';
 import { ChartCscComponent } from '../../chart-csc/chart-csc.component';
+import { ChartAlgComponent } from '../../chart-alg/chart-alg.component';
+import { ChartTunComponent } from '../../chart-tun/chart-tun.component';
 
 @NgModule({
   imports: [
@@ -58,7 +61,7 @@ import { ChartCscComponent } from '../../chart-csc/chart-csc.component';
     MatExpansionModule,
     MatCheckboxModule,
     MatSlideToggleModule,
-    MatTableExporterModule
+    MatTableExporterModule,
   ],
   declarations: [
     StatAlgComponent,
@@ -68,6 +71,9 @@ import { ChartCscComponent } from '../../chart-csc/chart-csc.component';
     MesureAlgComponent,
     MesureTunComponent,
     ChartCscComponent,
+    ChartAlgComponent,
+    ChartTunComponent,
+    DashboardComponent
   ]
 })
 
