@@ -1,31 +1,3 @@
-/*!
-
- =========================================================
- * Now UI Dashboard - v1.2.0
- =========================================================
-
- * Product Page: https://www.creative-tim.com/product/now-ui-dashboard
- * Copyright 2018 Creative Tim (http://www.creative-tim.com)
-
- * Designed by www.invisionapp.com Coded by www.creative-tim.com
-
- =========================================================
-
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
- */
-
-/*     brand Colors              */
-
-/*      light colors         */
-
-/*!
-Animate.css - http://daneden.me/animate
-Licensed under the MIT license - http://opensource.org/licenses/MIT
-
-Copyright (c) 2015 Daniel Eden
-*/
-
 .animated {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;
@@ -3858,8 +3830,8 @@ Created using IcoMoon - icomoon.io
   opacity: 1;
 }
 
-.sidebar .logo-tim,
-.off-canvas-sidebar .logo-tim {
+.sidebar  ,
+.off-canvas-sidebar   {
   border-radius: 50%;
   border: 1px solid #333;
   display: block;
@@ -3869,8 +3841,8 @@ Created using IcoMoon - icomoon.io
   overflow: hidden;
 }
 
-.sidebar .logo-tim img,
-.off-canvas-sidebar .logo-tim img {
+.sidebar   img,
+.off-canvas-sidebar   img {
   width: 60px;
   height: 60px;
 }
@@ -4043,8 +4015,8 @@ Created using IcoMoon - icomoon.io
   overflow: hidden;
 }
 
-.sidebar .logo-tim,
-.off-canvas-sidebar .logo-tim {
+.sidebar  ,
+.off-canvas-sidebar   {
   border-radius: 50%;
   border: 1px solid #333;
   display: block;
@@ -4054,8 +4026,8 @@ Created using IcoMoon - icomoon.io
   overflow: hidden;
 }
 
-.sidebar .logo-tim img,
-.off-canvas-sidebar .logo-tim img {
+.sidebar   img,
+.off-canvas-sidebar   img {
   width: 60px;
   height: 60px;
 }
@@ -5344,5 +5316,3 @@ Created using IcoMoon - icomoon.io
     width: 90%;
   }
 }
-
-/*# sourceMappingURL=dashboard-free.css.map */

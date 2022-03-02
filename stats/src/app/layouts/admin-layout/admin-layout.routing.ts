@@ -20,6 +20,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'chart-csc',     component: ChartCscComponent },
     { path: 'chart-alg',     component: ChartAlgComponent },
     { path: 'chart-tun',     component: ChartTunComponent },
-    { path: 'dashboard',     component: DashboardComponent },
+    //{ path: 'dashboard',     component: DashboardComponent },
 
 ];
