@@ -21,8 +21,12 @@
 
                         </div>
                         <br />
-                        <label for="ecart"> <b>Ecart supérieur ou égale à : </b></label>
-                        <input [formControl]="Fecart" [(ngModel)]="ecart" value="0" (change)='changed($event)'
+                        <label for="ecartSup"> <b>Ecart supérieur ou égale à : </b></label>
+                        <input [formControl]="FecartSup" [(ngModel)]="ecartSup" value="0" (change)='changed1($event)'
+                            placeholder="Ecart" type="number" />
+                        <br />
+                        <label for="ecartInf"> <b>Dans le cas du Ship Switch, Ecart Inférieur ou égale à : </b></label>
+                        <input [formControl]="FecartInf" [(ngModel)]="ecartInf" value="0" (change)='changed2($event)'
                             placeholder="Ecart" type="number" />
                         <br />
                         
@@ -84,7 +88,7 @@
                                     DATE
                                 </th>
                                 <td mat-cell *matCellDef="let element">
-                                    <b> {{ element.DATE }}</b>
+                                    <b>  {{ element.DATE }}</b>
                                 </td>
                             </ng-container>
 

@@ -31,6 +31,19 @@ export class ApiStat {
     header.append('Content-Type', 'multipart/form-data');
     return this.http.post(this.baseurl + '/mesure-alg/', formData, { headers: header })
   }
+  sendFilePlus(File1: any, File2: any, ecartSup: any, ecartInf: any): Observable<any> {
+
+    let formData = new FormData();
+    formData.append('file1', File1, File.name);
+    formData.append('file2', File2, File.name);
+    formData.append('ecartSup', ecartSup);
+    formData.append('ecartInf', ecartInf);
+    console.log(formData)
+
+    var header = new HttpHeaders();
+    header.append('Content-Type', 'multipart/form-data');
+    return this.http.post(this.baseurl + '/mesure-alg-plus/', formData, { headers: header })
+  }
 }
 
 // interface StatData qui précise les données affichées dans le tableau ainsi que leur type.
@@ -57,10 +70,13 @@ export class MesureAlgComponent{
   displayedColumns: string[] = ['ID', 'NAVIRE', 'SENS', 'DATE', 'ECART', 'VENTE', 'VENTEJ'];
   dataSource: MatTableDataSource<StatData>;
 
-  ecart: string;
-  Fecart = new FormControl('');
-  df1: any;
-  df2: any;
+  ecartSup: string = null;
+  ecartInf: string = null;
+  annee: string;
+  FecartSup = new FormControl('');
+  FecartInf = new FormControl('');
+  df1: any = null;
+  df2: any = null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(private DATACLEANING: ApiStat) {
@@ -77,9 +93,13 @@ export class MesureAlgComponent{
     this.df2 = $event.target.files[0]
   }
 
-  changed(value) {
-    this.ecart = value.target.value
+  changed1(value) {
+    this.ecartSup = value.target.value
   }
+  changed2(value) {
+    this.ecartInf = value.target.value
+  }
+
   deleteData() {
     this.dataSource = new MatTableDataSource([]);
   }
@@ -104,25 +124,50 @@ export class MesureAlgComponent{
     newWin.print();  
     newWin.close();
 }
-  // function executed when user click on Reporting button
+// function executed when user click on Reporting button
   createFile = () => {
-    this.DATACLEANING.sendFile(this.df1, this.df2, this.ecart).subscribe(
-      data => {
-        console.log(data)
-        this.dataFrame = data;
-        // to choose witch data gonna be showing in the table
-        this.InitializeVisualization();
-        // puts data into the datasource table
-        this.dataSource = new MatTableDataSource(data);
-        // execute the visualisation function
-        this.executeVisualisation();
-        // add paginator to the data
-        this.dataSource.paginator = this.paginator;
-      },
-      error => {
-        console.log("error ", error);
+    if (this.df1 != null && this.df2 != null) {
+      if (this.ecartSup != null) {
+        if (this.ecartInf == null) {
+          this.DATACLEANING.sendFile(this.df1, this.df2, this.ecartSup).subscribe(
+            data => {
+              console.log(data)
+              this.dataFrame = data;
+              // to choose witch data gonna be showing in the table
+              this.InitializeVisualization();
+              // puts data into the datasource table
+              this.dataSource = new MatTableDataSource(data);
+              // execute the visualisation function
+              this.executeVisualisation();
+              // add paginator to the data
+              this.dataSource.paginator = this.paginator;
+            },
+            error => {
+              console.log("error ", error);
+            }
+          );
+        }
+        if (this.ecartInf != null) {
+          this.DATACLEANING.sendFilePlus(this.df1, this.df2, this.ecartSup, this.ecartInf).subscribe(
+            data => {
+              console.log(data)
+              this.dataFrame = data;
+              // to choose witch data gonna be showing in the table
+              this.InitializeVisualization();
+              // puts data into the datasource table
+              this.dataSource = new MatTableDataSource(data);
+              // execute the visualisation function
+              this.executeVisualisation();
+              // add paginator to the data
+              this.dataSource.paginator = this.paginator;
+            },
+            error => {
+              console.log("error ", error);
+            }
+          );
+        }
       }
-    );
+    }
   }
 
   //observable for the checkBox execute every time the checkBox is changed

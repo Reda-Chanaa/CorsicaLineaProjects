@@ -24,8 +24,11 @@ urlpatterns = [
     url(r'stat-tun-plus/', csrf_exempt(viewsTUN.StatTUNPLUS), name='file'),
 
     url(r'mesure-csc/', csrf_exempt(viewsMesure.MesureCSC), name='file'),
+    url(r'mesure-csc-plus/', csrf_exempt(viewsMesure.MesureCSCPLUS), name='file'),
     url(r'mesure-alg/', csrf_exempt(viewsMesureALG.MesureALG), name='file'),
+    url(r'mesure-alg-plus/', csrf_exempt(viewsMesureALG.MesureALGPLUS), name='file'),
     url(r'mesure-tun/', csrf_exempt(viewsMesureTUN.MesureTUN), name='file'),
+    url(r'mesure-tun-plus/', csrf_exempt(viewsMesureTUN.MesureTUNPLUS), name='file'),
 
     url(r'report-csc/', csrf_exempt(viewsMesure.ReportCSC), name='file'),
     url(r'report-alg/', csrf_exempt(viewsMesureALG.ReportALG), name='file'),

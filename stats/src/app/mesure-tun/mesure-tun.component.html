@@ -21,10 +21,16 @@
                                 
                         </div>
                         <br />
-                        <label for="ecart"> <b>Ecart supérieur ou égale à : </b></label>
-                        <input [formControl]="Fecart" [(ngModel)]="ecart" value="0" (change)='changed($event)' placeholder="Ecart"
-                            type="number" />
+                        
+                        <label for="ecartSup"> <b>Ecart supérieur ou égale à : </b></label>
+                        <input [formControl]="FecartSup" [(ngModel)]="ecartSup" value="0" (change)='changed1($event)'
+                            placeholder="Ecart" type="number" />
                         <br />
+                        <label for="ecartInf"> <b>Dans le cas du Ship Switch, Ecart Inférieur ou égale à : </b></label>
+                        <input [formControl]="FecartInf" [(ngModel)]="ecartInf" value="0" (change)='changed2($event)'
+                            placeholder="Ecart" type="number" />
+                        <br />
+
                         <button (click)="deleteData()" [hidden]="dataSource.data.length === 0" style="background-color: rgb(256,54,54);" class="btn pull-right">
                             <b>Supprimer le tableau</b>
                         </button>
