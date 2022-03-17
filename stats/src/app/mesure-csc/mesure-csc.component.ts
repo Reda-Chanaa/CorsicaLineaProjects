@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as Highcharts from 'highcharts';
 import * as XLSX from 'xlsx';
+import { MatSort } from '@angular/material/sort';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Injectable({
@@ -83,6 +84,8 @@ export class MesureCscComponent {
   df2: any = null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor(private DATACLEANING: ApiStat, public dialog: MatDialog) {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource([]);
@@ -150,6 +153,7 @@ export class MesureCscComponent {
               this.InitializeVisualization();
               // puts data into the datasource table
               this.dataSource = new MatTableDataSource(data);
+              this.dataSource.sort = this.sort;
               // execute the visualisation function
               this.executeVisualisation();
               // add paginator to the data
@@ -169,6 +173,7 @@ export class MesureCscComponent {
               this.InitializeVisualization();
               // puts data into the datasource table
               this.dataSource = new MatTableDataSource(data);
+              this.dataSource.sort = this.sort;
               // execute the visualisation function
               this.executeVisualisation();
               // add paginator to the data

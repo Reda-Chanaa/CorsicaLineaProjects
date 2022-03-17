@@ -50,11 +50,11 @@
 
                         <!--Table-->
 
-                        <table id="reporting" mat-table bordered="true" matTableExporter #exporter="matTableExporter" class="mat-elevation-z8 table-hover table"
+                        <table id="reporting" mat-table matSort matSortDisableClear bordered="true" matTableExporter #exporter="matTableExporter" class="mat-elevation-z8 table-hover table"
                             [dataSource]="dataSource">
 
                             <ng-container matColumnDef="ID">
-                                <th mat-header-cell *matHeaderCellDef>
+                                <th mat-header-cell mat-sort-header *matHeaderCellDef>
                                     ID
                                 </th>
                                 <td mat-cell *matCellDef="let element">
@@ -64,7 +64,7 @@
                             </ng-container>
 
                             <ng-container matColumnDef="NAVIRE">
-                                <th mat-header-cell *matHeaderCellDef>
+                                <th mat-header-cell mat-sort-header *matHeaderCellDef>
                                     NAVIRE
                                 </th>
                                 <td mat-cell *matCellDef="let element">
@@ -73,7 +73,7 @@
                             </ng-container>
 
                             <ng-container matColumnDef="SENS">
-                                <th mat-header-cell *matHeaderCellDef>
+                                <th mat-header-cell mat-sort-header *matHeaderCellDef>
                                     SENS
                                 </th>
                                 <td mat-cell *matCellDef="let element">
@@ -82,7 +82,7 @@
                             </ng-container>
 
                             <ng-container matColumnDef="DATE">
-                                <th mat-header-cell *matHeaderCellDef>
+                                <th mat-header-cell mat-sort-header *matHeaderCellDef>
                                     DATE
                                 </th>
                                 <td mat-cell *matCellDef="let element">
@@ -92,7 +92,7 @@
 
                             
                             <ng-container matColumnDef="ECART">
-                                <th mat-header-cell *matHeaderCellDef>
+                                <th mat-header-cell mat-sort-header *matHeaderCellDef>
                                     ECART
                                 </th>
                                 <td mat-cell *matCellDef="let element"> <b> {{ element.ECART }} </b></td>
@@ -100,14 +100,14 @@
 
                             
                             <ng-container matColumnDef="VENTE">
-                                <th mat-header-cell *matHeaderCellDef>
+                                <th mat-header-cell mat-sort-header *matHeaderCellDef>
                                     VENTE J-1
                                 </th>
                                 <td mat-cell *matCellDef="let element"> <b> {{ element.VENTE }} </b></td>
                                 
                             </ng-container>
                             <ng-container matColumnDef="VENTEJ">
-                                <th mat-header-cell *matHeaderCellDef>
+                                <th mat-header-cell mat-sort-header *matHeaderCellDef>
                                     VENTE J
                                 </th>
                                 <td mat-cell *matCellDef="let element"> <b> {{ element.VENTEJ }} </b></td>
