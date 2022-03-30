@@ -21,6 +21,10 @@ export const ROUTES: RouteInfo[] = [
   { path: '/chart-alg', title: 'Report Quotidien ALG', icon: 'business_chart-pie-36', class: '' },
   { path: '/chart-tun', title: 'Report Quotidien TUN', icon: 'business_chart-pie-36', class: '' },
 
+  { path: '/conco-csc', title: 'Concordance CSC', icon: 'loader_refresh', class: '' },
+  { path: '/conco-alg', title: 'Concordance ALG', icon: 'loader_refresh', class: '' },
+  { path: '/conco-tun', title: 'Concordance TUN', icon: 'loader_refresh', class: '' },
+
 ];
 
 @Component({

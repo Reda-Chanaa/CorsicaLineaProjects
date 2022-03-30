@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { ChartsModule } from 'ng2-charts';
-import { MatTableExporterModule} from "mat-table-exporter"
+import { MatTableExporterModule } from "mat-table-exporter"
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,9 +20,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
-import { MatSortModule} from '@angular/material/sort'
+import { MatSortModule } from '@angular/material/sort'
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { StatAlgComponent } from '../../stat-alg/stat-alg.component';
 import { StatTunClComponent } from '../../stat-tun/stat-tun.component';
 import { StatCscComponent } from '../../stat-csc/stat-csc.component';
@@ -33,6 +35,9 @@ import { DashboardComponent } from '../../dashboard/dashboard.component';
 import { ChartCscComponent } from '../../chart-csc/chart-csc.component';
 import { ChartAlgComponent } from '../../chart-alg/chart-alg.component';
 import { ChartTunComponent } from '../../chart-tun/chart-tun.component';
+import { ConcoCscComponent } from '../../conco-csc/conco-csc.component';
+import { ConcoAlgComponent } from '../../conco-alg/conco-alg.component';
+import { ConcoTunComponent } from '../../conco-tun/conco-tun.component';
 
 @NgModule({
   imports: [
@@ -42,8 +47,6 @@ import { ChartTunComponent } from '../../chart-tun/chart-tun.component';
     ChartsModule,
     NgbModule,
     ToastrModule.forRoot(),
-    RouterModule.forChild(AdminLayoutRoutes),
-    FormsModule,
     ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,
@@ -62,6 +65,8 @@ import { ChartTunComponent } from '../../chart-tun/chart-tun.component';
     MatCheckboxModule,
     MatSlideToggleModule,
     MatTableExporterModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   declarations: [
     StatAlgComponent,
@@ -73,8 +78,11 @@ import { ChartTunComponent } from '../../chart-tun/chart-tun.component';
     ChartCscComponent,
     ChartAlgComponent,
     ChartTunComponent,
-    DashboardComponent
+    DashboardComponent,
+    ConcoAlgComponent,
+    ConcoCscComponent,
+    ConcoTunComponent
   ]
 })
 
-export class AdminLayoutModule {}
+export class AdminLayoutModule { }

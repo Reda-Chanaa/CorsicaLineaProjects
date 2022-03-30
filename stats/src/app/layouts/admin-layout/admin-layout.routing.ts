@@ -8,6 +8,9 @@ import { MesureTunComponent } from '../../mesure-tun/mesure-tun.component';
 import { ChartCscComponent } from '../../chart-csc/chart-csc.component';
 import { ChartAlgComponent } from '../../chart-alg/chart-alg.component';
 import { ChartTunComponent } from '../../chart-tun/chart-tun.component';
+import { ConcoCscComponent } from '../../conco-csc/conco-csc.component';
+import { ConcoAlgComponent } from '../../conco-alg/conco-alg.component';
+import { ConcoTunComponent } from '../../conco-tun/conco-tun.component';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
 
 export const AdminLayoutRoutes: Routes = [
@@ -20,6 +23,9 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'chart-csc',     component: ChartCscComponent },
     { path: 'chart-alg',     component: ChartAlgComponent },
     { path: 'chart-tun',     component: ChartTunComponent },
+    { path: 'conco-csc',     component: ConcoCscComponent },
+    { path: 'conco-alg',     component: ConcoAlgComponent },
+    { path: 'conco-tun',     component: ConcoTunComponent },
     //{ path: 'dashboard',     component: DashboardComponent },
 
 ];

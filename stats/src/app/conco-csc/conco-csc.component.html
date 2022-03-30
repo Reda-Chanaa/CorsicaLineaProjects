@@ -1,0 +1,683 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Concordance CSC</h4>
+                </div>
+                <div class="card-body">
+                    <br />
+                    <form class="ng-untouched ng-pristine ng-invalid" #myForm="ngForm" ngNativeValidate>
+                        <div>
+                            <label for="file"> <b>Fichier des concordances pour l'année N et N-1 : </b></label>
+                            <input type="file" #fileInput name="File Upload" id="csvFile1"
+                                (change)="fileChangeListener1($event)" accept=".xlsx" />
+
+                        </div>
+                        <br />
+                        <div>
+                            <label for="annee1"> <b>Choisir l'année N : </b></label>
+                            <input [formControl]="FAnnee1" [(ngModel)]="annee1" (change)='changed($event)'
+                                placeholder="Année" type="number" />
+                            &nbsp;&nbsp;&nbsp;
+                            <label for="annee2"> <b>Choisir l'année N-1 : </b></label>
+                            <input [formControl]="FAnnee2" [(ngModel)]="annee2" (change)='changed($event)'
+                                placeholder="Année" type="number" />
+                            <br />
+
+                        </div>
+                        <br />
+                        <mat-accordion multi>
+
+                            <mat-expansion-panel hideToggle>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Vacances de Février
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        Choisir les jours et les mois pour chaque zone
+                                    </mat-panel-description>
+                                    <mat-panel-description></mat-panel-description>
+                                </mat-expansion-panel-header>
+
+
+                                <mat-label style="background-color: rgb(159, 204, 241);">
+                                    Zone A :</mat-label>
+                                <br />
+                                <mat-form-field name="jourAFevN" floatLabel="never">
+                                    <label>Jour de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="jourNAF" [formControl]="jourAFevN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisAFevN" floatLabel="never">
+                                    <label>Mois de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="moisNAF" [formControl]="moisAFevN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="jourAFev" floatLabel="never">
+                                    <label>Jour de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="jourAF" [formControl]="jourAFev"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisAFev" floatLabel="never">
+                                    <label>Mois de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="moisAF" [formControl]="moisAFev"
+                                        required />
+                                </mat-form-field>
+                                <br />
+
+
+                                <mat-label style="background-color: rgb(243, 184, 106);">
+                                    Zone B :</mat-label>
+                                <br />
+                                <mat-form-field name="jourBFevN" floatLabel="never">
+                                    <label>Jour de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="jourNBF" [formControl]="jourBFevN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisBFevN" floatLabel="never">
+                                    <label>Mois de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="moisNBF" [formControl]="moisBFevN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="jourBFev" floatLabel="never">
+                                    <label>Jour de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="jourBF" [formControl]="jourBFev"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisBFev" floatLabel="never">
+                                    <label>Mois de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="moisBF" [formControl]="moisBFev"
+                                        required />
+                                </mat-form-field>
+                                <br />
+
+
+                                <mat-label style="background-color: rgb(240, 119, 89);">
+                                    Zone C :</mat-label>
+                                <br />
+                                <mat-form-field name="jourCFevN" floatLabel="never">
+                                    <label>Jour de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="jourNCF" [formControl]="jourCFevN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisCFevN" floatLabel="never">
+                                    <label>Mois de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="moisNCF" [formControl]="moisCFevN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="jourCFev" floatLabel="never">
+                                    <label>Jour de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="jourCF" [formControl]="jourCFev"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisCFev" floatLabel="never">
+                                    <label>Mois de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="moisCF" [formControl]="moisCFev"
+                                        required />
+                                </mat-form-field>
+
+
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-expansion-panel>
+
+                            <mat-expansion-panel hideToggle>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Vacances d'Avril
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        Choisir les jours et les mois pour chaque zone
+                                    </mat-panel-description>
+                                    <mat-panel-description></mat-panel-description>
+                                </mat-expansion-panel-header>
+
+                                <mat-label style="background-color: rgb(159, 204, 241);">
+                                    Zone A :</mat-label>
+                                <br />
+                                <mat-form-field name="jourAAvrN" floatLabel="never">
+                                    <label>Jour de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="jourNAA" [formControl]="jourAAvrN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisAAvrN" floatLabel="never">
+                                    <label>Mois de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="moisNAA" [formControl]="moisAAvrN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="jourAAvr" floatLabel="never">
+                                    <label>Jour de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="jourAA" [formControl]="jourAAvr"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisAAvr" floatLabel="never">
+                                    <label>Mois de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="moisAA" [formControl]="moisAAvr"
+                                        required />
+                                </mat-form-field>
+                                <br />
+                                <mat-label style="background-color: rgb(243, 184, 106);">
+                                    Zone B :</mat-label>
+                                <br />
+                                <mat-form-field name="jourBAvrN" floatLabel="never">
+                                    <label>Jour de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="jourNBA" [formControl]="jourBAvrN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisBAvrN" floatLabel="never">
+                                    <label>Mois de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="moisNBA" [formControl]="moisBAvrN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="jourBAvr" floatLabel="never">
+                                    <label>Jour de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="jourBA" [formControl]="jourBAvr"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisBAvr" floatLabel="never">
+                                    <label>Mois de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="moisBA" [formControl]="moisBAvr"
+                                        required />
+                                </mat-form-field>
+
+                                <br />
+                                <mat-label style="background-color: rgb(240, 119, 89);">
+                                    Zone C :</mat-label>
+                                <br />
+                                <mat-form-field name="jourCAvrN" floatLabel="never">
+                                    <label>Jour de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="jourNCA" [formControl]="jourCAvrN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisCAvrN" floatLabel="never">
+                                    <label>Mois de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="moisNCA" [formControl]="moisCAvrN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="jourCAvr" floatLabel="never">
+                                    <label>Jour de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="jourCA" [formControl]="jourCAvr"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisCAvr" floatLabel="never">
+                                    <label>Mois de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="moisCA" [formControl]="moisCAvr"
+                                        required />
+                                </mat-form-field>
+
+
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-expansion-panel>
+
+                            <mat-expansion-panel hideToggle>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Vacances d'Octobre
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        Choisir les jours et les mois pour chaque zone
+                                    </mat-panel-description>
+                                    <mat-panel-description></mat-panel-description>
+                                </mat-expansion-panel-header>
+
+                                <mat-label style="background-color: rgb(159, 204, 241);">
+                                    Zone A :</mat-label>
+                                <br />
+                                <mat-form-field name="jourAOctN" floatLabel="never">
+                                    <label>Jour de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="jourNAO" [formControl]="jourAOctN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisAOctN" floatLabel="never">
+                                    <label>Mois de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="moisNAO" [formControl]="moisAOctN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="jourAOct" floatLabel="never">
+                                    <label>Jour de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="jourAO" [formControl]="jourAOct"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisAOct" floatLabel="never">
+                                    <label>Mois de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="moisAO" [formControl]="moisAOct"
+                                        required />
+                                </mat-form-field>
+
+                                <br />
+                                <mat-label style="background-color: rgb(243, 184, 106);">
+                                    Zone B :</mat-label>
+                                <br />
+                                <mat-form-field name="jourBOctN" floatLabel="never">
+                                    <label>Jour de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="jourNBO" [formControl]="jourBOctN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisBOctN" floatLabel="never">
+                                    <label>Mois de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="moisNBO" [formControl]="moisBOctN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="jourBOct" floatLabel="never">
+                                    <label>Jour de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="jourBO" [formControl]="jourBOct"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisBOct" floatLabel="never">
+                                    <label>Mois de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="moisBO" [formControl]="moisBOct"
+                                        required />
+                                </mat-form-field>
+
+
+                                <br />
+                                <mat-label style="background-color: rgb(240, 119, 89);">
+                                    Zone C :</mat-label>
+                                <br />
+                                <mat-form-field name="jourCOctN" floatLabel="never">
+                                    <label>Jour de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="jourNCO" [formControl]="jourCOctN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisCOctN" floatLabel="never">
+                                    <label>Mois de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="moisNCO" [formControl]="moisCOctN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="jourCOct" floatLabel="never">
+                                    <label>Jour de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="jourCO" [formControl]="jourCOct"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisCOct" floatLabel="never">
+                                    <label>Mois de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="moisCO" [formControl]="moisCOct"
+                                        required />
+                                </mat-form-field>
+
+
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-expansion-panel>
+
+                            <mat-expansion-panel hideToggle>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Vacances de Décembre
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        Choisir les jours et les mois pour chaque zone
+                                    </mat-panel-description>
+                                    <mat-panel-description></mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <br />
+                                <mat-label style="background-color: rgb(159, 204, 241);">
+                                    Zone A :</mat-label>
+                                <br />
+                                <mat-form-field name="jourADecN" floatLabel="never">
+                                    <label>Jour de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="jourNAD" [formControl]="jourADecN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisADecN" floatLabel="never">
+                                    <label>Mois de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="moisNAD" [formControl]="moisADecN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="jourADec" floatLabel="never">
+                                    <label>Jour de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="jourAD" [formControl]="jourADec"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisADec" floatLabel="never">
+                                    <label>Mois de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="moisAD" [formControl]="moisADec"
+                                        required />
+                                </mat-form-field>
+
+                                <br />
+
+                                <mat-label style="background-color: rgb(243, 184, 106);">
+                                    Zone B :</mat-label>
+                                <br />
+                                <mat-form-field name="jourBDecN" floatLabel="never">
+                                    <label>Jour de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="jourNBD" [formControl]="jourBDecN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisBDecN" floatLabel="never">
+                                    <label>Mois de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="moisNBD" [formControl]="moisBDecN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="jourBDec" floatLabel="never">
+                                    <label>Jour de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="jourBD" [formControl]="jourBDec"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisBDec" floatLabel="never">
+                                    <label>Mois de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="moisBD" [formControl]="moisBDec"
+                                        required />
+                                </mat-form-field>
+
+                                <br />
+
+                                <mat-label style="background-color: rgb(240, 119, 89);">
+                                    Zone C :</mat-label>
+                                <br />
+                                <mat-form-field name="jourCDecN" floatLabel="never">
+                                    <label>Jour de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="jourNCD" [formControl]="jourCDecN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisCDecN" floatLabel="never">
+                                    <label>Mois de l'année N</label>
+                                    <input type="number" matInput [(ngModel)]="moisNCD" [formControl]="moisCDecN"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="jourCDec" floatLabel="never">
+                                    <label>Jour de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="jourCD" [formControl]="jourCDec"
+                                        required />
+                                </mat-form-field>
+                                <mat-form-field name="moisCDec" floatLabel="never">
+                                    <label>Mois de l'année N-1</label>
+                                    <input type="number" matInput [(ngModel)]="moisCD" [formControl]="moisCDec"
+                                        required />
+                                </mat-form-field>
+
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-expansion-panel>
+
+                            <mat-expansion-panel hideToggle>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Jours fériers
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        Choisir les jours et les mois pour chaque jour férier
+                                    </mat-panel-description>
+                                    <mat-panel-description></mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <br />
+                                <mat-label style="background-color: rgb(58, 156, 75);">
+                                    Pentecôte :</mat-label>
+                                <br />
+                                <mat-form-field appearance="fill">
+                                    <input #datepickerInput class="mat-datepicker-input" matInput
+                                        [matDatepicker]="pickerPen1" name="pickerPen1" [(ngModel)]="pickerPen1" placeholder="Du jour de l'année N">
+                                    <mat-datepicker-toggle matSuffix [for]="pickerPen1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                                &nbsp;&nbsp;&nbsp;
+                                <mat-form-field appearance="fill" >
+                                    <input #datepickerInput class="mat-datepicker-input" matInput
+                                        [matDatepicker]="pickerPen2" name="pickerPen2"  [(ngModel)]="pickerPen2" placeholder="Jusqu'à le jour de l'année N">
+                                    <mat-datepicker-toggle matSuffix [for]="pickerPen2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                                &nbsp;&nbsp;&nbsp;
+                                <mat-form-field appearance="fill">
+                                    <input #datepickerInput class="mat-datepicker-input" matInput
+                                        [matDatepicker]="pickerPen3" name="pickerPen3" [(ngModel)]="pickerPen3" placeholder="Du jour de l'année N-1">
+                                    <mat-datepicker-toggle matSuffix [for]="pickerPen3"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                                &nbsp;&nbsp;&nbsp;
+                                <mat-form-field  appearance="fill">
+                                    <input #datepickerInput class="mat-datepicker-input" matInput
+                                        [matDatepicker]="pickerPen4" name="pickerPen4" [(ngModel)]="pickerPen4" placeholder="Jusqu'à le jour de l'année N-1">
+                                    <mat-datepicker-toggle matSuffix [for]="pickerPen4"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+
+                                <br />
+                                <mat-label style="background-color: rgb(161, 170, 179);">
+                                    Ascension :</mat-label>
+                                <br />
+                                <mat-form-field appearance="fill">
+                                    <input #datepickerInput class="mat-datepicker-input" matInput
+                                        [matDatepicker]="pickerAs1" name="pickerAs1" [(ngModel)]="pickerAs1" placeholder="Du jour de l'année N">
+                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                                &nbsp;&nbsp;&nbsp;
+                                <mat-form-field appearance="fill" >
+                                    <input #datepickerInput class="mat-datepicker-input" matInput
+                                        [matDatepicker]="pickerAs2" name="pickerAs2" [(ngModel)]="pickerAs2" placeholder="Jusqu'à le jour de l'année N">
+                                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                                &nbsp;&nbsp;&nbsp;
+                                <mat-form-field appearance="fill">
+                                    <input #datepickerInput class="mat-datepicker-input" matInput
+                                        [matDatepicker]="pickerAs3" name="pickerAs3" [(ngModel)]="pickerAs3" placeholder="Du jour de l'année N-1">
+                                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                                &nbsp;&nbsp;&nbsp;
+                                <mat-form-field  appearance="fill">
+                                    <input #datepickerInput class="mat-datepicker-input" matInput
+                                        [matDatepicker]="pickerAs4" name="pickerAs4" [(ngModel)]="pickerAs4" placeholder="Jusqu'à le jour de l'année N-1">
+                                    <mat-datepicker-toggle matSuffix [for]="pickerAs4"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                                <br />
+                                <mat-label style="background-color: rgb(243, 241, 101);">
+                                    Pâques :</mat-label>
+                                <br />
+                                <mat-form-field appearance="fill">
+                                    <input #datepickerInput class="mat-datepicker-input" matInput
+                                        [matDatepicker]="pickerPa1" name="pickerPa1" [(ngModel)]="pickerPa1" placeholder="Du jour de l'année N">
+                                    <mat-datepicker-toggle matSuffix [for]="pickerPa1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                                &nbsp;&nbsp;&nbsp;
+                                <mat-form-field appearance="fill" >
+                                    <input #datepickerInput class="mat-datepicker-input" matInput
+                                        [matDatepicker]="pickerPa2" name="pickerPa2" [(ngModel)]="pickerPa2" placeholder="Jusqu'à le jour de l'année N">
+                                    <mat-datepicker-toggle matSuffix [for]="pickerPa2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                                &nbsp;&nbsp;&nbsp;
+                                <mat-form-field appearance="fill">
+                                    <input #datepickerInput class="mat-datepicker-input" matInput
+                                        [matDatepicker]="pickerPa3" name="pickerPa3" [(ngModel)]="pickerPa3" placeholder="Du jour de l'année N-1">
+                                    <mat-datepicker-toggle matSuffix [for]="pickerPa3"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                                &nbsp;&nbsp;&nbsp;
+                                <mat-form-field  appearance="fill">
+                                    <input #datepickerInput class="mat-datepicker-input" matInput
+                                        [matDatepicker]="pickerPa4" name="pickerPa4" [(ngModel)]="pickerPa4" placeholder="Jusqu'à le jour de l'année N-1">
+                                    <mat-datepicker-toggle matSuffix [for]="pickerPa4"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                                <br />
+                            </mat-expansion-panel>
+
+                        </mat-accordion>
+
+                        <button (click)="deleteData()" [hidden]="dataSource.data.length === 0"
+                            style="background-color: rgb(256,54,54);" class="btn pull-right">
+                            <b>Supprimer le tableau</b>
+                        </button>
+
+                        &nbsp;&nbsp;&nbsp;
+                        <button (click)="createFile()" [hidden]="dataSource.data.length !== 0"
+                            style="background-color: rgb(256,54,54);" class="btn pull-right">
+                            <b>Concorder</b>
+                        </button>
+                        <br />
+                    </form>
+                    <br />
+                    <br />
+                    <mat-spinner style="stroke: rgb(256,54,54);" strokeWidth="3" [diameter]="100"
+                        *ngIf="dataSource.data.length === 0 && value === 0">
+                    </mat-spinner>
+                    <div #TABLE class="table-responsive" [hidden]="dataSource.data.length === 0">
+
+                        <!--Table-->
+
+                        <table id="reporting" mat-table bordered="true" matTableExporter #exporter="matTableExporter"
+                            class="mat-elevation-z8 table-hover table" [dataSource]="dataSource">
+
+                            <ng-container matColumnDef="ARMATEUR">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    ARMATEUR
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.ARMATEUR }} </b>
+                                </td>
+
+                            </ng-container>
+
+                            <ng-container matColumnDef="NAVIRE">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    NAVIRE
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.NAVIRE }} </b>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="DATEHEUREDEPART">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    DATEHEUREDEPARTS JOUR
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.DATEHEUREDEPART }} </b>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="NAVIREW">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    NAVIREW
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.NAVIREW }}</b>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="DATEHEUREDEPARTW">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    DATEHEUREDEPARTW
+                                </th>
+                                <td mat-cell *matCellDef="let element"> <b>{{ element.DATEHEUREDEPARTW }} </b></td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="MAXDATEFICHIER">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    MAXDATEFICHIER
+                                </th>
+                                <td mat-cell *matCellDef="let element"> <b> {{ element.MAXDATEFICHIER }} </b></td>
+
+                            </ng-container>
+                            <ng-container matColumnDef="INFO">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    INFO
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.INFO }} </b>
+                                </td>
+
+                            </ng-container>
+
+                            <ng-container matColumnDef="RESEAU">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    RESEAU
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.RESEAU }} </b>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="PORTDEP">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    PORTDEP JOUR
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.PORTDEP }} </b>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="PORTARR">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    PORTARR
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.PORTARR }}</b>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="PORTDEPW">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    PORTDEPW
+                                </th>
+                                <td mat-cell *matCellDef="let element"> <b>{{ element.PORTDEPW }} </b></td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="PORTARRW">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    PORTARRW
+                                </th>
+                                <td mat-cell *matCellDef="let element"> <b> {{ element.PORTARRW }} </b></td>
+
+                            </ng-container>
+                            <ng-container matColumnDef="MODELE">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    MODELE
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.MODELE }} </b>
+                                </td>
+
+                            </ng-container>
+
+                            <ng-container matColumnDef="NUMPACKAGE">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    NUMPACKAGE
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.NUMPACKAGE }} </b>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="NUMPACKAGEW">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    NUMPACKAGEW JOUR
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.NUMPACKAGEW }} </b>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="MINDATEFICHIER">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    MINDATEFICHIER
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.MINDATEFICHIER }}</b>
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+                            <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
+                        </table>
+                        <div class="export-container">
+                            <button style="background-color: rgb(256,54,54);" class="btn pull-right" mat-raised-button
+                                (click)="exportTable()">Exporter en Excel</button>
+                        </div>
+                        <!--
+                        <button style="background-color: rgb(256,54,54);" mat-raised-button
+                            (click)="exporter.exportTable('csv', {fileName:'Reporting',delimiter:';'})" class="btn pull-right">
+                            Exporter en Excel
+                        </button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
