@@ -1,4 +1,4 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -24,25 +24,24 @@ import { MatSortModule } from '@angular/material/sort'
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+
 
 @NgModule({
   imports: [
-    BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    ComponentsModule,
     RouterModule,
     AppRoutingModule,
     NgbModule,
     ToastrModule.forRoot(),
-    FormsModule,
-    HttpClientModule,
     ComponentsModule,
     MatIconModule,
     MatDialogModule,
-    RouterModule,
     MatMenuModule,
-    AppRoutingModule,
     MatButtonModule,
     MatTableModule,
     MatSortModule,
@@ -55,6 +54,8 @@ import { MatInputModule } from '@angular/material/input';
     MatSelectModule,
     MatInputModule,
     MatTableExporterModule,
+    BrowserAnimationsModule,
+    BrowserModule
 
   ],
   declarations: [
