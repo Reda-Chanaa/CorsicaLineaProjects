@@ -76,6 +76,8 @@ export class MesureAlgComponent{
   annee: string;
   FecartSup = new FormControl('');
   FecartInf = new FormControl('');
+
+  value:number=10
   df1: any = null;
   df2: any = null;
 
@@ -132,8 +134,10 @@ export class MesureAlgComponent{
     if (this.df1 != null && this.df2 != null) {
       if (this.ecartSup != null) {
         if (this.ecartInf == null) {
+          this.value=0
           this.DATACLEANING.sendFile(this.df1, this.df2, this.ecartSup).subscribe(
             data => {
+              this.value=10
               console.log(data)
               this.dataFrame = data;
               // to choose witch data gonna be showing in the table
@@ -152,8 +156,10 @@ export class MesureAlgComponent{
           );
         }
         if (this.ecartInf != null) {
+          this.value=0
           this.DATACLEANING.sendFilePlus(this.df1, this.df2, this.ecartSup, this.ecartInf).subscribe(
             data => {
+              this.value=10
               console.log(data)
               this.dataFrame = data;
               // to choose witch data gonna be showing in the table

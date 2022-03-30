@@ -16,6 +16,9 @@
                         <b>Report Quotidien</b>
                     </button>
                     <br />
+                    <mat-spinner style="stroke: rgb(256,54,54);" strokeWidth="3" [diameter]="100"
+                        *ngIf="value === 0">
+                    </mat-spinner>
                     <figure class="highcharts-figure">
                         <div style="width: 100%; height: 700px; display: block;" id="container">
 

@@ -40,6 +40,7 @@ export class ChartCscComponent implements OnInit {
   data: any
   Fannee = new FormControl('');
   annee :any
+  value: number=10;
   constructor(private DATACLEANING: ApiStat) {
     
   }
@@ -52,8 +53,10 @@ export class ChartCscComponent implements OnInit {
   }
 
   async getReport(){
+    this.value=0
     this.DATACLEANING.getReport(this.annee).subscribe(
       data => {
+        this.value=10
         this.data = data;
         console.log(data[0])
         this.getOptions(this.data)
