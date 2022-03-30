@@ -6,6 +6,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import * as XLSX from 'xlsx';
+import * as Highcharts from "highcharts";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -701,6 +703,152 @@ export class StatCscComponent {
     }
   }
 
+  getchart(data) {
+    var mois = []
+    var cible = []
+    var vente = []
+    console.log(data.length)
+    for (let index = 0; index < data.length; index++) {
+      if (data[index].CORSE == "Janvier") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible1)
+        mois.push("Janvier")
+      }
+      if (data[index].CORSE == "Février") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible2),
+          mois.push("Février")
+      }
+      if (data[index].CORSE == "Mars") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible3)
+        mois.push("Mars")
+      }
+      if (data[index].CORSE == "Avril") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible4)
+        mois.push("Avril")
+      }
+      if (data[index].CORSE == "Mai") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible5)
+        mois.push("Mai")
+      }
+      if (data[index].CORSE == "Juin") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible6)
+        mois.push("Juin")
+      }
+      if (data[index].CORSE == "Juillet") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible7)
+        mois.push("Juillet")
+      }
+      if (data[index].CORSE == "Août") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible8)
+        mois.push("Août")
+      }
+      if (data[index].CORSE == "Septembre") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible9)
+        mois.push("Septembre")
+      }
+      if (data[index].CORSE == "Octobre") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible10)
+        mois.push("Octobre")
+      }
+      if (data[index].CORSE == "Novembre") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible11)
+        mois.push("Novembre")
+      }
+      if (data[index].CORSE == "Décembre") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible12)
+        mois.push("Décembre")
+      }
+    }
+    console.log(vente)
+    console.log(cible)
+    console.log(mois)
+    Highcharts.chart('container', {
+      chart: {
+        zoomType: 'xy'
+      },
+      title: {
+        text: 'Ventes journalières par rappot à la cible ( CORSE )'
+      },
+      subtitle: {
+        text: 'Ventes Jour Vs. Cible/Jr'
+      },
+      xAxis: [{
+        categories: mois,
+        crosshair: true
+      }],
+      yAxis: [{ // Primary yAxis
+        labels: {
+          format: '{value}',
+          style: {
+            color: Highcharts.getOptions().colors[1]
+          }
+        },
+        title: {
+          text: 'CIBLE',
+          style: {
+            color: Highcharts.getOptions().colors[1]
+          }
+        }
+      }, { // Secondary yAxis
+        title: {
+          text: 'VENTES JOUR',
+          style: {
+            color: Highcharts.getOptions().colors[0]
+          }
+        },
+        labels: {
+          format: '{value}',
+          style: {
+            color: Highcharts.getOptions().colors[0]
+          }
+        },
+        opposite: true
+      }],
+      tooltip: {
+        shared: true
+      },
+      legend: {
+        layout: 'vertical',
+        align: 'left',
+        x: 120,
+        verticalAlign: 'top',
+        y: 100,
+        floating: true,
+        backgroundColor:
+          Highcharts.defaultOptions.legend.backgroundColor || // theme
+          'rgba(255,255,255,0.25)'
+      },
+      series: [{
+        name: 'Ventes',
+        type: 'column',
+        yAxis: 1,
+        data: vente,
+        tooltip: {
+          valueSuffix: ''
+        }
+
+      }, {
+        name: 'Cible',
+        type: 'spline',
+        data: cible,
+        tooltip: {
+          valueSuffix: ''
+        }
+      }]
+    });
+  }
+
   deleteData() {
     this.dataSource = new MatTableDataSource([]);
   }
@@ -716,10 +864,11 @@ export class StatCscComponent {
         if (this.HiddenCible && this.HiddenBudget && this.HiddenObjectif) {
           if (this.cible.length != 0) {
             if (this.budget.length != 0 && this.objectif.length) {
+              this.value = 0
               this.DATACLEANING.sendFileObj(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget, this.objectif).subscribe(
                 data => {
+                  this.value = 10
                   this.dataFrame = data;
-                  console.log(data)
                   // to choose witch data gonna be showing in the table
                   this.InitializeVisualization();
                   if (this.columnDefinitions[5].show == false) {
@@ -731,6 +880,7 @@ export class StatCscComponent {
                   this.executeVisualisation();
                   // add paginator to the data
                   this.dataSource.paginator = this.paginator;
+                  this.getchart(this.dataSource.data)
                 },
                 error => {
                   console.log("error ", error);
@@ -742,8 +892,10 @@ export class StatCscComponent {
         else if (this.HiddenCible && this.HiddenBudget) {
           if (this.cible.length != 0) {
             if (this.budget.length != 0) {
+              this.value = 0
               this.DATACLEANING.sendFile(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget).subscribe(
                 data => {
+                  this.value = 10
                   this.dataFrame = data;
                   // to choose witch data gonna be showing in the table
                   this.InitializeVisualization();
@@ -753,6 +905,7 @@ export class StatCscComponent {
                   this.executeVisualisation();
                   // add paginator to the data
                   this.dataSource.paginator = this.paginator;
+                  this.getchart(this.dataSource.data)
                 },
                 error => {
                   console.log("error ", error);
@@ -762,8 +915,10 @@ export class StatCscComponent {
           }
         }
         else {
+          this.value = 0
           this.DATACLEANING.sendFilePlus(this.df1, this.df2, this.annee, this.mois).subscribe(
             data => {
+              this.value = 10
               this.dataFrame = data;
               // to choose witch data gonna be showing in the table
               this.InitializeVisualization();
@@ -786,8 +941,10 @@ export class StatCscComponent {
         if (this.HiddenCible && this.HiddenBudget && this.HiddenObjectif) {
           if (this.cible.length != 0) {
             if (this.budget.length != 0 && this.objectif.length) {
+              this.value = 0
               this.DATACLEANING.sendFileObj(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget, this.objectif).subscribe(
                 data => {
+                  this.value = 10
                   this.dataFrame = data;
                   console.log(data)
                   // to choose witch data gonna be showing in the table
@@ -801,6 +958,7 @@ export class StatCscComponent {
                   this.executeVisualisation();
                   // add paginator to the data
                   this.dataSource.paginator = this.paginator;
+                  this.getchart(this.dataSource.data)
                 },
                 error => {
                   console.log("error ", error);
@@ -812,8 +970,10 @@ export class StatCscComponent {
         else if (this.HiddenCible && this.HiddenBudget) {
           if (this.cible.length != 0) {
             if (this.budget.length != 0) {
+              this.value = 0
               this.DATACLEANING.sendFile(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget).subscribe(
                 data => {
+                  this.value = 10
                   this.dataFrame = data;
                   // to choose witch data gonna be showing in the table
                   this.InitializeVisualization();
@@ -823,6 +983,7 @@ export class StatCscComponent {
                   this.executeVisualisation();
                   // add paginator to the data
                   this.dataSource.paginator = this.paginator;
+                  this.getchart(this.dataSource.data)
                 },
                 error => {
                   console.log("error ", error);
@@ -832,8 +993,10 @@ export class StatCscComponent {
           }
         }
         else {
+          this.value = 0
           this.DATACLEANING.sendFilePlus(this.df1, this.df2, this.annee, this.mois).subscribe(
             data => {
+              this.value = 10
               this.dataFrame = data;
               // to choose witch data gonna be showing in the table
               this.InitializeVisualization();

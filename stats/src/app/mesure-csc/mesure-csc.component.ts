@@ -85,6 +85,7 @@ export class MesureCscComponent {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  value: number=10;
 
   constructor(private DATACLEANING: ApiStat, public dialog: MatDialog) {
     // Assign the data to the data source for the table to render
@@ -145,8 +146,10 @@ export class MesureCscComponent {
     if (this.df1 != null && this.df2 != null) {
       if (this.ecartSup != null) {
         if (this.ecartInf == null) {
+          this.value=0
           this.DATACLEANING.sendFile(this.df1, this.df2, this.ecartSup).subscribe(
             data => {
+              this.value=10
               console.log(data)
               this.dataFrame = data;
               // to choose witch data gonna be showing in the table
@@ -165,8 +168,10 @@ export class MesureCscComponent {
           );
         }
         if (this.ecartInf != null) {
+          this.value=0
           this.DATACLEANING.sendFilePlus(this.df1, this.df2, this.ecartSup, this.ecartInf).subscribe(
             data => {
+              this.value=10
               console.log(data)
               this.dataFrame = data;
               // to choose witch data gonna be showing in the table

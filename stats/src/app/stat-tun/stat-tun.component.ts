@@ -5,6 +5,7 @@ import { merge, Observable } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import * as Highcharts from "highcharts";
 import * as XLSX from 'xlsx';
 @Injectable({
   providedIn: 'root'
@@ -704,6 +705,152 @@ export class StatTunClComponent {
   deleteData() {
     this.dataSource = new MatTableDataSource([]);
   }
+  getchart(data) {
+    var mois = []
+    var cible = []
+    var vente = []
+    console.log(data.length)
+    for (let index = 0; index < data.length; index++) {
+      if (data[index].TUNISIE == "Janvier") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible1)
+        mois.push("Janvier")
+      }
+      if (data[index].TUNISIE == "Février") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible2),
+          mois.push("Février")
+      }
+      if (data[index].TUNISIE == "Mars") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible3)
+        mois.push("Mars")
+      }
+      if (data[index].TUNISIE == "Avril") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible4)
+        mois.push("Avril")
+      }
+      if (data[index].TUNISIE == "Mai") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible5)
+        mois.push("Mai")
+      }
+      if (data[index].TUNISIE == "Juin") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible6)
+        mois.push("Juin")
+      }
+      if (data[index].TUNISIE == "Juillet") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible7)
+        mois.push("Juillet")
+      }
+      if (data[index].TUNISIE == "Août") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible8)
+        mois.push("Août")
+      }
+      if (data[index].TUNISIE == "Septembre") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible9)
+        mois.push("Septembre")
+      }
+      if (data[index].TUNISIE == "Octobre") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible10)
+        mois.push("Octobre")
+      }
+      if (data[index].TUNISIE == "Novembre") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible11)
+        mois.push("Novembre")
+      }
+      if (data[index].TUNISIE == "Décembre") {
+        vente.push(Number(data[index].VENTE))
+        cible.push(this.cible12)
+        mois.push("Décembre")
+      }
+    }
+    console.log(vente)
+    console.log(cible)
+    console.log(mois)
+    Highcharts.chart('container', {
+      chart: {
+        zoomType: 'xy'
+      },
+      title: {
+        text: 'Ventes journalières par rappot à la cible ( TUNISIE )'
+      },
+      subtitle: {
+        text: 'Ventes Jour Vs. Cible/Jr'
+      },
+      xAxis: [{
+        categories: mois,
+        crosshair: true
+      }],
+      yAxis: [{ // Primary yAxis
+        labels: {
+          format: '{value}',
+          style: {
+            color: Highcharts.getOptions().colors[1]
+          }
+        },
+        title: {
+          text: 'CIBLE',
+          style: {
+            color: Highcharts.getOptions().colors[1]
+          }
+        }
+      }, { // Secondary yAxis
+        title: {
+          text: 'VENTES JOUR',
+          style: {
+            color: Highcharts.getOptions().colors[0]
+          }
+        },
+        labels: {
+          format: '{value}',
+          style: {
+            color: Highcharts.getOptions().colors[0]
+          }
+        },
+        opposite: true
+      }],
+      tooltip: {
+        shared: true
+      },
+      legend: {
+        layout: 'vertical',
+        align: 'left',
+        x: 90,
+        verticalAlign: 'top',
+        y: 70,
+        floating: true,
+        backgroundColor:
+          Highcharts.defaultOptions.legend.backgroundColor || // theme
+          'rgba(255,255,255,0.25)'
+      },
+      series: [{
+        name: 'Ventes',
+        type: 'column',
+        yAxis: 1,
+        data: vente,
+        tooltip: {
+          valueSuffix: ''
+        }
+
+      }, {
+        name: 'Cible',
+        type: 'spline',
+        data: cible,
+        tooltip: {
+          valueSuffix: ''
+        }
+      }]
+    });
+  }
+
   // function executed when user click on Reporting button
   createFile = () => {
     this.mois = []
@@ -716,8 +863,10 @@ export class StatTunClComponent {
         if (this.HiddenCible && this.HiddenBudget && this.HiddenObjectif) {
           if (this.cible.length != 0) {
             if (this.budget.length != 0 && this.objectif.length) {
+              this.value=0
               this.DATACLEANING.sendFileObj(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget, this.objectif).subscribe(
                 data => {
+                  this.value=10
                   this.dataFrame = data;
                   console.log(data)
                   // to choose witch data gonna be showing in the table
@@ -731,6 +880,7 @@ export class StatTunClComponent {
                   this.executeVisualisation();
                   // add paginator to the data
                   this.dataSource.paginator = this.paginator;
+                  this.getchart(this.dataSource.data)
                 },
                 error => {
                   console.log("error ", error);
@@ -742,8 +892,10 @@ export class StatTunClComponent {
         else if (this.HiddenCible && this.HiddenBudget) {
           if (this.cible.length != 0) {
             if (this.budget.length != 0) {
+              this.value=0
               this.DATACLEANING.sendFile(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget).subscribe(
                 data => {
+                  this.value=10
                   this.dataFrame = data;
                   // to choose witch data gonna be showing in the table
                   this.InitializeVisualization();
@@ -753,6 +905,7 @@ export class StatTunClComponent {
                   this.executeVisualisation();
                   // add paginator to the data
                   this.dataSource.paginator = this.paginator;
+                  this.getchart(this.dataSource.data)
                 },
                 error => {
                   console.log("error ", error);
@@ -762,8 +915,10 @@ export class StatTunClComponent {
           }
         }
         else {
+          this.value=0
           this.DATACLEANING.sendFilePlus(this.df1, this.df2, this.annee, this.mois).subscribe(
             data => {
+              this.value=10
               this.dataFrame = data;
               // to choose witch data gonna be showing in the table
               this.InitializeVisualization();
@@ -786,8 +941,10 @@ export class StatTunClComponent {
         if (this.HiddenCible && this.HiddenBudget && this.HiddenObjectif) {
           if (this.cible.length != 0) {
             if (this.budget.length != 0 && this.objectif.length) {
+              this.value=0
               this.DATACLEANING.sendFileObj(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget, this.objectif).subscribe(
                 data => {
+                  this.value=10
                   this.dataFrame = data;
                   console.log(data)
                   // to choose witch data gonna be showing in the table
@@ -801,6 +958,7 @@ export class StatTunClComponent {
                   this.executeVisualisation();
                   // add paginator to the data
                   this.dataSource.paginator = this.paginator;
+                  this.getchart(this.dataSource.data)
                 },
                 error => {
                   console.log("error ", error);
@@ -812,8 +970,10 @@ export class StatTunClComponent {
         else if (this.HiddenCible && this.HiddenBudget) {
           if (this.cible.length != 0) {
             if (this.budget.length != 0) {
+              this.value=0
               this.DATACLEANING.sendFile(this.df1, this.df2, this.annee, this.mois, this.cible, this.budget).subscribe(
                 data => {
+                  this.value=10
                   this.dataFrame = data;
                   // to choose witch data gonna be showing in the table
                   this.InitializeVisualization();
@@ -823,6 +983,7 @@ export class StatTunClComponent {
                   this.executeVisualisation();
                   // add paginator to the data
                   this.dataSource.paginator = this.paginator;
+                  this.getchart(this.dataSource.data)
                 },
                 error => {
                   console.log("error ", error);
@@ -832,8 +993,10 @@ export class StatTunClComponent {
           }
         }
         else {
+          this.value=0
           this.DATACLEANING.sendFilePlus(this.df1, this.df2, this.annee, this.mois).subscribe(
             data => {
+              this.value=10
               this.dataFrame = data;
               // to choose witch data gonna be showing in the table
               this.InitializeVisualization();
