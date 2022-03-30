@@ -1,7 +1,7 @@
 
 from django.contrib import admin
 from django.urls import path
-from StandApp import views
+from StandApp import viewsStatCSC
 from django.conf.urls import url, include
 from rest_framework import routers
 

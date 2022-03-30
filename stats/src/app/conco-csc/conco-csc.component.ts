@@ -27,7 +27,7 @@ export class ApiStat {
 
     var header = new HttpHeaders();
     header.append('Content-Type', 'multipart/form-data');
-    return this.http.post(this.baseurl + '/stat-csc/', formData, { headers: header })
+    return this.http.post(this.baseurl + '/conco-csc/', formData, { headers: header })
   }
 }
 
@@ -38,7 +38,17 @@ export interface StatData {
   DATEHEUREDEPART: string;
   NAVIREW: string;
   DATEHEUREDEPARTW: string;
-  MAXDATEFICHIER: string
+  MAXDATEFICHIER: string;
+  INFO: string;
+  RESEAU: string;
+  PORTDEP: string;
+  PORTARR: string;
+  PORTDEPW: string;
+  PORTARRW: string;
+  MODELE: string;
+  NUMPACKAGE: string;
+  NUMPACKAGEW: string;
+  MINDATEFICHIER: string;
 }
 @Component({
   selector: 'app-conco-csc',
