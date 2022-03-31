@@ -777,79 +777,33 @@ export class StatAlgComponent {
     console.log(cible)
     console.log(mois)
     Highcharts.chart('container', {
-      chart: {
-        zoomType: 'xy'
-      },
       title: {
-        text: 'Ventes journalières par rappot à la cible ( AlGERIE )'
+          text: 'Ventes journalières par rappot à la cible ( ALGERIE )'
       },
-      subtitle: {
-        text: 'Ventes Jour Vs. Cible/Jr'
+      xAxis: {
+          categories: mois
       },
-      xAxis: [{
-        categories: mois,
-        crosshair: true
-      }],
-      yAxis: [{ // Primary yAxis
-        labels: {
-          format: '{value}',
-          style: {
-            color: Highcharts.getOptions().colors[1]
-          }
-        },
+      yAxis: [{
         title: {
-          text: 'CIBLE',
-          style: {
-            color: Highcharts.getOptions().colors[1]
-          }
-        }
-      }, { // Secondary yAxis
-        title: {
-          text: 'VENTES JOUR',
-          style: {
-            color: Highcharts.getOptions().colors[0]
-          }
+            text: 'Ventes'
         },
-        labels: {
-          format: '{value}',
-          style: {
-            color: Highcharts.getOptions().colors[0]
-          }
-        },
-        opposite: true
-      }],
-      tooltip: {
-        shared: true
-      },
-      legend: {
-        layout: 'vertical',
-        align: 'left',
-        x: 120,
-        verticalAlign: 'top',
-        y: 100,
-        floating: true,
-        backgroundColor:
-          Highcharts.defaultOptions.legend.backgroundColor || // theme
-          'rgba(255,255,255,0.25)'
-      },
+        showFirstLabel: true
+    }],
       series: [{
-        name: 'Ventes',
-        type: 'column',
-        yAxis: 1,
-        data: vente,
-        tooltip: {
-          valueSuffix: ''
-        }
-
+          type: 'column',
+          name: 'Ventes',
+          data: vente
       }, {
-        name: 'Cible',
-        type: 'spline',
-        data: cible,
-        tooltip: {
-          valueSuffix: ''
-        }
+          type: 'spline',
+          name: 'Cible',
+          data: cible,
+          marker: {
+              lineWidth: 2,
+              lineColor: Highcharts.getOptions().colors[3],
+              fillColor: 'white'
+          }
       }]
-    });
+  });
   }
 
   // function executed when user click on Reporting button
