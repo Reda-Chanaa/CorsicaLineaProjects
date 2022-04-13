@@ -8,6 +8,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import * as Highcharts from 'highcharts';
 import * as XLSX from 'xlsx';
 import { MatSort } from '@angular/material/sort';
+import moment from 'moment';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Injectable({
@@ -69,6 +70,11 @@ export interface StatData {
 })
 export class MesureCscComponent {
 
+  day = new Date().getDate()
+  mois = new Date().getMonth() + 1
+  annees = new Date().getFullYear()
+
+  date="MesureCSC_" + this.day + "-" + this.mois + "-" + this.annees;
   options: any
   dataFrame: any;
   @ViewChild('TABLE') table: ElementRef;
@@ -154,6 +160,9 @@ export class MesureCscComponent {
               this.dataFrame = data;
               // to choose witch data gonna be showing in the table
               this.InitializeVisualization();
+              data.forEach(element => {
+                element.DATE=moment(element.DATE).format("DD/MM/YYYY HH:mm")
+              });
               // puts data into the datasource table
               this.dataSource = new MatTableDataSource(data);
               this.dataSource.sort = this.sort;
@@ -176,6 +185,9 @@ export class MesureCscComponent {
               this.dataFrame = data;
               // to choose witch data gonna be showing in the table
               this.InitializeVisualization();
+              data.forEach(element => {
+                element.DATE=moment(element.DATE).format("DD/MM/YYYY HH:mm")
+              });
               // puts data into the datasource table
               this.dataSource = new MatTableDataSource(data);
               this.dataSource.sort = this.sort;

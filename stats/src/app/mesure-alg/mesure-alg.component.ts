@@ -4,9 +4,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { merge, Observable } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import * as XLSX from 'xlsx';
 import { MatSort } from '@angular/material/sort';
 import { FormControl, FormGroup } from '@angular/forms';
+import moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +65,12 @@ export interface StatData {
   providers: [ApiStat]
 })
 export class MesureAlgComponent{
+
+  day = new Date().getDate()
+  mois = new Date().getMonth() + 1
+  annees = new Date().getFullYear()
+
+  date="MesureALG_" + this.day + "-" + this.mois + "-" + this.annees;
 
   dataFrame: any;
   @ViewChild('TABLE') table: ElementRef;
@@ -142,6 +148,9 @@ export class MesureAlgComponent{
               this.dataFrame = data;
               // to choose witch data gonna be showing in the table
               this.InitializeVisualization();
+              data.forEach(element => {
+                element.DATE=moment(element.DATE).format("DD/MM/YYYY HH:mm")
+              });
               // puts data into the datasource table
               this.dataSource = new MatTableDataSource(data);
               this.dataSource.sort = this.sort;
@@ -164,6 +173,9 @@ export class MesureAlgComponent{
               this.dataFrame = data;
               // to choose witch data gonna be showing in the table
               this.InitializeVisualization();
+              data.forEach(element => {
+                element.DATE=moment(element.DATE).format("DD/MM/YYYY HH:mm")
+              });
               // puts data into the datasource table
               this.dataSource = new MatTableDataSource(data);
               this.dataSource.sort = this.sort;
@@ -201,22 +213,6 @@ export class MesureAlgComponent{
       this.columnDefinitions[6].show = this.VENTEJ.value;
       
     });
-  }
-  exportTable() {
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'ALG');
-
-
-    let day = new Date().getDate()
-    let mois = new Date().getMonth() + 1
-    let annee = new Date().getFullYear()
-    let date = "MesureALG_" + day + "-" + mois + "-" + annee + ".xlsx"
-    console.log(date)
-    /* save to file */
-    XLSX.writeFile(wb, date.toString());
-    //TableUtil.exportTableToExcel("reporting", date.toString());
-
   }
   // to initialize the visualisation with user's checkBox
   InitializeVisualization() {
