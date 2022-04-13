@@ -6,6 +6,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import * as XLSX from 'xlsx';
+import moment from 'moment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -57,6 +59,11 @@ export interface StatData {
   providers: [ApiStat]
 })
 export class ConcoCscComponent {
+
+  day = new Date().getDate()
+  mois = new Date().getMonth() + 1
+  annees = new Date().getFullYear()
+  date = "ConcordanceCSC_" + this.day + "-" + this.mois + "-" + this.annees
 
   FAnnee1 = new FormControl('');
   FAnnee2 = new FormControl('')
@@ -224,6 +231,7 @@ export class ConcoCscComponent {
   deleteData() {
     this.dataSource = new MatTableDataSource([]);
   }
+  
   // function executed when user click on Reporting button
   createFile = () => {
 
@@ -232,12 +240,16 @@ export class ConcoCscComponent {
       this.DATACLEANING.sendFile(this.df1).subscribe(
         data => {
           this.dataFrame = data;
-          console.log(data)
+          
           // to choose witch data gonna be showing in the table
           this.InitializeVisualization();
-          if (this.columnDefinitions[5].show == false) {
-            this.columnDefinitions[5].show = true
-          }
+          
+          data.forEach(element => {
+            element.DATEHEUREDEPART=moment(element.DATEHEUREDEPART).format("DD/MM/YYYY HH:mm")
+            element.DATEHEUREDEPARTW=moment(element.DATEHEUREDEPARTW).format("DD/MM/YYYY HH:mm")
+          });
+          console.log(data)
+          
           // puts data into the datasource table
           this.dataSource = new MatTableDataSource(data);
           // execute the visualisation function
@@ -288,22 +300,7 @@ export class ConcoCscComponent {
       this.columnDefinitions[15].show = this.MINDATEFICHIER.value;
     });
   }
-  exportTable() {
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'CSC');
 
-
-    let day = new Date().getDate()
-    let mois = new Date().getMonth() + 1
-    let annee = new Date().getFullYear()
-    let date = "ReportingCSC_" + this.annee + "_" + day + "-" + mois + "-" + annee + ".xlsx"
-    console.log(date)
-    /* save to file */
-    XLSX.writeFile(wb, date.toString());
-    //TableUtil.exportTableToExcel("reporting", date.toString());
-
-  }
   // to initialize the visualisation with user's checkBox
   InitializeVisualization() {
     this.columnDefinitions = [

@@ -1,3 +1,4 @@
+from StandApp import viewsConcoCSC
 from StandApp import viewsStatCSC
 from StandApp import viewsStatALG
 from StandApp import viewsStatTUN
@@ -34,5 +35,5 @@ urlpatterns = [
     url(r'report-alg/', csrf_exempt(viewsMesureALG.ReportALG), name='file'),
     url(r'report-tun/', csrf_exempt(viewsMesureTUN.ReportTUN), name='file'),
 
-    url(r'conco-csc/', csrf_exempt(viewsMesureTUN.ReportTUN), name='file'),
+    url(r'conco-csc/', csrf_exempt(viewsConcoCSC.ConcoCSC), name='file'),
 ]
