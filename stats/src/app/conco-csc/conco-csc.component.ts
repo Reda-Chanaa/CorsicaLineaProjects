@@ -5,7 +5,6 @@ import { merge, Observable } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import * as XLSX from 'xlsx';
 import moment from 'moment';
 
 @Injectable({

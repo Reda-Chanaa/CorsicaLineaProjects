@@ -670,7 +670,7 @@
                         </table>
                         <mat-paginator [pageSizeOptions]="[25, 100, 1000, 10000]"></mat-paginator>
                         <div class="export-container">
-                            <button mat-raised-button (click)="exporter.exportTable('xlsx', {fileName:date, sheet: 'CSC', Props: {Author: 'Reda CHANAA'}})">Exporter en Excel</button>
+                            <button style="background-color: rgb(256,54,54);" class="btn pull-right" mat-raised-button (click)="exporter.exportTable('xlsx', {fileName:date, sheet: 'CSC', Props: {Author: 'Reda CHANAA'}})">Exporter en Excel</button>
                         </div>
                         
                         <!--

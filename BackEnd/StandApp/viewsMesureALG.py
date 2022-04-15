@@ -4,14 +4,45 @@ import pandas as pd
 import numpy as np
 from datetime import date
 from pymongo import MongoClient
+import psycopg2 
 from datetime import datetime
+from StandApp.models import MesureAlgerie
+from StandApp.serializers import MesureALGSerializer
 
 from django.http import HttpResponse
 
 # REFERENCE DATABASE CONNECTION
 
 client = MongoClient('localhost', 27017)
+'''
+# Connect to your postgres DB
+conn = psycopg2.connect("dbname=postgres user=postgres")
 
+# Open a cursor to perform database operations
+cur = conn.cursor()
+cur.execute("""
+        CREATE TABLE mesurealg (
+            id SERIAL PRIMARY KEY,
+            annee-report VARCHAR(20) NOT NULL,
+            date VARCHAR(20) NOT NULL,
+            jour VARCHAR(2) NOT NULL,
+            mois VARCHAR(2) NOT NULL,
+            annee VARCHAR(4) NOT NULL,
+            jan VARCHAR(10) NOT NULL,
+            fev VARCHAR(10) NOT NULL,
+            mar VARCHAR(10) NOT NULL,
+            apr VARCHAR(10) NOT NULL,
+            may VARCHAR(10) NOT NULL,
+            jun VARCHAR(10) NOT NULL,
+            jul VARCHAR(10) NOT NULL,
+            aug VARCHAR(10) NOT NULL,
+            sep VARCHAR(10) NOT NULL,
+            oct VARCHAR(10) NOT NULL,
+            nov VARCHAR(10) NOT NULL,
+            dec VARCHAR(10) NOT NULL
+        )
+        """)
+'''
 # Nom de la base = Reporting
 
 db = client['Mesure']
@@ -966,6 +997,10 @@ def ReportALG(request):
             'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
             'Dec'
         ])
+        mesurealg=MesureAlgerie.objects.get(Annee_Report=annee)
+        mesureserialise=MesureALGSerializer(mesurealg)
+        print(mesureserialise)
+        print(mesurealg)
         data = mesure.find({'Annee Report': str(annee)})
         nbr = mesure.count_documents({'Annee Report': str(annee)})
         for i in range(nbr):
@@ -976,6 +1011,11 @@ def ReportALG(request):
                 data[i]["Jun"], data[i]["Jul"], data[i]["Aug"], data[i]["Sep"],
                 data[i]["Oct"], data[i]["Nov"], data[i]["Dec"]
             ]
+
+        # close communication with the PostgreSQL database server
+        cur.close()
+        # commit the changes
+        conn.commit()
         df = df.sort_values(by=['Annee','Mois','Jour'])
         df.reset_index(inplace=True,drop=True)
         print("#######")
