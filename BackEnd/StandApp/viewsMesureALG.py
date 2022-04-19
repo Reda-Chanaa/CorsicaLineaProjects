@@ -14,13 +14,14 @@ from django.http import HttpResponse
 # REFERENCE DATABASE CONNECTION
 
 client = MongoClient('localhost', 27017)
-'''
+
 # Connect to your postgres DB
-conn = psycopg2.connect("dbname=postgres user=postgres")
+conn = psycopg2.connect("dbname=yield password=2022 user=postgres")
 
 # Open a cursor to perform database operations
 cur = conn.cursor()
-cur.execute("""
+
+'''cur.execute("""
         CREATE TABLE mesurealg (
             id SERIAL PRIMARY KEY,
             annee-report VARCHAR(20) NOT NULL,
@@ -304,6 +305,7 @@ def MesureALG(request):
                 day=str(datetime.now().day)
             date=day+'/'+ month +'/'+str(datetime.now().year)
             print(date)
+            
             z = mesure.count_documents({
                 'Annee Report': str(datetime.now().year),
                 'Date': date
@@ -997,19 +999,17 @@ def ReportALG(request):
             'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
             'Dec'
         ])
-        mesurealg=MesureAlgerie.objects.get(Annee_Report=annee)
+        mesurealg=MesureAlgerie.objects.filter(Annee_Report=annee)
         mesureserialise=MesureALGSerializer(mesurealg)
-        print(mesureserialise)
-        print(mesurealg)
-        data = mesure.find({'Annee Report': str(annee)})
-        nbr = mesure.count_documents({'Annee Report': str(annee)})
-        for i in range(nbr):
+        
+        df_test = pd.DataFrame(list(mesurealg.values()))
+        for i in range(len(df_test)):
             df.loc[i] = [
-                data[i]["Annee Report"], data[i]["Date"], data[i]["Annee"],
-                data[i]["Mois"], data[i]["Jour"], data[i]["Jan"],
-                data[i]["Feb"], data[i]["Mar"], data[i]["Apr"], data[i]["May"],
-                data[i]["Jun"], data[i]["Jul"], data[i]["Aug"], data[i]["Sep"],
-                data[i]["Oct"], data[i]["Nov"], data[i]["Dec"]
+                df_test["Annee_Report"][i], df_test["Date"][i], df_test["Annee"][i],
+                df_test["Mois"][i], df_test["Jour"][i], df_test["Jan"][i],
+                df_test["Feb"][i], df_test["Mar"][i], df_test["Apr"][i], df_test["May"][i],
+                df_test["Jun"][i], df_test["Jul"][i], df_test["Aug"][i], df_test["Sep"][i],
+                df_test["Oct"][i], df_test["Nov"][i], df_test["Dec"][i]
             ]
 
         # close communication with the PostgreSQL database server
@@ -1019,7 +1019,7 @@ def ReportALG(request):
         df = df.sort_values(by=['Annee','Mois','Jour'])
         df.reset_index(inplace=True,drop=True)
         print("#######")
-        print(df)
+        #print(df)
     total = time.time() - start_time
     print(total)
     return HttpResponse(df.to_json(orient='records'))

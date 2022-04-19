@@ -3,13 +3,13 @@ from django.db import models
 # Create your models here.
 
 class MesureCorse(models.Model):
-    Annee_Report = models.CharField(max_length=20)
-    Date = models.CharField(max_length=20)
+    Annee_Report = models.CharField(max_length=25)
+    Date = models.CharField(max_length=25)
     Jour = models.CharField(max_length=10)
     Mois = models.CharField(max_length=10)
     Annee = models.CharField(max_length=10)
     Jan = models.CharField(max_length=10)
-    Fev = models.CharField(max_length=10)
+    Feb = models.CharField(max_length=10)
     Mar = models.CharField(max_length=10)
     Apr = models.CharField(max_length=10)
     May = models.CharField(max_length=10)
@@ -23,13 +23,13 @@ class MesureCorse(models.Model):
 
 
 class MesureAlgerie(models.Model):
-    Annee_Report = models.CharField(max_length=20)
-    Date = models.CharField(max_length=20)
+    Annee_Report = models.CharField(max_length=25)
+    Date = models.CharField(max_length=25)
     Jour = models.CharField(max_length=10)
     Mois = models.CharField(max_length=10)
     Annee = models.CharField(max_length=10)
     Jan = models.CharField(max_length=10)
-    Fev = models.CharField(max_length=10)
+    Feb = models.CharField(max_length=10)
     Mar = models.CharField(max_length=10)
     Apr = models.CharField(max_length=10)
     May = models.CharField(max_length=10)
@@ -42,13 +42,13 @@ class MesureAlgerie(models.Model):
     Dec = models.CharField(max_length=10)
 
 class MesureTunisie(models.Model):
-    Annee_Report = models.CharField(max_length=20)
-    Date = models.CharField(max_length=20)
+    Annee_Report = models.CharField(max_length=25)
+    Date = models.CharField(max_length=25)
     Jour = models.CharField(max_length=10)
     Mois = models.CharField(max_length=10)
     Annee = models.CharField(max_length=10)
     Jan = models.CharField(max_length=10)
-    Fev = models.CharField(max_length=10)
+    Feb = models.CharField(max_length=10)
     Mar = models.CharField(max_length=10)
     Apr = models.CharField(max_length=10)
     May = models.CharField(max_length=10)
@@ -61,23 +61,23 @@ class MesureTunisie(models.Model):
     Dec = models.CharField(max_length=10)
 
 class ReportingCorse(models.Model):
-    annee = models.CharField(max_length=10)
-    mois = models.CharField(max_length=10)
-    cible = models.CharField(max_length=10)
-    budget = models.CharField(max_length=10)
-    objectif = models.CharField(max_length=10)
+    Annee = models.CharField(max_length=10)
+    Mois = models.CharField(max_length=10)
+    Cible = models.CharField(max_length=10)
+    Budget = models.CharField(max_length=10)
+    Objectif = models.CharField(max_length=10)
 
 class ReportingAlgerie(models.Model):
-    annee = models.CharField(max_length=10)
-    mois = models.CharField(max_length=10)
-    cible = models.CharField(max_length=10)
-    budget = models.CharField(max_length=10)
-    objectif = models.CharField(max_length=10)
+    Annee = models.CharField(max_length=10)
+    Mois = models.CharField(max_length=10)
+    Cible = models.CharField(max_length=10)
+    Budget = models.CharField(max_length=10)
+    Objectif = models.CharField(max_length=10)
 
 class ReportingTunisie(models.Model):
-    annee = models.CharField(max_length=10)
-    mois = models.CharField(max_length=10)
-    cible = models.CharField(max_length=10)
-    budget = models.CharField(max_length=10)
-    objectif = models.CharField(max_length=10)
+    Annee = models.CharField(max_length=10)
+    Mois = models.CharField(max_length=10)
+    Cible = models.CharField(max_length=10)
+    Budget = models.CharField(max_length=10)
+    Objectif = models.CharField(max_length=10)
 

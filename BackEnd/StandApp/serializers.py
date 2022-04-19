@@ -5,29 +5,29 @@ from .models import MesureAlgerie, MesureCorse, MesureTunisie, ReportingAlgerie,
 class MesureCSCSerializer(serializers.ModelSerializer):
     class Meta:
         model = MesureCorse
-        fields = ('anneeReport','date','jour','mois','annee','jan','fev','mar','apr','may','jun','jul','aug','sep','oct','nov','dec')
+        fields = ('Annee_Report','Date','Jour','Mois','Annee','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec')
         
 class MesureALGSerializer(serializers.ModelSerializer):
     class Meta:
         model = MesureAlgerie
-        fields = ('anneeReport','date','jour','mois','annee','jan','fev','mar','apr','may','jun','jul','aug','sep','oct','nov','dec')
+        fields = ('Annee_Report','Date','Jour','Mois','Annee','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec')
 
 class MesureTUNSerializer(serializers.ModelSerializer):
     class Meta:
         model = MesureTunisie
-        fields = ('anneeReport','date','jour','mois','annee','jan','fev','mar','apr','may','jun','jul','aug','sep','oct','nov','dec')
+        fields = ('Annee_Report','Date','Jour','Mois','Annee','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec')
 
 class ReportingTUNSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReportingTunisie
-        fields = ('annee','mois','cible','budget','objectif')
+        fields = ('Annee','Mois','Cible','Budget','Objectif')
 
 class ReportingALGSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReportingAlgerie
-        fields = ('annee','mois','cible','budget','objectif')
+        fields = ('Annee','Mois','Cible','Budget','Objectif')
 
 class ReportingCSCSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReportingCorse
-        fields = ('annee','mois','cible','budget','objectif')
+        fields = ('Annee','Mois','Cible','Budget','Objectif')

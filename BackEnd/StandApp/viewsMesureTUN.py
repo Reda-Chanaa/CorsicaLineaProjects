@@ -5,13 +5,20 @@ import numpy as np
 from datetime import date
 from pymongo import MongoClient
 from datetime import datetime
-
 from django.http import HttpResponse
+import psycopg2 
+from StandApp.models import MesureTunisie
+from StandApp.serializers import MesureTUNSerializer
 
 # REFERENCE DATABASE CONNECTION
 
 client = MongoClient('localhost', 27017)
 
+# Connect to your postgres DB
+conn = psycopg2.connect("dbname=yield password=2022 user=postgres")
+
+# Open a cursor to perform database operations
+cur = conn.cursor()
 # Nom de la base = Reporting
 
 db = client['Mesure']
@@ -965,19 +972,27 @@ def ReportTUN(request):
             'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
             'Dec'
         ])
-        data = mesure.find({'Annee Report': str(annee)})
-        nbr = mesure.count_documents({'Annee Report': str(annee)})
-        for i in range(nbr):
+        mesuretun=MesureTunisie.objects.filter(Annee_Report=annee)
+        mesureserialise=MesureTUNSerializer(mesuretun)
+        
+        df_test = pd.DataFrame(list(mesuretun.values()))
+        for i in range(len(df_test)):
             df.loc[i] = [
-                data[i]["Annee Report"], data[i]["Date"], data[i]["Annee"],
-                data[i]["Mois"], data[i]["Jour"], data[i]["Jan"],
-                data[i]["Feb"], data[i]["Mar"], data[i]["Apr"], data[i]["May"],
-                data[i]["Jun"], data[i]["Jul"], data[i]["Aug"], data[i]["Sep"],
-                data[i]["Oct"], data[i]["Nov"], data[i]["Dec"]
+                df_test["Annee_Report"][i], df_test["Date"][i], df_test["Annee"][i],
+                df_test["Mois"][i], df_test["Jour"][i], df_test["Jan"][i],
+                df_test["Feb"][i], df_test["Mar"][i], df_test["Apr"][i], df_test["May"][i],
+                df_test["Jun"][i], df_test["Jul"][i], df_test["Aug"][i], df_test["Sep"][i],
+                df_test["Oct"][i], df_test["Nov"][i], df_test["Dec"][i]
             ]
+
+        # close communication with the PostgreSQL database server
+        cur.close()
+        # commit the changes
+        conn.commit()
         df = df.sort_values(by=['Annee','Mois','Jour'])
         df.reset_index(inplace=True,drop=True)
-        print(df)
+        print("#######")
+        #print(df)
     total = time.time() - start_time
     print(total)
     return HttpResponse(df.to_json(orient='records'))
