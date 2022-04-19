@@ -5,16 +5,15 @@ from pymongo import MongoClient
 import pandas as pd
 from pathlib import Path
 from django.http import HttpResponse
+import psycopg2
+from StandApp.models import ReportingAlgerie
+from StandApp.serializers import ReportingALGSerializer
 
-# REFERENCE DATABASE CONNECTION
+# Connect to your postgres DB
+conn = psycopg2.connect("dbname=yield password=2022 user=postgres")
 
-client = MongoClient('localhost', 27017)
-
-# Nom de la base = Reporting
-
-db = client['Reporting']
-cibleALG = db['CibleALG']
-objectifALG = db['ObjectifALG']
+# Open a cursor to perform database operations
+cur = conn.cursor()
 
 
 def Stat_ALG(data_yesterday, data_today, annee, mois, cible, budget):
@@ -2024,12 +2023,15 @@ def Stat_ALG_plus(data_yesterday, data_today, annee, mois):
 def StatALGInfo(request):
     if request.method == 'POST':
         annee = request.POST["annee"]
-        z = cibleALG.find({'Annee': annee})
+
         data = pd.DataFrame(columns=['Mois', 'Cible', 'Budget', 'Objectif'])
-        if cibleALG.count_documents({'Annee': annee}) != 0:
-            for i in range(cibleALG.count_documents({'Annee': annee})):
-                data.loc[i] = z[i]["Mois"], z[i]["Cible"], z[i]["Budget"], z[
-                    i]["Objectif"]
+        mesurealg=ReportingAlgerie.objects.filter(Annee=annee)
+        df_test_ = pd.DataFrame(list(mesurealg.values()))
+
+        if len(df_test_)!=0:
+            for i in range(len(df_test_)):
+                data.loc[i] = df_test_["Mois"][i], df_test_["Cible"][i], df_test_["Budget"][i], df_test_["Objectif"][i]
+
         print(data)
     return HttpResponse(data.to_json(orient='records'))
 
@@ -2092,29 +2094,19 @@ def StatALGObj(request):
         print('data : ', data)
 
         for i in range(len(MOIS)):
-            z = cibleALG.count_documents({'Annee': annee, "Mois": MOIS[i]})
-            if (z == 0):
-                cibleALG.insert_one({
-                    "id": i,
-                    "Annee": annee,
-                    "Mois": MOIS[i],
-                    "Cible": CIBLE[i],
-                    "Budget": BUDGET[i],
-                    "Objectif": OBJECTIF[i]
-                })
-            if (z != 0):
-                cibleALG.update_one({
-                    'Annee': annee,
-                    "Mois": MOIS[i]
-                }, {
-                    '$set': {
-                        'Cible': CIBLE[i],
-                        "Budget": BUDGET[i],
-                        "Objectif": OBJECTIF[i]
-                    }
-                },
-                                    upsert=False)
-
+            mesurealg=ReportingAlgerie.objects.filter(Annee=annee,Mois=MOIS[i])
+            
+            df_test_ = pd.DataFrame(list(mesurealg.values()))
+            
+            if (len(df_test_)== 0):
+                ReportingAlgerie.objects.create(Annee= annee,
+                    Mois= MOIS[i],
+                    Cible= CIBLE[i],
+                    Budget= BUDGET[i],
+                    Objectif= OBJECTIF[i])
+                
+            if (len(df_test_)!= 0):
+                mesurealg.update(Cible= CIBLE[i], Budget= BUDGET[i],Objectif= OBJECTIF[i])
     return HttpResponse(data.to_json(orient='records'))
 
 
@@ -2139,24 +2131,17 @@ def StatALG(request):
         print('data : ', data)
 
         for i in range(len(MOIS)):
-            z = cibleALG.count_documents({'Annee': annee, "Mois": MOIS[i]})
-            if (z == 0):
-                cibleALG.insert_one({
-                    "id": i,
-                    "Annee": annee,
-                    "Mois": MOIS[i],
-                    "Cible": CIBLE[i],
-                    "Budget": BUDGET[i]
-                })
-            if (z != 0):
-                cibleALG.update_one({
-                    'Annee': annee,
-                    "Mois": MOIS[i]
-                }, {'$set': {
-                    'Cible': CIBLE[i],
-                    "Budget": BUDGET[i]
-                }},
-                                    upsert=False)
+            mesurealg=ReportingAlgerie.objects.filter(Annee=annee,Mois=MOIS[i])
+            #mesureserialise=MesureALGSerializer(mesurealg)
+            df_test_ = pd.DataFrame(list(mesurealg.values()))
+            if (len(df_test_)== 0):
+                ReportingAlgerie.objects.create(Annee= annee,
+                    Mois= MOIS[i],
+                    Cible= CIBLE[i],
+                    Budget= BUDGET[i])
+
+            if (len(df_test_)!= 0):
+                mesurealg.update(Cible= CIBLE[i], Budget= BUDGET[i])
 
     return HttpResponse(data.to_json(orient='records'))
 

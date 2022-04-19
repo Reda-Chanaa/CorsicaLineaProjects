@@ -279,63 +279,67 @@ def MesureTUN(request):
             else:
                 day=str(datetime.now().day)
             date=day+'/'+ month +'/'+str(datetime.now().year)
-            print(date)
-            z = mesure.count_documents({
-                'Annee Report': str(datetime.now().year),
-                'Date': date
-            })
+            print('------******-------')
+            mesuretun=MesureTunisie.objects.filter(Annee_Report=str(datetime.now().year), Date=date)
+            df_test_ = pd.DataFrame(list(mesuretun.values()))
+            print(df_test_)
+            print(len(df_test_))
+            print('------******-------')
 
-            if (z == 0):
+            if (len(df_test_) == 0):
                 print('introuvable')
                 if ((df_report.ECART[0]!=0) | (df_report.ECART[1]!=0) | (df_report.ECART[2]!=0) | (df_report.ECART[3]!=0) | (df_report.ECART[4]!=0) | (df_report.ECART[5]!=0) | (df_report.ECART[6]!=0) | (df_report.ECART[7]!=0) | (df_report.ECART[8]!=0) | (df_report.ECART[9]!=0) | (df_report.ECART[10]!=0) | (df_report.ECART[11]!=0)):
                     print("rentré")
-                    mesure.insert_one({
-                    "Annee Report": str(datetime.now().year),
-                    "Date": date,
-                    "Annee": str(datetime.now().year),
-                    "Mois": str(datetime.now().month),
-                    "Jour": str(datetime.now().day),
-                    'Jan': str(df_report.ECART[0]),
-                    'Feb': str(df_report.ECART[1]),
-                    'Mar': str(df_report.ECART[2]),
-                    'Apr': str(df_report.ECART[3]),
-                    'May': str(df_report.ECART[4]),
-                    'Jun': str(df_report.ECART[5]),
-                    'Jul': str(df_report.ECART[6]),
-                    'Aug': str(df_report.ECART[7]),
-                    'Sep': str(df_report.ECART[8]),
-                    'Oct': str(df_report.ECART[9]),
-                    'Nov': str(df_report.ECART[10]),
-                    'Dec': str(df_report.ECART[11])
-                }),
+                    MesureTunisie.objects.create(Annee_Report=
+                        str(datetime.now().year),
+                        Date=date,Annee=str(datetime.now().year),
+                        Mois=
+                        str(datetime.now().month),
+                        Jour=
+                        str(datetime.now().day),
+                        Jan=
+                        str(df_report.ECART[0]),
+                        Feb=
+                        str(df_report.ECART[1]),
+                        Mar=
+                        str(df_report.ECART[2]),
+                        Apr=
+                        str(df_report.ECART[3]),
+                        May=
+                        str(df_report.ECART[4]),
+                        Jun=
+                        str(df_report.ECART[5]),
+                        Jul=
+                        str(df_report.ECART[6]),
+                        Aug=
+                        str(df_report.ECART[7]),
+                        Sep=
+                        str(df_report.ECART[8]),
+                        Oct=
+                        str(df_report.ECART[9]),
+                        Nov=
+                        str(df_report.ECART[10]),
+                        Dec=
+                        str(df_report.ECART[11]))
                     print("ajouté")
                 else:
                     print("pas ajouté")
             else:
-                mesure.update_one(
-                    {
-                        "Annee Report": str(datetime.now().year),
-                        "Date": date,
-                    }, {
-                        '$set': {
-                            "Annee": str(datetime.now().year),
-                            "Mois": str(datetime.now().month),
-                            "Jour": str(datetime.now().day),
-                            'Jan': str(df_report.ECART[0]),
-                            'Feb': str(df_report.ECART[1]),
-                            'Mar': str(df_report.ECART[2]),
-                            'Apr': str(df_report.ECART[3]),
-                            'May': str(df_report.ECART[4]),
-                            'Jun': str(df_report.ECART[5]),
-                            'Jul': str(df_report.ECART[6]),
-                            'Aug': str(df_report.ECART[7]),
-                            'Sep': str(df_report.ECART[8]),
-                            'Oct': str(df_report.ECART[9]),
-                            'Nov': str(df_report.ECART[10]),
-                            'Dec': str(df_report.ECART[11])
-                        }
-                    },
-                    upsert=False)
+                mesuretun.update(Annee= str(datetime.now().year),
+                            Mois =str(datetime.now().month),
+                            Jour= str(datetime.now().day),
+                            Jan= str(df_report.ECART[0]),
+                            Feb= str(df_report.ECART[1]),
+                            Mar= str(df_report.ECART[2]),
+                            Apr= str(df_report.ECART[3]),
+                            May= str(df_report.ECART[4]),
+                            Jun= str(df_report.ECART[5]),
+                            Jul= str(df_report.ECART[6]),
+                            Aug= str(df_report.ECART[7]),
+                            Sep= str(df_report.ECART[8]),
+                            Oct= str(df_report.ECART[9]),
+                            Nov= str(df_report.ECART[10]),
+                            Dec= str(df_report.ECART[11]))
                 print("trouvable et update")
 
         if str(datetime.now().year+1) in df_test["YEAR"].values:
@@ -431,63 +435,67 @@ def MesureTUN(request):
             else:
                 day=str(datetime.now().day)
             date=day+'/'+ month +'/'+str(datetime.now().year)
-            print(date)
-            z = mesure.count_documents({
-                'Annee Report': str(datetime.now().year+1),
-                'Date': date
-            })
+            print('------******-------')
+            mesuretun=MesureTunisie.objects.filter(Annee_Report=str(datetime.now().year+1), Date=date)
+            df_test_ = pd.DataFrame(list(mesuretun.values()))
+            print(df_test_)
+            print(len(df_test_))
+            print('------******-------')
 
-            if (z == 0):
+            if (len(df_test_) == 0):
                 print('introuvable +')
                 if ((df_report.ECART[0]!=0) | (df_report.ECART[1]!=0) | (df_report.ECART[2]!=0) | (df_report.ECART[3]!=0) | (df_report.ECART[4]!=0) | (df_report.ECART[5]!=0) | (df_report.ECART[6]!=0) | (df_report.ECART[7]!=0) | (df_report.ECART[8]!=0) | (df_report.ECART[9]!=0) | (df_report.ECART[10]!=0) | (df_report.ECART[11]!=0)):
                     print("rentré +")
-                    mesure.insert_one({
-                        "Annee Report": str(datetime.now().year+1),
-                        "Date": date,
-                        "Annee": str(datetime.now().year),
-                        "Mois": str(datetime.now().month),
-                        "Jour": str(datetime.now().day),
-                        'Jan': str(df_report.ECART[0]),
-                        'Feb': str(df_report.ECART[1]),
-                        'Mar': str(df_report.ECART[2]),
-                        'Apr': str(df_report.ECART[3]),
-                        'May': str(df_report.ECART[4]),
-                        'Jun': str(df_report.ECART[5]),
-                        'Jul': str(df_report.ECART[6]),
-                        'Aug': str(df_report.ECART[7]),
-                        'Sep': str(df_report.ECART[8]),
-                        'Oct': str(df_report.ECART[9]),
-                        'Nov': str(df_report.ECART[10]),
-                        'Dec': str(df_report.ECART[11])
-                    }),
+                    MesureTunisie.objects.create(Annee_Report=
+                        str(datetime.now().year+1),
+                        Date=date,Annee=str(datetime.now().year),
+                        Mois=
+                        str(datetime.now().month),
+                        Jour=
+                        str(datetime.now().day),
+                        Jan=
+                        str(df_report.ECART[0]),
+                        Feb=
+                        str(df_report.ECART[1]),
+                        Mar=
+                        str(df_report.ECART[2]),
+                        Apr=
+                        str(df_report.ECART[3]),
+                        May=
+                        str(df_report.ECART[4]),
+                        Jun=
+                        str(df_report.ECART[5]),
+                        Jul=
+                        str(df_report.ECART[6]),
+                        Aug=
+                        str(df_report.ECART[7]),
+                        Sep=
+                        str(df_report.ECART[8]),
+                        Oct=
+                        str(df_report.ECART[9]),
+                        Nov=
+                        str(df_report.ECART[10]),
+                        Dec=
+                        str(df_report.ECART[11]))
                     print("ajouté +")
                 else:
                     print("pas ajouté +")
             else:
-                mesure.update_one(
-                    {
-                        "Annee Report": str(datetime.now().year),
-                        "Date": date,
-                    }, {
-                        '$set': {
-                            "Annee": str(datetime.now().year),
-                            "Mois": str(datetime.now().month),
-                            "Jour": str(datetime.now().day),
-                            'Jan': str(df_report.ECART[0]),
-                            'Feb': str(df_report.ECART[1]),
-                            'Mar': str(df_report.ECART[2]),
-                            'Apr': str(df_report.ECART[3]),
-                            'May': str(df_report.ECART[4]),
-                            'Jun': str(df_report.ECART[5]),
-                            'Jul': str(df_report.ECART[6]),
-                            'Aug': str(df_report.ECART[7]),
-                            'Sep': str(df_report.ECART[8]),
-                            'Oct': str(df_report.ECART[9]),
-                            'Nov': str(df_report.ECART[10]),
-                            'Dec': str(df_report.ECART[11])
-                        }
-                    },
-                    upsert=False)
+                mesuretun.update(Annee= str(datetime.now().year),
+                            Mois =str(datetime.now().month),
+                            Jour= str(datetime.now().day),
+                            Jan= str(df_report.ECART[0]),
+                            Feb= str(df_report.ECART[1]),
+                            Mar= str(df_report.ECART[2]),
+                            Apr= str(df_report.ECART[3]),
+                            May= str(df_report.ECART[4]),
+                            Jun= str(df_report.ECART[5]),
+                            Jul= str(df_report.ECART[6]),
+                            Aug= str(df_report.ECART[7]),
+                            Sep= str(df_report.ECART[8]),
+                            Oct= str(df_report.ECART[9]),
+                            Nov= str(df_report.ECART[10]),
+                            Dec= str(df_report.ECART[11]))
                 print("trouvable et update +")
     total = time.time() - start_time
     print(total)
@@ -749,63 +757,67 @@ def MesureTUNPLUS(request):
             else:
                 day=str(datetime.now().day)
             date=day+'/'+ month +'/'+str(datetime.now().year)
-            print(date)
-            z = mesure.count_documents({
-                'Annee Report': str(datetime.now().year),
-                'Date': date
-            })
+            print('------******-------')
+            mesuretun=MesureTunisie.objects.filter(Annee_Report=str(datetime.now().year), Date=date)
+            df_test_ = pd.DataFrame(list(mesuretun.values()))
+            print(df_test_)
+            print(len(df_test_))
+            print('------******-------')
 
-            if (z == 0):
+            if (len(df_test_) == 0):
                 print('introuvable')
                 if ((df_report.ECART[0]!=0) | (df_report.ECART[1]!=0) | (df_report.ECART[2]!=0) | (df_report.ECART[3]!=0) | (df_report.ECART[4]!=0) | (df_report.ECART[5]!=0) | (df_report.ECART[6]!=0) | (df_report.ECART[7]!=0) | (df_report.ECART[8]!=0) | (df_report.ECART[9]!=0) | (df_report.ECART[10]!=0) | (df_report.ECART[11]!=0)):
                     print("rentré")
-                    mesure.insert_one({
-                    "Annee Report": str(datetime.now().year),
-                    "Date": date,
-                    "Annee": str(datetime.now().year),
-                    "Mois": str(datetime.now().month),
-                    "Jour": str(datetime.now().day),
-                    'Jan': str(df_report.ECART[0]),
-                    'Feb': str(df_report.ECART[1]),
-                    'Mar': str(df_report.ECART[2]),
-                    'Apr': str(df_report.ECART[3]),
-                    'May': str(df_report.ECART[4]),
-                    'Jun': str(df_report.ECART[5]),
-                    'Jul': str(df_report.ECART[6]),
-                    'Aug': str(df_report.ECART[7]),
-                    'Sep': str(df_report.ECART[8]),
-                    'Oct': str(df_report.ECART[9]),
-                    'Nov': str(df_report.ECART[10]),
-                    'Dec': str(df_report.ECART[11])
-                }),
+                    MesureTunisie.objects.create(Annee_Report=
+                        str(datetime.now().year),
+                        Date=date,Annee=str(datetime.now().year),
+                        Mois=
+                        str(datetime.now().month),
+                        Jour=
+                        str(datetime.now().day),
+                        Jan=
+                        str(df_report.ECART[0]),
+                        Feb=
+                        str(df_report.ECART[1]),
+                        Mar=
+                        str(df_report.ECART[2]),
+                        Apr=
+                        str(df_report.ECART[3]),
+                        May=
+                        str(df_report.ECART[4]),
+                        Jun=
+                        str(df_report.ECART[5]),
+                        Jul=
+                        str(df_report.ECART[6]),
+                        Aug=
+                        str(df_report.ECART[7]),
+                        Sep=
+                        str(df_report.ECART[8]),
+                        Oct=
+                        str(df_report.ECART[9]),
+                        Nov=
+                        str(df_report.ECART[10]),
+                        Dec=
+                        str(df_report.ECART[11]))
                     print("ajouté")
                 else:
                     print("pas ajouté")
             else:
-                mesure.update_one(
-                    {
-                        "Annee Report": str(datetime.now().year),
-                        "Date": date,
-                    }, {
-                        '$set': {
-                            "Annee": str(datetime.now().year),
-                            "Mois": str(datetime.now().month),
-                            "Jour": str(datetime.now().day),
-                            'Jan': str(df_report.ECART[0]),
-                            'Feb': str(df_report.ECART[1]),
-                            'Mar': str(df_report.ECART[2]),
-                            'Apr': str(df_report.ECART[3]),
-                            'May': str(df_report.ECART[4]),
-                            'Jun': str(df_report.ECART[5]),
-                            'Jul': str(df_report.ECART[6]),
-                            'Aug': str(df_report.ECART[7]),
-                            'Sep': str(df_report.ECART[8]),
-                            'Oct': str(df_report.ECART[9]),
-                            'Nov': str(df_report.ECART[10]),
-                            'Dec': str(df_report.ECART[11])
-                        }
-                    },
-                    upsert=False)
+                mesuretun.update(Annee= str(datetime.now().year),
+                            Mois =str(datetime.now().month),
+                            Jour= str(datetime.now().day),
+                            Jan= str(df_report.ECART[0]),
+                            Feb= str(df_report.ECART[1]),
+                            Mar= str(df_report.ECART[2]),
+                            Apr= str(df_report.ECART[3]),
+                            May= str(df_report.ECART[4]),
+                            Jun= str(df_report.ECART[5]),
+                            Jul= str(df_report.ECART[6]),
+                            Aug= str(df_report.ECART[7]),
+                            Sep= str(df_report.ECART[8]),
+                            Oct= str(df_report.ECART[9]),
+                            Nov= str(df_report.ECART[10]),
+                            Dec= str(df_report.ECART[11]))
                 print("trouvable et update")
 
         if str(datetime.now().year+1) in df_test["YEAR"].values:
@@ -901,63 +913,67 @@ def MesureTUNPLUS(request):
             else:
                 day=str(datetime.now().day)
             date=day+'/'+ month +'/'+str(datetime.now().year)
-            print(date)
-            z = mesure.count_documents({
-                'Annee Report': str(datetime.now().year+1),
-                'Date': date
-            })
+            print('------******-------')
+            mesuretun=MesureTunisie.objects.filter(Annee_Report=str(datetime.now().year+1), Date=date)
+            df_test_ = pd.DataFrame(list(mesuretun.values()))
+            print(df_test_)
+            print(len(df_test_))
+            print('------******-------')
 
-            if (z == 0):
+            if (len(df_test_) == 0):
                 print('introuvable +')
                 if ((df_report.ECART[0]!=0) | (df_report.ECART[1]!=0) | (df_report.ECART[2]!=0) | (df_report.ECART[3]!=0) | (df_report.ECART[4]!=0) | (df_report.ECART[5]!=0) | (df_report.ECART[6]!=0) | (df_report.ECART[7]!=0) | (df_report.ECART[8]!=0) | (df_report.ECART[9]!=0) | (df_report.ECART[10]!=0) | (df_report.ECART[11]!=0)):
                     print("rentré +")
-                    mesure.insert_one({
-                        "Annee Report": str(datetime.now().year+1),
-                        "Date": date,
-                        "Annee": str(datetime.now().year),
-                        "Mois": str(datetime.now().month),
-                        "Jour": str(datetime.now().day),
-                        'Jan': str(df_report.ECART[0]),
-                        'Feb': str(df_report.ECART[1]),
-                        'Mar': str(df_report.ECART[2]),
-                        'Apr': str(df_report.ECART[3]),
-                        'May': str(df_report.ECART[4]),
-                        'Jun': str(df_report.ECART[5]),
-                        'Jul': str(df_report.ECART[6]),
-                        'Aug': str(df_report.ECART[7]),
-                        'Sep': str(df_report.ECART[8]),
-                        'Oct': str(df_report.ECART[9]),
-                        'Nov': str(df_report.ECART[10]),
-                        'Dec': str(df_report.ECART[11])
-                    }),
+                    MesureTunisie.objects.create(Annee_Report=
+                        str(datetime.now().year+1),
+                        Date=date,Annee=str(datetime.now().year),
+                        Mois=
+                        str(datetime.now().month),
+                        Jour=
+                        str(datetime.now().day),
+                        Jan=
+                        str(df_report.ECART[0]),
+                        Feb=
+                        str(df_report.ECART[1]),
+                        Mar=
+                        str(df_report.ECART[2]),
+                        Apr=
+                        str(df_report.ECART[3]),
+                        May=
+                        str(df_report.ECART[4]),
+                        Jun=
+                        str(df_report.ECART[5]),
+                        Jul=
+                        str(df_report.ECART[6]),
+                        Aug=
+                        str(df_report.ECART[7]),
+                        Sep=
+                        str(df_report.ECART[8]),
+                        Oct=
+                        str(df_report.ECART[9]),
+                        Nov=
+                        str(df_report.ECART[10]),
+                        Dec=
+                        str(df_report.ECART[11]))
                     print("ajouté +")
                 else:
                     print("pas ajouté +")
             else:
-                mesure.update_one(
-                    {
-                        "Annee Report": str(datetime.now().year),
-                        "Date": date,
-                    }, {
-                        '$set': {
-                            "Annee": str(datetime.now().year),
-                            "Mois": str(datetime.now().month),
-                            "Jour": str(datetime.now().day),
-                            'Jan': str(df_report.ECART[0]),
-                            'Feb': str(df_report.ECART[1]),
-                            'Mar': str(df_report.ECART[2]),
-                            'Apr': str(df_report.ECART[3]),
-                            'May': str(df_report.ECART[4]),
-                            'Jun': str(df_report.ECART[5]),
-                            'Jul': str(df_report.ECART[6]),
-                            'Aug': str(df_report.ECART[7]),
-                            'Sep': str(df_report.ECART[8]),
-                            'Oct': str(df_report.ECART[9]),
-                            'Nov': str(df_report.ECART[10]),
-                            'Dec': str(df_report.ECART[11])
-                        }
-                    },
-                    upsert=False)
+                mesuretun.update(Annee= str(datetime.now().year),
+                            Mois =str(datetime.now().month),
+                            Jour= str(datetime.now().day),
+                            Jan= str(df_report.ECART[0]),
+                            Feb= str(df_report.ECART[1]),
+                            Mar= str(df_report.ECART[2]),
+                            Apr= str(df_report.ECART[3]),
+                            May= str(df_report.ECART[4]),
+                            Jun= str(df_report.ECART[5]),
+                            Jul= str(df_report.ECART[6]),
+                            Aug= str(df_report.ECART[7]),
+                            Sep= str(df_report.ECART[8]),
+                            Oct= str(df_report.ECART[9]),
+                            Nov= str(df_report.ECART[10]),
+                            Dec= str(df_report.ECART[11]))
                 print("trouvable et update +")
     total = time.time() - start_time
     print(total)

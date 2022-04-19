@@ -6,15 +6,15 @@ import pandas as pd
 from pathlib import Path
 from django.http import HttpResponse
 
-# REFERENCE DATABASE CONNECTION
+import psycopg2
+from StandApp.models import ReportingCorse
+from StandApp.serializers import ReportingCSCSerializer
 
-client = MongoClient('localhost', 27017)
+# Connect to your postgres DB
+conn = psycopg2.connect("dbname=yield password=2022 user=postgres")
 
-# Nom de la base = Reporting
-
-db = client['Reporting']
-cibleCSC = db['CibleCSC']
-objectifCSC = db['ObjectifCSC']
+# Open a cursor to perform database operations
+cur = conn.cursor()
 
 
 def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
@@ -2003,12 +2003,15 @@ def Stat_CSC_plus(data_yesterday, data_today, annee, mois):
 def StatCSCInfo(request):
     if request.method == 'POST':
         annee = request.POST["annee"]
-        z = cibleCSC.find({'Annee': annee})
+        
         data = pd.DataFrame(columns=['Mois', 'Cible', 'Budget', 'Objectif'])
-        if cibleCSC.count_documents({'Annee': annee}) != 0:
-            for i in range(cibleCSC.count_documents({'Annee': annee})):
-                data.loc[i] = z[i]["Mois"], z[i]["Cible"], z[i]["Budget"], z[
-                    i]["Objectif"]
+        mesurecsc=ReportingCorse.objects.filter(Annee=annee)
+        df_test_ = pd.DataFrame(list(mesurecsc.values()))
+
+        if len(df_test_)!=0:
+            for i in range(len(df_test_)):
+                data.loc[i] = df_test_["Mois"][i], df_test_["Cible"][i], df_test_["Budget"][i], df_test_["Objectif"][i]
+
         print(data)
     return HttpResponse(data.to_json(orient='records'))
 
@@ -2038,28 +2041,18 @@ def StatCSCObj(request):
         print('data : ', data)
 
         for i in range(len(MOIS)):
-            z = cibleCSC.count_documents({'Annee': annee, "Mois": MOIS[i]})
-            if (z == 0):
-                cibleCSC.insert_one({
-                    "id": i,
-                    "Annee": annee,
-                    "Mois": MOIS[i],
-                    "Cible": CIBLE[i],
-                    "Budget": BUDGET[i],
-                    "Objectif": OBJECTIF[i]
-                })
-            if (z != 0):
-                cibleCSC.update_one({
-                    'Annee': annee,
-                    "Mois": MOIS[i]
-                }, {
-                    '$set': {
-                        'Cible': CIBLE[i],
-                        "Budget": BUDGET[i],
-                        "Objectif": OBJECTIF[i]
-                    }
-                },
-                                    upsert=False)
+            mesurecsc=ReportingCorse.objects.filter(Annee=annee,Mois=MOIS[i])
+            df_test_ = pd.DataFrame(list(mesurecsc.values()))
+
+            if (len(df_test_)== 0):
+                ReportingCorse.objects.create(Annee= annee,
+                    Mois= MOIS[i],
+                    Cible= CIBLE[i],
+                    Budget= BUDGET[i],
+                    Objectif= OBJECTIF[i])
+            if (len(df_test_)!= 0):
+                mesurecsc.update(Cible= CIBLE[i], Budget= BUDGET[i],Objectif= OBJECTIF[i])
+
 
     return HttpResponse(data.to_json(orient='records'))
 
@@ -2085,24 +2078,17 @@ def StatCSC(request):
         print('data : ', data)
 
         for i in range(len(MOIS)):
-            z = cibleCSC.count_documents({'Annee': annee, "Mois": MOIS[i]})
-            if (z == 0):
-                cibleCSC.insert_one({
-                    "id": i,
-                    "Annee": annee,
-                    "Mois": MOIS[i],
-                    "Cible": CIBLE[i],
-                    "Budget": BUDGET[i]
-                })
-            if (z != 0):
-                cibleCSC.update_one({
-                    'Annee': annee,
-                    "Mois": MOIS[i]
-                }, {'$set': {
-                    'Cible': CIBLE[i],
-                    "Budget": BUDGET[i]
-                }},
-                                    upsert=False)
+            mesurecsc=ReportingCorse.objects.filter(Annee=annee,Mois=MOIS[i])
+            df_test_ = pd.DataFrame(list(mesurecsc.values()))
+            
+            if (len(df_test_)== 0):
+                ReportingCorse.objects.create(Annee= annee,
+                    Mois= MOIS[i],
+                    Cible= CIBLE[i],
+                    Budget= BUDGET[i])
+            if (len(df_test_)!= 0):
+                mesurecsc.update(Cible= CIBLE[i], Budget= BUDGET[i])
+
 
     return HttpResponse(data.to_json(orient='records'))
 

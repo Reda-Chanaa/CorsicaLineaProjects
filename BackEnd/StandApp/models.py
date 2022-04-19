@@ -63,21 +63,21 @@ class MesureTunisie(models.Model):
 class ReportingCorse(models.Model):
     Annee = models.CharField(max_length=10)
     Mois = models.CharField(max_length=10)
-    Cible = models.CharField(max_length=10)
-    Budget = models.CharField(max_length=10)
-    Objectif = models.CharField(max_length=10)
+    Cible = models.IntegerField()
+    Budget = models.IntegerField()
+    Objectif = models.IntegerField()
 
 class ReportingAlgerie(models.Model):
     Annee = models.CharField(max_length=10)
     Mois = models.CharField(max_length=10)
-    Cible = models.CharField(max_length=10)
-    Budget = models.CharField(max_length=10)
-    Objectif = models.CharField(max_length=10)
+    Cible = models.IntegerField()
+    Budget = models.IntegerField()
+    Objectif = models.IntegerField()
 
 class ReportingTunisie(models.Model):
     Annee = models.CharField(max_length=10)
     Mois = models.CharField(max_length=10)
-    Cible = models.CharField(max_length=10)
-    Budget = models.CharField(max_length=10)
-    Objectif = models.CharField(max_length=10)
+    Cible = models.IntegerField()
+    Budget = models.IntegerField()
+    Objectif = models.IntegerField()
 
