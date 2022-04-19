@@ -713,62 +713,62 @@ export class StatTunClComponent {
     for (let index = 0; index < data.length; index++) {
       if (data[index].TUNISIE == "Janvier") {
         vente.push(Number(data[index].VENTE))
-        cible.push(this.cible1)
+        cible.push(Number(this.cible1))
         mois.push("Janvier")
       }
       if (data[index].TUNISIE == "Février") {
         vente.push(Number(data[index].VENTE))
-        cible.push(this.cible2),
+        cible.push(Number(this.cible2)),
           mois.push("Février")
       }
       if (data[index].TUNISIE == "Mars") {
         vente.push(Number(data[index].VENTE))
-        cible.push(this.cible3)
+        cible.push(Number(this.cible3))
         mois.push("Mars")
       }
       if (data[index].TUNISIE == "Avril") {
         vente.push(Number(data[index].VENTE))
-        cible.push(this.cible4)
+        cible.push(Number(this.cible4))
         mois.push("Avril")
       }
       if (data[index].TUNISIE == "Mai") {
         vente.push(Number(data[index].VENTE))
-        cible.push(this.cible5)
+        cible.push(Number(this.cible5))
         mois.push("Mai")
       }
       if (data[index].TUNISIE == "Juin") {
         vente.push(Number(data[index].VENTE))
-        cible.push(this.cible6)
+        cible.push(Number(this.cible6))
         mois.push("Juin")
       }
       if (data[index].TUNISIE == "Juillet") {
         vente.push(Number(data[index].VENTE))
-        cible.push(this.cible7)
+        cible.push(Number(this.cible7))
         mois.push("Juillet")
       }
       if (data[index].TUNISIE == "Août") {
         vente.push(Number(data[index].VENTE))
-        cible.push(this.cible8)
+        cible.push(Number(this.cible8))
         mois.push("Août")
       }
       if (data[index].TUNISIE == "Septembre") {
         vente.push(Number(data[index].VENTE))
-        cible.push(this.cible9)
+        cible.push(Number(this.cible9))
         mois.push("Septembre")
       }
       if (data[index].TUNISIE == "Octobre") {
         vente.push(Number(data[index].VENTE))
-        cible.push(this.cible10)
+        cible.push(Number(this.cible10))
         mois.push("Octobre")
       }
       if (data[index].TUNISIE == "Novembre") {
         vente.push(Number(data[index].VENTE))
-        cible.push(this.cible11)
+        cible.push(Number(this.cible11))
         mois.push("Novembre")
       }
       if (data[index].TUNISIE == "Décembre") {
         vente.push(Number(data[index].VENTE))
-        cible.push(this.cible12)
+        cible.push(Number(this.cible12))
         mois.push("Décembre")
       }
     }
