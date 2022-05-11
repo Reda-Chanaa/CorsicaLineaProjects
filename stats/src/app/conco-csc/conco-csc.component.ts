@@ -5,6 +5,7 @@ import { merge, Observable } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDateFormats, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import moment from 'moment';
 
 @Injectable({
@@ -19,11 +20,12 @@ export class ApiStat {
 
   }
 
-  sendFile(File1: any): Observable<any> {
+  sendFile(File1: any, annee1: any, annee2: any): Observable<any> {
 
     let formData = new FormData();
     formData.append('file1', File1, File.name);
-
+    formData.append('annee1', annee1);
+    formData.append('annee2', annee2);
     console.log(formData)
 
     var header = new HttpHeaders();
@@ -67,140 +69,15 @@ export class ConcoCscComponent {
   FAnnee1 = new FormControl('');
   FAnnee2 = new FormControl('')
 
-  jourAFevN = new FormControl('');
-  jourAFev = new FormControl('');
-  moisAFevN = new FormControl('');
-  moisAFev = new FormControl('');
+  annee1: string = null;
+  annee2: string = null;
 
-  jourADecN = new FormControl('');
-  jourADec = new FormControl('');
-  moisADecN = new FormControl('');
-  moisADec = new FormControl('');
-
-  jourAOctN = new FormControl('');
-  jourAOct = new FormControl('');
-  moisAOctN = new FormControl('');
-  moisAOct = new FormControl('');
-
-  jourAAvrN = new FormControl('');
-  jourAAvr = new FormControl('');
-  moisAAvrN = new FormControl('');
-  moisAAvr = new FormControl('');
-
-  jourBFevN = new FormControl('');
-  jourBFev = new FormControl('');
-  moisBFevN = new FormControl('');
-  moisBFev = new FormControl('');
-
-  jourBDecN = new FormControl('');
-  jourBDec = new FormControl('');
-  moisBDecN = new FormControl('');
-  moisBDec = new FormControl('');
-
-  jourBOctN = new FormControl('');
-  jourBOct = new FormControl('');
-  moisBOctN = new FormControl('');
-  moisBOct = new FormControl('');
-
-  jourBAvrN = new FormControl('');
-  jourBAvr = new FormControl('');
-  moisBAvrN = new FormControl('');
-  moisBAvr = new FormControl('');
-
-  jourCFevN = new FormControl('');
-  jourCFev = new FormControl('');
-  moisCFevN = new FormControl('');
-  moisCFev = new FormControl('');
-
-  jourCDecN = new FormControl('');
-  jourCDec = new FormControl('');
-  moisCDecN = new FormControl('');
-  moisCDec = new FormControl('');
-
-  jourCOctN = new FormControl('');
-  jourCOct = new FormControl('');
-  moisCOctN = new FormControl('');
-  moisCOct = new FormControl('');
-
-  jourCAvrN = new FormControl('');
-  jourCAvr = new FormControl('');
-  moisCAvrN = new FormControl('');
-  moisCAvr = new FormControl('');
-
-  jourNAF: any;
-  jourAF: any;
-  moisNAF: any;
-  moisAF: any;
-
-  jourNAA: any;
-  jourAA: any;
-  moisNAA: any;
-  moisAA: any;
-
-  jourNAO: any;
-  jourAO: any;
-  moisNAO: any;
-  moisAO: any;
-
-  jourNAD: any;
-  jourAD: any;
-  moisNAD: any;
-  moisAD: any;
-
-  jourNBF: any;
-  jourBF: any;
-  moisNBF: any;
-  moisBF: any;
-
-  jourNBA: any;
-  jourBA: any;
-  moisNBA: any;
-  moisBA: any;
-
-  jourNBO: any;
-  jourBO: any;
-  moisNBO: any;
-  moisBO: any;
-
-  jourNBD: any;
-  jourBD: any;
-  moisNBD: any;
-  moisBD: any;
-
-  jourNCF: any;
-  jourCF: any;
-  moisNCF: any;
-  moisCF: any;
-
-  jourNCA: any;
-  jourCA: any;
-  moisNCA: any;
-  moisCA: any;
-
-  jourNCO: any;
-  jourCO: any;
-  moisNCO: any;
-  moisCO: any;
-
-  jourNCD: any;
-  jourCD: any;
-  moisNCD: any;
-  moisCD: any;
-
-  pickerPen1:Date;
-  pickerPen2:Date;
-  pickerPen3:Date;
-  pickerPen4:Date;
-
-  pickerPa1:Date;
-  pickerPa2:Date;
-  pickerPa3:Date;
-  pickerPa4:Date;
-
-  pickerAs1:Date;
-  pickerAs2:Date;
-  pickerAs3:Date;
-  pickerAs4:Date;
+  value:number=10
+/*
+  paq1 = new FormControl('');
+  paq2 = new FormControl('');
+  paq3 = new FormControl('');
+  paq4 = new FormControl('');*/
 
   @ViewChild('TABLE') table: ElementRef;
 
@@ -213,7 +90,6 @@ export class ConcoCscComponent {
 
   df1: any;
   annee: any;
-  value: number;
 
   constructor(private DATACLEANING: ApiStat) {
     // Assign the data to the data source for the table to render
@@ -224,31 +100,49 @@ export class ConcoCscComponent {
   // function executed when file is changed
   fileChangeListener1($event: any): void {
     this.df1 = $event.target.files[0]
+    //console.log(this.paq1.value.toISOString())
   }
+  changed1(value) {
+    this.annee1 = value.target.value
+  }
+  changed2(value) {
+    this.annee2 = value.target.value
+  }
+  // Prevent no number type input, valid characters in input are numbers only
+  _keyPress(event: any) {
+    //console.log(this.paq1.value.toISOString())
+    const pattern = /^[0-9]*$/;
+    let inputChar = String.fromCharCode(event.charCode);
 
+    if (!pattern.test(inputChar)) {
+      // invalid character, prevent input
+      event.preventDefault();
+    }
+  }
 
   deleteData() {
     this.dataSource = new MatTableDataSource([]);
   }
-  
+
   // function executed when user click on Reporting button
   createFile = () => {
 
     if (this.df1 != null) {
-
-      this.DATACLEANING.sendFile(this.df1).subscribe(
+      if (this.annee1 != null && this.annee2 != null) {
+        this.value=0
+      this.DATACLEANING.sendFile(this.df1,this.annee1,this.annee2).subscribe(
         data => {
+          this.value=10
           this.dataFrame = data;
-          
           // to choose witch data gonna be showing in the table
           this.InitializeVisualization();
-          
+         // console.log(this.paq1)
           data.forEach(element => {
-            element.DATEHEUREDEPART=moment(element.DATEHEUREDEPART).format("DD/MM/YYYY HH:mm")
-            element.DATEHEUREDEPARTW=moment(element.DATEHEUREDEPARTW).format("DD/MM/YYYY HH:mm")
+            element.DATEHEUREDEPART = moment(element.DATEHEUREDEPART).format("DD/MM/YYYY HH:mm")
+            element.DATEHEUREDEPARTW = moment(element.DATEHEUREDEPARTW).format("DD/MM/YYYY HH:mm")
           });
           console.log(data)
-          
+
           // puts data into the datasource table
           this.dataSource = new MatTableDataSource(data);
           // execute the visualisation function
@@ -260,6 +154,7 @@ export class ConcoCscComponent {
           console.log("error ", error);
         }
       );
+      }
     }
   }
   //observable for the checkBox execute every time the checkBox is changed

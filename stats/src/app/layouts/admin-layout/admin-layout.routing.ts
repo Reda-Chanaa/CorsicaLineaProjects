@@ -12,6 +12,7 @@ import { ConcoCscComponent } from '../../conco-csc/conco-csc.component';
 import { ConcoAlgComponent } from '../../conco-alg/conco-alg.component';
 import { ConcoTunComponent } from '../../conco-tun/conco-tun.component';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
+import { ProfilingComponent } from '../../profiling/profiling.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'stat-csc',     component: StatCscComponent },
@@ -26,6 +27,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'conco-csc',     component: ConcoCscComponent },
     { path: 'conco-alg',     component: ConcoAlgComponent },
     { path: 'conco-tun',     component: ConcoTunComponent },
+    { path: 'profiling',     component: ProfilingComponent },
     //{ path: 'dashboard',     component: DashboardComponent },
 
 ];

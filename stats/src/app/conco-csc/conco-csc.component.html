@@ -19,11 +19,11 @@
                         <br />
                         <div>
                             <label for="annee1"> <b>Choisir l'année N : </b></label>
-                            <input [formControl]="FAnnee1" [(ngModel)]="annee1" (change)='changed($event)'
+                            <input [formControl]="FAnnee1" [(ngModel)]="annee1" (change)='changed1($event)'
                                 placeholder="Année" type="number" />
                             &nbsp;&nbsp;&nbsp;
                             <label for="annee2"> <b>Choisir l'année N-1 : </b></label>
-                            <input [formControl]="FAnnee2" [(ngModel)]="annee2" (change)='changed($event)'
+                            <input [formControl]="FAnnee2" [(ngModel)]="annee2" (change)='changed2($event)'
                                 placeholder="Année" type="number" />
                             <br />
 
@@ -31,276 +31,7 @@
                         <br />
                         <mat-accordion multi>
 
-                            <mat-expansion-panel hideToggle>
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                        Vacances de Février
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                        Choisir les jours et les mois pour chaque zone
-                                    </mat-panel-description>
-                                    <mat-panel-description></mat-panel-description>
-                                </mat-expansion-panel-header>
-
-
-                                <mat-label style="background-color: rgb(159, 204, 241);">
-                                    Zone A :</mat-label>
-                                <br />
-                                <mat-form-field name="jourAFevN" floatLabel="never">
-                                    <label>Jour de l'année N</label>
-                                    <input type="number" matInput [(ngModel)]="jourNAF" [formControl]="jourAFevN" min="1" max="31"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="moisAFevN" floatLabel="never">
-                                    <label>Mois de l'année N</label>
-                                    <input type="number" matInput [(ngModel)]="moisNAF" [formControl]="moisAFevN" min="1" max="12"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="jourAFev" floatLabel="never">
-                                    <label>Jour de l'année N-1</label>
-                                    <input type="number" matInput [(ngModel)]="jourAF" [formControl]="jourAFev" min="1" max="31"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="moisAFev" floatLabel="never">
-                                    <label>Mois de l'année N-1</label>
-                                    <input type="number" matInput [(ngModel)]="moisAF" [formControl]="moisAFev" min="1" max="12"
-                                        required />
-                                </mat-form-field>
-                                <br />
-
-
-                                <mat-label style="background-color: rgb(243, 184, 106);">
-                                    Zone B :</mat-label>
-                                <br />
-                                <mat-form-field name="jourBFevN" floatLabel="never">
-                                    <label>Jour de l'année N</label>
-                                    <input type="number" matInput [(ngModel)]="jourNBF" [formControl]="jourBFevN" min="1" max="31"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="moisBFevN" floatLabel="never">
-                                    <label>Mois de l'année N</label>
-                                    <input type="number" matInput [(ngModel)]="moisNBF" [formControl]="moisBFevN" min="1" max="12"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="jourBFev" floatLabel="never">
-                                    <label>Jour de l'année N-1</label>
-                                    <input type="number" matInput [(ngModel)]="jourBF" [formControl]="jourBFev" min="1" max="31"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="moisBFev" floatLabel="never">
-                                    <label>Mois de l'année N-1</label>
-                                    <input type="number" matInput [(ngModel)]="moisBF" [formControl]="moisBFev" min="1" max="12"
-                                        required />
-                                </mat-form-field>
-                                <br />
-
-
-                                <mat-label style="background-color: rgb(240, 119, 89);">
-                                    Zone C :</mat-label>
-                                <br />
-                                <mat-form-field name="jourCFevN" floatLabel="never">
-                                    <label>Jour de l'année N</label>
-                                    <input type="number" matInput [(ngModel)]="jourNCF" [formControl]="jourCFevN" min="1" max="31"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="moisCFevN" floatLabel="never">
-                                    <label>Mois de l'année N</label>
-                                    <input type="number" matInput [(ngModel)]="moisNCF" [formControl]="moisCFevN" min="1" max="12"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="jourCFev" floatLabel="never">
-                                    <label>Jour de l'année N-1</label>
-                                    <input type="number" matInput [(ngModel)]="jourCF" [formControl]="jourCFev" min="1" max="31"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="moisCFev" floatLabel="never">
-                                    <label>Mois de l'année N-1</label>
-                                    <input type="number" matInput [(ngModel)]="moisCF" [formControl]="moisCFev" min="1" max="12"
-                                        required />
-                                </mat-form-field>
-
-
-                                <mat-datepicker #picker></mat-datepicker>
-                            </mat-expansion-panel>
-
-                            <mat-expansion-panel hideToggle>
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                        Vacances d'Avril
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                        Choisir les jours et les mois pour chaque zone
-                                    </mat-panel-description>
-                                    <mat-panel-description></mat-panel-description>
-                                </mat-expansion-panel-header>
-
-                                <mat-label style="background-color: rgb(159, 204, 241);">
-                                    Zone A :</mat-label>
-                                <br />
-                                <mat-form-field name="jourAAvrN" floatLabel="never">
-                                    <label>Jour de l'année N</label>
-                                    <input type="number" matInput [(ngModel)]="jourNAA" [formControl]="jourAAvrN" min="1" max="31"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="moisAAvrN" floatLabel="never">
-                                    <label>Mois de l'année N</label>
-                                    <input type="number" matInput [(ngModel)]="moisNAA" [formControl]="moisAAvrN" min="1" max="12"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="jourAAvr" floatLabel="never">
-                                    <label>Jour de l'année N-1</label>
-                                    <input type="number" matInput [(ngModel)]="jourAA" [formControl]="jourAAvr" min="1" max="31"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="moisAAvr" floatLabel="never">
-                                    <label>Mois de l'année N-1</label>
-                                    <input type="number" matInput [(ngModel)]="moisAA" [formControl]="moisAAvr" min="1" max="12"
-                                        required />
-                                </mat-form-field>
-                                <br />
-                                <mat-label style="background-color: rgb(243, 184, 106);">
-                                    Zone B :</mat-label>
-                                <br />
-                                <mat-form-field name="jourBAvrN" floatLabel="never">
-                                    <label>Jour de l'année N</label>
-                                    <input type="number" matInput [(ngModel)]="jourNBA" [formControl]="jourBAvrN" min="1" max="31"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="moisBAvrN" floatLabel="never">
-                                    <label>Mois de l'année N</label>
-                                    <input type="number" matInput [(ngModel)]="moisNBA" [formControl]="moisBAvrN" min="1" max="12"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="jourBAvr" floatLabel="never">
-                                    <label>Jour de l'année N-1</label>
-                                    <input type="number" matInput [(ngModel)]="jourBA" [formControl]="jourBAvr" min="1" max="31"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="moisBAvr" floatLabel="never">
-                                    <label>Mois de l'année N-1</label>
-                                    <input type="number" matInput [(ngModel)]="moisBA" [formControl]="moisBAvr" min="1" max="12"
-                                        required />
-                                </mat-form-field>
-
-                                <br />
-                                <mat-label style="background-color: rgb(240, 119, 89);">
-                                    Zone C :</mat-label>
-                                <br />
-                                <mat-form-field name="jourCAvrN" floatLabel="never">
-                                    <label>Jour de l'année N</label>
-                                    <input type="number" matInput [(ngModel)]="jourNCA" [formControl]="jourCAvrN" min="1" max="31"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="moisCAvrN" floatLabel="never">
-                                    <label>Mois de l'année N</label>
-                                    <input type="number" matInput [(ngModel)]="moisNCA" [formControl]="moisCAvrN" min="1" max="12"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="jourCAvr" floatLabel="never">
-                                    <label>Jour de l'année N-1</label>
-                                    <input type="number" matInput [(ngModel)]="jourCA" [formControl]="jourCAvr" min="1" max="31"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="moisCAvr" floatLabel="never">
-                                    <label>Mois de l'année N-1</label>
-                                    <input type="number" matInput [(ngModel)]="moisCA" [formControl]="moisCAvr" min="1" max="12"
-                                        required />
-                                </mat-form-field>
-
-
-                                <mat-datepicker #picker></mat-datepicker>
-                            </mat-expansion-panel>
-
-                            <mat-expansion-panel hideToggle>
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                        Vacances d'Octobre
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                        Choisir les jours et les mois pour chaque zone
-                                    </mat-panel-description>
-                                    <mat-panel-description></mat-panel-description>
-                                </mat-expansion-panel-header>
-
-                                <mat-label style="background-color: rgb(159, 204, 241);">
-                                    Zone A :</mat-label>
-                                <br />
-                                <mat-form-field name="jourAOctN" floatLabel="never">
-                                    <label>Jour de l'année N</label>
-                                    <input type="number" matInput [(ngModel)]="jourNAO" [formControl]="jourAOctN" min="1" max="31"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="moisAOctN" floatLabel="never">
-                                    <label>Mois de l'année N</label>
-                                    <input type="number" matInput [(ngModel)]="moisNAO" [formControl]="moisAOctN" min="1" max="12"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="jourAOct" floatLabel="never">
-                                    <label>Jour de l'année N-1</label>
-                                    <input type="number" matInput [(ngModel)]="jourAO" [formControl]="jourAOct" min="1" max="31"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="moisAOct" floatLabel="never">
-                                    <label>Mois de l'année N-1</label>
-                                    <input type="number" matInput [(ngModel)]="moisAO" [formControl]="moisAOct" min="1" max="12"
-                                        required />
-                                </mat-form-field>
-
-                                <br />
-                                <mat-label style="background-color: rgb(243, 184, 106);">
-                                    Zone B :</mat-label>
-                                <br />
-                                <mat-form-field name="jourBOctN" floatLabel="never">
-                                    <label>Jour de l'année N</label>
-                                    <input type="number" matInput [(ngModel)]="jourNBO" [formControl]="jourBOctN" min="1" max="31"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="moisBOctN" floatLabel="never">
-                                    <label>Mois de l'année N</label>
-                                    <input type="number" matInput [(ngModel)]="moisNBO" [formControl]="moisBOctN" min="1" max="12"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="jourBOct" floatLabel="never">
-                                    <label>Jour de l'année N-1</label>
-                                    <input type="number" matInput [(ngModel)]="jourBO" [formControl]="jourBOct" min="1" max="31"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="moisBOct" floatLabel="never">
-                                    <label>Mois de l'année N-1</label>
-                                    <input type="number" matInput [(ngModel)]="moisBO" [formControl]="moisBOct" min="1" max="12"
-                                        required />
-                                </mat-form-field>
-
-
-                                <br />
-                                <mat-label style="background-color: rgb(240, 119, 89);">
-                                    Zone C :</mat-label>
-                                <br />
-                                <mat-form-field name="jourCOctN" floatLabel="never">
-                                    <label>Jour de l'année N</label>
-                                    <input type="number" matInput [(ngModel)]="jourNCO" [formControl]="jourCOctN" min="1" max="31"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="moisCOctN" floatLabel="never">
-                                    <label>Mois de l'année N</label>
-                                    <input type="number" matInput [(ngModel)]="moisNCO" [formControl]="moisCOctN" min="1" max="12"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="jourCOct" floatLabel="never">
-                                    <label>Jour de l'année N-1</label>
-                                    <input type="number" matInput [(ngModel)]="jourCO" [formControl]="jourCOct" min="1" max="31"
-                                        required />
-                                </mat-form-field>
-                                <mat-form-field name="moisCOct" floatLabel="never">
-                                    <label>Mois de l'année N-1</label>
-                                    <input type="number" matInput [(ngModel)]="moisCO" [formControl]="moisCOct" min="1" max="12"
-                                        required />
-                                </mat-form-field>
-
-
-                                <mat-datepicker #picker></mat-datepicker>
-                            </mat-expansion-panel>
-
+         <!--
                             <mat-expansion-panel hideToggle>
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
@@ -401,104 +132,72 @@
                                     </mat-panel-description>
                                     <mat-panel-description></mat-panel-description>
                                 </mat-expansion-panel-header>
-                                <br />
-                                <mat-label style="background-color: rgb(58, 156, 75);">
-                                    Pentecôte :</mat-label>
-                                <br />
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Choisir une date</mat-label>
-                                    <input matInput [matDatepicker]="pickerPen1" >
-                                    <mat-datepicker-toggle matSuffix [for]="pickerPen1"></mat-datepicker-toggle>
-                                    <mat-datepicker #pickerPen1></mat-datepicker>
-                                </mat-form-field>
-                                &nbsp;&nbsp;&nbsp;
-
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Choisir une date</mat-label>
-                                    <input matInput [matDatepicker]="pickerPen2" >
-                                    <mat-datepicker-toggle matSuffix [for]="pickerPen2"></mat-datepicker-toggle>
-                                    <mat-datepicker #pickerPen2></mat-datepicker>
-                                </mat-form-field>
-
-                                &nbsp;&nbsp;&nbsp;
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Choisir une date</mat-label>
-                                    <input matInput [matDatepicker]="pickerPen3" >
-                                    <mat-datepicker-toggle matSuffix [for]="pickerPen3"></mat-datepicker-toggle>
-                                    <mat-datepicker #pickerPen3></mat-datepicker>
-                                </mat-form-field>
-                                &nbsp;&nbsp;&nbsp;
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Choisir une date</mat-label>
-                                    <input matInput [matDatepicker]="pickerPen4" >
-                                    <mat-datepicker-toggle matSuffix [for]="pickerPen4"></mat-datepicker-toggle>
-                                    <mat-datepicker #pickerPen4></mat-datepicker>
-                                </mat-form-field>
-
-                                <br />
-                                <mat-label style="background-color: rgb(161, 170, 179);">
-                                    Ascension :</mat-label>
-                                <br />
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Choisir une date</mat-label>
-                                    <input matInput [matDatepicker]="pickerAs1" >
-                                    <mat-datepicker-toggle matSuffix [for]="pickerAs1"></mat-datepicker-toggle>
-                                    <mat-datepicker #pickerAs1></mat-datepicker>
-                                </mat-form-field>
-                                &nbsp;&nbsp;&nbsp;
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Choisir une date</mat-label>
-                                    <input matInput [matDatepicker]="pickerAs2" >
-                                    <mat-datepicker-toggle matSuffix [for]="pickerAs2"></mat-datepicker-toggle>
-                                    <mat-datepicker #pickerAs2></mat-datepicker>
-                                </mat-form-field>
-                                &nbsp;&nbsp;&nbsp;
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Choisir une date</mat-label>
-                                    <input matInput [matDatepicker]="pickerAs3" >
-                                    <mat-datepicker-toggle matSuffix [for]="pickerAs3"></mat-datepicker-toggle>
-                                    <mat-datepicker #pickerAs3></mat-datepicker>
-                                </mat-form-field>
-                                &nbsp;&nbsp;&nbsp;
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Choisir une date</mat-label>
-                                    <input matInput [matDatepicker]="pickerAs4" >
-                                    <mat-datepicker-toggle matSuffix [for]="pickerAs4"></mat-datepicker-toggle>
-                                    <mat-datepicker #pickerAs4></mat-datepicker>
-                                </mat-form-field>
+                                
                                 <br />
                                 <mat-label style="background-color: rgb(243, 241, 101);">
                                     Pâques :</mat-label>
                                 <br />
+                                
                                 <mat-form-field appearance="fill">
-                                    <mat-label>Choisir une date</mat-label>
-                                    <input matInput [matDatepicker]="pickerPa1">
+                                    <mat-label>Date début pour l'année N-1</mat-label>
+                                    <input matInput [matDatepicker]="pickerPa1" [formControl]="paq1" onkeyup="
+                                    var v = this.value;
+                                    if (v.match(/^\d{2}$/) !== null) {
+                                        this.value = v + '/';
+                                    } else if (v.match(/^\d{2}\/\d{2}$/) !== null) {
+                                        this.value = v + '/';
+                                    }" (keypress)="_keyPress($event)" maxlength="10">
                                     <mat-datepicker-toggle matSuffix [for]="pickerPa1"></mat-datepicker-toggle>
                                     <mat-datepicker #pickerPa1></mat-datepicker>
                                 </mat-form-field>
+
                                 &nbsp;&nbsp;&nbsp;
+                                
                                 <mat-form-field appearance="fill">
-                                    <mat-label>Choisir une date</mat-label>
-                                    <input matInput [matDatepicker]="pickerPa2" >
+                                    <mat-label>Date fin pour l'année N-1</mat-label>
+                                    <input matInput [matDatepicker]="pickerPa2" [formControl]="paq2" onkeyup="
+                                    var v = this.value;
+                                    if (v.match(/^\d{2}$/) !== null) {
+                                        this.value = v + '/';
+                                    } else if (v.match(/^\d{2}\/\d{2}$/) !== null) {
+                                        this.value = v + '/';
+                                    }" (keypress)="_keyPress($event)" maxlength="10">
                                     <mat-datepicker-toggle matSuffix [for]="pickerPa2"></mat-datepicker-toggle>
                                     <mat-datepicker #pickerPa2></mat-datepicker>
                                 </mat-form-field>
+
                                 &nbsp;&nbsp;&nbsp;
+
                                 <mat-form-field appearance="fill">
-                                    <mat-label>Choisir une date</mat-label>
-                                    <input matInput [matDatepicker]="pickerPa3">
+                                    <mat-label>Date début pour l'année N</mat-label>
+                                    <input matInput [matDatepicker]="pickerPa3" [formControl]="paq3" onkeyup="
+                                    var v = this.value;
+                                    if (v.match(/^\d{2}$/) !== null) {
+                                        this.value = v + '/';
+                                    } else if (v.match(/^\d{2}\/\d{2}$/) !== null) {
+                                        this.value = v + '/';
+                                    }" (keypress)="_keyPress($event)" maxlength="10">
                                     <mat-datepicker-toggle matSuffix [for]="pickerPa3"></mat-datepicker-toggle>
                                     <mat-datepicker #pickerPa3></mat-datepicker>
                                 </mat-form-field>
+
                                 &nbsp;&nbsp;&nbsp;
+
                                 <mat-form-field appearance="fill">
-                                    <mat-label>Choisir une date</mat-label>
-                                    <input matInput [matDatepicker]="pickerPa4" >
+                                    <mat-label>Date fin pour l'année N</mat-label>
+                                    <input matInput [matDatepicker]="pickerPa4" [formControl]="paq4" onkeyup="
+                                    var v = this.value;
+                                    if (v.match(/^\d{2}$/) !== null) {
+                                        this.value = v + '/';
+                                    } else if (v.match(/^\d{2}\/\d{2}$/) !== null) {
+                                        this.value = v + '/';
+                                    }" (keypress)="_keyPress($event)" maxlength="10">
                                     <mat-datepicker-toggle matSuffix [for]="pickerPa4"></mat-datepicker-toggle>
                                     <mat-datepicker #pickerPa4></mat-datepicker>
                                 </mat-form-field>
                                 <br />
                             </mat-expansion-panel>
+                            -->
 
                         </mat-accordion>
 
