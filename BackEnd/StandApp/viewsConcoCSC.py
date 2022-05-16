@@ -695,8 +695,6 @@ def conco(df1,df_new, annee1, annee2):
             if(test[0].month==1):
                 els_C=els_C.append({'date': test[0]}, ignore_index=True)
 
-    print(els_A['date'])
-    print(elsA['date'])
     start_date_A_2021 = date(els_A['date'][0].year, els_A['date'][0].month, els_A['date'][0].day-2)
     end_date_A_2021 = date(els_A['date'][len(els_A)-1].year, els_A['date'][len(els_A)-1].month, els_A['date'][len(els_A)-1].day)
     start_date_A_2022 = date(elsA['date'][0].year, elsA['date'][0].month, elsA['date'][0].day-1)
@@ -881,11 +879,9 @@ def conco(df1,df_new, annee1, annee2):
     final.drop_duplicates(keep='first',inplace=True)
     final.reset_index(inplace=True,drop=True)
 
-    
     final['HOUR'] = final['DATE'].dt.hour
     final['HOURW'] = final['DATE REF'].dt.hour
     final["ECART"]=final['HOUR']-final['HOURW']
-
     # print(final)
     data = pd.DataFrame(columns=[
             'ARMATEUR', 'NAVIRE','VENTES', 'VENTESW','HOUR','HOURW' 'DATEHEUREDEPART', 'NAVIREW', 'DATEHEUREDEPARTW', 'MAXDATEFICHIER', 'INFO',
@@ -909,9 +905,10 @@ def conco(df1,df_new, annee1, annee2):
     data['NUMPACKAGE']=final['PackageId_x']
     data['NUMPACKAGEW']=final['PackageId_y']
 
+    
     data['DATEHEUREDEPART'].astype(str).tolist()
     data['DATEHEUREDEPARTW'].astype(str).tolist()
-
+    
     ids = data["NUMPACKAGEW"]
     df_test_lc = data[ids.isin(ids[ids.duplicated()])]
     df_test_lc.sort_values(by=['NUMPACKAGEW','NUMPACKAGE'],
@@ -1316,6 +1313,18 @@ def conco(df1,df_new, annee1, annee2):
     frames = [pascommun, toadd]
     result = pd.concat(frames)
     result.reset_index(inplace=True, drop=True)'''
+    for i in range(len(data4)-1):
+        data4["ARMATEUR"][i]="SNCM"
+        data4["MAXDATEFICHIER"][i]=datetime.datetime(day=31,month=12,year=2099)
+    print('------')
+    data4['DATEHEUREDEPART'] = data4['DATEHEUREDEPART'].map(str)
+    data4['DATEHEUREDEPARTW'] = data4['DATEHEUREDEPARTW'].map(str)
+    data4['MAXDATEFICHIER'] = data4['MAXDATEFICHIER'].map(str)
+    print(data4['DATEHEUREDEPART'][0])
+    print(data4['DATEHEUREDEPARTW'][0])
+    print(data4.dtypes)
+    print('------')
+
     return data4
 
 
@@ -1347,6 +1356,7 @@ def ConcoCSC(request):
         df1 = pd.read_excel(xls, 'CSC 2021')
         df2 = pd.read_excel(xls, 'CSC 2022')
         data=concoCSC(df1,df2,annee1,annee2)
+
     total = time.time() - start_time
     print(total)
     return HttpResponse(data.to_json(orient='records'))

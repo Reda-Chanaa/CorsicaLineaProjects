@@ -64,10 +64,28 @@ def pandasgui(request):
         df1 = pd.read_csv(File1, encoding="utf8" ,sep=';', index_col=False)
         
         #Deploy the GUI of the mpg dataset
-        show
         show(df1,)
-        print(show(df1))
     total = time.time() - start_time
     print(total)
     # pour retourner en response le résultat text de la page html du profiling
     return HttpResponse(total, content_type='text/plain')
+
+# get column
+def getcolumn(request):
+    start_time = time.time()
+    if request.method == 'POST':
+        File1 = request.FILES["file1"]
+        #File = JSONParser().parse(request)
+        df1 = pd.read_csv(File1, encoding="utf8" ,sep=';', index_col=False)
+        
+        #Deploy the GUI of the mpg dataset
+        table=[]
+        i=0
+        for col in df1.columns:
+            table.append({ 'id': i, 'name': col })
+            i=i+1
+
+    total = time.time() - start_time
+    print(total)
+    # pour retourner en response le résultat text de la page html du profiling
+    return HttpResponse(json.dumps(table))

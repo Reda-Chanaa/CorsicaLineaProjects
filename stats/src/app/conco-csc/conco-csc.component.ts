@@ -134,12 +134,15 @@ export class ConcoCscComponent {
         data => {
           this.value=10
           this.dataFrame = data;
+          console.log(data)
           // to choose witch data gonna be showing in the table
           this.InitializeVisualization();
          // console.log(this.paq1)
+         
           data.forEach(element => {
             element.DATEHEUREDEPART = moment(element.DATEHEUREDEPART).format("DD/MM/YYYY HH:mm")
             element.DATEHEUREDEPARTW = moment(element.DATEHEUREDEPARTW).format("DD/MM/YYYY HH:mm")
+            element.MAXDATEFICHIER = moment(element.MAXDATEFICHIER).format("DD/MM/YYYY HH:mm")
           });
           console.log(data)
 

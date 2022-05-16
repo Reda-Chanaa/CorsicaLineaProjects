@@ -2,12 +2,7 @@ import { Component, Inject, ViewChild } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { merge, Observable } from 'rxjs';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import * as Highcharts from 'highcharts';
-import { Router } from '@angular/router';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +42,15 @@ export class ApiStat {
     header.append('Content-Type', 'multipart/form-data');
     return this.http.post(this.baseurl + '/pandasgui/', formData, { headers: header })
   }
+
+  getcolumn(File: any): Observable<any>{
+    let formData = new FormData();
+    formData.append('file1', File, File.name);
+
+    var header = new HttpHeaders();
+    header.append('Content-Type', 'multipart/form-data');
+    return this.http.post(this.baseurl + '/getcolumn/', formData, { headers: header })
+  }
   
 }
 @Component({
@@ -60,15 +64,29 @@ export class ProfilingComponent {
   dataFrame: any;
 
   value: number;
+  values: number;
   df1: any;
   annee: any;
+  form: FormGroup;
+  ordersData = [];
+
+
   constructor(private DATACLEANING: ApiStat) {
 
   }
-
+  
   // function executed when file is changed
   fileChangeListener1($event: any): void {
     this.df1 = $event.target.files[0]
+    this.values=0
+    this.DATACLEANING.getcolumn(this.df1).subscribe(
+      data => {
+        this.values=10
+        // async orders
+        this.ordersData=data
+        console.log(data)
+      }
+    )
   }
   
   // Get Statistics forms

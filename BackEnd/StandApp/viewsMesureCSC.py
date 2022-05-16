@@ -511,6 +511,7 @@ def MesureCSC(request):
                 print("trouvable et update +")
     total = time.time() - start_time
     print(total)
+    print(df.dtypes)
     return HttpResponse(df.to_json(orient='records'))
 
 
@@ -1003,6 +1004,7 @@ def MesureCSCPLUS(request):
                 print("trouvable et update +")
     total = time.time() - start_time
     print(total)
+    print(df.dtypes)
     return HttpResponse(df.to_json(orient='records'))
 
 
