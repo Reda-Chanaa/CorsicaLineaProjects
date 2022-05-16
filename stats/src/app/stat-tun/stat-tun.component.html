@@ -367,9 +367,9 @@
                             <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
                         </table>
                         <div class="export-container">
-                            <button style="background-color: rgb(256,54,54);" class="btn pull-right" mat-raised-button
-                                (click)="exportTable()">Exporter en Excel</button>
-                        </div>
+                            <button style="background-color: rgb(256,54,54);" class="btn pull-right" mat-raised-button (click)="exporter.exportTable('xlsx', {fileName:date , sheet: 'TUN', Props: {Author: 'Reda CHANAA'}})">Exporter en Excel</button>
+
+                            </div>
                         <figure class="highcharts-figure">
                             <div style="width: 100%; height: 700px; display: block;" id="container">
     

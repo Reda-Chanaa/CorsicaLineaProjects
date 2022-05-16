@@ -1,0 +1,54 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Profilage des données</h4>
+                </div>
+                <div class="card-body">
+                    <br />
+                    <form class="ng-untouched ng-pristine ng-invalid" #myForm="ngForm" ngNativeValidate>
+                        <div>
+                            <label for="file"> <b>Choisir un fichier CSV :</b></label>
+                            <input type="file" #fileInput name="File Upload" id="csvFile1"
+                                (change)="fileChangeListener1($event)" accept=".csv" />
+                        </div>
+                        <br />
+                        <div *ngIf="values === 10">
+                        Les colonnes à afficher :
+                        <section class="example-section" *ngFor="let order of ordersData">
+                            <mat-checkbox  class="example-margin" [checked]="order.selected" (change)="onChange($event)">{{order.name}}</mat-checkbox>
+                        </section>
+                        Filtrer par :
+                        <section class="example-section" *ngFor="let order of ordersData">
+                            <mat-checkbox  class="example-margin" [checked]="order.selected" (change)="onChange($event)">{{order.name}}</mat-checkbox>
+                        </section>
+                        </div>
+                          
+                        <br>
+
+                        <!--
+                        <button (click)="profile()" style="background-color: rgb(256,54,54);" class="btn pull-right">
+                            <b>Génerer le profilage</b>
+                        </button>-->
+                        <br />
+                        <button (click)="sweetviz()" style="background-color: rgb(256,54,54);" class="btn pull-right">
+                            <b>Génerer le sweetviz</b>
+                        </button>
+
+                        <button (click)="pandasgui()" style="background-color: rgb(256,54,54);" class="btn pull-right">
+                            <b>Génerer le gui</b>
+                        </button>
+
+                        
+                    </form>
+                    <mat-spinner style="stroke: rgb(256,54,54);" strokeWidth="3" [diameter]="100"
+                        *ngIf="value === 0">
+                    </mat-spinner>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

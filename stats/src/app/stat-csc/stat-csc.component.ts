@@ -5,7 +5,6 @@ import { merge, Observable } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import * as XLSX from 'xlsx';
 import * as Highcharts from "highcharts";
 
 @Injectable({
@@ -94,6 +93,12 @@ export interface StatData {
 export class StatCscComponent {
 
   @ViewChild('TABLE') table: ElementRef;
+
+  day = new Date().getDate()
+  moiss = new Date().getMonth() + 1
+  annees = new Date().getFullYear()
+  date:any
+
   HiddenBudget = false
   HiddenCible = false
   HiddenObjectif = false
@@ -219,6 +224,7 @@ export class StatCscComponent {
   getInfo() {
     this.DATACLEANING.getInf(this.annee).subscribe(
       data => {
+        this.date = "ReportingCSC_" + this.annee + "_" + this.day + "-" + this.moiss + "-" + this.annees + ".xlsx"
         for (let i = 0; i < data.length; i++) {
           if (data[i].Mois == 1) {
             this.cible1 = data[i].Cible
@@ -988,6 +994,7 @@ export class StatCscComponent {
       this.columnDefinitions[5].show = this.OBJECTIF.value;
     });
   }
+  /*
   exportTable() {
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
@@ -999,11 +1006,11 @@ export class StatCscComponent {
     let annee = new Date().getFullYear()
     let date = "ReportingCSC_" + this.annee + "_" + day + "-" + mois + "-" + annee + ".xlsx"
     console.log(date)
-    /* save to file */
+    //save to file
     XLSX.writeFile(wb, date.toString());
     //TableUtil.exportTableToExcel("reporting", date.toString());
 
-  }
+  }*/
   // to initialize the visualisation with user's checkBox
   InitializeVisualization() {
     this.columnDefinitions = [

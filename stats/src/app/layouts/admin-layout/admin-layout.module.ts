@@ -38,6 +38,7 @@ import { ChartTunComponent } from '../../chart-tun/chart-tun.component';
 import { ConcoCscComponent } from '../../conco-csc/conco-csc.component';
 import { ConcoAlgComponent } from '../../conco-alg/conco-alg.component';
 import { ConcoTunComponent } from '../../conco-tun/conco-tun.component';
+import { ProfilingComponent } from '../../profiling/profiling.component';
 
 @NgModule({
   imports: [
@@ -81,7 +82,8 @@ import { ConcoTunComponent } from '../../conco-tun/conco-tun.component';
     DashboardComponent,
     ConcoAlgComponent,
     ConcoCscComponent,
-    ConcoTunComponent
+    ConcoTunComponent,
+    ProfilingComponent
   ]
 })
 
