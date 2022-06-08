@@ -1102,7 +1102,8 @@ def conco(df1,df_new, annee1, annee2):
     df_test_lc.sort_values(by=['NUMPACKAGEW','NUMPACKAGE'],
                            inplace=True)
     df_test_lc.reset_index(drop=True, inplace=True)
-    #pprint(len(df_test_lc))
+    #print(len(df_test_lc))
+    
     groups = df_test_lc.groupby(['NUMPACKAGEW'])
 
     data_ventes = pd.DataFrame(columns=[
@@ -1313,6 +1314,15 @@ def conco(df1,df_new, annee1, annee2):
     frames = [pascommun, toadd]
     result = pd.concat(frames)
     result.reset_index(inplace=True, drop=True)'''
+    data4.drop(data4.index[data4['ECART'] > 3], inplace=True)
+    data4.sort_values(by=['NUMPACKAGEW','NUMPACKAGE'],
+                           inplace=True)
+    data4.reset_index(drop=True, inplace=True)
+    data4.drop(data4.index[data4['ECART'] < -3], inplace=True)
+    data4.sort_values(by=['NUMPACKAGEW','NUMPACKAGE'],
+                           inplace=True)
+    data4.reset_index(drop=True, inplace=True)
+
     for i in range(len(data4)-1):
         data4["ARMATEUR"][i]="SNCM"
         data4["MAXDATEFICHIER"][i]=datetime.datetime(day=31,month=12,year=2099)

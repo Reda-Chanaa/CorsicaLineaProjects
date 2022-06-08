@@ -15,7 +15,6 @@ conn = psycopg2.connect("dbname=yield password=2022 user=postgres")
 # Open a cursor to perform database operations
 cur = conn.cursor()
 
-
 def Stat_ALG(data_yesterday, data_today, annee, mois, cible, budget):
     table_reseau_armateur_today = pd.pivot_table(
         data_today[(data_today.RESEAU == "ALGERIE")

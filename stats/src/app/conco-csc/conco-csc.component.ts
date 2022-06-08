@@ -142,7 +142,7 @@ export class ConcoCscComponent {
           data.forEach(element => {
             element.DATEHEUREDEPART = moment(element.DATEHEUREDEPART).format("DD/MM/YYYY HH:mm")
             element.DATEHEUREDEPARTW = moment(element.DATEHEUREDEPARTW).format("DD/MM/YYYY HH:mm")
-            element.MAXDATEFICHIER = moment(element.MAXDATEFICHIER).format("DD/MM/YYYY HH:mm")
+            element.MAXDATEFICHIER = moment(element.MAXDATEFICHIER).format("DD/MM/YYYY")
           });
           console.log(data)
 
