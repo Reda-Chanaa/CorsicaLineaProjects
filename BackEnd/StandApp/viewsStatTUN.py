@@ -1232,8 +1232,8 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                     ]
             else:
                 MS1.loc[3] = [
-                    "MOYENNE SAISON 1", MS1["CIBLE"][1], MS1["VENTE"][1],
-                    MS1["CUMUL"][1], MS1["BUDGET"][1], MS1["OBJECTIF"][1]
+                    "MOYENNE SAISON 1", MS1["CIBLE"][2], MS1["VENTE"][2],
+                    MS1["CUMUL"][2], MS1["BUDGET"][2], MS1["OBJECTIF"][2]
                 ]
         #  HS
         if mesure["TUNISIE"][i] == "Jul":
