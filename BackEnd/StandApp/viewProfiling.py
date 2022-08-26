@@ -46,7 +46,7 @@ def sweetviz(request):
         #File = JSONParser().parse(request)
         df1 = pd.read_csv(File1, encoding="utf-8", sep=';', index_col=False)
         
-        
+        df1.drop(columns={"COM", "SAIL_ID","DATE_DEPART","GI","STATUS","DSP","PAIEMENT"}, axis=1,inplace=True)
         my_report = sv.analyze(df1,target_feat='PAX')
         my_report.show_html()
         

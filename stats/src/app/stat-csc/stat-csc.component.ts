@@ -224,7 +224,7 @@ export class StatCscComponent {
   getInfo() {
     this.DATACLEANING.getInf(this.annee).subscribe(
       data => {
-        this.date = "ReportingCSC_" + this.annee + "_" + this.day + "-" + this.moiss + "-" + this.annees + ".xlsx"
+        this.date = "ReportingCSC_" + this.annee + "_" + this.day + "-" + this.moiss + "-" + this.annees 
         for (let i = 0; i < data.length; i++) {
           if (data[i].Mois == 1) {
             this.cible1 = data[i].Cible

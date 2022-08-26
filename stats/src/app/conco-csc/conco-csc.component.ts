@@ -5,7 +5,6 @@ import { merge, Observable } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDateFormats, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import moment from 'moment';
 
 @Injectable({
@@ -72,6 +71,9 @@ export class ConcoCscComponent {
   annee1: string = null;
   annee2: string = null;
 
+  pickerVeille:Date;
+  pickerJour:Date;
+  
   value:number=10
 /*
   paq1 = new FormControl('');
@@ -140,8 +142,8 @@ export class ConcoCscComponent {
          // console.log(this.paq1)
          
           data.forEach(element => {
-            element.DATEHEUREDEPART = moment(element.DATEHEUREDEPART).format("DD/MM/YYYY HH:mm")
-            element.DATEHEUREDEPARTW = moment(element.DATEHEUREDEPARTW).format("DD/MM/YYYY HH:mm")
+            element.DATEHEUREDEPART = moment(element.DATEHEUREDEPART).format("DD/MM/YYYY  HH:mm:ss")
+            element.DATEHEUREDEPARTW = moment(element.DATEHEUREDEPARTW).format("DD/MM/YYYY  HH:mm:ss")
             element.MAXDATEFICHIER = moment(element.MAXDATEFICHIER).format("DD/MM/YYYY")
           });
           console.log(data)

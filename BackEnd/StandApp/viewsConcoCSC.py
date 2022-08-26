@@ -1,4 +1,3 @@
-from re import I
 import time
 from django.http import HttpResponse
 from datetime import datetime
@@ -107,57 +106,66 @@ def conco(df1,df_new, annee1, annee2):
         test=list(value.values())
         if(test[4]=="Vacances d'Ã©tÃ©"):
             elsA=elsA.append({'date': test[0]}, ignore_index=True)
-
+        elif(test[4]=="Vacances d'été"):
+            elsA=elsA.append({'date': test[0]}, ignore_index=True)
     items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1), 'B')
     elsB = pd.DataFrame(columns=['date'])
     for key, value in items.items():
         test=list(value.values())
         if(test[4]=="Vacances d'Ã©tÃ©"):
             elsB=elsB.append({'date': test[0]}, ignore_index=True)
-
+        elif(test[4]=="Vacances d'été"):
+            elsB=elsB.append({'date': test[0]}, ignore_index=True)
     items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1), 'C')
     elsC = pd.DataFrame(columns=['date'])
     for key, value in items.items():
         test=list(value.values())
         if(test[4]=="Vacances d'Ã©tÃ©"):
             elsC=elsC.append({'date': test[0]}, ignore_index=True)
-
+        elif(test[4]=="Vacances d'été"):
+            elsC=elsC.append({'date': test[0]}, ignore_index=True)
     items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2), 'A')
     els_A = pd.DataFrame(columns=['date'])
     for key, value in items.items():
         test=list(value.values())
         if(test[4]=="Vacances d'Ã©tÃ©"):
             els_A=els_A.append({'date': test[0]}, ignore_index=True)
-
+        elif(test[4]=="Vacances d'été"):
+            els_A=els_A.append({'date': test[0]}, ignore_index=True)
     items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2), 'B')
     els_B = pd.DataFrame(columns=['date'])
     for key, value in items.items():
         test=list(value.values())
         if(test[4]=="Vacances d'Ã©tÃ©"):
             els_B=els_B.append({'date': test[0]}, ignore_index=True)
-
+        elif(test[4]=="Vacances d'été"):
+            els_B=els_B.append({'date': test[0]}, ignore_index=True)
     items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2), 'C')
     els_C = pd.DataFrame(columns=['date'])
     for key, value in items.items():
         test=list(value.values())
         if(test[4]=="Vacances d'Ã©tÃ©"):
             els_C=els_C.append({'date': test[0]}, ignore_index=True)
-
+        elif(test[4]=="Vacances d'été"):
+            els_C=els_C.append({'date': test[0]}, ignore_index=True)
     start_date_2021 = date(els_A['date'][0].year, els_A['date'][0].month, els_A['date'][0].day)
     end_date_2021 = date(els_A['date'][len(els_A)-1].year, els_A['date'][len(els_A)-1].month, els_A['date'][len(els_A)-1].day)
     start_date_2022 = date(elsA['date'][0].year, elsA['date'][0].month, elsA['date'][0].day-1)
     end_date_2022 = date(elsA['date'][len(elsA)-1].year, elsA['date'][len(elsA)-1].month, elsA['date'][len(elsA)-1].day)
-
+    #print("2021 start end A",start_date_2021,"",end_date_2021)
+    #print("2022 start end A",start_date_2022,"",end_date_2022)
     start_date_B_2021 = date(els_B['date'][0].year, els_B['date'][0].month, els_B['date'][0].day)
     end_date_B_2021 = date(els_B['date'][len(els_B)-1].year, els_B['date'][len(els_B)-1].month, els_B['date'][len(els_B)-1].day)
     start_date_B_2022 = date(elsB['date'][0].year, elsB['date'][0].month, elsB['date'][0].day-1)
     end_date_B_2022 = date(elsB['date'][len(elsB)-1].year, elsB['date'][len(elsB)-1].month, elsB['date'][len(elsB)-1].day)
-
+    #print("2021 start end B",start_date_B_2021,"",end_date_B_2021)
+    #print("2022 start end B",start_date_B_2022,"",end_date_B_2022)
     start_date_C_2021=date(els_C['date'][0].year, els_C['date'][0].month, els_C['date'][0].day)
     end_date_C_2021 = date(els_C['date'][len(els_C)-1].year, els_C['date'][len(els_C)-1].month, els_C['date'][len(els_C)-1].day)
     start_date_C_2022 = date(elsC['date'][0].year, elsC['date'][0].month, elsC['date'][0].day-1)
     end_date_C_2022 = date(elsC['date'][len(elsC)-1].year, elsC['date'][len(elsC)-1].month, elsC['date'][len(elsC)-1].day)
-
+    #print("2021 start end C",start_date_C_2021,"",end_date_C_2021)
+    #print("2022 start end C",start_date_C_2022,"",end_date_C_2022)
     '''
     eteA=SchoolHolidayDates().holidays_for_year_zone_and_name(int(annee1),'A',"Vacances d'été")
     #print(eteA)
@@ -246,16 +254,20 @@ def conco(df1,df_new, annee1, annee2):
     end_date_A_2021 = date(els_A[-1][0].year, els_A[-1][0].month, els_A[-1][0].day)
     start_date_A_2022 = date(elsA[0][0].year, elsA[0][0].month, elsA[0][0].day-1)
     end_date_A_2022 = date(elsA[-1][0].year, elsA[-1][0].month, elsA[-1][0].day)
-
+    #print("2021 start end A",start_date_A_2021,"",end_date_A_2021)
+    #print("2022 start end A",start_date_A_2022,"",end_date_A_2022)
     start_date_B_2021 = date(els_B[0][0].year, els_B[0][0].month, els_B[0][0].day-1)
     end_date_B_2021 = date(els_B[-1][0].year, els_B[-1][0].month, els_B[-1][0].day)
     start_date_B_2022 = date(elsB[0][0].year, elsB[0][0].month, elsB[0][0].day-1)
     end_date_B_2022 = date(elsB[-1][0].year, elsB[-1][0].month, elsB[-1][0].day)
-
+    #print("2021 start end B",start_date_B_2021,"",end_date_B_2021)
+    #print("2022 start end B",start_date_B_2022,"",end_date_B_2022)
     start_date_C_2021=date(els_C[0][0].year, els_C[0][0].month, els_C[0][0].day-1)
     end_date_C_2021 = date(els_C[-1][0].year, els_C[-1][0].month, els_C[-1][0].day)
     start_date_C_2022 = date(elsC[0][0].year, elsC[0][0].month, elsC[0][0].day-1)
     end_date_C_2022 = date(elsC[-1][0].year, elsC[-1][0].month, elsC[-1][0].day)
+    #print("2021 start end C",start_date_C_2021,"",end_date_C_2021)
+    #print("2022 start end C",start_date_C_2022,"",end_date_C_2022)
 
     if (int ((end_date_B_2021 - start_date_B_2021).days)) > (int ((end_date_B_2022 - start_date_B_2022).days)):
         print("bigger")
@@ -371,17 +383,20 @@ def conco(df1,df_new, annee1, annee2):
     end_date_A_2021 = date(els_A[-1][0].year, els_A[-1][0].month, els_A[-1][0].day)
     start_date_A_2022 = date(elsA[0][0].year, elsA[0][0].month, elsA[0][0].day-1)
     end_date_A_2022 = date(elsA[-1][0].year, elsA[-1][0].month, elsA[-1][0].day)
-
+    #print("2021 start end A",start_date_A_2021,"",end_date_A_2021)
+    #print("2022 start end A",start_date_A_2022,"",end_date_A_2022)
     start_date_B_2021 = date(els_B[0][0].year, els_B[0][0].month, els_B[0][0].day-1)
     end_date_B_2021 = date(els_B[-1][0].year, els_B[-1][0].month, els_B[-1][0].day)
     start_date_B_2022 = date(elsB[0][0].year, elsB[0][0].month, elsB[0][0].day-1)
     end_date_B_2022 = date(elsB[-1][0].year, elsB[-1][0].month, elsB[-1][0].day)
-
+    #print("2021 start end B",start_date_B_2021,"",end_date_B_2021)
+    #print("2022 start end B",start_date_B_2022,"",end_date_B_2022)
     start_date_C_2021=date(els_C[0][0].year, els_C[0][0].month, els_C[0][0].day-1)
     end_date_C_2021 = date(els_C[-1][0].year, els_C[-1][0].month, els_C[-1][0].day)
     start_date_C_2022 = date(elsC[0][0].year, elsC[0][0].month, elsC[0][0].day-1)
     end_date_C_2022 = date(elsC[-1][0].year, elsC[-1][0].month, elsC[-1][0].day)
-
+    #print("2021 start end C",start_date_C_2021,"",end_date_C_2021)
+    #print("2022 start end C",start_date_C_2022,"",end_date_C_2022)
     # zone c
     if (int ((end_date_C_2021 - start_date_C_2021).days)) > (int ((end_date_C_2022 - start_date_C_2022).days)):
         print("bigger")
@@ -501,17 +516,20 @@ def conco(df1,df_new, annee1, annee2):
     end_date_A_2021 = date(els_A[-1][0].year, els_A[-1][0].month, els_A[-1][0].day)
     start_date_A_2022 = date(elsA[0][0].year, elsA[0][0].month, elsA[0][0].day-1)
     end_date_A_2022 = date(elsA[-1][0].year, elsA[-1][0].month, elsA[-1][0].day)
-
+    #print("2021 start end A",start_date_A_2021,"",end_date_A_2021)
+    #print("2022 start end A",start_date_A_2022,"",end_date_A_2022)
     start_date_B_2021 = date(els_B[0][0].year, els_B[0][0].month, els_B[0][0].day-1)
     end_date_B_2021 = date(els_B[-1][0].year, els_B[-1][0].month, els_B[-1][0].day)
     start_date_B_2022 = date(elsB[0][0].year, elsB[0][0].month, elsB[0][0].day-1)
     end_date_B_2022 = date(elsB[-1][0].year, elsB[-1][0].month, elsB[-1][0].day)
-
+    #print("2021 start end B",start_date_B_2021,"",end_date_B_2021)
+    #print("2022 start end B",start_date_B_2022,"",end_date_B_2022)
     start_date_C_2021=date(els_C[0][0].year, els_C[0][0].month, els_C[0][0].day-1)
     end_date_C_2021 = date(els_C[-1][0].year, els_C[-1][0].month, els_C[-1][0].day)
     start_date_C_2022 = date(elsC[0][0].year, elsC[0][0].month, elsC[0][0].day-1)
     end_date_C_2022 = date(elsC[-1][0].year, elsC[-1][0].month, elsC[-1][0].day)
-
+    #print("2021 start end C",start_date_C_2021,"",end_date_C_2021)
+    #print("2022 start end C",start_date_C_2022,"",end_date_C_2022)
 
     # zone c
     if (int ((end_date_C_2021 - start_date_C_2021).days)) > (int ((end_date_C_2022 - start_date_C_2022).days)):
@@ -618,18 +636,26 @@ def conco(df1,df_new, annee1, annee2):
         if(test[4]=="Vacances de NoÃ«l"):
             if(test[0].month==12):
                 elsA=elsA.append({'date': test[0]}, ignore_index=True)
+        elif(test[4]=="Vacances de Noël"):
+            if(test[0].month==12):
+                elsA=elsA.append({'date': test[0]}, ignore_index=True)
     items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1)+1, 'A')
     for key, value in items.items():
         test=list(value.values())
         if(test[4]=="Vacances de NoÃ«l"):
             if(test[0].month==1):
                 elsA=elsA.append({'date': test[0]}, ignore_index=True)
-
+        elif(test[4]=="Vacances de Noël"):
+            if(test[0].month==1):
+                elsA=elsA.append({'date': test[0]}, ignore_index=True)
     items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1), 'B')
     elsB = pd.DataFrame(columns=['date'])
     for key, value in items.items():
         test=list(value.values())
         if(test[4]=="Vacances de NoÃ«l"):
+            if(test[0].month==12):
+                elsB=elsB.append({'date': test[0]}, ignore_index=True)
+        elif(test[4]=="Vacances de Noël"):
             if(test[0].month==12):
                 elsB=elsB.append({'date': test[0]}, ignore_index=True)
     items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1)+1, 'B')
@@ -638,12 +664,17 @@ def conco(df1,df_new, annee1, annee2):
         if(test[4]=="Vacances de NoÃ«l"):
             if(test[0].month==1):
                 elsB=elsB.append({'date': test[0]}, ignore_index=True)
-
+        elif(test[4]=="Vacances de Noël"):
+            if(test[0].month==1):
+                elsB=elsB.append({'date': test[0]}, ignore_index=True)
     items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1), 'C')
     elsC = pd.DataFrame(columns=['date'])
     for key, value in items.items():
         test=list(value.values())
         if(test[4]=="Vacances de NoÃ«l"):
+            if(test[0].month==12):
+                elsC=elsC.append({'date': test[0]}, ignore_index=True)
+        elif(test[4]=="Vacances de Noël"):
             if(test[0].month==12):
                 elsC=elsC.append({'date': test[0]}, ignore_index=True)
     items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1)+1, 'C')
@@ -652,12 +683,17 @@ def conco(df1,df_new, annee1, annee2):
         if(test[4]=="Vacances de NoÃ«l"):
             if(test[0].month==1):
                 elsC=elsC.append({'date': test[0]}, ignore_index=True)
-
+        elif(test[4]=="Vacances de Noël"):
+            if(test[0].month==1):
+                elsC=elsC.append({'date': test[0]}, ignore_index=True)
     items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2), 'A')
     els_A = pd.DataFrame(columns=['date'])
     for key, value in items.items():
         test=list(value.values())
         if(test[4]=="Vacances de NoÃ«l"):
+            if(test[0].month==12):
+                els_A=els_A.append({'date': test[0]}, ignore_index=True)
+        elif(test[4]=="Vacances de Noël"):
             if(test[0].month==12):
                 els_A=els_A.append({'date': test[0]}, ignore_index=True)
     items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2)+1, 'A')
@@ -666,12 +702,17 @@ def conco(df1,df_new, annee1, annee2):
         if(test[4]=="Vacances de NoÃ«l"):
             if(test[0].month==1):
                 els_A=els_A.append({'date': test[0]}, ignore_index=True)
-
+        elif(test[4]=="Vacances de Noël"):
+            if(test[0].month==1):
+                els_A=els_A.append({'date': test[0]}, ignore_index=True)
     items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2), 'B')
     els_B = pd.DataFrame(columns=['date'])
     for key, value in items.items():
         test=list(value.values())
         if(test[4]=="Vacances de NoÃ«l"):
+            if(test[0].month==12):
+                els_B=els_B.append({'date': test[0]}, ignore_index=True)
+        elif(test[4]=="Vacances de Noël"):
             if(test[0].month==12):
                 els_B=els_B.append({'date': test[0]}, ignore_index=True)
     items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2)+1, 'B')
@@ -680,12 +721,17 @@ def conco(df1,df_new, annee1, annee2):
         if(test[4]=="Vacances de NoÃ«l"):
             if(test[0].month==1):
                 els_B=els_B.append({'date': test[0]}, ignore_index=True)
-
+        elif(test[4]=="Vacances de Noël"):
+            if(test[0].month==1):
+                els_B=els_B.append({'date': test[0]}, ignore_index=True)
     items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2), 'C')
     els_C = pd.DataFrame(columns=['date'])
     for key, value in items.items():
         test=list(value.values())
         if(test[4]=="Vacances de NoÃ«l"):
+            if(test[0].month==12):
+                els_C=els_C.append({'date': test[0]}, ignore_index=True)
+        elif(test[4]=="Vacances de Noël"):
             if(test[0].month==12):
                 els_C=els_C.append({'date': test[0]}, ignore_index=True)
     items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2)+1, 'C')
@@ -694,22 +740,92 @@ def conco(df1,df_new, annee1, annee2):
         if(test[4]=="Vacances de NoÃ«l"):
             if(test[0].month==1):
                 els_C=els_C.append({'date': test[0]}, ignore_index=True)
+        elif(test[4]=="Vacances de Noël"):
+            if(test[0].month==1):
+                els_C=els_C.append({'date': test[0]}, ignore_index=True)
+    print(len(els_A))
+    print(len(elsA))
+    if(len(els_A)>len(elsA)):
+        start_date_A_2021 = date(els_A['date'][0].year, els_A['date'][0].month, els_A['date'][0].day-1)
+        end_date_A_2021 = date(els_A['date'][len(els_A)-1].year, els_A['date'][len(els_A)-1].month, els_A['date'][len(els_A)-1].day)
+        start_date_A_2022 = date(elsA['date'][0].year, elsA['date'][0].month, elsA['date'][0].day-1)
+        end_date_A_2022 = date(elsA['date'][len(elsA)-1].year, elsA['date'][len(elsA)-1].month, elsA['date'][len(elsA)-1].day+1)
+        #print("2021 start end A",start_date_A_2021,"",end_date_A_2021)
+        #print("2022 start end A",start_date_A_2022,"",end_date_A_2022)
+        start_date_B_2021 = date(els_B['date'][0].year, els_B['date'][0].month, els_B['date'][0].day-1)
+        end_date_B_2021 = date(els_B['date'][len(els_B)-1].year, els_B['date'][len(els_B)-1].month, els_B['date'][len(els_B)-1].day)
+        start_date_B_2022 = date(elsB['date'][0].year, elsB['date'][0].month, elsB['date'][0].day-1)
+        end_date_B_2022 = date(elsB['date'][len(elsB)-1].year, elsB['date'][len(elsB)-1].month, elsB['date'][len(elsB)-1].day+1)
+        #print("2021 start end B",start_date_B_2021,"",end_date_B_2021)
+        #print("2022 start end B",start_date_B_2022,"",end_date_B_2022)
+        start_date_C_2021=date(els_C['date'][0].year, els_C['date'][0].month, els_C['date'][0].day-1)
+        end_date_C_2021 = date(els_C['date'][len(els_C)-1].year, els_C['date'][len(els_C)-1].month, els_C['date'][len(els_C)-1].day)
+        start_date_C_2022 = date(elsC['date'][0].year, elsC['date'][0].month, elsC['date'][0].day-1)
+        end_date_C_2022 = date(elsC['date'][len(elsC)-1].year, elsC['date'][len(elsC)-1].month, elsC['date'][len(elsC)-1].day+1)
+        #print("2021 start end C",start_date_C_2021,"",end_date_C_2021)
+        #print("2022 start end C",start_date_C_2022,"",end_date_C_2022)
+    if(len(els_A)<len(elsA)):
+        start_date_A_2021 = date(els_A['date'][0].year, els_A['date'][0].month, els_A['date'][0].day-1)
+        end_date_A_2021 = date(els_A['date'][len(els_A)-1].year, els_A['date'][len(els_A)-1].month, els_A['date'][len(els_A)-1].day+1)
+        start_date_A_2022 = date(elsA['date'][0].year, elsA['date'][0].month, elsA['date'][0].day-1)
+        end_date_A_2022 = date(elsA['date'][len(elsA)-1].year, elsA['date'][len(elsA)-1].month, elsA['date'][len(elsA)-1].day)
+        #print("2021 start end A",start_date_A_2021,"",end_date_A_2021)
+        #print("2022 start end A",start_date_A_2022,"",end_date_A_2022)
+        start_date_B_2021 = date(els_B['date'][0].year, els_B['date'][0].month, els_B['date'][0].day-1)
+        end_date_B_2021 = date(els_B['date'][len(els_B)-1].year, els_B['date'][len(els_B)-1].month, els_B['date'][len(els_B)-1].day+1)
+        start_date_B_2022 = date(elsB['date'][0].year, elsB['date'][0].month, elsB['date'][0].day-1)
+        end_date_B_2022 = date(elsB['date'][len(elsB)-1].year, elsB['date'][len(elsB)-1].month, elsB['date'][len(elsB)-1].day)
+        #print("2021 start end B",start_date_B_2021,"",end_date_B_2021)
+        #print("2022 start end B",start_date_B_2022,"",end_date_B_2022)
+        start_date_C_2021=date(els_C['date'][0].year, els_C['date'][0].month, els_C['date'][0].day-1)
+        end_date_C_2021 = date(els_C['date'][len(els_C)-1].year, els_C['date'][len(els_C)-1].month, els_C['date'][len(els_C)-1].day+1)
+        start_date_C_2022 = date(elsC['date'][0].year, elsC['date'][0].month, elsC['date'][0].day-1)
+        end_date_C_2022 = date(elsC['date'][len(elsC)-1].year, elsC['date'][len(elsC)-1].month, elsC['date'][len(elsC)-1].day)
+        #print("2021 start end C",start_date_C_2021,"",end_date_C_2021)
+        #print("2022 start end C",start_date_C_2022,"",end_date_C_2022)
+    else:
+        start_date_A_2021 = date(els_A['date'][0].year, els_A['date'][0].month, els_A['date'][0].day-1)
+        end_date_A_2021 = date(els_A['date'][len(els_A)-1].year, els_A['date'][len(els_A)-1].month, els_A['date'][len(els_A)-1].day)
+        start_date_A_2022 = date(elsA['date'][0].year, elsA['date'][0].month, elsA['date'][0].day-1)
+        end_date_A_2022 = date(elsA['date'][len(elsA)-1].year, elsA['date'][len(elsA)-1].month, elsA['date'][len(elsA)-1].day)
+        #print("2021 start end A",start_date_A_2021,"",end_date_A_2021)
+        #print("2022 start end A",start_date_A_2022,"",end_date_A_2022)
+        start_date_B_2021 = date(els_B['date'][0].year, els_B['date'][0].month, els_B['date'][0].day-1)
+        end_date_B_2021 = date(els_B['date'][len(els_B)-1].year, els_B['date'][len(els_B)-1].month, els_B['date'][len(els_B)-1].day)
+        start_date_B_2022 = date(elsB['date'][0].year, elsB['date'][0].month, elsB['date'][0].day-1)
+        end_date_B_2022 = date(elsB['date'][len(elsB)-1].year, elsB['date'][len(elsB)-1].month, elsB['date'][len(elsB)-1].day)
+        #print("2021 start end B",start_date_B_2021,"",end_date_B_2021)
+        #print("2022 start end B",start_date_B_2022,"",end_date_B_2022)
+        start_date_C_2021=date(els_C['date'][0].year, els_C['date'][0].month, els_C['date'][0].day-1)
+        end_date_C_2021 = date(els_C['date'][len(els_C)-1].year, els_C['date'][len(els_C)-1].month, els_C['date'][len(els_C)-1].day)
+        start_date_C_2022 = date(elsC['date'][0].year, elsC['date'][0].month, elsC['date'][0].day-1)
+        end_date_C_2022 = date(elsC['date'][len(elsC)-1].year, elsC['date'][len(elsC)-1].month, elsC['date'][len(elsC)-1].day)
+        #print("2021 start end C",start_date_C_2021,"",end_date_C_2021)
+        #print("2022 start end C",start_date_C_2022,"",end_date_C_2022)
 
-    start_date_A_2021 = date(els_A['date'][0].year, els_A['date'][0].month, els_A['date'][0].day-2)
-    end_date_A_2021 = date(els_A['date'][len(els_A)-1].year, els_A['date'][len(els_A)-1].month, els_A['date'][len(els_A)-1].day)
-    start_date_A_2022 = date(elsA['date'][0].year, elsA['date'][0].month, elsA['date'][0].day-1)
-    end_date_A_2022 = date(elsA['date'][len(elsA)-1].year, elsA['date'][len(elsA)-1].month, elsA['date'][len(elsA)-1].day)
+    date2021End=end_date_C_2021
+    date2022End=end_date_C_2022
 
-    start_date_B_2021 = date(els_B['date'][0].year, els_B['date'][0].month, els_B['date'][0].day-2)
-    end_date_B_2021 = date(els_B['date'][len(els_B)-1].year, els_B['date'][len(els_B)-1].month, els_B['date'][len(els_B)-1].day)
-    start_date_B_2022 = date(elsB['date'][0].year, elsB['date'][0].month, elsB['date'][0].day-1)
-    end_date_B_2022 = date(elsB['date'][len(elsB)-1].year, elsB['date'][len(elsB)-1].month, elsB['date'][len(elsB)-1].day)
-
-    start_date_C_2021=date(els_C['date'][0].year, els_C['date'][0].month, els_C['date'][0].day-2)
-    end_date_C_2021 = date(els_C['date'][len(els_C)-1].year, els_C['date'][len(els_C)-1].month, els_C['date'][len(els_C)-1].day)
-    start_date_C_2022 = date(elsC['date'][0].year, elsC['date'][0].month, elsC['date'][0].day-1)
-    end_date_C_2022 = date(elsC['date'][len(elsC)-1].year, elsC['date'][len(elsC)-1].month, elsC['date'][len(elsC)-1].day)
-
+    items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2)-1, 'C')
+    els = pd.DataFrame(columns=['date'])
+    for key, value in items.items():
+        test=list(value.values())
+        if(test[4]=="Vacances de NoÃ«l"):
+            if(test[0].month==12):
+                els=els.append({'date': test[0]}, ignore_index=True)
+        elif(test[4]=="Vacances de Noël"):
+            if(test[0].month==12):
+                els=els.append({'date': test[0]}, ignore_index=True)
+    items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2), 'C')
+    for key, value in items.items():
+        test=list(value.values())
+        if(test[4]=="Vacances de NoÃ«l"):
+            if(test[0].month==1):
+                els=els.append({'date': test[0]}, ignore_index=True)
+        elif(test[4]=="Vacances de Noël"):
+            if(test[0].month==1):
+                els=els.append({'date': test[0]}, ignore_index=True)
+    print("els_normaux",date(els['date'][len(els)-1].year, els['date'][len(els)-1].month, els['date'][len(els)-1].day+1))
     '''
     
     
@@ -830,10 +946,10 @@ def conco(df1,df_new, annee1, annee2):
     df4
 
     # Jours normaux
-    start_date_A_2021 = date(2021, 1, 4)
-    end_date_A_2021 = date(2022, 1, 3)
-    start_date_A_2022 = date(2022, 1, 3)
-    end_date_A_2022 = date(2023, 1, 2)
+    start_date_A_2021 =date(els['date'][len(els)-1].year, els['date'][len(els)-1].month, els['date'][len(els)-1].day+1)
+    end_date_A_2021 = date(date2021End.year, date2021End.month, date2021End.day)
+    start_date_A_2022 = date(date2021End.year, date2021End.month, date2021End.day)
+    end_date_A_2022 = date(date2022End.year, date2022End.month, date2022End.day)
 
     # zone A
 
@@ -908,208 +1024,37 @@ def conco(df1,df_new, annee1, annee2):
     
     data['DATEHEUREDEPART'].astype(str).tolist()
     data['DATEHEUREDEPARTW'].astype(str).tolist()
-    
+    print("all data",len(data))
+    # drop trav jour <=> nuit
+    data.drop(data.index[data['ECART'] > 3], inplace=True)
+    data.sort_values(by=['NUMPACKAGEW','NUMPACKAGE'],
+                           inplace=True)
+    data.reset_index(drop=True, inplace=True)
+    data.drop(data.index[data['ECART'] < -3], inplace=True)
+    data.sort_values(by=['NUMPACKAGEW','NUMPACKAGE'],
+                           inplace=True)
+    data.reset_index(drop=True, inplace=True)
+    print("all data after ECART",len(data))
     ids = data["NUMPACKAGEW"]
     df_test_lc = data[ids.isin(ids[ids.duplicated()])]
     df_test_lc.sort_values(by=['NUMPACKAGEW','NUMPACKAGE'],
                            inplace=True)
     df_test_lc.reset_index(drop=True, inplace=True)
-    print(len(df_test_lc))
-    groups = df_test_lc.groupby(['NUMPACKAGEW'])
+    print("with duplicated",len(df_test_lc))
 
-    print(len(groups["NAVIRE"]))
+    data1 = data.drop_duplicates(subset = ['NUMPACKAGEW', 'NUMPACKAGE'],keep = 'last').reset_index(drop = True)
 
-    data_ventes = pd.DataFrame(columns=[
-        'ARMATEUR', 'NAVIRE','VENTES', 'VENTESW', 'DATEHEUREDEPART', 'NAVIREW', 'DATEHEUREDEPARTW', 'MAXDATEFICHIER', 'INFO',
-            'RESEAU', 'PORTDEP', 'PORTARR', 'PORTDEPW', 'PORTARRW', 'MODELE', 'NUMPACKAGE', 'NUMPACKAGEW', 'MINDATEFICHIER'
-    ])
-    for name, group in groups:
-        group = groups.get_group(name)
-        group.reset_index(inplace=True)
-        for i in range(len(group["NAVIRE"])):
-            if i==0:
-                if((int(group['ECART'][i])>3)):
-                        data_ventes = data_ventes.append(
-                        {
-                            'ARMATEUR':
-                            group["ARMATEUR"][i],
-                            'NAVIRE':
-                            group["NAVIRE"][i],
-                            'VENTES':
-                            group["VENTES"][i],
-                            'VENTESW':
-                            group["VENTESW"][i],
-                            'DATEHEUREDEPART':
-                            group["DATEHEUREDEPART"][i],
-                            'NAVIREW':
-                            group["NAVIREW"][i],
-                            'DATEHEUREDEPARTW':
-                            group["DATEHEUREDEPARTW"][i],
-                            'MAXDATEFICHIER':
-                            group["MAXDATEFICHIER"][i],
-                            'INFO':
-                            group["INFO"][i],
-                            'RESEAU':
-                            group["RESEAU"][i],
-                            'PORTDEP':
-                            group["PORTDEP"][i],
-                            'PORTARR':
-                            group["PORTARR"][i],
-                            'PORTDEPW':
-                            group["PORTDEPW"][i],
-                            'PORTARRW':
-                            group["PORTARRW"][i],
-                            'MODELE':
-                            group["MODELE"][i],
-                            'NUMPACKAGE':
-                            group["NUMPACKAGE"][i],
-                            'NUMPACKAGEW':
-                            group["NUMPACKAGEW"][i],
-                            'MINDATEFICHIER':
-                            group["MINDATEFICHIER"][i]
-                        },
-                        ignore_index=True)
-                elif((int(group['ECART'][i])<-3)):
-                        data_ventes = data_ventes.append(
-                        {
-                            'ARMATEUR':
-                            group["ARMATEUR"][i],
-                            'NAVIRE':
-                            group["NAVIRE"][i],
-                            'VENTES':
-                            group["VENTES"][i],
-                            'VENTESW':
-                            group["VENTESW"][i],
-                            'DATEHEUREDEPART':
-                            group["DATEHEUREDEPART"][i],
-                            'NAVIREW':
-                            group["NAVIREW"][i],
-                            'DATEHEUREDEPARTW':
-                            group["DATEHEUREDEPARTW"][i],
-                            'MAXDATEFICHIER':
-                            group["MAXDATEFICHIER"][i],
-                            'INFO':
-                            group["INFO"][i],
-                            'RESEAU':
-                            group["RESEAU"][i],
-                            'PORTDEP':
-                            group["PORTDEP"][i],
-                            'PORTARR':
-                            group["PORTARR"][i],
-                            'PORTDEPW':
-                            group["PORTDEPW"][i],
-                            'PORTARRW':
-                            group["PORTARRW"][i],
-                            'MODELE':
-                            group["MODELE"][i],
-                            'NUMPACKAGE':
-                            group["NUMPACKAGE"][i],
-                            'NUMPACKAGEW':
-                            group["NUMPACKAGEW"][i],
-                            'MINDATEFICHIER':
-                            group["MINDATEFICHIER"][i]
-                        },
-                        ignore_index=True)
-            else:
-                if((int(group['ECART'][i])>3)):
-                        data_ventes = data_ventes.append(
-                        {
-                            'ARMATEUR':
-                            group["ARMATEUR"][i],
-                            'NAVIRE':
-                            group["NAVIRE"][i],
-                            'VENTES':
-                            group["VENTES"][i],
-                            'VENTESW':
-                            group["VENTESW"][i],
-                            'DATEHEUREDEPART':
-                            group["DATEHEUREDEPART"][i],
-                            'NAVIREW':
-                            group["NAVIREW"][i],
-                            'DATEHEUREDEPARTW':
-                            group["DATEHEUREDEPARTW"][i],
-                            'MAXDATEFICHIER':
-                            group["MAXDATEFICHIER"][i],
-                            'INFO':
-                            group["INFO"][i],
-                            'RESEAU':
-                            group["RESEAU"][i],
-                            'PORTDEP':
-                            group["PORTDEP"][i],
-                            'PORTARR':
-                            group["PORTARR"][i],
-                            'PORTDEPW':
-                            group["PORTDEPW"][i],
-                            'PORTARRW':
-                            group["PORTARRW"][i],
-                            'MODELE':
-                            group["MODELE"][i],
-                            'NUMPACKAGE':
-                            group["NUMPACKAGE"][i],
-                            'NUMPACKAGEW':
-                            group["NUMPACKAGEW"][i],
-                            'MINDATEFICHIER':
-                            group["MINDATEFICHIER"][i]
-                        },
-                        ignore_index=True)
-                elif((int(group['ECART'][i])<-3)):
-                        data_ventes = data_ventes.append(
-                        {
-                            'ARMATEUR':
-                            group["ARMATEUR"][i],
-                            'NAVIRE':
-                            group["NAVIRE"][i],
-                            'VENTES':
-                            group["VENTES"][i],
-                            'VENTESW':
-                            group["VENTESW"][i],
-                            'DATEHEUREDEPART':
-                            group["DATEHEUREDEPART"][i],
-                            'NAVIREW':
-                            group["NAVIREW"][i],
-                            'DATEHEUREDEPARTW':
-                            group["DATEHEUREDEPARTW"][i],
-                            'MAXDATEFICHIER':
-                            group["MAXDATEFICHIER"][i],
-                            'INFO':
-                            group["INFO"][i],
-                            'RESEAU':
-                            group["RESEAU"][i],
-                            'PORTDEP':
-                            group["PORTDEP"][i],
-                            'PORTARR':
-                            group["PORTARR"][i],
-                            'PORTDEPW':
-                            group["PORTDEPW"][i],
-                            'PORTARRW':
-                            group["PORTARRW"][i],
-                            'MODELE':
-                            group["MODELE"][i],
-                            'NUMPACKAGE':
-                            group["NUMPACKAGE"][i],
-                            'NUMPACKAGEW':
-                            group["NUMPACKAGEW"][i],
-                            'MINDATEFICHIER':
-                            group["MINDATEFICHIER"][i]
-                        },
-                        ignore_index=True)
+    print("data after delete duplicated",len(data1))
     
-    #pprint("test1",data_ventes)
-    data2=data[~(data.NUMPACKAGE.isin(data_ventes.NUMPACKAGE) & data.NUMPACKAGEW.isin(data_ventes.NUMPACKAGEW))]
-
-    ids = data2["NUMPACKAGEW"]
-    df_test_lc = data2[ids.isin(ids[ids.duplicated()])]
-    df_test_lc.sort_values(by=['NUMPACKAGEW','NUMPACKAGE'],
-                           inplace=True)
-    df_test_lc.reset_index(drop=True, inplace=True)
-    #print(len(df_test_lc))
-    
+    print("Après ecart mois",len(df_test_lc))
     groups = df_test_lc.groupby(['NUMPACKAGEW'])
 
     data_ventes = pd.DataFrame(columns=[
         'ARMATEUR', 'NAVIRE','VENTES', 'VENTESW', 'DATEHEUREDEPART', 'NAVIREW', 'DATEHEUREDEPARTW', 'MAXDATEFICHIER', 'INFO',
             'RESEAU', 'PORTDEP', 'PORTARR', 'PORTDEPW', 'PORTARRW', 'MODELE', 'NUMPACKAGE', 'NUMPACKAGEW', 'MINDATEFICHIER'
     ])
+    # pas meme navire
+    '''
     for name, group in groups:
         group = groups.get_group(name)
         group.reset_index(inplace=True)
@@ -1199,22 +1144,23 @@ def conco(df1,df_new, annee1, annee2):
                             group["MINDATEFICHIER"][i]
                         },
                         ignore_index=True)
-
-    #pprint("test1",data_ventes)
-    data3=data2[~(data2.NUMPACKAGE.isin(data_ventes.NUMPACKAGE) & data2.NUMPACKAGEW.isin(data_ventes.NUMPACKAGEW))]
-
+'''
+    #print("test1",len(data_ventes))
+    data3=data1[~(data1.NUMPACKAGE.isin(data_ventes.NUMPACKAGE) & data1.NUMPACKAGEW.isin(data_ventes.NUMPACKAGEW))]
+    print("data after navire",len(data3))
     ids = data3["NUMPACKAGEW"]
     df_test_lc = data3[ids.isin(ids[ids.duplicated()])]
     df_test_lc.sort_values(by=['NUMPACKAGEW','NUMPACKAGE'],
                            inplace=True)
     df_test_lc.reset_index(drop=True, inplace=True)
-    #pprint(len(df_test_lc))
+    print("Après meme navire",len(df_test_lc))
     groups = df_test_lc.groupby(['NUMPACKAGEW'])
 
     data_ventes = pd.DataFrame(columns=[
         'ARMATEUR', 'NAVIRE','VENTES', 'VENTESW', 'DATEHEUREDEPART', 'NAVIREW', 'DATEHEUREDEPARTW', 'MAXDATEFICHIER', 'INFO',
             'RESEAU', 'PORTDEP', 'PORTARR', 'PORTDEPW', 'PORTARRW', 'MODELE', 'NUMPACKAGE', 'NUMPACKAGEW', 'MINDATEFICHIER'
     ])
+    # pas meme ventes
     #pprint(len(groups["NAVIRE"]))
     for name, group in groups:
         group = groups.get_group(name)
@@ -1303,17 +1249,14 @@ def conco(df1,df_new, annee1, annee2):
                             group["MINDATEFICHIER"][i]
                         },
                         ignore_index=True)
-    #pprint("test2",data_ventes)
-    data4=data3[~(data3.NUMPACKAGE.isin(data_ventes.NUMPACKAGE) & data3.NUMPACKAGEW.isin(data_ventes.NUMPACKAGEW))]
+    print("test2",len(data_ventes))
+    data4=data1[~(data1.NUMPACKAGE.isin(data_ventes.NUMPACKAGE) & data1.NUMPACKAGEW.isin(data_ventes.NUMPACKAGEW))]
     
     data4.drop_duplicates(subset=['NUMPACKAGEW'], keep='last',inplace=True)
-    #pprint(len(data4))
-    '''
-    pascommun = df[~df.CLIENT.isin(common.CLIENT)]
-    print("yes", pascommun)
-    frames = [pascommun, toadd]
-    result = pd.concat(frames)
-    result.reset_index(inplace=True, drop=True)'''
+    print("data - data_ventes",len(data4))
+    #data4=data
+    print("Après ecart vente",len(data4))
+    
     data4.drop(data4.index[data4['ECART'] > 3], inplace=True)
     data4.sort_values(by=['NUMPACKAGEW','NUMPACKAGE'],
                            inplace=True)
@@ -1322,7 +1265,7 @@ def conco(df1,df_new, annee1, annee2):
     data4.sort_values(by=['NUMPACKAGEW','NUMPACKAGE'],
                            inplace=True)
     data4.reset_index(drop=True, inplace=True)
-
+    print("final",len(data4))
     for i in range(len(data4)-1):
         data4["ARMATEUR"][i]="SNCM"
         data4["MAXDATEFICHIER"][i]=datetime.datetime(day=31,month=12,year=2099)
@@ -1363,8 +1306,8 @@ def ConcoCSC(request):
         annee1 = request.POST["annee1"]
         annee2 = request.POST["annee2"]
         xls = pd.ExcelFile(File1)
-        df1 = pd.read_excel(xls, 'CSC 2021')
-        df2 = pd.read_excel(xls, 'CSC 2022')
+        df1 = pd.read_excel(xls, '2')
+        df2 = pd.read_excel(xls, '1')
         data=concoCSC(df1,df2,annee1,annee2)
 
     total = time.time() - start_time

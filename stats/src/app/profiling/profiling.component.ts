@@ -78,7 +78,8 @@ export class ProfilingComponent {
   // function executed when file is changed
   fileChangeListener1($event: any): void {
     this.df1 = $event.target.files[0]
-    this.values=0
+    /*this.values=0
+    
     this.DATACLEANING.getcolumn(this.df1).subscribe(
       data => {
         this.values=10
@@ -86,7 +87,7 @@ export class ProfilingComponent {
         this.ordersData=data
         console.log(data)
       }
-    )
+    )*/
   }
   
   // Get Statistics forms

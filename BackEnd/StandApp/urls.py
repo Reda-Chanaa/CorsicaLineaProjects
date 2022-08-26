@@ -1,5 +1,7 @@
 from StandApp import viewProfiling
 from StandApp import viewsConcoCSC
+from StandApp import viewsConcoALG
+from StandApp import viewsConcoTUN
 from StandApp import viewsStatCSC
 from StandApp import viewsStatALG
 from StandApp import viewsStatTUN
@@ -42,4 +44,6 @@ urlpatterns = [
     url(r'getcolumn/', csrf_exempt(viewProfiling.getcolumn), name='file'),
 
     url(r'conco-csc/', csrf_exempt(viewsConcoCSC.ConcoCSC), name='file'),
+    url(r'conco-tun/', csrf_exempt(viewsConcoTUN.ConcoTUN), name='file'),
+    url(r'conco-alg/', csrf_exempt(viewsConcoALG.ConcoALG), name='file'),
 ]

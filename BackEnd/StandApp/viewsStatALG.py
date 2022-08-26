@@ -23,6 +23,9 @@ def Stat_ALG(data_yesterday, data_today, annee, mois, cible, budget):
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
     table_reseau_armateur_today.reset_index(inplace=True)
+    table_reseau_armateur_today["ID"]=table_reseau_armateur_today.ANNEE+table_reseau_armateur_today.MOIS
+    table_reseau_armateur_today.reset_index(inplace=True)
+    print(table_reseau_armateur_today)
     table_reseau_armateur_yesterday = pd.pivot_table(
         data_yesterday[(data_yesterday.RESEAU == "ALGERIE")
                        & (data_yesterday.ARMATEUR == "CL") &
@@ -30,6 +33,22 @@ def Stat_ALG(data_yesterday, data_today, annee, mois, cible, budget):
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
     table_reseau_armateur_yesterday.reset_index(inplace=True)
+    table_reseau_armateur_yesterday["ID"]=table_reseau_armateur_yesterday.ANNEE+table_reseau_armateur_yesterday.MOIS
+    table_reseau_armateur_yesterday.reset_index(inplace=True)
+    print(table_reseau_armateur_yesterday)
+    
+    for i in range(len(table_reseau_armateur_today)):
+        if table_reseau_armateur_today["ID"][i] not in table_reseau_armateur_yesterday["ID"].values:
+                table_reseau_armateur_yesterday = table_reseau_armateur_yesterday.append(
+                    {
+                        "ID": table_reseau_armateur_today["ID"][i],
+                        'ANNEE': table_reseau_armateur_today['ANNEE'][i],
+                        'MOIS': table_reseau_armateur_today['MOIS'][i],
+                        'PAX': 0,
+                    },
+                    ignore_index=True)
+    table_reseau_armateur_yesterday.reset_index(inplace=True)
+    print(table_reseau_armateur_yesterday)
     df = pd.DataFrame()
     df["ANNEE"] = table_reseau_armateur_yesterday['ANNEE']
     df["MOIS"] = table_reseau_armateur_yesterday['MOIS']
@@ -252,9 +271,12 @@ def Stat_ALG(data_yesterday, data_today, annee, mois, cible, budget):
                                 | df_mask.MOIS.eq(mois[9])
                                 | df_mask.MOIS.eq(mois[10])
                                 | df_mask.MOIS.eq(mois[11])]
+    print("////////////////")
+    cumul_j_1=df_mask["CUMUL-19"].sum()
+    print(cumul_j_1)
     if len(df_mask_cumul) == 0:
         return pd.DataFrame()
-        print("-------------------------")
+    print("-------------------------")
     if len(df_mask_cumul) == 1:
         df_mask_cumul['BUDGET'] = budget[0]
     if len(df_mask_cumul) == 2:
@@ -571,15 +593,8 @@ def Stat_ALG(data_yesterday, data_today, annee, mois, cible, budget):
                 BS1["VENTE"][len(BS1) - 1] + BS2["VENTE"][len(BS2) - 1] +
                 HS["VENTE"][len(HS) - 1] + MS1["VENTE"][len(MS1) - 1] +
                 MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] + BS2["CUMUL"][len(BS2) - 1] +
-                HS["CUMUL"][len(HS) - 1] + MS1["CUMUL"][len(MS1) - 1] +
-                MS2["CUMUL"][len(MS2) - 1],
-                "BUDGET":
-                round(
-                    ((BS1["CUMUL"][len(BS1) - 1]  + BS2["CUMUL"][len(BS2) - 1]  +
-                      HS["CUMUL"][len(HS) - 1]  + MS1["CUMUL"][len(MS1) - 1]  +
-                      MS2["CUMUL"][len(MS2) - 1] ) / (bud)) * 100)
+                "CUMUL":cumul_j_1,
+                "BUDGET":""
             },
             ignore_index=True)
     elif len(MS1) != 0 and len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
@@ -593,14 +608,8 @@ def Stat_ALG(data_yesterday, data_today, annee, mois, cible, budget):
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":
-                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
-                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
-                "BUDGET":
-                round((
-                    (BS2["CUMUL"][len(BS2) - 1]  + HS["CUMUL"][len(HS) - 1]  +
-                     MS1["CUMUL"][len(MS1) - 1]  + MS2["CUMUL"][len(MS2) - 1] ) /
-                    (bud)) * 100)
+                "CUMUL":cumul_j_1,
+                "BUDGET":""
             },
             ignore_index=True)
     elif len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
@@ -614,12 +623,8 @@ def Stat_ALG(data_yesterday, data_today, annee, mois, cible, budget):
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":
-                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
-                MS2["CUMUL"][len(MS2) - 1],
-                "BUDGET":
-                round(((BS2["CUMUL"][len(BS2) - 1]  + HS["CUMUL"][len(HS) - 1]  +
-                        MS2["CUMUL"][len(MS2) - 1] ) / (bud)) * 100)
+                "CUMUL":cumul_j_1,
+                "BUDGET":""
             },
             ignore_index=True)
     elif len(MS2) != 0 and len(BS2) != 0:
@@ -631,12 +636,8 @@ def Stat_ALG(data_yesterday, data_today, annee, mois, cible, budget):
                 BS2["CIBLE"][len(BS2) - 1] + MS2["CIBLE"][len(MS2) - 1],
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":
-                BS2["CUMUL"][len(BS2) - 1] + MS2["CUMUL"][len(MS2) - 1],
-                "BUDGET":
-                round((
-                    (BS2["CUMUL"][len(BS2) - 1]  + MS2["CUMUL"][len(MS2) - 1] ) /
-                    (bud)) * 100)
+                "CUMUL":cumul_j_1,
+                "BUDGET":""
             },
             ignore_index=True)
     elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
@@ -651,14 +652,8 @@ def Stat_ALG(data_yesterday, data_today, annee, mois, cible, budget):
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] + HS["CUMUL"][len(HS) - 1] +
-                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
-                "BUDGET":
-                round((
-                    (BS1["CUMUL"][len(BS1) - 1]  + HS["CUMUL"][len(HS) - 1]  +
-                     MS1["CUMUL"][len(MS1) - 1]  + MS2["CUMUL"][len(MS2) - 1] ) /
-                    (bud)) * 100)
+                "CUMUL":cumul_j_1,
+                "BUDGET":""
             },
             ignore_index=True)
     elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
@@ -673,12 +668,8 @@ def Stat_ALG(data_yesterday, data_today, annee, mois, cible, budget):
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1],
-                "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] + HS["CUMUL"][len(HS) - 1] +
-                MS1["CUMUL"][len(MS1) - 1],
-                "BUDGET":
-                round(((BS1["CUMUL"][len(BS1) - 1]  + HS["CUMUL"][len(HS) - 1]  +
-                        MS1["CUMUL"][len(MS1) - 1] ) / (bud)) * 100)
+                "CUMUL":cumul_j_1,
+                "BUDGET":""
             },
             ignore_index=True)
     elif len(BS1) != 0 and len(MS1) != 0 and len(HS) == 0 and len(
@@ -691,12 +682,8 @@ def Stat_ALG(data_yesterday, data_today, annee, mois, cible, budget):
                 BS1["CIBLE"][len(BS1) - 1] + MS1["CIBLE"][len(MS1) - 1],
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + MS1["VENTE"][len(MS1) - 1],
-                "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] + MS1["CUMUL"][len(MS1) - 1],
-                "BUDGET":
-                round((
-                    (BS1["CUMUL"][len(BS1) - 1]  + MS1["CUMUL"][len(MS1) - 1] ) /
-                    (bud)) * 100)
+                "CUMUL":cumul_j_1,
+                "BUDGET":""
             },
             ignore_index=True)
     elif len(BS1) != 0 and len(MS1) == 0 and len(HS) == 0 and len(
@@ -706,8 +693,8 @@ def Stat_ALG(data_yesterday, data_today, annee, mois, cible, budget):
                 'ALGERIE': 'TOUTES SAISONS ' + annee,
                 'CIBLE': BS1["CIBLE"][len(BS1) - 1],
                 'VENTE': BS1["VENTE"][len(BS1) - 1],
-                "CUMUL": BS1["CUMUL"][len(BS1) - 1],
-                "BUDGET": round(((BS1["CUMUL"][len(BS1) - 1] ) / (bud)) * 100)
+                "CUMUL": cumul_j_1,
+                "BUDGET": ""
             },
             ignore_index=True)
     else:
@@ -716,14 +703,14 @@ def Stat_ALG(data_yesterday, data_today, annee, mois, cible, budget):
                 'ALGERIE': 'TOUTES SAISONS ' + annee,
                 'CIBLE': BS2["CIBLE"][len(BS2) - 1],
                 'VENTE': BS2["VENTE"][len(BS2) - 1],
-                "CUMUL": BS2["CUMUL"][len(BS2) - 1],
-                "BUDGET": round(((BS2["CUMUL"][len(BS2) - 1] ) / (bud)) * 100)
+                "CUMUL": cumul_j_1,
+                "BUDGET": ""
             },
             ignore_index=True)
 
     del reporting['index']
 
-    for i in range(len(reporting)):
+    for i in range(len(reporting)-1):
         reporting["BUDGET"][i] = str(reporting["BUDGET"][i]) + '%'
 
     return reporting
@@ -737,6 +724,9 @@ def Stat_ALG_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
     table_reseau_armateur_today.reset_index(inplace=True)
+    table_reseau_armateur_today["ID"]=table_reseau_armateur_today.ANNEE+table_reseau_armateur_today.MOIS
+    table_reseau_armateur_today.reset_index(inplace=True)
+    print(table_reseau_armateur_today)
     table_reseau_armateur_yesterday = pd.pivot_table(
         data_yesterday[(data_yesterday.RESEAU == "ALGERIE")
                        & (data_yesterday.ARMATEUR == "CL") &
@@ -744,6 +734,22 @@ def Stat_ALG_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
     table_reseau_armateur_yesterday.reset_index(inplace=True)
+    table_reseau_armateur_yesterday["ID"]=table_reseau_armateur_yesterday.ANNEE+table_reseau_armateur_yesterday.MOIS
+    table_reseau_armateur_yesterday.reset_index(inplace=True)
+    print(table_reseau_armateur_yesterday)
+    
+    for i in range(len(table_reseau_armateur_today)):
+        if table_reseau_armateur_today["ID"][i] not in table_reseau_armateur_yesterday["ID"].values:
+                table_reseau_armateur_yesterday = table_reseau_armateur_yesterday.append(
+                    {
+                        "ID": table_reseau_armateur_today["ID"][i],
+                        'ANNEE': table_reseau_armateur_today['ANNEE'][i],
+                        'MOIS': table_reseau_armateur_today['MOIS'][i],
+                        'PAX': 0,
+                    },
+                    ignore_index=True)
+    table_reseau_armateur_yesterday.reset_index(inplace=True)
+    print(table_reseau_armateur_yesterday)
     df = pd.DataFrame()
     df["ANNEE"] = table_reseau_armateur_yesterday['ANNEE']
     df["MOIS"] = table_reseau_armateur_yesterday['MOIS']
@@ -966,9 +972,12 @@ def Stat_ALG_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                                 | df_mask.MOIS.eq(mois[9])
                                 | df_mask.MOIS.eq(mois[10])
                                 | df_mask.MOIS.eq(mois[11])]
+    print("////////////////")
+    cumul_j_1=df_mask["CUMUL-19"].sum()
+    print(cumul_j_1)
     if len(df_mask_cumul) == 0:
         return pd.DataFrame()
-        print("-------------------------")
+    print("-------------------------")
     if len(df_mask_cumul) == 1:
         df_mask_cumul['BUDGET'] = budget[0]
         df_mask_cumul['OBJECTIF'] = objectif[0]
@@ -1391,21 +1400,9 @@ def Stat_ALG_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 BS1["VENTE"][len(BS1) - 1] + BS2["VENTE"][len(BS2) - 1] +
                 HS["VENTE"][len(HS) - 1] + MS1["VENTE"][len(MS1) - 1] +
                 MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] + BS2["CUMUL"][len(BS2) - 1] +
-                HS["CUMUL"][len(HS) - 1] + MS1["CUMUL"][len(MS1) - 1] +
-                MS2["CUMUL"][len(MS2) - 1],
-                "BUDGET":
-                round(
-                    ((BS1["CUMUL"][len(BS1) - 1]  + BS2["CUMUL"][len(BS2) - 1]  +
-                      HS["CUMUL"][len(HS) - 1]  + MS1["CUMUL"][len(MS1) - 1]  +
-                      MS2["CUMUL"][len(MS2) - 1] ) / (bud)) * 100),
-                "OBJECTIF":
-                round((BS1["OBJECTIF"][len(BS1) - 1] +
-                       BS2["OBJECTIF"][len(BS2) - 1] +
-                       HS["OBJECTIF"][len(HS) - 1] +
-                       MS1["OBJECTIF"][len(MS1) - 1] +
-                       MS2["OBJECTIF"][len(MS2) - 1]) / 5)
+                "CUMUL":cumul_j_1,
+                "BUDGET":"",
+                "OBJECTIF":""
             },
             ignore_index=True)
     elif len(MS1) != 0 and len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
@@ -1419,19 +1416,9 @@ def Stat_ALG_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":
-                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
-                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
-                "BUDGET":
-                round((
-                    (BS2["CUMUL"][len(BS2) - 1]  + HS["CUMUL"][len(HS) - 1]  +
-                     MS1["CUMUL"][len(MS1) - 1]  + MS2["CUMUL"][len(MS2) - 1] ) /
-                    (bud)) * 100),
-                "OBJECTIF":
-                round((BS2["OBJECTIF"][len(BS2) - 1] +
-                       HS["OBJECTIF"][len(HS) - 1] +
-                       MS1["OBJECTIF"][len(MS1) - 1] +
-                       MS2["OBJECTIF"][len(MS2) - 1]) / 4)
+                "CUMUL":cumul_j_1,
+                "BUDGET":"",
+                "OBJECTIF":""
             },
             ignore_index=True)
     elif len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
@@ -1445,16 +1432,9 @@ def Stat_ALG_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":
-                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
-                MS2["CUMUL"][len(MS2) - 1],
-                "BUDGET":
-                round(((BS2["CUMUL"][len(BS2) - 1]  + HS["CUMUL"][len(HS) - 1]  +
-                        MS2["CUMUL"][len(MS2) - 1] ) / (bud)) * 100),
-                "OBJECTIF":
-                round((BS2["OBJECTIF"][len(BS2) - 1] +
-                       HS["OBJECTIF"][len(HS) - 1] +
-                       MS2["OBJECTIF"][len(MS2) - 1]) / 3)
+                "CUMUL":cumul_j_1,
+                "BUDGET":"",
+                "OBJECTIF":""
             },
             ignore_index=True)
     elif len(MS2) != 0 and len(BS2) != 0:
@@ -1466,15 +1446,9 @@ def Stat_ALG_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 BS2["CIBLE"][len(BS2) - 1] + MS2["CIBLE"][len(MS2) - 1],
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":
-                BS2["CUMUL"][len(BS2) - 1] + MS2["CUMUL"][len(MS2) - 1],
-                "BUDGET":
-                round((
-                    (BS2["CUMUL"][len(BS2) - 1]  + MS2["CUMUL"][len(MS2) - 1] ) /
-                    (bud)) * 100),
-                "OBJECTIF":
-                round((BS2["OBJECTIF"][len(BS2) - 1]+
-                       MS2["OBJECTIF"][len(MS2) - 1]) / 2)
+                "CUMUL":cumul_j_1,
+                "BUDGET":"",
+                "OBJECTIF":""
             },
             ignore_index=True)
     elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
@@ -1489,19 +1463,9 @@ def Stat_ALG_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] + HS["CUMUL"][len(HS) - 1] +
-                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
-                "BUDGET":
-                round((
-                    (BS1["CUMUL"][len(BS1) - 1]  + HS["CUMUL"][len(HS) - 1]  +
-                     MS1["CUMUL"][len(MS1) - 1]  + MS2["CUMUL"][len(MS2) - 1] ) /
-                    (bud)) * 100),
-                "OBJECTIF":
-                round((BS1["OBJECTIF"][len(BS1) - 1]+
-                       HS["OBJECTIF"][len(HS) - 1] +
-                       MS1["OBJECTIF"][len(MS1) - 1] +
-                       MS2["OBJECTIF"][len(MS2) - 1]) / 4)
+                "CUMUL":cumul_j_1,
+                "BUDGET":"",
+                "OBJECTIF":""
             },
             ignore_index=True)
     elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
@@ -1516,16 +1480,9 @@ def Stat_ALG_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1],
-                "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] + HS["CUMUL"][len(HS) - 1] +
-                MS1["CUMUL"][len(MS1) - 1],
-                "BUDGET":
-                round(((BS1["CUMUL"][len(BS1) - 1]  + HS["CUMUL"][len(HS) - 1]  +
-                        MS1["CUMUL"][len(MS1) - 1] ) / (bud)) * 100),
-                "OBJECTIF":
-                round((BS1["OBJECTIF"][len(BS1) - 1] +
-                       HS["OBJECTIF"][len(HS) - 1]+
-                       MS1["OBJECTIF"][len(MS1) - 1]) / 3)
+                "CUMUL":cumul_j_1,
+                "BUDGET":"",
+                "OBJECTIF":""
             },
             ignore_index=True)
     elif len(BS1) != 0 and len(MS1) != 0 and len(HS) == 0 and len(
@@ -1538,15 +1495,9 @@ def Stat_ALG_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 BS1["CIBLE"][len(BS1) - 1] + MS1["CIBLE"][len(MS1) - 1],
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + MS1["VENTE"][len(MS1) - 1],
-                "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] + MS1["CUMUL"][len(MS1) - 1],
-                "BUDGET":
-                round((
-                    (BS1["CUMUL"][len(BS1) - 1]  + MS1["CUMUL"][len(MS1) - 1] ) /
-                    (bud)) * 100),
-                "OBJECTIF":
-                round((BS1["OBJECTIF"][len(BS1) - 1] +
-                       MS1["OBJECTIF"][len(MS1) - 1]) / 2)
+                "CUMUL":cumul_j_1,
+                "BUDGET":"",
+                "OBJECTIF":""
             },
             ignore_index=True)
     elif len(BS1) != 0 and len(MS1) == 0 and len(HS) == 0 and len(
@@ -1556,9 +1507,9 @@ def Stat_ALG_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 'ALGERIE': 'TOUTES SAISONS ' + annee,
                 'CIBLE': BS1["CIBLE"][len(BS1) - 1],
                 'VENTE': BS1["VENTE"][len(BS1) - 1],
-                "CUMUL": BS1["CUMUL"][len(BS1) - 1],
-                "BUDGET": round(((BS1["CUMUL"][len(BS1) - 1] ) / (bud)) * 100),
-                "OBJECTIF": round(BS1["OBJECTIF"][len(BS1) - 1])
+                "CUMUL": cumul_j_1,
+                "BUDGET": "",
+                "OBJECTIF": ""
             },
             ignore_index=True)
     else:
@@ -1567,15 +1518,15 @@ def Stat_ALG_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 'ALGERIE': 'TOUTES SAISONS ' + annee,
                 'CIBLE': BS2["CIBLE"][len(BS2) - 1],
                 'VENTE': BS2["VENTE"][len(BS2) - 1],
-                "CUMUL": BS2["CUMUL"][len(BS2) - 1],
-                "BUDGET": round(((BS2["CUMUL"][len(BS2) - 1] ) / (bud)) * 100),
-                "OBJECTIF": round(BS2["OBJECTIF"][len(BS2) - 1])
+                "CUMUL": cumul_j_1,
+                "BUDGET": "",
+                "OBJECTIF": ""
             },
             ignore_index=True)
 
     del reporting['index']
 
-    for i in range(len(reporting)):
+    for i in range(len(reporting)-1):
         reporting["BUDGET"][i] = str(reporting["BUDGET"][i]) + '%'
         reporting["OBJECTIF"][i] = str(reporting["OBJECTIF"][i]) + '%'
 
@@ -1589,6 +1540,9 @@ def Stat_ALG_plus(data_yesterday, data_today, annee, mois):
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
     table_reseau_armateur_today.reset_index(inplace=True)
+    table_reseau_armateur_today["ID"]=table_reseau_armateur_today.ANNEE+table_reseau_armateur_today.MOIS
+    table_reseau_armateur_today.reset_index(inplace=True)
+    print(table_reseau_armateur_today)
     table_reseau_armateur_yesterday = pd.pivot_table(
         data_yesterday[(data_yesterday.RESEAU == "ALGERIE")
                        & (data_yesterday.ARMATEUR == "CL")&
@@ -1596,6 +1550,22 @@ def Stat_ALG_plus(data_yesterday, data_today, annee, mois):
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
     table_reseau_armateur_yesterday.reset_index(inplace=True)
+    table_reseau_armateur_yesterday["ID"]=table_reseau_armateur_yesterday.ANNEE+table_reseau_armateur_yesterday.MOIS
+    table_reseau_armateur_yesterday.reset_index(inplace=True)
+    print(table_reseau_armateur_yesterday)
+    
+    for i in range(len(table_reseau_armateur_today)):
+        if table_reseau_armateur_today["ID"][i] not in table_reseau_armateur_yesterday["ID"].values:
+                table_reseau_armateur_yesterday = table_reseau_armateur_yesterday.append(
+                    {
+                        "ID": table_reseau_armateur_today["ID"][i],
+                        'ANNEE': table_reseau_armateur_today['ANNEE'][i],
+                        'MOIS': table_reseau_armateur_today['MOIS'][i],
+                        'PAX': 0,
+                    },
+                    ignore_index=True)
+    table_reseau_armateur_yesterday.reset_index(inplace=True)
+    print(table_reseau_armateur_yesterday)
     df = pd.DataFrame()
     df["ANNEE"] = table_reseau_armateur_yesterday['ANNEE']
     df["MOIS"] = table_reseau_armateur_yesterday['MOIS']
