@@ -32,7 +32,8 @@ def conco(df1,df_new, annee1, annee2):
     fusion3 = fusion3.rename(columns={'JOUR':'JOUR_x','ARM':'ARM_x','DEP':'DEP_x','ARR': 'ARR_x'})
     df4=fusion3.loc[(fusion3['MOIS_x'] == fusion3['MOIS_y']) | (fusion3['MOIS_x'] == fusion3['MOIS_y']+1) | (fusion3['MOIS_y'] == fusion3['MOIS_x']+1)]
     df4.reset_index(inplace=True,drop=True)
-
+    print("---First---")
+    print(len(df4))
     indexNames = df4[df4['ID'].isin(fusion1['ID'])].index
     df4.drop(indexNames , inplace=True)
     df4.reset_index(inplace=True,drop=True)
@@ -44,6 +45,8 @@ def conco(df1,df_new, annee1, annee2):
     pentecoteDatex=JoursFeries.lundi_pentecote(int(annee2))
     pentecoteDatey=JoursFeries.lundi_pentecote(int(annee1))
 
+    print(pentecoteDatex)
+    print(pentecoteDatey)
     indexNames = pentecote[ (((pentecote['DAY_x'] != pentecoteDatex.day-3) | (pentecote['MOIS_x'] != pentecoteDatex.month)) | ((pentecote['DAY_y'] != pentecoteDatey.day-3) | (pentecote['MOIS_y'] != pentecoteDatey.month))) 
     & (((pentecote['DAY_x'] != pentecoteDatex.day-2) | (pentecote['MOIS_x'] != pentecoteDatex.month)) | ((pentecote['DAY_y'] != pentecoteDatey.day-2) | (pentecote['MOIS_y'] != pentecoteDatey.month)))
     & (((pentecote['DAY_x'] != pentecoteDatex.day-1) | (pentecote['MOIS_x'] != pentecoteDatex.month)) | ((pentecote['DAY_y'] != pentecoteDatey.day-1) | (pentecote['MOIS_y'] != pentecoteDatey.month))) 
@@ -62,6 +65,8 @@ def conco(df1,df_new, annee1, annee2):
 
     paquesx=JoursFeries.lundi_paques(int(annee2))
     paquesy=JoursFeries.lundi_paques(int(annee1))
+    print(paquesx)
+    print(paquesy)
 
     indexNames = paques[ (((paques['DAY_x'] != paquesx.day-3) | (paques['MOIS_x'] != paquesx.month)) | ((paques['DAY_y'] != paquesy.day-3) | (paques['MOIS_y'] != paquesy.month))) 
     & (((paques['DAY_x'] != paquesx.day-2) | (paques['MOIS_x'] != paquesx.month)) | ((paques['DAY_y'] != paquesy.day-2) | (paques['MOIS_y'] != paquesy.month)))
@@ -81,6 +86,8 @@ def conco(df1,df_new, annee1, annee2):
 
     ascensionx=JoursFeries.ascension(int(annee2))
     ascensiony=JoursFeries.ascension(int(annee1))
+    print(ascensionx)
+    print(ascensiony)
 
     indexNames = ascension[ (((ascension['DAY_x'] != ascensionx.day-1) | (ascension['MOIS_x'] != ascensionx.month)) | ((ascension['DAY_y'] != ascensiony.day-1) | (ascension['MOIS_y'] != ascensiony.month))) 
     & (((ascension['DAY_x'] != ascensionx.day) | (ascension['MOIS_x'] != ascensionx.month)) | ((ascension['DAY_y'] != ascensiony.day) | (ascension['MOIS_y'] != ascensiony.month)))
@@ -497,20 +504,20 @@ def conco(df1,df_new, annee1, annee2):
     end_date_A_2021 = date(els_A[-1][0].year, els_A[-1][0].month, els_A[-1][0].day)
     start_date_A_2022 = date(elsA[0][0].year, elsA[0][0].month, elsA[0][0].day-1)
     end_date_A_2022 = date(elsA[-1][0].year, elsA[-1][0].month, elsA[-1][0].day)
-    #print("2021 start end A",start_date_A_2021,"",end_date_A_2021)
-    #print("2022 start end A",start_date_A_2022,"",end_date_A_2022)
+    print("2021 start end A",start_date_A_2021,"",end_date_A_2021)
+    print("2022 start end A",start_date_A_2022,"",end_date_A_2022)
     start_date_B_2021 = date(els_B[0][0].year, els_B[0][0].month, els_B[0][0].day-1)
     end_date_B_2021 = date(els_B[-1][0].year, els_B[-1][0].month, els_B[-1][0].day)
     start_date_B_2022 = date(elsB[0][0].year, elsB[0][0].month, elsB[0][0].day-1)
     end_date_B_2022 = date(elsB[-1][0].year, elsB[-1][0].month, elsB[-1][0].day)
-    #print("2021 start end B",start_date_B_2021,"",end_date_B_2021)
-    #print("2022 start end B",start_date_B_2022,"",end_date_B_2022)
+    print("2021 start end B",start_date_B_2021,"",end_date_B_2021)
+    print("2022 start end B",start_date_B_2022,"",end_date_B_2022)
     start_date_C_2021=date(els_C[0][0].year, els_C[0][0].month, els_C[0][0].day-1)
     end_date_C_2021 = date(els_C[-1][0].year, els_C[-1][0].month, els_C[-1][0].day)
     start_date_C_2022 = date(elsC[0][0].year, elsC[0][0].month, elsC[0][0].day-1)
     end_date_C_2022 = date(elsC[-1][0].year, elsC[-1][0].month, elsC[-1][0].day)
-    #print("2021 start end C",start_date_C_2021,"",end_date_C_2021)
-    #print("2022 start end C",start_date_C_2022,"",end_date_C_2022)
+    print("2021 start end C",start_date_C_2021,"",end_date_C_2021)
+    print("2022 start end C",start_date_C_2022,"",end_date_C_2022)
     # zone c
     if (int ((end_date_C_2021 - start_date_C_2021).days)) > (int ((end_date_C_2022 - start_date_C_2022).days)):
         print("bigger")
@@ -641,20 +648,20 @@ def conco(df1,df_new, annee1, annee2):
         end_date_A_2021 = date(els_A[-1][0].year, els_A[-1][0].month, els_A[-1][0].day)
         start_date_A_2022 = date(elsA[0][0].year, elsA[0][0].month, elsA[0][0].day-1)
         end_date_A_2022 = date(elsA[-1][0].year, elsA[-1][0].month, elsA[-1][0].day)
-        #print("2021 start end A",start_date_A_2021,"",end_date_A_2021)
-        #print("2022 start end A",start_date_A_2022,"",end_date_A_2022)
+        print("2021 start end A",start_date_A_2021,"",end_date_A_2021)
+        print("2022 start end A",start_date_A_2022,"",end_date_A_2022)
         start_date_B_2021 = date(els_B[0][0].year, els_B[0][0].month, els_B[0][0].day-1)
         end_date_B_2021 = date(els_B[-1][0].year, els_B[-1][0].month, els_B[-1][0].day)
         start_date_B_2022 = date(elsB[0][0].year, elsB[0][0].month, elsB[0][0].day-1)
         end_date_B_2022 = date(elsB[-1][0].year, elsB[-1][0].month, elsB[-1][0].day)
-        #print("2021 start end B",start_date_B_2021,"",end_date_B_2021)
-        #print("2022 start end B",start_date_B_2022,"",end_date_B_2022)
+        print("2021 start end B",start_date_B_2021,"",end_date_B_2021)
+        print("2022 start end B",start_date_B_2022,"",end_date_B_2022)
         start_date_C_2021=date(els_C[0][0].year, els_C[0][0].month, els_C[0][0].day-1)
         end_date_C_2021 = date(els_C[-1][0].year, els_C[-1][0].month, els_C[-1][0].day)
         start_date_C_2022 = date(elsC[0][0].year, elsC[0][0].month, elsC[0][0].day-1)
         end_date_C_2022 = date(elsC[-1][0].year, elsC[-1][0].month, elsC[-1][0].day)
-        #print("2021 start end C",start_date_C_2021,"",end_date_C_2021)
-        #print("2022 start end C",start_date_C_2022,"",end_date_C_2022)
+        print("2021 start end C",start_date_C_2021,"",end_date_C_2021)
+        print("2022 start end C",start_date_C_2022,"",end_date_C_2022)
 
         # zone c
         if (int ((end_date_C_2021 - start_date_C_2021).days)) > (int ((end_date_C_2022 - start_date_C_2022).days)):
@@ -811,7 +818,7 @@ def conco(df1,df_new, annee1, annee2):
                     elsA=elsA.append({'date': test[0]}, ignore_index=True)
         items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1)+1, 'A')
         print("-----")
-        print(items)
+        #print(items)
         for key, value in items.items():
             test=list(value.values())
             if(test[4]=="Vacances de NoÃ«l"):
@@ -1240,7 +1247,7 @@ def conco(df1,df_new, annee1, annee2):
     result = pd.concat(frames)
     result.reset_index(inplace=True,drop=True)
     print("--------test--------")
-    print(len(result))
+    print(result)
     print("--------test--------")
     final= result.copy(deep=True)
     # sorting by first name
