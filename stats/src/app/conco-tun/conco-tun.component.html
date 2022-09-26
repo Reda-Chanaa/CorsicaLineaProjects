@@ -1,1 +1,213 @@
-<p>conco-tun works!</p>
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Concordance TUN</h4>
+                </div>
+                <div class="card-body">
+                    <br />
+                    <form class="ng-untouched ng-pristine ng-invalid" #myForm="ngForm" ngNativeValidate>
+                        <div>
+                            <label for="file"> <b>Fichier des concordances pour l'année N et N-1 (feuille 1 & 2): </b></label>
+                            <input type="file" #fileInput name="File Upload" id="csvFile1"
+                                (change)="fileChangeListener1($event)" accept=".xlsx" />
+
+                        </div>
+                        <br />
+                        <div>
+                            <label for="annee1"> <b>Choisir l'année N : </b></label>
+                            <input [formControl]="FAnnee1" [(ngModel)]="annee1" (change)='changed1($event)'
+                                placeholder="Année" type="number" />
+                            &nbsp;&nbsp;&nbsp;
+                            <label for="annee2"> <b>Choisir l'année N-1 : </b></label>
+                            <input [formControl]="FAnnee2" [(ngModel)]="annee2" (change)='changed2($event)'
+                                placeholder="Année" type="number" />
+                            <br />
+
+                        </div>
+                        <br />
+                        <mat-accordion multi>
+
+                        </mat-accordion>
+
+                        <button (click)="deleteData()" [hidden]="dataSource.data.length === 0"
+                            style="background-color: rgb(256,54,54);" class="btn pull-right">
+                            <b>Supprimer le tableau</b>
+                        </button>
+
+                        &nbsp;&nbsp;&nbsp;
+                        <button (click)="createFile()" [hidden]="dataSource.data.length !== 0"
+                            style="background-color: rgb(256,54,54);" class="btn pull-right">
+                            <b>Concorder</b>
+                        </button>
+                        <br />
+                    </form>
+                    <br />
+                    <br />
+                    <mat-spinner style="stroke: rgb(256,54,54);" strokeWidth="3" [diameter]="100"
+                        *ngIf="dataSource.data.length === 0 && value === 0">
+                    </mat-spinner>
+                    <div #TABLE class="table-responsive" [hidden]="dataSource.data.length === 0">
+
+                        <!--Table-->
+
+                        <table id="reporting" mat-table bordered="true" matTableExporter #exporter="matTableExporter"
+                            class="mat-elevation-z8 table-hover table" [dataSource]="dataSource">
+
+                            <ng-container matColumnDef="ARMATEUR">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    ARMATEUR
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.ARMATEUR }} </b>
+                                </td>
+
+                            </ng-container>
+
+                            <ng-container matColumnDef="NAVIRE">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    NAVIRE
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.NAVIRE }} </b>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="DATEHEUREDEPART">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    DATEHEUREDEPARTS
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.DATEHEUREDEPART }} </b>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="NAVIREW">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    NAVIREW
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.NAVIREW }}</b>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="DATEHEUREDEPARTW">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    DATEHEUREDEPARTW
+                                </th>
+                                <td mat-cell *matCellDef="let element"> <b>{{ element.DATEHEUREDEPARTW }} </b></td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="MAXDATEFICHIER">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    MAXDATEFICHIER
+                                </th>
+                                <td mat-cell *matCellDef="let element"> <b> {{ element.MAXDATEFICHIER }} </b></td>
+
+                            </ng-container>
+                            <ng-container matColumnDef="INFO">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    INFO
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.INFO }} </b>
+                                </td>
+
+                            </ng-container>
+
+                            <ng-container matColumnDef="RESEAU">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    RESEAU
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.RESEAU }} </b>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="PORTDEP">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    PORTDEP
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.PORTDEP }} </b>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="PORTARR">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    PORTARR
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.PORTARR }}</b>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="PORTDEPW">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    PORTDEPW
+                                </th>
+                                <td mat-cell *matCellDef="let element"> <b>{{ element.PORTDEPW }} </b></td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="PORTARRW">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    PORTARRW
+                                </th>
+                                <td mat-cell *matCellDef="let element"> <b> {{ element.PORTARRW }} </b></td>
+
+                            </ng-container>
+                            <ng-container matColumnDef="MODELE">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    MODELE
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.MODELE }} </b>
+                                </td>
+
+                            </ng-container>
+
+                            <ng-container matColumnDef="NUMPACKAGE">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    NUMPACKAGE
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.NUMPACKAGE }} </b>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="NUMPACKAGEW">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    NUMPACKAGEW
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.NUMPACKAGEW }} </b>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="MINDATEFICHIER">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    MINDATEFICHIER
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <b> {{ element.MINDATEFICHIER }}</b>
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+                            <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[25, 100, 1000, 10000]"></mat-paginator>
+                        <div class="export-container">
+                            <button style="background-color: rgb(256,54,54);" class="btn pull-right" mat-raised-button (click)="exporter.exportTable('xlsx', {fileName:date, sheet: 'CSC', Props: {Author: 'Reda CHANAA'}})">Exporter en Excel</button>
+                        </div>
+                        
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

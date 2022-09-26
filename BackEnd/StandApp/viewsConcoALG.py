@@ -284,7 +284,7 @@ def conco(df1,df_new, annee1, annee2):
 
     if (int ((end_date_B_2021 - start_date_B_2021).days)) > (int ((end_date_B_2022 - start_date_B_2022).days)):
         print("bigger")
-        start_date_B_2022= date(elsB[0][0].year, elsB[0][0].month, elsB[0][0].day)
+        start_date_B_2022= date(elsB[0][0].year, elsB[0][0].month, elsB[0][0].day-((int ((end_date_B_2021 - start_date_B_2021).days)) - (int ((end_date_B_2022 - start_date_B_2022).days))))
         vac_printemps_B=pd.DataFrame()
         for n in range(int((end_date_B_2021 - start_date_B_2021).days)):
             printempsB=df4.copy(deep=True)
@@ -304,7 +304,7 @@ def conco(df1,df_new, annee1, annee2):
                 vac_printemps_B.reset_index(inplace=True,drop=True)
     elif (int ((end_date_B_2021 - start_date_B_2021).days)) < (int ((end_date_B_2022 - start_date_B_2022).days)):
         print("smaller")
-        start_date_B_2021=date(els_B[0][0].year, els_B[0][0].month, els_B[0][0].day-2)
+        start_date_B_2021=date(els_B[0][0].year, els_B[0][0].month, els_B[0][0].day-((int ((end_date_B_2022 - start_date_B_2022).days))-(int ((end_date_B_2021 - start_date_B_2021).days))))
         vac_printemps_B=pd.DataFrame()
         for n in range(int((end_date_B_2021 - start_date_B_2021).days)):
             printempsB=df4.copy(deep=True)
@@ -351,7 +351,7 @@ def conco(df1,df_new, annee1, annee2):
     
     if (int ((end_date_C_2021 - start_date_C_2021).days)) > (int ((end_date_C_2022 - start_date_C_2022).days)):
         print("bigger")
-        start_date_C_2022=date(elsC[0][0].year, elsC[0][0].month, elsC[0][0].day-2)
+        start_date_C_2022=date(elsC[0][0].year, elsC[0][0].month, elsC[0][0].day-((int ((end_date_C_2021 - start_date_C_2021).days)) - (int ((end_date_C_2022 - start_date_C_2022).days))))
         vac_printemps_C=pd.DataFrame()
         for n in range(int((end_date_C_2021 - start_date_C_2021).days)):
             printempsC=df4.copy(deep=True)
@@ -371,7 +371,7 @@ def conco(df1,df_new, annee1, annee2):
                 vac_printemps_C.reset_index(inplace=True,drop=True)
     elif (int ((end_date_C_2021 - start_date_C_2021).days)) < (int ((end_date_C_2022 - start_date_C_2022).days)):
         print("smaller")
-        start_date_C_2021=date(els_C[0][0].year, els_C[0][0].month, els_C[0][0].day-2)
+        start_date_C_2021=date(els_C[0][0].year, els_C[0][0].month, els_C[0][0].day-((int ((end_date_C_2022 - start_date_C_2022).days))-(int ((end_date_C_2021 - start_date_C_2021).days))))
         vac_printemps_C=pd.DataFrame()
         for n in range(int((end_date_C_2021 - start_date_C_2021).days)):
             printempsC=df4.copy(deep=True)
@@ -418,7 +418,7 @@ def conco(df1,df_new, annee1, annee2):
 
     if (int ((end_date_A_2021 - start_date_A_2021).days)) > (int ((end_date_A_2022 - start_date_A_2022).days)):
         print("bigger")
-        start_date_A_2022=date(elsA[0][0].year, elsA[0][0].month, elsA[0][0].day-2)
+        start_date_A_2022=date(elsA[0][0].year, elsA[0][0].month, elsA[0][0].day-((int ((end_date_A_2021 - start_date_A_2021).days)) - (int ((end_date_A_2022 - start_date_A_2022).days))))
         vac_printemps_A=pd.DataFrame()
         for n in range(int((end_date_A_2021 - start_date_A_2021).days)):
             printempsA=df4.copy(deep=True)
@@ -438,7 +438,7 @@ def conco(df1,df_new, annee1, annee2):
                 vac_printemps_A.reset_index(inplace=True,drop=True)
     elif (int ((end_date_A_2021 - start_date_A_2021).days)) < (int ((end_date_A_2022 - start_date_A_2022).days)):
         print("smaller")
-        start_date_A_2021=date(els_A[0][0].year, els_A[0][0].month, els_A[0][0].day-2)
+        start_date_A_2021=date(els_A[0][0].year, els_A[0][0].month, els_A[0][0].day-((int ((end_date_A_2022 - start_date_A_2022).days))-(int ((end_date_A_2021 - start_date_A_2021).days))))
         vac_printemps_A=pd.DataFrame()
         for n in range(int((end_date_A_2021 - start_date_A_2021).days)):
             printempsA=df4.copy(deep=True)
@@ -521,8 +521,44 @@ def conco(df1,df_new, annee1, annee2):
     # zone c
     if (int ((end_date_C_2021 - start_date_C_2021).days)) > (int ((end_date_C_2022 - start_date_C_2022).days)):
         print("bigger")
+        start_date_C_2022=date(elsC[0][0].year, elsC[0][0].month, elsC[0][0].day-((int ((end_date_C_2021 - start_date_C_2021).days)) - (int ((end_date_C_2022 - start_date_C_2022).days))))
+        vac_hiver_C=pd.DataFrame()
+        for n in range(int((end_date_C_2021 - start_date_C_2021).days)):
+            hiverC=df4.copy(deep=True)
+            if n==0:
+                indexNames=hiverC[(((hiverC['DAY_x'] != start_date_C_2021.day) | (hiverC['MOIS_x'] != start_date_C_2021.month)) | ((hiverC['DAY_y'] != start_date_C_2022.day) | (hiverC['MOIS_y'] != start_date_C_2022.month)))].index
+                hiverC.drop(indexNames , inplace=True)
+                hiverC.reset_index(inplace=True,drop=True)
+                frames = [hiverC,vac_hiver_C]
+                vac_hiver_C = pd.concat(frames)
+                vac_hiver_C.reset_index(inplace=True,drop=True) 
+            else:
+                indexNames=hiverC[(((hiverC['DAY_x'] != (start_date_C_2021 + timedelta(n)).day) | (hiverC['MOIS_x'] != (start_date_C_2021 + timedelta(n)).month)) | ((hiverC['DAY_y'] != (start_date_C_2022 + timedelta(n)).day) | (hiverC['MOIS_y'] != (start_date_C_2022 + timedelta(n)).month)))].index
+                hiverC.drop(indexNames , inplace=True)
+                hiverC.reset_index(inplace=True,drop=True)
+                frames = [hiverC,vac_hiver_C]
+                vac_hiver_C = pd.concat(frames)
+                vac_hiver_C.reset_index(inplace=True,drop=True)
     elif (int ((end_date_C_2021 - start_date_C_2021).days)) < (int ((end_date_C_2022 - start_date_C_2022).days)):
         print("smaller")
+        start_date_C_2021=date(els_C[0][0].year, els_C[0][0].month, els_C[0][0].day-((int ((end_date_C_2022 - start_date_C_2022).days))-(int ((end_date_C_2021 - start_date_C_2021).days))))
+        vac_hiver_C=pd.DataFrame()
+        for n in range(int((end_date_C_2021 - start_date_C_2021).days)):
+            hiverC=df4.copy(deep=True)
+            if n==0:
+                indexNames=hiverC[(((hiverC['DAY_x'] != start_date_C_2021.day) | (hiverC['MOIS_x'] != start_date_C_2021.month)) | ((hiverC['DAY_y'] != start_date_C_2022.day) | (hiverC['MOIS_y'] != start_date_C_2022.month)))].index
+                hiverC.drop(indexNames , inplace=True)
+                hiverC.reset_index(inplace=True,drop=True)
+                frames = [hiverC,vac_hiver_C]
+                vac_hiver_C = pd.concat(frames)
+                vac_hiver_C.reset_index(inplace=True,drop=True) 
+            else:
+                indexNames=hiverC[(((hiverC['DAY_x'] != (start_date_C_2021 + timedelta(n)).day) | (hiverC['MOIS_x'] != (start_date_C_2021 + timedelta(n)).month)) | ((hiverC['DAY_y'] != (start_date_C_2022 + timedelta(n)).day) | (hiverC['MOIS_y'] != (start_date_C_2022 + timedelta(n)).month)))].index
+                hiverC.drop(indexNames , inplace=True)
+                hiverC.reset_index(inplace=True,drop=True)
+                frames = [hiverC,vac_hiver_C]
+                vac_hiver_C = pd.concat(frames)
+                vac_hiver_C.reset_index(inplace=True,drop=True)
     else:
         vac_hiver_C=pd.DataFrame()
         for n in range(int((end_date_C_2021 - start_date_C_2021).days)):
@@ -553,8 +589,44 @@ def conco(df1,df_new, annee1, annee2):
     # zone B
     if (int ((end_date_B_2021 - start_date_B_2021).days)) > (int ((end_date_B_2022 - start_date_B_2022).days)):
         print("bigger")
+        start_date_B_2022=date(elsB[0][0].year, elsB[0][0].month, elsB[0][0].day-((int ((end_date_B_2021 - start_date_B_2021).days)) - (int ((end_date_B_2022 - start_date_B_2022).days))))
+        vac_hiver_B=pd.DataFrame()
+        for n in range(int((end_date_B_2021 - start_date_B_2021).days)):
+            hiverB=df4.copy(deep=True)
+            if n==0:
+                indexNames=hiverB[(((hiverB['DAY_x'] != start_date_B_2021.day) | (hiverB['MOIS_x'] != start_date_B_2021.month)) | ((hiverB['DAY_y'] != start_date_B_2022.day) | (hiverB['MOIS_y'] != start_date_B_2022.month)))].index
+                hiverB.drop(indexNames , inplace=True)
+                hiverB.reset_index(inplace=True,drop=True)
+                frames = [hiverB,vac_hiver_B]
+                vac_hiver_B = pd.concat(frames)
+                vac_hiver_B.reset_index(inplace=True,drop=True) 
+            else:
+                indexNames=hiverB[(((hiverB['DAY_x'] != (start_date_B_2021 + timedelta(n)).day) | (hiverB['MOIS_x'] != (start_date_B_2021 + timedelta(n)).month)) | ((hiverB['DAY_y'] != (start_date_B_2022 + timedelta(n)).day) | (hiverB['MOIS_y'] != (start_date_B_2022 + timedelta(n)).month)))].index
+                hiverB.drop(indexNames , inplace=True)
+                hiverB.reset_index(inplace=True,drop=True)
+                frames = [hiverB,vac_hiver_B]
+                vac_hiver_B = pd.concat(frames)
+                vac_hiver_B.reset_index(inplace=True,drop=True)
     elif (int ((end_date_B_2021 - start_date_B_2021).days)) < (int ((end_date_B_2022 - start_date_B_2022).days)):
         print("smaller")
+        start_date_B_2021=date(els_B[0][0].year, els_B[0][0].month, els_B[0][0].day-((int ((end_date_B_2022 - start_date_B_2022).days))-(int ((end_date_B_2021 - start_date_B_2021).days))))
+        vac_hiver_B=pd.DataFrame()
+        for n in range(int((end_date_B_2021 - start_date_B_2021).days)):
+            hiverB=df4.copy(deep=True)
+            if n==0:
+                indexNames=hiverB[(((hiverB['DAY_x'] != start_date_B_2021.day) | (hiverB['MOIS_x'] != start_date_B_2021.month)) | ((hiverB['DAY_y'] != start_date_B_2022.day) | (hiverB['MOIS_y'] != start_date_B_2022.month)))].index
+                hiverB.drop(indexNames , inplace=True)
+                hiverB.reset_index(inplace=True,drop=True)
+                frames = [hiverB,vac_hiver_B]
+                vac_hiver_B = pd.concat(frames)
+                vac_hiver_B.reset_index(inplace=True,drop=True) 
+            else:
+                indexNames=hiverB[(((hiverB['DAY_x'] != (start_date_B_2021 + timedelta(n)).day) | (hiverB['MOIS_x'] != (start_date_B_2021 + timedelta(n)).month)) | ((hiverB['DAY_y'] != (start_date_B_2022 + timedelta(n)).day) | (hiverB['MOIS_y'] != (start_date_B_2022 + timedelta(n)).month)))].index
+                hiverB.drop(indexNames , inplace=True)
+                hiverB.reset_index(inplace=True,drop=True)
+                frames = [hiverB,vac_hiver_B]
+                vac_hiver_B = pd.concat(frames)
+                vac_hiver_B.reset_index(inplace=True,drop=True)
     else:
         vac_hiver_B=pd.DataFrame()
         for n in range(int((end_date_B_2021 - start_date_B_2021).days)):
@@ -586,8 +658,44 @@ def conco(df1,df_new, annee1, annee2):
 
     if (int ((end_date_A_2021 - start_date_A_2021).days)) > (int ((end_date_A_2022 - start_date_A_2022).days)):
         print("bigger")
+        start_date_A_2022=date(elsA[0][0].year, elsA[0][0].month, elsA[0][0].day-((int ((end_date_A_2021 - start_date_A_2021).days)) - (int ((end_date_A_2022 - start_date_A_2022).days))))
+        vac_hiver_A=pd.DataFrame()
+        for n in range(int((end_date_A_2021 - start_date_A_2021).days)):
+            hiverA=df4.copy(deep=True)
+            if n==0:
+                indexNames=hiverA[(((hiverA['DAY_x'] != start_date_A_2021.day) | (hiverA['MOIS_x'] != start_date_A_2021.month)) | ((hiverA['DAY_y'] != start_date_A_2022.day) | (hiverA['MOIS_y'] != start_date_A_2022.month)))].index
+                hiverA.drop(indexNames , inplace=True)
+                hiverA.reset_index(inplace=True,drop=True)
+                frames = [hiverA,vac_hiver_A]
+                vac_hiver_A = pd.concat(frames)
+                vac_hiver_A.reset_index(inplace=True,drop=True) 
+            else:
+                indexNames=hiverA[(((hiverA['DAY_x'] != (start_date_A_2021 + timedelta(n)).day) | (hiverA['MOIS_x'] != (start_date_A_2021 + timedelta(n)).month)) | ((hiverA['DAY_y'] != (start_date_A_2022 + timedelta(n)).day) | (hiverA['MOIS_y'] != (start_date_A_2022 + timedelta(n)).month)))].index
+                hiverA.drop(indexNames , inplace=True)
+                hiverA.reset_index(inplace=True,drop=True)
+                frames = [hiverA,vac_hiver_A]
+                vac_hiver_A = pd.concat(frames)
+                vac_hiver_A.reset_index(inplace=True,drop=True)
     elif (int ((end_date_A_2021 - start_date_A_2021).days)) < (int ((end_date_A_2022 - start_date_A_2022).days)):
         print("smaller")
+        start_date_A_2021=date(els_A[0][0].year, els_A[0][0].month, els_A[0][0].day-((int ((end_date_A_2022 - start_date_A_2022).days))-(int ((end_date_A_2021 - start_date_A_2021).days))))
+        vac_hiver_A=pd.DataFrame()
+        for n in range(int((end_date_A_2021 - start_date_A_2021).days)):
+            hiverA=df4.copy(deep=True)
+            if n==0:
+                indexNames=hiverA[(((hiverA['DAY_x'] != start_date_A_2021.day) | (hiverA['MOIS_x'] != start_date_A_2021.month)) | ((hiverA['DAY_y'] != start_date_A_2022.day) | (hiverA['MOIS_y'] != start_date_A_2022.month)))].index
+                hiverA.drop(indexNames , inplace=True)
+                hiverA.reset_index(inplace=True,drop=True)
+                frames = [hiverA,vac_hiver_A]
+                vac_hiver_A = pd.concat(frames)
+                vac_hiver_A.reset_index(inplace=True,drop=True) 
+            else:
+                indexNames=hiverA[(((hiverA['DAY_x'] != (start_date_A_2021 + timedelta(n)).day) | (hiverA['MOIS_x'] != (start_date_A_2021 + timedelta(n)).month)) | ((hiverA['DAY_y'] != (start_date_A_2022 + timedelta(n)).day) | (hiverA['MOIS_y'] != (start_date_A_2022 + timedelta(n)).month)))].index
+                hiverA.drop(indexNames , inplace=True)
+                hiverA.reset_index(inplace=True,drop=True)
+                frames = [hiverA,vac_hiver_A]
+                vac_hiver_A = pd.concat(frames)
+                vac_hiver_A.reset_index(inplace=True,drop=True)
     else:
         vac_hiver_A=pd.DataFrame()
         for n in range(int((end_date_A_2021 - start_date_A_2021).days)):
@@ -666,8 +774,44 @@ def conco(df1,df_new, annee1, annee2):
         # zone c
         if (int ((end_date_C_2021 - start_date_C_2021).days)) > (int ((end_date_C_2022 - start_date_C_2022).days)):
             print("bigger")
+            start_date_C_2022=date(elsC[0][0].year, elsC[0][0].month, elsC[0][0].day-((int ((end_date_C_2021 - start_date_C_2021).days)) - (int ((end_date_C_2022 - start_date_C_2022).days))))
+            vac_oct_C=pd.DataFrame()
+            for n in range(int((end_date_C_2021 - start_date_C_2021).days)):
+                octC=df4.copy(deep=True)
+                if n==0:
+                    indexNames=octC[(((octC['DAY_x'] != start_date_C_2021.day) | (octC['MOIS_x'] != start_date_C_2021.month)) | ((octC['DAY_y'] != start_date_C_2022.day) | (octC['MOIS_y'] != start_date_C_2022.month)))].index
+                    octC.drop(indexNames , inplace=True)
+                    octC.reset_index(inplace=True,drop=True)
+                    frames = [octC,vac_oct_C]
+                    vac_oct_C = pd.concat(frames)
+                    vac_oct_C.reset_index(inplace=True,drop=True) 
+                else:
+                    indexNames=octC[(((octC['DAY_x'] != (start_date_C_2021 + timedelta(n)).day) | (octC['MOIS_x'] != (start_date_C_2021 + timedelta(n)).month)) | ((octC['DAY_y'] != (start_date_C_2022 + timedelta(n)).day) | (octC['MOIS_y'] != (start_date_C_2022 + timedelta(n)).month)))].index
+                    octC.drop(indexNames , inplace=True)
+                    octC.reset_index(inplace=True,drop=True)
+                    frames = [octC,vac_oct_C]
+                    vac_oct_C = pd.concat(frames)
+                    vac_oct_C.reset_index(inplace=True,drop=True)
         elif (int ((end_date_C_2021 - start_date_C_2021).days)) < (int ((end_date_C_2022 - start_date_C_2022).days)):
             print("smaller")
+            start_date_C_2021=date(els_C[0][0].year, els_C[0][0].month, els_C[0][0].day-((int ((end_date_C_2022 - start_date_C_2022).days))-(int ((end_date_C_2021 - start_date_C_2021).days))))
+            vac_oct_C=pd.DataFrame()
+            for n in range(int((end_date_C_2021 - start_date_C_2021).days)):
+                octC=df4.copy(deep=True)
+                if n==0:
+                    indexNames=octC[(((octC['DAY_x'] != start_date_C_2021.day) | (octC['MOIS_x'] != start_date_C_2021.month)) | ((octC['DAY_y'] != start_date_C_2022.day) | (octC['MOIS_y'] != start_date_C_2022.month)))].index
+                    octC.drop(indexNames , inplace=True)
+                    octC.reset_index(inplace=True,drop=True)
+                    frames = [octC,vac_oct_C]
+                    vac_oct_C = pd.concat(frames)
+                    vac_oct_C.reset_index(inplace=True,drop=True) 
+                else:
+                    indexNames=octC[(((octC['DAY_x'] != (start_date_C_2021 + timedelta(n)).day) | (octC['MOIS_x'] != (start_date_C_2021 + timedelta(n)).month)) | ((octC['DAY_y'] != (start_date_C_2022 + timedelta(n)).day) | (octC['MOIS_y'] != (start_date_C_2022 + timedelta(n)).month)))].index
+                    octC.drop(indexNames , inplace=True)
+                    octC.reset_index(inplace=True,drop=True)
+                    frames = [octC,vac_oct_C]
+                    vac_oct_C = pd.concat(frames)
+                    vac_oct_C.reset_index(inplace=True,drop=True)
         else:
             vac_oct_C=pd.DataFrame()
             for n in range(int((end_date_C_2021 - start_date_C_2021).days)):
@@ -698,8 +842,44 @@ def conco(df1,df_new, annee1, annee2):
         # zone B
         if (int ((end_date_B_2021 - start_date_B_2021).days)) > (int ((end_date_B_2022 - start_date_B_2022).days)):
             print("bigger")
+            start_date_B_2022=date(elsB[0][0].year, elsB[0][0].month, elsB[0][0].day-((int ((end_date_B_2021 - start_date_B_2021).days)) - (int ((end_date_B_2022 - start_date_B_2022).days))))
+            vac_oct_B=pd.DataFrame()
+            for n in range(int((end_date_B_2021 - start_date_B_2021).days)):
+                octB=df4.copy(deep=True)
+                if n==0:
+                    indexNames=octB[(((octB['DAY_x'] != start_date_B_2021.day) | (octB['MOIS_x'] != start_date_B_2021.month)) | ((octB['DAY_y'] != start_date_B_2022.day) | (octB['MOIS_y'] != start_date_B_2022.month)))].index
+                    octB.drop(indexNames , inplace=True)
+                    octB.reset_index(inplace=True,drop=True)
+                    frames = [octB,vac_oct_B]
+                    vac_oct_B = pd.concat(frames)
+                    vac_oct_B.reset_index(inplace=True,drop=True) 
+                else:
+                    indexNames=octB[(((octB['DAY_x'] != (start_date_B_2021 + timedelta(n)).day) | (octB['MOIS_x'] != (start_date_B_2021 + timedelta(n)).month)) | ((octB['DAY_y'] != (start_date_B_2022 + timedelta(n)).day) | (octB['MOIS_y'] != (start_date_B_2022 + timedelta(n)).month)))].index
+                    octB.drop(indexNames , inplace=True)
+                    octB.reset_index(inplace=True,drop=True)
+                    frames = [octB,vac_oct_B]
+                    vac_oct_B = pd.concat(frames)
+                    vac_oct_B.reset_index(inplace=True,drop=True)
         elif (int ((end_date_B_2021 - start_date_B_2021).days)) < (int ((end_date_B_2022 - start_date_B_2022).days)):
             print("smaller")
+            start_date_B_2021=date(els_B[0][0].year, els_B[0][0].month, els_B[0][0].day-((int ((end_date_B_2022 - start_date_B_2022).days))-(int ((end_date_B_2021 - start_date_B_2021).days))))
+            vac_oct_B=pd.DataFrame()
+            for n in range(int((end_date_B_2021 - start_date_B_2021).days)):
+                octB=df4.copy(deep=True)
+                if n==0:
+                    indexNames=octB[(((octB['DAY_x'] != start_date_B_2021.day) | (octB['MOIS_x'] != start_date_B_2021.month)) | ((octB['DAY_y'] != start_date_B_2022.day) | (octB['MOIS_y'] != start_date_B_2022.month)))].index
+                    octB.drop(indexNames , inplace=True)
+                    octB.reset_index(inplace=True,drop=True)
+                    frames = [octB,vac_oct_B]
+                    vac_oct_B = pd.concat(frames)
+                    vac_oct_B.reset_index(inplace=True,drop=True) 
+                else:
+                    indexNames=octB[(((octB['DAY_x'] != (start_date_B_2021 + timedelta(n)).day) | (octB['MOIS_x'] != (start_date_B_2021 + timedelta(n)).month)) | ((octB['DAY_y'] != (start_date_B_2022 + timedelta(n)).day) | (octB['MOIS_y'] != (start_date_B_2022 + timedelta(n)).month)))].index
+                    octB.drop(indexNames , inplace=True)
+                    octB.reset_index(inplace=True,drop=True)
+                    frames = [octB,vac_oct_B]
+                    vac_oct_B = pd.concat(frames)
+                    vac_oct_B.reset_index(inplace=True,drop=True)
         else:
             vac_oct_B=pd.DataFrame()
             for n in range(int((end_date_B_2021 - start_date_B_2021).days)):
@@ -731,7 +911,7 @@ def conco(df1,df_new, annee1, annee2):
 
         if (int ((end_date_A_2021 - start_date_A_2021).days)) > (int ((end_date_A_2022 - start_date_A_2022).days)):
             print("bigger")
-            start_date_A_2022=date(elsA[0][0].year, elsA[0][0].month, elsA[0][0].day-2)
+            start_date_A_2022=date(elsA[0][0].year, elsA[0][0].month, elsA[0][0].day-((int ((end_date_A_2021 - start_date_A_2021).days)) - (int ((end_date_A_2022 - start_date_A_2022).days))))
             vac_oct_A=pd.DataFrame()
             for n in range(int((end_date_A_2021 - start_date_A_2021).days)):
                 octA=df4.copy(deep=True)
@@ -751,7 +931,7 @@ def conco(df1,df_new, annee1, annee2):
                     vac_oct_A.reset_index(inplace=True,drop=True)
         elif (int ((end_date_A_2021 - start_date_A_2021).days)) < (int ((end_date_A_2022 - start_date_A_2022).days)):
             print("smaller")
-            start_date_A_2021=date(els_A[0][0].year, els_A[0][0].month, els_A[0][0].day-2)
+            start_date_A_2021=date(els_A[0][0].year, els_A[0][0].month, els_A[0][0].day-((int ((end_date_A_2022 - start_date_A_2022).days))-(int ((end_date_A_2021 - start_date_A_2021).days))))
             vac_oct_A=pd.DataFrame()
             for n in range(int((end_date_A_2021 - start_date_A_2021).days)):
                 octA=df4.copy(deep=True)
@@ -1037,7 +1217,7 @@ def conco(df1,df_new, annee1, annee2):
         # zone c
         if (int ((end_date_C_2021 - start_date_C_2021).days)) > (int ((end_date_C_2022 - start_date_C_2022).days)):
             print("bigger")
-            start_date_C_2022=date(elsC['date'][0].year, elsC['date'][0].month, elsC['date'][0].day-2)
+            start_date_C_2022=date(elsC['date'][0].year, elsC['date'][0].month, elsC['date'][0].day-((int ((end_date_C_2021 - start_date_C_2021).days)) - (int ((end_date_C_2022 - start_date_C_2022).days))))
             vac_dec_C=pd.DataFrame()
             for n in range(int((end_date_C_2021 - start_date_C_2021).days)):
                 decC=df4.copy(deep=True)
@@ -1057,7 +1237,7 @@ def conco(df1,df_new, annee1, annee2):
                     vac_dec_C.reset_index(inplace=True,drop=True)
         elif (int ((end_date_C_2021 - start_date_C_2021).days)) < (int ((end_date_C_2022 - start_date_C_2022).days)):
             print("smaller")
-            start_date_C_2021=date(els_C['date'][0].year, els_C['date'][0].month, els_C['date'][0].day-2)
+            start_date_C_2021=date(els_C['date'][0].year, els_C['date'][0].month, els_C['date'][0].day-((int ((end_date_C_2022 - start_date_C_2022).days))-(int ((end_date_C_2021 - start_date_C_2021).days))))
             vac_dec_C=pd.DataFrame()
             for n in range(int((end_date_C_2021 - start_date_C_2021).days)):
                 decC=df4.copy(deep=True)
@@ -1105,8 +1285,44 @@ def conco(df1,df_new, annee1, annee2):
         # zone B
         if (int ((end_date_B_2021 - start_date_B_2021).days)) > (int ((end_date_B_2022 - start_date_B_2022).days)):
             print("bigger")
+            start_date_B_2022=date(elsB['date'][0].year, elsB['date'][0].month, elsB['date'][0].day-((int ((end_date_B_2021 - start_date_B_2021).days)) - (int ((end_date_B_2022 - start_date_B_2022).days))))
+            vac_dec_B=pd.DataFrame()
+            for n in range(int((end_date_B_2021 - start_date_B_2021).days)):
+                decB=df4.copy(deep=True)
+                if n==0:
+                    indexNames=decB[(((decB['DAY_x'] != start_date_B_2021.day) | (decB['MOIS_x'] != start_date_B_2021.month)) | ((decB['DAY_y'] != start_date_B_2022.day) | (decB['MOIS_y'] != start_date_B_2022.month)))].index
+                    decB.drop(indexNames , inplace=True)
+                    decB.reset_index(inplace=True,drop=True)
+                    frames = [decB,vac_dec_B]
+                    vac_dec_B = pd.concat(frames)
+                    vac_dec_B.reset_index(inplace=True,drop=True) 
+                else:
+                    indexNames=decB[(((decB['DAY_x'] != (start_date_B_2021 + timedelta(n)).day) | (decB['MOIS_x'] != (start_date_B_2021 + timedelta(n)).month)) | ((decB['DAY_y'] != (start_date_B_2022 + timedelta(n)).day) | (decB['MOIS_y'] != (start_date_B_2022 + timedelta(n)).month)))].index
+                    decB.drop(indexNames , inplace=True)
+                    decB.reset_index(inplace=True,drop=True)
+                    frames = [decB,vac_dec_B]
+                    vac_dec_B = pd.concat(frames)
+                    vac_dec_B.reset_index(inplace=True,drop=True)
         elif (int ((end_date_B_2021 - start_date_B_2021).days)) < (int ((end_date_B_2022 - start_date_B_2022).days)):
             print("smaller")
+            start_date_B_2021=date(els_B['date'][0].year, els_B['date'][0].month, els_B['date'][0].day-((int ((end_date_B_2022 - start_date_B_2022).days))-(int ((end_date_B_2021 - start_date_B_2021).days))))
+            vac_dec_B=pd.DataFrame()
+            for n in range(int((end_date_B_2021 - start_date_B_2021).days)):
+                decB=df4.copy(deep=True)
+                if n==0:
+                    indexNames=decB[(((decB['DAY_x'] != start_date_B_2021.day) | (decB['MOIS_x'] != start_date_B_2021.month)) | ((decB['DAY_y'] != start_date_B_2022.day) | (decB['MOIS_y'] != start_date_B_2022.month)))].index
+                    decB.drop(indexNames , inplace=True)
+                    decB.reset_index(inplace=True,drop=True)
+                    frames = [decB,vac_dec_B]
+                    vac_dec_B = pd.concat(frames)
+                    vac_dec_B.reset_index(inplace=True,drop=True) 
+                else:
+                    indexNames=decB[(((decB['DAY_x'] != (start_date_B_2021 + timedelta(n)).day) | (decB['MOIS_x'] != (start_date_B_2021 + timedelta(n)).month)) | ((decB['DAY_y'] != (start_date_B_2022 + timedelta(n)).day) | (decB['MOIS_y'] != (start_date_B_2022 + timedelta(n)).month)))].index
+                    decB.drop(indexNames , inplace=True)
+                    decB.reset_index(inplace=True,drop=True)
+                    frames = [decB,vac_dec_B]
+                    vac_dec_B = pd.concat(frames)
+                    vac_dec_B.reset_index(inplace=True,drop=True)
         else:
             vac_dec_B=pd.DataFrame()
             for n in range(int((end_date_B_2021 - start_date_B_2021).days)):
@@ -1138,8 +1354,44 @@ def conco(df1,df_new, annee1, annee2):
 
         if (int ((end_date_A_2021 - start_date_A_2021).days)) > (int ((end_date_A_2022 - start_date_A_2022).days)):
             print("bigger")
+            start_date_A_2022=date(elsA['date'][0].year, elsA['date'][0].month, elsA['date'][0].day-((int ((end_date_A_2021 - start_date_A_2021).days)) - (int ((end_date_A_2022 - start_date_A_2022).days))))
+            vac_dec_A=pd.DataFrame()
+            for n in range(int((end_date_A_2021 - start_date_A_2021).days)):
+                decA=df4.copy(deep=True)
+                if n==0:
+                    indexNames=decA[(((decA['DAY_x'] != start_date_A_2021.day) | (decA['MOIS_x'] != start_date_A_2021.month)) | ((decA['DAY_y'] != start_date_A_2022.day) | (decA['MOIS_y'] != start_date_A_2022.month)))].index
+                    decA.drop(indexNames , inplace=True)
+                    decA.reset_index(inplace=True,drop=True)
+                    frames = [decA,vac_dec_A]
+                    vac_dec_A = pd.concat(frames)
+                    vac_dec_A.reset_index(inplace=True,drop=True) 
+                else:
+                    indexNames=decA[(((decA['DAY_x'] != (start_date_A_2021 + timedelta(n)).day) | (decA['MOIS_x'] != (start_date_A_2021 + timedelta(n)).month)) | ((decA['DAY_y'] != (start_date_A_2022 + timedelta(n)).day) | (decA['MOIS_y'] != (start_date_A_2022 + timedelta(n)).month)))].index
+                    decA.drop(indexNames , inplace=True)
+                    decA.reset_index(inplace=True,drop=True)
+                    frames = [decA,vac_dec_A]
+                    vac_dec_A = pd.concat(frames)
+                    vac_dec_A.reset_index(inplace=True,drop=True)
         elif (int ((end_date_A_2021 - start_date_A_2021).days)) < (int ((end_date_A_2022 - start_date_A_2022).days)):
             print("smaller")
+            start_date_A_2021=date(els_A['date'][0].year, els_A['date'][0].month, els_A['date'][0].day-((int ((end_date_A_2022 - start_date_A_2022).days))-(int ((end_date_A_2021 - start_date_A_2021).days))))
+            vac_dec_A=pd.DataFrame()
+            for n in range(int((end_date_A_2021 - start_date_A_2021).days)):
+                decA=df4.copy(deep=True)
+                if n==0:
+                    indexNames=decA[(((decA['DAY_x'] != start_date_A_2021.day) | (decA['MOIS_x'] != start_date_A_2021.month)) | ((decA['DAY_y'] != start_date_A_2022.day) | (decA['MOIS_y'] != start_date_A_2022.month)))].index
+                    decA.drop(indexNames , inplace=True)
+                    decA.reset_index(inplace=True,drop=True)
+                    frames = [decA,vac_dec_A]
+                    vac_dec_A = pd.concat(frames)
+                    vac_dec_A.reset_index(inplace=True,drop=True) 
+                else:
+                    indexNames=decA[(((decA['DAY_x'] != (start_date_A_2021 + timedelta(n)).day) | (decA['MOIS_x'] != (start_date_A_2021 + timedelta(n)).month)) | ((decA['DAY_y'] != (start_date_A_2022 + timedelta(n)).day) | (decA['MOIS_y'] != (start_date_A_2022 + timedelta(n)).month)))].index
+                    decA.drop(indexNames , inplace=True)
+                    decA.reset_index(inplace=True,drop=True)
+                    frames = [decA,vac_dec_A]
+                    vac_dec_A = pd.concat(frames)
+                    vac_dec_A.reset_index(inplace=True,drop=True)
         else:
             vac_dec_A=pd.DataFrame()
             for n in range(int((end_date_A_2021 - start_date_A_2021).days)):
@@ -1178,7 +1430,7 @@ def conco(df1,df_new, annee1, annee2):
 
         if (int ((end_date_A_2021 - start_date_A_2021).days)) > (int ((end_date_A_2022 - start_date_A_2022).days)):
             print("bigger")
-            start_date_A_2022=date(date2021End.year, date2021End.month, date2021End.day-1)
+            start_date_A_2022=date(date2021End.year, date2021End.month, date2021End.day-((int ((end_date_A_2021 - start_date_A_2021).days)) - (int ((end_date_A_2022 - start_date_A_2022).days))))
             normaux=pd.DataFrame()
             for n in range(int((end_date_A_2021 - start_date_A_2021).days)):
                 norm=df4.copy(deep=True)

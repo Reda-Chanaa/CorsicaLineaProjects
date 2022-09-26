@@ -75,11 +75,6 @@ export class ConcoTunComponent {
   pickerJour:Date;
   
   value:number=10
-/*
-  paq1 = new FormControl('');
-  paq2 = new FormControl('');
-  paq3 = new FormControl('');
-  paq4 = new FormControl('');*/
 
   @ViewChild('TABLE') table: ElementRef;
 
