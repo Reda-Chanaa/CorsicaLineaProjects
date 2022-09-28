@@ -15,21 +15,45 @@ conn = psycopg2.connect("dbname=yield password=2022 user=postgres")
 # Open a cursor to perform database operations
 cur = conn.cursor()
 
+
 def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
+
     table_reseau_armateur_today = pd.pivot_table(
         data_today[(data_today.RESEAU == "TUNISIE")
-                   & (data_today.ARMATEUR == "CL") &
+                   & (data_today.ARMATEUR == "CL") & (data_today.COM == "COURANT") &
                    (data_today.ANNEE.eq(int(annee)))],
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
     table_reseau_armateur_today.reset_index(inplace=True)
+    table_reseau_armateur_today[
+        "ID"] = table_reseau_armateur_today.ANNEE + table_reseau_armateur_today.MOIS
+    table_reseau_armateur_today.reset_index(inplace=True)
+    print(table_reseau_armateur_today)
     table_reseau_armateur_yesterday = pd.pivot_table(
         data_yesterday[(data_yesterday.RESEAU == "TUNISIE")
-                       & (data_yesterday.ARMATEUR == "CL") &
-                   (data_yesterday.ANNEE.eq(int(annee)))],
+                       & (data_yesterday.ARMATEUR == "CL") & (data_yesterday.COM == "COURANT") &
+                       (data_yesterday.ANNEE.eq(int(annee)))],
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
     table_reseau_armateur_yesterday.reset_index(inplace=True)
+    table_reseau_armateur_yesterday[
+        "ID"] = table_reseau_armateur_yesterday.ANNEE + table_reseau_armateur_yesterday.MOIS
+    table_reseau_armateur_yesterday.reset_index(inplace=True)
+    print(table_reseau_armateur_yesterday)
+
+    for i in range(len(table_reseau_armateur_today)):
+        if table_reseau_armateur_today["ID"][
+                i] not in table_reseau_armateur_yesterday["ID"].values:
+            table_reseau_armateur_yesterday = table_reseau_armateur_yesterday.append(
+                {
+                    "ID": table_reseau_armateur_today["ID"][i],
+                    'ANNEE': table_reseau_armateur_today['ANNEE'][i],
+                    'MOIS': table_reseau_armateur_today['MOIS'][i],
+                    'PAX': 0,
+                },
+                ignore_index=True)
+    table_reseau_armateur_yesterday.reset_index(inplace=True)
+    print(table_reseau_armateur_yesterday)
     df = pd.DataFrame()
     df["ANNEE"] = table_reseau_armateur_yesterday['ANNEE']
     df["MOIS"] = table_reseau_armateur_yesterday['MOIS']
@@ -252,9 +276,30 @@ def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
                                 | df_mask.MOIS.eq(mois[9])
                                 | df_mask.MOIS.eq(mois[10])
                                 | df_mask.MOIS.eq(mois[11])]
+    print("////////////////")
+    cumul_j_1 = df_mask["CUMUL-19"].sum()
+    basseS1 = df_mask.loc[(df_mask["MOIS"] == 1) | (df_mask["MOIS"] == 2) |
+                          (df_mask["MOIS"] == 3)]
+    bs11 = basseS1["CUMUL-19"].sum()
+    print(bs11)
+    moyS1 = df_mask.loc[(df_mask["MOIS"] == 4) | (df_mask["MOIS"] == 5) |
+                        (df_mask["MOIS"] == 6)]
+    ms11 = moyS1["CUMUL-19"].sum()
+    print(ms11)
+    hauteS = df_mask.loc[(df_mask["MOIS"] == 7) | (df_mask["MOIS"] == 8)]
+    hs1 = hauteS["CUMUL-19"].sum()
+    print(hs1)
+    moyS2 = df_mask.loc[(df_mask["MOIS"] == 9) | (df_mask["MOIS"] == 10)]
+    ms22 = moyS2["CUMUL-19"].sum()
+    print(ms22)
+    basseS2 = df_mask.loc[(df_mask["MOIS"] == 11) | (df_mask["MOIS"] == 12)]
+    bs22 = basseS2["CUMUL-19"].sum()
+    print(bs22)
+    print(cumul_j_1)
+    print("////////////////")
     if len(df_mask_cumul) == 0:
         return pd.DataFrame()
-        print("-------------------------")
+    print("-------------------------")
     if len(df_mask_cumul) == 1:
         df_mask_cumul['BUDGET'] = budget[0]
     if len(df_mask_cumul) == 2:
@@ -357,18 +402,22 @@ def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
     mesure["BUD"] = df_mask_cumul['BUDGET']
     mesure["BUDGET"] = round(
         (df_mask_cumul['CUMUL-19'] / df_mask_cumul['BUDGET']) * 100)
-    BS1 = pd.DataFrame(columns=['TUNISIE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET"])
-    MS1 = pd.DataFrame(columns=['TUNISIE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET"])
+    BS1 = pd.DataFrame(
+        columns=['TUNISIE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET"])
+    MS1 = pd.DataFrame(
+        columns=['TUNISIE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET"])
     HS = pd.DataFrame(columns=['TUNISIE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET"])
-    MS2 = pd.DataFrame(columns=['TUNISIE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET"])
-    BS2 = pd.DataFrame(columns=['TUNISIE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET"])
+    MS2 = pd.DataFrame(
+        columns=['TUNISIE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET"])
+    BS2 = pd.DataFrame(
+        columns=['TUNISIE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET"])
     print("-------------------------------")
-    print(mesure)
+    #print(mesure)
     mesure = mesure.fillna(0)
     bud = 0
     for i in mesure.index:
         bud += mesure["BUD"][i]
-    print(bud)
+    #print(bud)
     for i in mesure.index:
         #  1 BS
         if mesure["TUNISIE"][i] == "Jan":
@@ -390,25 +439,24 @@ def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
                 BS1.loc[3] = [
                     "BASSE SAISON 1",
                     BS1["CIBLE"][0] + BS1["CIBLE"][1] + BS1["CIBLE"][2],
-                    BS1["VENTE"][0] + BS1["VENTE"][1] + BS1["VENTE"][2],
-                    BS1["CUMUL"][0] + BS1["CUMUL"][1] + BS1["CUMUL"][2],
+                    BS1["VENTE"][0] + BS1["VENTE"][1] + BS1["VENTE"][2], bs11,
                     round((
-                        (BS1["CUMUL"][0]  + BS1["CUMUL"][1]  + BS1["CUMUL"][2] ) /
-                        (mesure["BUD"][i - 2]  + mesure["BUD"][i - 1]  +
-                         mesure["BUD"][i] )) * 100)
+                        (bs11) /
+                        (mesure["BUD"][i - 2] + mesure["BUD"][i - 1] +
+                         mesure["BUD"][i])) * 100)
                 ]
             elif len(BS1) == 2:
                 BS1.loc[3] = [
                     "BASSE SAISON 1", BS1["CIBLE"][1] + BS1["CIBLE"][2],
                     BS1["VENTE"][1] + BS1["VENTE"][2],
-                    BS1["CUMUL"][1] + BS1["CUMUL"][2],
-                    round(((BS1["CUMUL"][1] + BS1["CUMUL"][2] ) /
-                           (mesure["BUD"][i - 1]  + mesure["BUD"][i] )) * 100)
+                    bs11,
+                    round(((bs11) /
+                           (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100)
                 ]
             else:
                 BS1.loc[3] = [
                     "BASSE SAISON 1", BS1["CIBLE"][2], BS1["VENTE"][2],
-                    BS1["CUMUL"][2], BS1["BUDGET"][2]
+                    bs11, BS1["BUDGET"][2]
                 ]
         #  1 MS
         if mesure["TUNISIE"][i] == "Apr":
@@ -431,24 +479,24 @@ def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
                     "MOYENNE SAISON 1",
                     MS1["CIBLE"][0] + MS1["CIBLE"][1] + MS1["CIBLE"][2],
                     MS1["VENTE"][0] + MS1["VENTE"][1] + MS1["VENTE"][2],
-                    MS1["CUMUL"][0] + MS1["CUMUL"][1] + MS1["CUMUL"][2],
+                    ms11,
                     round((
-                        (MS1["CUMUL"][0]  + MS1["CUMUL"][1]  + MS1["CUMUL"][2] ) /
-                        (mesure["BUD"][i - 2]  + mesure["BUD"][i - 1]  +
-                         mesure["BUD"][i] )) * 100)
+                        (ms11) /
+                        (mesure["BUD"][i - 2] + mesure["BUD"][i - 1] +
+                         mesure["BUD"][i])) * 100)
                 ]
             elif len(MS1) == 2:
                 MS1.loc[3] = [
                     "MOYENNE SAISON 1", MS1["CIBLE"][1] + MS1["CIBLE"][2],
                     MS1["VENTE"][1] + MS1["VENTE"][2],
-                    MS1["CUMUL"][1] + MS1["CUMUL"][2],
-                    round(((MS1["CUMUL"][1]  + MS1["CUMUL"][2] ) /
-                           (mesure["BUD"][i - 1]  + mesure["BUD"][i] )) * 100)
+                    ms11,
+                    round(((ms11) /
+                           (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100)
                 ]
             else:
                 MS1.loc[3] = [
                     "MOYENNE SAISON 1", MS1["CIBLE"][2], MS1["VENTE"][2],
-                    MS1["CUMUL"][2], MS1["BUDGET"][2]
+                    ms11, MS1["BUDGET"][2]
                 ]
         #  HS
         if mesure["TUNISIE"][i] == "Jul":
@@ -465,14 +513,14 @@ def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
                 HS.loc[2] = [
                     "HAUTE SAISON", HS["CIBLE"][0] + HS["CIBLE"][1],
                     HS["VENTE"][0] + HS["VENTE"][1],
-                    HS["CUMUL"][0] + HS["CUMUL"][1],
-                    round(((HS["CUMUL"][0] + HS["CUMUL"][1]) /
+                    hs1,
+                    round(((hs1) /
                            (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100)
                 ]
             else:
                 HS.loc[2] = [
                     "HAUTE SAISON", HS["CIBLE"][1], HS["VENTE"][1],
-                    HS["CUMUL"][1], HS["BUDGET"][1]
+                    hs1, HS["BUDGET"][1]
                 ]
         #  2 MS
         if mesure["TUNISIE"][i] == "Sep":
@@ -489,14 +537,14 @@ def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
                 MS2.loc[2] = [
                     "MOYENNE SAISON 2", MS2["CIBLE"][0] + MS2["CIBLE"][1],
                     MS2["VENTE"][0] + MS2["VENTE"][1],
-                    MS2["CUMUL"][0] + MS2["CUMUL"][1],
-                    round(((MS2["CUMUL"][0]  + MS2["CUMUL"][1] ) /
-                           (mesure["BUD"][i - 1]  + mesure["BUD"][i] )) * 100)
+                    ms22,
+                    round(((ms22) /
+                           (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100)
                 ]
             else:
                 MS2.loc[2] = [
                     "MOYENNE SAISON 2", MS2["CIBLE"][1], MS2["VENTE"][1],
-                    MS2["CUMUL"][1], MS2["BUDGET"][1]
+                    ms22, MS2["BUDGET"][1]
                 ]
         #  2 BS
         if mesure["TUNISIE"][i] == "Nov":
@@ -513,14 +561,14 @@ def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
                 BS2.loc[2] = [
                     "BASSE SAISON 2", BS2["CIBLE"][0] + BS2["CIBLE"][1],
                     BS2["VENTE"][0] + BS2["VENTE"][1],
-                    BS2["CUMUL"][0] + BS2["CUMUL"][1],
-                    round(((BS2["CUMUL"][0]  + BS2["CUMUL"][1] ) /
-                           (mesure["BUD"][i - 1]  + mesure["BUD"][i] )) * 100)
+                    bs22,
+                    round(((bs22) /
+                           (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100)
                 ]
             else:
                 BS2.loc[2] = [
                     "BASSE SAISON 2", BS2["CIBLE"][1], BS2["VENTE"][1],
-                    BS2["CUMUL"][1], BS2["BUDGET"][1]
+                    bs22, BS2["BUDGET"][1]
                 ]
     '''print("BS1", len(BS1))
     print("BS2", len(BS2))
@@ -555,7 +603,7 @@ def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
         reporting = BS1
     else:
         reporting = BS2
-    print("reporting", reporting)
+    #print("reporting", reporting)
     reporting.reset_index(inplace=True)
     if len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
             MS2) != 0 and len(BS2) != 0:
@@ -572,14 +620,9 @@ def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
                 HS["VENTE"][len(HS) - 1] + MS1["VENTE"][len(MS1) - 1] +
                 MS2["VENTE"][len(MS2) - 1],
                 "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] + BS2["CUMUL"][len(BS2) - 1] +
-                HS["CUMUL"][len(HS) - 1] + MS1["CUMUL"][len(MS1) - 1] +
-                MS2["CUMUL"][len(MS2) - 1],
+                cumul_j_1,
                 "BUDGET":
-                round(
-                    ((BS1["CUMUL"][len(BS1) - 1]  + BS2["CUMUL"][len(BS2) - 1]  +
-                      HS["CUMUL"][len(HS) - 1]  + MS1["CUMUL"][len(MS1) - 1]  +
-                      MS2["CUMUL"][len(MS2) - 1] ) / (bud)) * 100)
+                ""
             },
             ignore_index=True)
     elif len(MS1) != 0 and len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
@@ -594,13 +637,9 @@ def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
                 BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
                 "CUMUL":
-                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
-                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
+                cumul_j_1,
                 "BUDGET":
-                round((
-                    (BS2["CUMUL"][len(BS2) - 1]  + HS["CUMUL"][len(HS) - 1]  +
-                     MS1["CUMUL"][len(MS1) - 1]  + MS2["CUMUL"][len(MS2) - 1] ) /
-                    (bud)) * 100)
+                ""
             },
             ignore_index=True)
     elif len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
@@ -615,28 +654,21 @@ def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
                 BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS2["VENTE"][len(MS2) - 1],
                 "CUMUL":
-                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
-                MS2["CUMUL"][len(MS2) - 1],
+                cumul_j_1,
                 "BUDGET":
-                round(((BS2["CUMUL"][len(BS2) - 1]  + HS["CUMUL"][len(HS) - 1]  +
-                        MS2["CUMUL"][len(MS2) - 1] ) / (bud)) * 100)
+                ""
             },
             ignore_index=True)
     elif len(MS2) != 0 and len(BS2) != 0:
         reporting = reporting.append(
             {
-                'TUNISIE':
-                'TOUTES SAISONS ' + annee,
+                'TUNISIE': 'TOUTES SAISONS ' + annee,
                 'CIBLE':
                 BS2["CIBLE"][len(BS2) - 1] + MS2["CIBLE"][len(MS2) - 1],
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":
-                BS2["CUMUL"][len(BS2) - 1] + MS2["CUMUL"][len(MS2) - 1],
-                "BUDGET":
-                round((
-                    (BS2["CUMUL"][len(BS2) - 1]  + MS2["CUMUL"][len(MS2) - 1] ) /
-                    (bud)) * 100)
+                "CUMUL": cumul_j_1,
+                "BUDGET": ""
             },
             ignore_index=True)
     elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
@@ -652,13 +684,9 @@ def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
                 BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
                 "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] + HS["CUMUL"][len(HS) - 1] +
-                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
+                cumul_j_1,
                 "BUDGET":
-                round((
-                    (BS1["CUMUL"][len(BS1) - 1]  + HS["CUMUL"][len(HS) - 1]  +
-                     MS1["CUMUL"][len(MS1) - 1]  + MS2["CUMUL"][len(MS2) - 1] ) /
-                    (bud)) * 100)
+                ""
             },
             ignore_index=True)
     elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
@@ -674,29 +702,22 @@ def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
                 BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1],
                 "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] + HS["CUMUL"][len(HS) - 1] +
-                MS1["CUMUL"][len(MS1) - 1],
+                cumul_j_1,
                 "BUDGET":
-                round(((BS1["CUMUL"][len(BS1) - 1]  + HS["CUMUL"][len(HS) - 1]  +
-                        MS1["CUMUL"][len(MS1) - 1] ) / (bud)) * 100)
+                ""
             },
             ignore_index=True)
     elif len(BS1) != 0 and len(MS1) != 0 and len(HS) == 0 and len(
             MS2) == 0 and len(BS2) == 0:
         reporting = reporting.append(
             {
-                'TUNISIE':
-                'TOUTES SAISONS ' + annee,
+                'TUNISIE': 'TOUTES SAISONS ' + annee,
                 'CIBLE':
                 BS1["CIBLE"][len(BS1) - 1] + MS1["CIBLE"][len(MS1) - 1],
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + MS1["VENTE"][len(MS1) - 1],
-                "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] + MS1["CUMUL"][len(MS1) - 1],
-                "BUDGET":
-                round((
-                    (BS1["CUMUL"][len(BS1) - 1]  + MS1["CUMUL"][len(MS1) - 1] ) /
-                    (bud)) * 100)
+                "CUMUL": cumul_j_1,
+                "BUDGET": ""
             },
             ignore_index=True)
     elif len(BS1) != 0 and len(MS1) == 0 and len(HS) == 0 and len(
@@ -706,8 +727,8 @@ def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
                 'TUNISIE': 'TOUTES SAISONS ' + annee,
                 'CIBLE': BS1["CIBLE"][len(BS1) - 1],
                 'VENTE': BS1["VENTE"][len(BS1) - 1],
-                "CUMUL": BS1["CUMUL"][len(BS1) - 1],
-                "BUDGET": round(((BS1["CUMUL"][len(BS1) - 1] ) / (bud)) * 100)
+                "CUMUL": cumul_j_1,
+                "BUDGET": ""
             },
             ignore_index=True)
     else:
@@ -716,34 +737,62 @@ def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
                 'TUNISIE': 'TOUTES SAISONS ' + annee,
                 'CIBLE': BS2["CIBLE"][len(BS2) - 1],
                 'VENTE': BS2["VENTE"][len(BS2) - 1],
-                "CUMUL": BS2["CUMUL"][len(BS2) - 1],
-                "BUDGET": round(((BS2["CUMUL"][len(BS2) - 1] ) / (bud)) * 100)
+                "CUMUL": cumul_j_1,
+                "BUDGET": ""
             },
             ignore_index=True)
 
     del reporting['index']
 
-    for i in range(len(reporting)):
+    for i in range(len(reporting) - 1):
         reporting["BUDGET"][i] = str(reporting["BUDGET"][i]) + '%'
 
     return reporting
 
+
 def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                       objectif):
+    print("------ début ------")
     table_reseau_armateur_today = pd.pivot_table(
         data_today[(data_today.RESEAU == "TUNISIE")
-                   & (data_today.ARMATEUR == "CL") &
+                   & (data_today.ARMATEUR == "CL") & (data_today.COM == "COURANT") &
                    (data_today.ANNEE.eq(int(annee)))],
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
+
     table_reseau_armateur_today.reset_index(inplace=True)
+    table_reseau_armateur_today[
+        "ID"] = table_reseau_armateur_today.ANNEE + table_reseau_armateur_today.MOIS
+    table_reseau_armateur_today.reset_index(inplace=True)
+    print(table_reseau_armateur_today)
+
     table_reseau_armateur_yesterday = pd.pivot_table(
         data_yesterday[(data_yesterday.RESEAU == "TUNISIE")
-                       & (data_yesterday.ARMATEUR == "CL") &
-                   (data_yesterday.ANNEE.eq(int(annee)))],
+                       & (data_yesterday.ARMATEUR == "CL") & (data_yesterday.COM == "COURANT") &
+                       (data_yesterday.ANNEE.eq(int(annee)))],
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
+
     table_reseau_armateur_yesterday.reset_index(inplace=True)
+    table_reseau_armateur_yesterday[
+        "ID"] = table_reseau_armateur_yesterday.ANNEE + table_reseau_armateur_yesterday.MOIS
+    table_reseau_armateur_yesterday.reset_index(inplace=True)
+    print(table_reseau_armateur_yesterday)
+
+    for i in range(len(table_reseau_armateur_today)):
+        if table_reseau_armateur_today["ID"][
+                i] not in table_reseau_armateur_yesterday["ID"].values:
+            table_reseau_armateur_yesterday = table_reseau_armateur_yesterday.append(
+                {
+                    "ID": table_reseau_armateur_today["ID"][i],
+                    'ANNEE': table_reseau_armateur_today['ANNEE'][i],
+                    'MOIS': table_reseau_armateur_today['MOIS'][i],
+                    'PAX': 0,
+                },
+                ignore_index=True)
+    table_reseau_armateur_yesterday.reset_index(inplace=True)
+    print(table_reseau_armateur_yesterday)
+
     df = pd.DataFrame()
     df["ANNEE"] = table_reseau_armateur_yesterday['ANNEE']
     df["MOIS"] = table_reseau_armateur_yesterday['MOIS']
@@ -966,9 +1015,30 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                                 | df_mask.MOIS.eq(mois[9])
                                 | df_mask.MOIS.eq(mois[10])
                                 | df_mask.MOIS.eq(mois[11])]
+    print("////////////////")
+    cumul_j_1 = df_mask["CUMUL-19"].sum()
+    basseS1 = df_mask.loc[(df_mask["MOIS"] == 1) | (df_mask["MOIS"] == 2) |
+                          (df_mask["MOIS"] == 3)]
+    bs11 = basseS1["CUMUL-19"].sum()
+    print(bs11)
+    moyS1 = df_mask.loc[(df_mask["MOIS"] == 4) | (df_mask["MOIS"] == 5) |
+                        (df_mask["MOIS"] == 6)]
+    ms11 = moyS1["CUMUL-19"].sum()
+    print(ms11)
+    hauteS = df_mask.loc[(df_mask["MOIS"] == 7) | (df_mask["MOIS"] == 8)]
+    hs1 = hauteS["CUMUL-19"].sum()
+    print(hs1)
+    moyS2 = df_mask.loc[(df_mask["MOIS"] == 9) | (df_mask["MOIS"] == 10)]
+    ms22 = moyS2["CUMUL-19"].sum()
+    print(ms22)
+    basseS2 = df_mask.loc[(df_mask["MOIS"] == 11) | (df_mask["MOIS"] == 12)]
+    bs22 = basseS2["CUMUL-19"].sum()
+    print(bs22)
+    print(cumul_j_1)
+    print("////////////////")
     if len(df_mask_cumul) == 0:
         return pd.DataFrame()
-        print("-------------------------")
+    print("-------------------------")
     if len(df_mask_cumul) == 1:
         df_mask_cumul['BUDGET'] = budget[0]
         df_mask_cumul['OBJECTIF'] = objectif[0]
@@ -1111,7 +1181,7 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
     mesure["BUDGET"] = round(
         (df_mask_cumul['CUMUL-19'] / df_mask_cumul['BUDGET']) * 100)
     mesure["OBJECTIF"] = df_mask_cumul['OBJECTIF']
-    print("- - - - - - - - - - -",mesure)
+    #print("- - - - - - - - - - -",mesure)
     BS1 = pd.DataFrame(
         columns=['TUNISIE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET", "OBJECTIF"])
     MS1 = pd.DataFrame(
@@ -1123,12 +1193,12 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
     BS2 = pd.DataFrame(
         columns=['TUNISIE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET", "OBJECTIF"])
     print("-------------------------------")
-    print(mesure)
+    #print(mesure)
     mesure = mesure.fillna(0)
     bud = 0
     for i in mesure.index:
         bud += mesure["BUD"][i]
-    print(bud)
+    #print(bud)
     mesure.reset_index(drop=True)
     for i in mesure.index:
         #  1 BS
@@ -1151,12 +1221,11 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 BS1.loc[3] = [
                     "BASSE SAISON 1",
                     BS1["CIBLE"][0] + BS1["CIBLE"][1] + BS1["CIBLE"][2],
-                    BS1["VENTE"][0] + BS1["VENTE"][1] + BS1["VENTE"][2],
-                    BS1["CUMUL"][0] + BS1["CUMUL"][1] + BS1["CUMUL"][2],
+                    BS1["VENTE"][0] + BS1["VENTE"][1] + BS1["VENTE"][2], bs11,
                     round((
-                        (BS1["CUMUL"][0]  + BS1["CUMUL"][1]  + BS1["CUMUL"][2] ) /
-                        (mesure["BUD"][i - 2]  + mesure["BUD"][i - 1]  +
-                         mesure["BUD"][i] )) * 100),
+                        (bs11) /
+                        (mesure["BUD"][i - 2] + mesure["BUD"][i - 1] +
+                         mesure["BUD"][i])) * 100),
                     round((BS1["OBJECTIF"][0] + BS1["OBJECTIF"][1] +
                            BS1["OBJECTIF"][2]) / 3)
                 ]
@@ -1164,26 +1233,28 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 if (mesure["BUD"][i - 1] == 0 & mesure["BUD"][i] == 0) | (
                         BS1["OBJECTIF"][1] == 0 & BS1["OBJECTIF"][2] == 0):
                     BS1.loc[3] = [
-                    "BASSE SAISON 1", BS1["CIBLE"][1] + BS1["CIBLE"][2],
-                    BS1["VENTE"][1] + BS1["VENTE"][2],
-                    BS1["CUMUL"][1] + BS1["CUMUL"][2],
-                    round(((BS1["CUMUL"][1]  + BS1["CUMUL"][2] ) /
-                           (mesure["BUD"][i - 1]  + mesure["BUD"][i] )) * 100),
-                    round((BS1["OBJECTIF"][1] + BS1["OBJECTIF"][2]) / 2)
-                ]
+                        "BASSE SAISON 1", BS1["CIBLE"][1] + BS1["CIBLE"][2],
+                        BS1["VENTE"][1] + BS1["VENTE"][2],
+                        bs11,
+                        round(
+                            ((bs11) /
+                             (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100),
+                        round((BS1["OBJECTIF"][1] + BS1["OBJECTIF"][2]) / 2)
+                    ]
                 else:
                     BS1.loc[3] = [
                         "BASSE SAISON 1", BS1["CIBLE"][1] + BS1["CIBLE"][2],
                         BS1["VENTE"][1] + BS1["VENTE"][2],
-                        BS1["CUMUL"][1] + BS1["CUMUL"][2],
-                        round(((BS1["CUMUL"][1]  + BS1["CUMUL"][2] ) /
-                            (mesure["BUD"][i - 1]  + mesure["BUD"][i] )) * 100),
+                        bs11,
+                        round(
+                            ((bs11) /
+                             (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100),
                         round((BS1["OBJECTIF"][1] + BS1["OBJECTIF"][2]) / 2)
                     ]
             else:
                 BS1.loc[3] = [
                     "BASSE SAISON 1", BS1["CIBLE"][2], BS1["VENTE"][2],
-                    BS1["CUMUL"][2], BS1["BUDGET"][2], BS1["OBJECTIF"][2]
+                    bs11, BS1["BUDGET"][2], BS1["OBJECTIF"][2]
                 ]
         #  1 MS
         if mesure["TUNISIE"][i] == "Apr":
@@ -1206,12 +1277,12 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                     "MOYENNE SAISON 1",
                     MS1["CIBLE"][0] + MS1["CIBLE"][1] + MS1["CIBLE"][2],
                     MS1["VENTE"][0] + MS1["VENTE"][1] + MS1["VENTE"][2],
-                    MS1["CUMUL"][0] + MS1["CUMUL"][1] + MS1["CUMUL"][2],
+                    ms11,
                     round((
-                        (MS1["CUMUL"][0]  + MS1["CUMUL"][1]  + MS1["CUMUL"][2] ) /
-                        (mesure["BUD"][i - 2]  + mesure["BUD"][i - 1]  +
-                         mesure["BUD"][i] )) * 100),
-                    round((MS1["OBJECTIF"][0]+ MS1["OBJECTIF"][1] +
+                        (ms11) /
+                        (mesure["BUD"][i - 2] + mesure["BUD"][i - 1] +
+                         mesure["BUD"][i])) * 100),
+                    round((MS1["OBJECTIF"][0] + MS1["OBJECTIF"][1] +
                            MS1["OBJECTIF"][2]) / 3)
                 ]
             elif len(MS1) == 2:
@@ -1220,20 +1291,22 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                     MS1.loc[3] = [
                         "MOYENNE SAISON 1", MS1["CIBLE"][1] + MS1["CIBLE"][2],
                         MS1["VENTE"][1] + MS1["VENTE"][2],
-                        MS1["CUMUL"][1] + MS1["CUMUL"][2],0,0]
+                        ms11, 0, 0
+                    ]
                 else:
                     MS1.loc[3] = [
                         "MOYENNE SAISON 1", MS1["CIBLE"][1] + MS1["CIBLE"][2],
                         MS1["VENTE"][1] + MS1["VENTE"][2],
-                        MS1["CUMUL"][1] + MS1["CUMUL"][2],
-                        round(((MS1["CUMUL"][1]  + MS1["CUMUL"][2] ) /
-                            (mesure["BUD"][i - 1]  + mesure["BUD"][i] )) * 100),
-                        round((MS1["OBJECTIF"][1]+ MS1["OBJECTIF"][2]) / 2)
+                        ms11,
+                        round(
+                            ((ms11) /
+                             (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100),
+                        round((MS1["OBJECTIF"][1] + MS1["OBJECTIF"][2]) / 2)
                     ]
             else:
                 MS1.loc[3] = [
                     "MOYENNE SAISON 1", MS1["CIBLE"][2], MS1["VENTE"][2],
-                    MS1["CUMUL"][2], MS1["BUDGET"][2], MS1["OBJECTIF"][2]
+                    ms11, MS1["BUDGET"][2], MS1["OBJECTIF"][2]
                 ]
         #  HS
         if mesure["TUNISIE"][i] == "Jul":
@@ -1247,26 +1320,27 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 mesure["CUMUL"][i], mesure["BUDGET"][i], mesure["OBJECTIF"][i]
             ]
             if len(HS) == 2:
-                if (mesure["BUD"][i - 1] == 0 & mesure["BUD"][i] == 0) | (
-                        HS["OBJECTIF"][0] == 0 & HS["OBJECTIF"][1] == 0):
+                if (mesure["BUD"][i - 1] == 0 & mesure["BUD"][i] ==
+                        0) | (HS["OBJECTIF"][0] == 0 & HS["OBJECTIF"][1] == 0):
                     HS.loc[2] = [
-                    "HAUTE SAISON", HS["CIBLE"][0] + HS["CIBLE"][1],
-                    HS["VENTE"][0] + HS["VENTE"][1],
-                    HS["CUMUL"][0] + HS["CUMUL"][1],
-                    0,0]
+                        "HAUTE SAISON", HS["CIBLE"][0] + HS["CIBLE"][1],
+                        HS["VENTE"][0] + HS["VENTE"][1],
+                        hs1, 0, 0
+                    ]
                 else:
                     HS.loc[2] = [
                         "HAUTE SAISON", HS["CIBLE"][0] + HS["CIBLE"][1],
                         HS["VENTE"][0] + HS["VENTE"][1],
-                        HS["CUMUL"][0] + HS["CUMUL"][1],
-                        round(((HS["CUMUL"][0]  + HS["CUMUL"][1] ) /
-                            (mesure["BUD"][i - 1]  + mesure["BUD"][i] )) * 100),
-                        round((HS["OBJECTIF"][0]+ HS["OBJECTIF"][1]) / 2)
+                        hs1,
+                        round(
+                            ((hs1) /
+                             (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100),
+                        round((HS["OBJECTIF"][0] + HS["OBJECTIF"][1]) / 2)
                     ]
             else:
                 HS.loc[2] = [
                     "HAUTE SAISON", HS["CIBLE"][1], HS["VENTE"][1],
-                    HS["CUMUL"][1], HS["BUDGET"][1], HS["OBJECTIF"][1]
+                    hs1, HS["BUDGET"][1], HS["OBJECTIF"][1]
                 ]
         #  2 MS
         if mesure["TUNISIE"][i] == "Sep":
@@ -1285,21 +1359,22 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                     MS2.loc[2] = [
                         "MOYENNE SAISON 2", MS2["CIBLE"][0] + MS2["CIBLE"][1],
                         MS2["VENTE"][0] + MS2["VENTE"][1],
-                        MS2["CUMUL"][0] + MS2["CUMUL"][1],
-                        0,0]
+                        ms22, 0, 0
+                    ]
                 else:
                     MS2.loc[2] = [
                         "MOYENNE SAISON 2", MS2["CIBLE"][0] + MS2["CIBLE"][1],
                         MS2["VENTE"][0] + MS2["VENTE"][1],
-                        MS2["CUMUL"][0] + MS2["CUMUL"][1],
-                        round(((MS2["CUMUL"][0]  + MS2["CUMUL"][1] ) /
-                            (mesure["BUD"][i - 1]  + mesure["BUD"][i] )) * 100),
+                        ms22,
+                        round(
+                            ((ms22) /
+                             (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100),
                         round((MS2["OBJECTIF"][0] + MS2["OBJECTIF"][1]) / 2)
                     ]
             else:
                 MS2.loc[2] = [
                     "MOYENNE SAISON 2", MS2["CIBLE"][1], MS2["VENTE"][1],
-                    MS2["CUMUL"][1], MS2["BUDGET"][1], MS2["OBJECTIF"][1]
+                    ms22, MS2["BUDGET"][1], MS2["OBJECTIF"][1]
                 ]
         #  2 BS
         if mesure["TUNISIE"][i] == "Nov":
@@ -1325,22 +1400,22 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                     BS2.loc[2] = [
                         "BASSE SAISON 2", BS2["CIBLE"][0] + BS2["CIBLE"][1],
                         BS2["VENTE"][0] + BS2["VENTE"][1],
-                        BS2["CUMUL"][0] + BS2["CUMUL"][1], 0, 0
+                        bs22, 0, 0
                     ]
                 else:
                     BS2.loc[2] = [
                         "BASSE SAISON 2", BS2["CIBLE"][0] + BS2["CIBLE"][1],
                         BS2["VENTE"][0] + BS2["VENTE"][1],
-                        BS2["CUMUL"][0] + BS2["CUMUL"][1],
+                        bs22,
                         round(
-                            ((BS2["CUMUL"][0]  + BS2["CUMUL"][1] ) /
-                             (mesure["BUD"][i - 1]  + mesure["BUD"][i] )) * 100),
+                            ((bs22) /
+                             (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100),
                         round((BS2["OBJECTIF"][0] + BS2["OBJECTIF"][1]) / 2)
                     ]
             else:
                 BS2.loc[2] = [
                     "BASSE SAISON 2", BS2["CIBLE"][1], BS2["VENTE"][1],
-                    BS2["CUMUL"][1], BS2["BUDGET"][1], BS2["OBJECTIF"][1]
+                    bs22, BS2["BUDGET"][1], BS2["OBJECTIF"][1]
                 ]
     '''print("BS1", len(BS1))
     print("BS2", len(BS2))
@@ -1375,7 +1450,7 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
         reporting = BS1
     else:
         reporting = BS2
-    print("reporting", reporting)
+    #print("reporting", reporting)
     reporting.reset_index(inplace=True)
     if len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
             MS2) != 0 and len(BS2) != 0:
@@ -1392,20 +1467,11 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 HS["VENTE"][len(HS) - 1] + MS1["VENTE"][len(MS1) - 1] +
                 MS2["VENTE"][len(MS2) - 1],
                 "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] + BS2["CUMUL"][len(BS2) - 1] +
-                HS["CUMUL"][len(HS) - 1] + MS1["CUMUL"][len(MS1) - 1] +
-                MS2["CUMUL"][len(MS2) - 1],
+                cumul_j_1,
                 "BUDGET":
-                round(
-                    ((BS1["CUMUL"][len(BS1) - 1]  + BS2["CUMUL"][len(BS2) - 1]  +
-                      HS["CUMUL"][len(HS) - 1]  + MS1["CUMUL"][len(MS1) - 1]  +
-                      MS2["CUMUL"][len(MS2) - 1] ) / (bud)) * 100),
+                "",
                 "OBJECTIF":
-                round((BS1["OBJECTIF"][len(BS1) - 1] +
-                       BS2["OBJECTIF"][len(BS2) - 1] +
-                       HS["OBJECTIF"][len(HS) - 1] +
-                       MS1["OBJECTIF"][len(MS1) - 1] +
-                       MS2["OBJECTIF"][len(MS2) - 1]) / 5)
+                ""
             },
             ignore_index=True)
     elif len(MS1) != 0 and len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
@@ -1420,18 +1486,11 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
                 "CUMUL":
-                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
-                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
+                cumul_j_1,
                 "BUDGET":
-                round((
-                    (BS2["CUMUL"][len(BS2) - 1]  + HS["CUMUL"][len(HS) - 1]  +
-                     MS1["CUMUL"][len(MS1) - 1]  + MS2["CUMUL"][len(MS2) - 1] ) /
-                    (bud)) * 100),
+                "",
                 "OBJECTIF":
-                round((BS2["OBJECTIF"][len(BS2) - 1] +
-                       HS["OBJECTIF"][len(HS) - 1] +
-                       MS1["OBJECTIF"][len(MS1) - 1] +
-                       MS2["OBJECTIF"][len(MS2) - 1]) / 4)
+                ""
             },
             ignore_index=True)
     elif len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
@@ -1446,35 +1505,24 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS2["VENTE"][len(MS2) - 1],
                 "CUMUL":
-                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
-                MS2["CUMUL"][len(MS2) - 1],
+                cumul_j_1,
                 "BUDGET":
-                round(((BS2["CUMUL"][len(BS2) - 1]  + HS["CUMUL"][len(HS) - 1]  +
-                        MS2["CUMUL"][len(MS2) - 1] ) / (bud)) * 100),
+                "",
                 "OBJECTIF":
-                round((BS2["OBJECTIF"][len(BS2) - 1] +
-                       HS["OBJECTIF"][len(HS) - 1] +
-                       MS2["OBJECTIF"][len(MS2) - 1]) / 3)
+                ""
             },
             ignore_index=True)
     elif len(MS2) != 0 and len(BS2) != 0:
         reporting = reporting.append(
             {
-                'TUNISIE':
-                'TOUTES SAISONS ' + annee,
+                'TUNISIE': 'TOUTES SAISONS ' + annee,
                 'CIBLE':
                 BS2["CIBLE"][len(BS2) - 1] + MS2["CIBLE"][len(MS2) - 1],
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":
-                BS2["CUMUL"][len(BS2) - 1] + MS2["CUMUL"][len(MS2) - 1],
-                "BUDGET":
-                round((
-                    (BS2["CUMUL"][len(BS2) - 1]  + MS2["CUMUL"][len(MS2) - 1] ) /
-                    (bud)) * 100),
-                "OBJECTIF":
-                round((BS2["OBJECTIF"][len(BS2) - 1]+
-                       MS2["OBJECTIF"][len(MS2) - 1]) / 2)
+                "CUMUL": cumul_j_1,
+                "BUDGET": "",
+                "OBJECTIF": ""
             },
             ignore_index=True)
     elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
@@ -1490,18 +1538,11 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
                 "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] + HS["CUMUL"][len(HS) - 1] +
-                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
+                cumul_j_1,
                 "BUDGET":
-                round((
-                    (BS1["CUMUL"][len(BS1) - 1]  + HS["CUMUL"][len(HS) - 1]  +
-                     MS1["CUMUL"][len(MS1) - 1]  + MS2["CUMUL"][len(MS2) - 1] ) /
-                    (bud)) * 100),
+                "",
                 "OBJECTIF":
-                round((BS1["OBJECTIF"][len(BS1) - 1]+
-                       HS["OBJECTIF"][len(HS) - 1] +
-                       MS1["OBJECTIF"][len(MS1) - 1] +
-                       MS2["OBJECTIF"][len(MS2) - 1]) / 4)
+                ""
             },
             ignore_index=True)
     elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
@@ -1517,36 +1558,25 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1],
                 "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] + HS["CUMUL"][len(HS) - 1] +
-                MS1["CUMUL"][len(MS1) - 1],
+                cumul_j_1,
                 "BUDGET":
-                round(((BS1["CUMUL"][len(BS1) - 1]  + HS["CUMUL"][len(HS) - 1]  +
-                        MS1["CUMUL"][len(MS1) - 1] ) / (bud)) * 100),
+                "",
                 "OBJECTIF":
-                round((BS1["OBJECTIF"][len(BS1) - 1] +
-                       HS["OBJECTIF"][len(HS) - 1]+
-                       MS1["OBJECTIF"][len(MS1) - 1]) / 3)
+                ""
             },
             ignore_index=True)
     elif len(BS1) != 0 and len(MS1) != 0 and len(HS) == 0 and len(
             MS2) == 0 and len(BS2) == 0:
         reporting = reporting.append(
             {
-                'TUNISIE':
-                'TOUTES SAISONS ' + annee,
+                'TUNISIE': 'TOUTES SAISONS ' + annee,
                 'CIBLE':
                 BS1["CIBLE"][len(BS1) - 1] + MS1["CIBLE"][len(MS1) - 1],
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + MS1["VENTE"][len(MS1) - 1],
-                "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] + MS1["CUMUL"][len(MS1) - 1],
-                "BUDGET":
-                round((
-                    (BS1["CUMUL"][len(BS1) - 1]  + MS1["CUMUL"][len(MS1) - 1] ) /
-                    (bud)) * 100),
-                "OBJECTIF":
-                round((BS1["OBJECTIF"][len(BS1) - 1] +
-                       MS1["OBJECTIF"][len(MS1) - 1]) / 2)
+                "CUMUL": cumul_j_1,
+                "BUDGET": "",
+                "OBJECTIF": ""
             },
             ignore_index=True)
     elif len(BS1) != 0 and len(MS1) == 0 and len(HS) == 0 and len(
@@ -1556,9 +1586,9 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 'TUNISIE': 'TOUTES SAISONS ' + annee,
                 'CIBLE': BS1["CIBLE"][len(BS1) - 1],
                 'VENTE': BS1["VENTE"][len(BS1) - 1],
-                "CUMUL": BS1["CUMUL"][len(BS1) - 1],
-                "BUDGET": round(((BS1["CUMUL"][len(BS1) - 1] ) / (bud)) * 100),
-                "OBJECTIF": round(BS1["OBJECTIF"][len(BS1) - 1])
+                "CUMUL": cumul_j_1,
+                "BUDGET": "",
+                "OBJECTIF": ""
             },
             ignore_index=True)
     else:
@@ -1567,35 +1597,60 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 'TUNISIE': 'TOUTES SAISONS ' + annee,
                 'CIBLE': BS2["CIBLE"][len(BS2) - 1],
                 'VENTE': BS2["VENTE"][len(BS2) - 1],
-                "CUMUL": BS2["CUMUL"][len(BS2) - 1],
-                "BUDGET": round(((BS2["CUMUL"][len(BS2) - 1] ) / (bud)) * 100),
-                "OBJECTIF": round(BS2["OBJECTIF"][len(BS2) - 1])
+                "CUMUL": cumul_j_1,
+                "BUDGET": "",
+                "OBJECTIF": ""
             },
             ignore_index=True)
 
     del reporting['index']
 
-    for i in range(len(reporting)):
+    for i in range(len(reporting) - 1):
         reporting["BUDGET"][i] = str(reporting["BUDGET"][i]) + '%'
         reporting["OBJECTIF"][i] = str(reporting["OBJECTIF"][i]) + '%'
 
     return reporting
 
+
 def Stat_TUN_plus(data_yesterday, data_today, annee, mois):
+
     table_reseau_armateur_today = pd.pivot_table(
         data_today[(data_today.RESEAU == "TUNISIE")
-                   & (data_today.ARMATEUR == "CL") &
+                   & (data_today.ARMATEUR == "CL") & (data_today.COM == "COURANT") &
                    (data_today.ANNEE.eq(int(annee)))],
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
     table_reseau_armateur_today.reset_index(inplace=True)
+    table_reseau_armateur_today[
+        "ID"] = table_reseau_armateur_today.ANNEE + table_reseau_armateur_today.MOIS
+    table_reseau_armateur_today.reset_index(inplace=True)
+    print(table_reseau_armateur_today)
+
     table_reseau_armateur_yesterday = pd.pivot_table(
         data_yesterday[(data_yesterday.RESEAU == "TUNISIE")
-                       & (data_yesterday.ARMATEUR == "CL") &
-                   (data_yesterday.ANNEE.eq(int(annee)))],
+                       & (data_yesterday.ARMATEUR == "CL") & (data_yesterday.COM == "COURANT") &
+                       (data_yesterday.ANNEE.eq(int(annee)))],
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
     table_reseau_armateur_yesterday.reset_index(inplace=True)
+    table_reseau_armateur_yesterday[
+        "ID"] = table_reseau_armateur_yesterday.ANNEE + table_reseau_armateur_yesterday.MOIS
+    table_reseau_armateur_yesterday.reset_index(inplace=True)
+    print(table_reseau_armateur_yesterday)
+
+    for i in range(len(table_reseau_armateur_today)):
+        if table_reseau_armateur_today["ID"][
+                i] not in table_reseau_armateur_yesterday["ID"].values:
+            table_reseau_armateur_yesterday = table_reseau_armateur_yesterday.append(
+                {
+                    "ID": table_reseau_armateur_today["ID"][i],
+                    'ANNEE': table_reseau_armateur_today['ANNEE'][i],
+                    'MOIS': table_reseau_armateur_today['MOIS'][i],
+                    'PAX': 0,
+                },
+                ignore_index=True)
+    table_reseau_armateur_yesterday.reset_index(inplace=True)
+    print(table_reseau_armateur_yesterday)
     df = pd.DataFrame()
     df["ANNEE"] = table_reseau_armateur_yesterday['ANNEE']
     df["MOIS"] = table_reseau_armateur_yesterday['MOIS']
@@ -1606,7 +1661,7 @@ def Stat_TUN_plus(data_yesterday, data_today, annee, mois):
     df_mask = df[df.ANNEE.eq(int(annee) - 1) | df.ANNEE.eq(int(annee))
                  | df.ANNEE.eq(int(annee) - 1)]
     df_mask = df_mask[df_mask.ANNEE.eq(int(annee))]
-    print(df_mask)
+    #print(df_mask)
     if 1 not in df_mask.MOIS.values:
         df_mask = df_mask.append(
             {
@@ -1819,6 +1874,27 @@ def Stat_TUN_plus(data_yesterday, data_today, annee, mois):
                                 | df_mask.MOIS.eq(mois[9])
                                 | df_mask.MOIS.eq(mois[10])
                                 | df_mask.MOIS.eq(mois[11])]
+    print("////////////////")
+    cumul_j_1 = df_mask["CUMUL-19"].sum()
+    basseS1 = df_mask.loc[(df_mask["MOIS"] == 1) | (df_mask["MOIS"] == 2) |
+                          (df_mask["MOIS"] == 3)]
+    bs11 = basseS1["CUMUL-19"].sum()
+    print(bs11)
+    moyS1 = df_mask.loc[(df_mask["MOIS"] == 4) | (df_mask["MOIS"] == 5) |
+                        (df_mask["MOIS"] == 6)]
+    ms11 = moyS1["CUMUL-19"].sum()
+    print(ms11)
+    hauteS = df_mask.loc[(df_mask["MOIS"] == 7) | (df_mask["MOIS"] == 8)]
+    hs1 = hauteS["CUMUL-19"].sum()
+    print(hs1)
+    moyS2 = df_mask.loc[(df_mask["MOIS"] == 9) | (df_mask["MOIS"] == 10)]
+    ms22 = moyS2["CUMUL-19"].sum()
+    print(ms22)
+    basseS2 = df_mask.loc[(df_mask["MOIS"] == 11) | (df_mask["MOIS"] == 12)]
+    bs22 = basseS2["CUMUL-19"].sum()
+    print(bs22)
+    print(cumul_j_1)
+    print("////////////////")
     if len(df_mask_cumul) == 0:
         print("-------------------------")
         return pd.DataFrame()
@@ -1827,13 +1903,12 @@ def Stat_TUN_plus(data_yesterday, data_today, annee, mois):
         lambda x: calendar.month_abbr[int(x)])
     mesure["VENTE"] = df_mask_cumul['Vente journalière']
     mesure["CUMUL"] = df_mask_cumul['CUMUL-19']
-    print("- - - - - -",mesure)
+    #print("- - - - - -",mesure)
     BS1 = pd.DataFrame(
         columns=['TUNISIE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET"])
     MS1 = pd.DataFrame(
         columns=['TUNISIE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET"])
-    HS = pd.DataFrame(
-        columns=['TUNISIE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET"])
+    HS = pd.DataFrame(columns=['TUNISIE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET"])
     MS2 = pd.DataFrame(
         columns=['TUNISIE', 'CIBLE', 'VENTE', "CUMUL", "BUDGET"])
     BS2 = pd.DataFrame(
@@ -1844,135 +1919,114 @@ def Stat_TUN_plus(data_yesterday, data_today, annee, mois):
         #  1 BS
         if mesure["TUNISIE"][i] == "Jan":
             BS1.loc[0] = [
-                "Janvier", "", mesure["VENTE"][i],
-                mesure["CUMUL"][i], ""
+                "Janvier", "", mesure["VENTE"][i], mesure["CUMUL"][i], ""
             ]
         if mesure["TUNISIE"][i] == "Feb":
             BS1.loc[1] = [
-                "Février", "", mesure["VENTE"][i],
-                mesure["CUMUL"][i], ""
+                "Février", "", mesure["VENTE"][i], mesure["CUMUL"][i], ""
             ]
         if mesure["TUNISIE"][i] == "Mar":
             BS1.loc[2] = [
-                "Mars", "", mesure["VENTE"][i],
-                mesure["CUMUL"][i], ""
+                "Mars", "", mesure["VENTE"][i], mesure["CUMUL"][i], ""
             ]
             if len(BS1) == 3:
                 BS1.loc[3] = [
-                    "BASSE SAISON 1",
-                    "",
-                    BS1["VENTE"][0] + BS1["VENTE"][1] + BS1["VENTE"][2],
-                    BS1["CUMUL"][0] + BS1["CUMUL"][1] + BS1["CUMUL"][2],""
+                    "BASSE SAISON 1", "",
+                    BS1["VENTE"][0] + BS1["VENTE"][1] + BS1["VENTE"][2], bs11,
+                    ""
                 ]
             elif len(BS1) == 2:
-                    BS1.loc[3] = [
-                        "BASSE SAISON 1", "",
-                        BS1["VENTE"][1] + BS1["VENTE"][2],
-                        BS1["CUMUL"][1] + BS1["CUMUL"][2],""
-                    ]
+                BS1.loc[3] = [
+                    "BASSE SAISON 1", "", BS1["VENTE"][1] + BS1["VENTE"][2],
+                    bs11, ""
+                ]
             else:
                 BS1.loc[3] = [
-                    "BASSE SAISON 1", "", BS1["VENTE"][2],
-                    BS1["CUMUL"][2], ""
+                    "BASSE SAISON 1", "", BS1["VENTE"][2], bs11, ""
                 ]
         #  1 MS
         if mesure["TUNISIE"][i] == "Apr":
             MS1.loc[0] = [
-                "Avril", "", mesure["VENTE"][i],
-                mesure["CUMUL"][i], ""
+                "Avril", "", mesure["VENTE"][i], mesure["CUMUL"][i], ""
             ]
         if mesure["TUNISIE"][i] == "May":
             MS1.loc[1] = [
-                "Mai", "", mesure["VENTE"][i],
-                mesure["CUMUL"][i], ""
+                "Mai", "", mesure["VENTE"][i], mesure["CUMUL"][i], ""
             ]
         if mesure["TUNISIE"][i] == "Jun":
             MS1.loc[2] = [
-                "juin", "", mesure["VENTE"][i],
-                mesure["CUMUL"][i], ""
+                "juin", "", mesure["VENTE"][i], mesure["CUMUL"][i], ""
             ]
             if len(MS1) == 3:
                 MS1.loc[3] = [
-                    "MOYENNE SAISON 1",
-                    "",
+                    "MOYENNE SAISON 1", "",
                     MS1["VENTE"][0] + MS1["VENTE"][1] + MS1["VENTE"][2],
-                    MS1["CUMUL"][0] + MS1["CUMUL"][1] + MS1["CUMUL"][2],""
+                    ms11, ""
                 ]
             elif len(MS1) == 2:
-                    MS1.loc[3] = [
-                        "MOYENNE SAISON 1","",
-                        MS1["VENTE"][1] + MS1["VENTE"][2],
-                        MS1["CUMUL"][1] + MS1["CUMUL"][2],""
-                    ]
+                MS1.loc[3] = [
+                    "MOYENNE SAISON 1", "", MS1["VENTE"][1] + MS1["VENTE"][2],
+                    ms11, ""
+                ]
             else:
                 MS1.loc[3] = [
-                    "MOYENNE SAISON 1", "", MS1["VENTE"][2],
-                    MS1["CUMUL"][2], ""
+                    "MOYENNE SAISON 1", "", MS1["VENTE"][2], ms11,
+                    ""
                 ]
         #  HS
         if mesure["TUNISIE"][i] == "Jul":
             HS.loc[0] = [
-                "Juillet", "", mesure["VENTE"][i],
-                mesure["CUMUL"][i], ""
+                "Juillet", "", mesure["VENTE"][i], mesure["CUMUL"][i], ""
             ]
         if mesure["TUNISIE"][i] == "Aug":
             HS.loc[1] = [
-                "Août", "", mesure["VENTE"][i],
-                mesure["CUMUL"][i],""
+                "Août", "", mesure["VENTE"][i], mesure["CUMUL"][i], ""
             ]
             if len(HS) == 2:
-                    HS.loc[2] = [
-                        "HAUTE SAISON", "" ,
-                        HS["VENTE"][0] + HS["VENTE"][1],
-                        HS["CUMUL"][0] + HS["CUMUL"][1],""
-                    ]
+                HS.loc[2] = [
+                    "HAUTE SAISON", "", HS["VENTE"][0] + HS["VENTE"][1],
+                    hs1, ""
+                ]
             else:
                 HS.loc[2] = [
-                    "HAUTE SAISON", "", HS["VENTE"][1],
-                    HS["CUMUL"][1],""
+                    "HAUTE SAISON", "", HS["VENTE"][1], hs1, ""
                 ]
         #  2 MS
         if mesure["TUNISIE"][i] == "Sep":
             MS2.loc[0] = [
-                "Septembre","", mesure["VENTE"][i],
-                mesure["CUMUL"][i], ""
+                "Septembre", "", mesure["VENTE"][i], mesure["CUMUL"][i], ""
             ]
         if mesure["TUNISIE"][i] == "Oct":
             MS2.loc[1] = [
-                "Octobre","", mesure["VENTE"][i],
-                mesure["CUMUL"][i],""
+                "Octobre", "", mesure["VENTE"][i], mesure["CUMUL"][i], ""
             ]
             if len(MS2) == 2:
-                    MS2.loc[2] = [
-                        "MOYENNE SAISON 2", "",
-                        MS2["VENTE"][0] + MS2["VENTE"][1],
-                        MS2["CUMUL"][0] + MS2["CUMUL"][1],""
-                    ]
+                MS2.loc[2] = [
+                    "MOYENNE SAISON 2", "", MS2["VENTE"][0] + MS2["VENTE"][1],
+                    ms22, ""
+                ]
             else:
                 MS2.loc[2] = [
-                    "MOYENNE SAISON 2","", MS2["VENTE"][1],
-                    MS2["CUMUL"][1], ""                ]
+                    "MOYENNE SAISON 2", "", MS2["VENTE"][1], ms22,
+                    ""
+                ]
         #  2 BS
         if mesure["TUNISIE"][i] == "Nov":
             BS2.loc[0] = [
-                "Novembre", "", mesure["VENTE"][i],
-                mesure["CUMUL"][i], ""
+                "Novembre", "", mesure["VENTE"][i], mesure["CUMUL"][i], ""
             ]
         if mesure["TUNISIE"][i] == "Dec":
             BS2.loc[1] = [
-                "Décembre", "", mesure["VENTE"][i],
-                mesure["CUMUL"][i], ""
+                "Décembre", "", mesure["VENTE"][i], mesure["CUMUL"][i], ""
             ]
             if len(BS2) == 2:
-                    BS2.loc[2] = [
-                        "BASSE SAISON 2", "",
-                        BS2["VENTE"][0] + BS2["VENTE"][1],
-                        BS2["CUMUL"][0] + BS2["CUMUL"][1],""
-                    ]
+                BS2.loc[2] = [
+                    "BASSE SAISON 2", "", BS2["VENTE"][0] + BS2["VENTE"][1],
+                    bs22, ""
+                ]
             else:
                 BS2.loc[2] = [
-                    "BASSE SAISON 2", "", BS2["VENTE"][1],
-                    BS2["CUMUL"][1], ""
+                    "BASSE SAISON 2", "", BS2["VENTE"][1], bs22, ""
                 ]
 
     MS1.reset_index(inplace=True)
@@ -1981,11 +2035,11 @@ def Stat_TUN_plus(data_yesterday, data_today, annee, mois):
     BS1.reset_index(inplace=True)
     BS2.reset_index(inplace=True)
 
-    print(MS1)
-    print(MS2)
-    print(HS)
-    print(BS1)
-    print(BS2)
+    #print(MS1)
+    #print(MS2)
+    #print(HS)
+    #print(BS1)
+    #print(BS2)
     if len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
             MS2) != 0 and len(BS2) != 0:
         reporting = pd.concat([BS1, MS1, HS, MS2, BS2])
@@ -2010,7 +2064,151 @@ def Stat_TUN_plus(data_yesterday, data_today, annee, mois):
     else:
         reporting = BS2
 
+    #print("reporting", reporting)
     reporting.reset_index(inplace=True)
+    if len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
+            MS2) != 0 and len(BS2) != 0:
+        reporting = reporting.append(
+            {
+                'TUNISIE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                '',
+                'VENTE':
+                BS1["VENTE"][len(BS1) - 1] + BS2["VENTE"][len(BS2) - 1] +
+                HS["VENTE"][len(HS) - 1] + MS1["VENTE"][len(MS1) - 1] +
+                MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                cumul_j_1,
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+    elif len(MS1) != 0 and len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
+        reporting = reporting.append(
+            {
+                'TUNISIE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                '',
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                cumul_j_1,
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+    elif len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
+        reporting = reporting.append(
+            {
+                'TUNISIE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                '',
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
+                MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                cumul_j_1,
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+    elif len(MS2) != 0 and len(BS2) != 0:
+        reporting = reporting.append(
+            {
+                'TUNISIE': 'TOUTES SAISONS ' + annee,
+                'CIBLE': '',
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + MS2["VENTE"][len(MS2) - 1],
+                "CUMUL": cumul_j_1,
+                "BUDGET": "",
+                "OBJECTIF": ""
+            },
+            ignore_index=True)
+    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
+            MS2) != 0 and len(BS2) == 0:
+        reporting = reporting.append(
+            {
+                'TUNISIE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                '',
+                'VENTE':
+                BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                cumul_j_1,
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
+            MS2) == 0 and len(BS2) == 0:
+        reporting = reporting.append(
+            {
+                'TUNISIE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                '',
+                'VENTE':
+                BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1],
+                "CUMUL":
+                cumul_j_1,
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) == 0 and len(
+            MS2) == 0 and len(BS2) == 0:
+        reporting = reporting.append(
+            {
+                'TUNISIE': 'TOUTES SAISONS ' + annee,
+                'CIBLE': '',
+                'VENTE':
+                BS1["VENTE"][len(BS1) - 1] + MS1["VENTE"][len(MS1) - 1],
+                "CUMUL": cumul_j_1,
+                "BUDGET": "",
+                "OBJECTIF": ""
+            },
+            ignore_index=True)
+    elif len(BS1) != 0 and len(MS1) == 0 and len(HS) == 0 and len(
+            MS2) == 0 and len(BS2) == 0:
+        reporting = reporting.append(
+            {
+                'TUNISIE': 'TOUTES SAISONS ' + annee,
+                'CIBLE': '',
+                'VENTE': BS1["VENTE"][len(BS1) - 1],
+                "CUMUL": cumul_j_1,
+                "BUDGET": "",
+                "OBJECTIF": ""
+            },
+            ignore_index=True)
+    else:
+        reporting = reporting.append(
+            {
+                'TUNISIE': 'TOUTES SAISONS ' + annee,
+                'CIBLE': '',
+                'VENTE': BS2["VENTE"][len(BS2) - 1],
+                "CUMUL": cumul_j_1,
+                "BUDGET": "",
+                "OBJECTIF": ""
+            },
+            ignore_index=True)
+
     del reporting['index']
 
     return reporting
@@ -2022,17 +2220,19 @@ def Stat_TUN_plus(data_yesterday, data_today, annee, mois):
 def StatTUNInfo(request):
     if request.method == 'POST':
         annee = request.POST["annee"]
-        
+
         data = pd.DataFrame(columns=['Mois', 'Cible', 'Budget', 'Objectif'])
-        mesuretun=ReportingTunisie.objects.filter(Annee=annee)
+        mesuretun = ReportingTunisie.objects.filter(Annee=annee)
         df_test_ = pd.DataFrame(list(mesuretun.values()))
 
-        if len(df_test_)!=0:
+        if len(df_test_) != 0:
             for i in range(len(df_test_)):
-                data.loc[i] = df_test_["Mois"][i], df_test_["Cible"][i], df_test_["Budget"][i], df_test_["Objectif"][i]
+                data.loc[i] = df_test_["Mois"][i], df_test_["Cible"][
+                    i], df_test_["Budget"][i], df_test_["Objectif"][i]
 
         print(data)
     return HttpResponse(data.to_json(orient='records'))
+
 
 def StatTUNObj(request):
     if request.method == 'POST':
@@ -2059,17 +2259,20 @@ def StatTUNObj(request):
         print('data : ', data)
 
         for i in range(len(MOIS)):
-            mesuretun=ReportingTunisie.objects.filter(Annee=annee,Mois=MOIS[i])
-            
+            mesuretun = ReportingTunisie.objects.filter(Annee=annee,
+                                                        Mois=MOIS[i])
+
             df_test_ = pd.DataFrame(list(mesuretun.values()))
-            if (len(df_test_)== 0):
-                ReportingTunisie.objects.create(Annee= annee,
-                    Mois= MOIS[i],
-                    Cible= CIBLE[i],
-                    Budget= BUDGET[i],
-                    Objectif= OBJECTIF[i])
-            if (len(df_test_)!= 0):
-                mesuretun.update(Cible= CIBLE[i], Budget= BUDGET[i],Objectif= OBJECTIF[i])
+            if (len(df_test_) == 0):
+                ReportingTunisie.objects.create(Annee=annee,
+                                                Mois=MOIS[i],
+                                                Cible=CIBLE[i],
+                                                Budget=BUDGET[i],
+                                                Objectif=OBJECTIF[i])
+            if (len(df_test_) != 0):
+                mesuretun.update(Cible=CIBLE[i],
+                                 Budget=BUDGET[i],
+                                 Objectif=OBJECTIF[i])
 
     return HttpResponse(data.to_json(orient='records'))
 
@@ -2095,18 +2298,18 @@ def StatTUN(request):
         print('data : ', data)
 
         for i in range(len(MOIS)):
-            mesuretun=ReportingTunisie.objects.filter(Annee=annee,Mois=MOIS[i])
-            
+            mesuretun = ReportingTunisie.objects.filter(Annee=annee,
+                                                        Mois=MOIS[i])
+
             df_test_ = pd.DataFrame(list(mesuretun.values()))
-            if (len(df_test_)== 0):
-                ReportingTunisie.objects.create(Annee= annee,
-                    Mois= MOIS[i],
-                    Cible= CIBLE[i],
-                    Budget= BUDGET[i])
+            if (len(df_test_) == 0):
+                ReportingTunisie.objects.create(Annee=annee,
+                                                Mois=MOIS[i],
+                                                Cible=CIBLE[i],
+                                                Budget=BUDGET[i])
 
-            if (len(df_test_)!= 0):
-                mesuretun.update(Cible= CIBLE[i], Budget= BUDGET[i])
-
+            if (len(df_test_) != 0):
+                mesuretun.update(Cible=CIBLE[i], Budget=BUDGET[i])
 
     return HttpResponse(data.to_json(orient='records'))
 
