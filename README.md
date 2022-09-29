@@ -4,19 +4,19 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Code scaffolding
 
-Run in FrontEnd Folder `ng generate component component-name` to generate a new component or `ng g c component-name`. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Run in FrontEnd Folder (stats) `ng generate component component-name` to generate a new component or `ng g c component-name`. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 ## Build
 
-Run in FrontEnd Folder `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run in FrontEnd Folder (stats) `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
 ## Running unit tests
 
-Run in FrontEnd Folder `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run in FrontEnd Folder (stats) `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
 ## Running end-to-end tests
 
-Run in FrontEnd Folder `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Run in FrontEnd Folder (stats) `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
 ## Further help
 
@@ -79,11 +79,71 @@ Now Ui Dashboard
 │   │   │       ├── sidebar.component.html
 │   │   │       ├── sidebar.component.spec.ts
 │   │   │       └── sidebar.component.ts
+│   │   ├── chart-alg
+│   │   │   ├── chart-alg.component.css
+│   │   │   ├── chart-alg.component.html
+│   │   │   ├── chart-alg.component.spec.ts
+│   │   │   └── chart-alg.component.ts
+│   │   ├── chart-csc
+│   │   │   ├── chart-csc.component.css
+│   │   │   ├── chart-csc.component.html
+│   │   │   ├── chart-csc.component.spec.ts
+│   │   │   └── chart-csc.component.ts
+│   │   ├── chart-tun
+│   │   │   ├── chart-tun.component.css
+│   │   │   ├── chart-tun.component.html
+│   │   │   ├── chart-tun.component.spec.ts
+│   │   │   └── chart-tun.component.ts
+│   │   ├── conco-alg
+│   │   │   ├── conco-alg.component.css
+│   │   │   ├── conco-alg.component.html
+│   │   │   ├── conco-alg.component.spec.ts
+│   │   │   └── conco-alg.component.ts
+│   │   ├── conco-csc
+│   │   │   ├── conco-csc.component.css
+│   │   │   ├── conco-csc.component.html
+│   │   │   ├── conco-csc.component.spec.ts
+│   │   │   └── conco-csc.component.ts
+│   │   ├── conco-tun
+│   │   │   ├── conco-tun.component.css
+│   │   │   ├── conco-tun.component.html
+│   │   │   ├── conco-tun.component.spec.ts
+│   │   │   └── conco-tun.component.ts
 │   │   ├── dashboard
 │   │   │   ├── dashboard.component.css
 │   │   │   ├── dashboard.component.html
 │   │   │   ├── dashboard.component.spec.ts
 │   │   │   └── dashboard.component.ts
+│   │   ├── mesure-alg
+│   │   │   ├── mesure-alg.component.css
+│   │   │   ├── mesure-alg.component.html
+│   │   │   ├── mesure-alg.component.spec.ts
+│   │   │   └── mesure-alg.component.ts
+│   │   ├── mesure-csc
+│   │   │   ├── mesure-csc.component.css
+│   │   │   ├── mesure-csc.component.html
+│   │   │   ├── mesure-csc.component.spec.ts
+│   │   │   └── mesure-csc.component.ts
+│   │   ├── mesure-tun
+│   │   │   ├── mesure-tun.component.css
+│   │   │   ├── mesure-tun.component.html
+│   │   │   ├── mesure-tun.component.spec.ts
+│   │   │   └── mesure-tun.component.ts
+│   │   ├── stat-alg
+│   │   │   ├── stat-alg.component.css
+│   │   │   ├── stat-alg.component.html
+│   │   │   ├── stat-alg.component.spec.ts
+│   │   │   └── stat-alg.component.ts
+│   │   ├── stat-csc
+│   │   │   ├── stat-csc.component.css
+│   │   │   ├── stat-csc.component.html
+│   │   │   ├── stat-csc.component.spec.ts
+│   │   │   └── stat-csc.component.ts
+│   │   ├── stat-tun
+│   │   │   ├── stat-tun.component.css
+│   │   │   ├── stat-tun.component.html
+│   │   │   ├── stat-tun.component.spec.ts
+│   │   │   └── stat-tun.component.ts
 │   │   ├── layouts
 │   │   │   └── admin-layout
 │   │   │       ├── admin-layout.component.html
@@ -92,16 +152,6 @@ Now Ui Dashboard
 │   │   │       ├── admin-layout.component.ts
 │   │   │       ├── admin-layout.module.ts
 │   │   │       └── admin-layout.routing.ts
-│   │   ├── table-list
-│   │   │   ├── table-list.component.css
-│   │   │   ├── table-list.component.html
-│   │   │   ├── table-list.component.spec.ts
-│   │   │   └── table-list.component.ts
-│   │   ├── typography
-│   │   │   ├── typography.component.css
-│   │   │   ├── typography.component.html
-│   │   │   ├── typography.component.spec.ts
-│   │   │   └── typography.component.ts
 │   ├── assets
 │   │   ├── demo
 │   │   ├── fonts
