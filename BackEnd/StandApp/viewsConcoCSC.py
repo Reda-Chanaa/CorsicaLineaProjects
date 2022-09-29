@@ -1537,14 +1537,19 @@ def conco(df1,df_new, annee1, annee2):
     data['DATEHEUREDEPARTW'].astype(str).tolist()
     print("all data",len(data))
     # drop trav jour <=> nuit
+
+    data.drop(data.index[data['ECART'] > 3], inplace=True)
     data.sort_values(by=['NUMPACKAGEW','NUMPACKAGE'],inplace=True)
     data.reset_index(drop=True, inplace=True)
-        
+
+    data.drop(data.index[data['ECART'] < -3], inplace=True)    
+    data.sort_values(by=['NUMPACKAGEW','NUMPACKAGE'],inplace=True)
+    data.reset_index(drop=True, inplace=True)
+
     print("all data after ECART",len(data))
     ids = data["NUMPACKAGEW"]
     df_test_lc = data[ids.isin(ids[ids.duplicated()])]
-    df_test_lc.sort_values(by=['NUMPACKAGEW','NUMPACKAGE'],
-                           inplace=True)
+    df_test_lc.sort_values(by=['NUMPACKAGEW','NUMPACKAGE'],inplace=True)
     df_test_lc.reset_index(drop=True, inplace=True)
     print("with duplicated",len(df_test_lc))
 
@@ -1562,8 +1567,7 @@ def conco(df1,df_new, annee1, annee2):
     print("data after navire",len(data3))
     ids = data3["NUMPACKAGEW"]
     df_test_lc = data3[ids.isin(ids[ids.duplicated()])]
-    df_test_lc.sort_values(by=['NUMPACKAGEW','NUMPACKAGE'],
-                           inplace=True)
+    df_test_lc.sort_values(by=['NUMPACKAGEW','NUMPACKAGE'],inplace=True)
     df_test_lc.reset_index(drop=True, inplace=True)
     print("Après meme navire",len(df_test_lc))
 
