@@ -60,6 +60,7 @@ export interface StatData {
   NIVEAU: string;
   VENTE: string;
   VENTEJ: string;
+  ACTION:string;
 
 }
 @Component({
@@ -78,7 +79,7 @@ export class MesureCscComponent {
   options: any
   dataFrame: any;
   @ViewChild('TABLE') table: ElementRef;
-  displayedColumns: string[] = ['ID', 'NAVIRE', 'SENS', 'DATE', 'ECART', 'VENTE', 'VENTEJ'];
+  displayedColumns: string[] = ['ID', 'NAVIRE', 'SENS', 'DATE', 'ECART', 'VENTE', 'VENTEJ','ACTION'];
   dataSource: MatTableDataSource<StatData>;
 
   ecartSup: string = null;
@@ -117,6 +118,12 @@ export class MesureCscComponent {
     this.dataSource = new MatTableDataSource([]);
   }
 
+  delete(index: number) {
+    const data = this.dataSource.data;
+    data.splice((this.paginator.pageIndex * this.paginator.pageSize) + index, 1);
+
+    this.dataSource.data = data;
+  }
   dashboard() {
     this.getOptions()
 
@@ -214,8 +221,8 @@ export class MesureCscComponent {
     let c4: Observable<boolean> = this.ECART.valueChanges;
     let c5: Observable<boolean> = this.VENTE.valueChanges;
     let c6: Observable<boolean> = this.VENTEJ.valueChanges;
-
-    merge(c0, c1, c2, c3, c4, c5, c6).subscribe(v => {
+    let c7: Observable<boolean> = this.ACTION.valueChanges;
+    merge(c0, c1, c2, c3, c4, c5, c6, c7).subscribe(v => {
       this.columnDefinitions[0].show = this.ID.value;
       this.columnDefinitions[1].show = this.NAVIRE.value;
       this.columnDefinitions[2].show = this.SENS.value;
@@ -223,7 +230,7 @@ export class MesureCscComponent {
       this.columnDefinitions[4].show = this.ECART.value;
       this.columnDefinitions[5].show = this.VENTE.value;
       this.columnDefinitions[6].show = this.VENTEJ.value;
-
+      this.columnDefinitions[7].show = this.ACTION.value;
     });
   }
   exportTable() {
@@ -252,6 +259,7 @@ export class MesureCscComponent {
       { def: 'ECART', label: 'ECART', show: this.ECART.value },
       { def: 'VENTE', label: 'VENTE', show: this.VENTE.value },
       { def: 'VENTEJ', label: 'VENTEJ', show: this.VENTEJ.value },
+      { def: 'ACTION', label: 'ACTION', show: this.ACTION.value },
 
     ]
   }
@@ -265,6 +273,7 @@ export class MesureCscComponent {
     ECART: new FormControl(true),
     VENTE: new FormControl(true),
     VENTEJ: new FormControl(true),
+    ACTION: new FormControl(true),
 
   });
 
@@ -276,6 +285,7 @@ export class MesureCscComponent {
   ECART = this.form.get('ECART');
   VENTE = this.form.get('VENTE');
   VENTEJ = this.form.get('VENTEJ');
+  ACTION = this.form.get('ACTION');
 
 
   //Control column ordering and which columns are displayed.
@@ -287,6 +297,7 @@ export class MesureCscComponent {
     { def: 'ECART', label: 'ECART', show: this.ECART.value },
     { def: 'VENTE', label: 'VENTE', show: this.VENTE.value },
     { def: 'VENTEJ', label: 'VENTEJ', show: this.VENTEJ.value },
+    { def: 'ACTION', label: 'ACTION', show: this.ACTION.value },
   ]
 
   // Filter data in witch columns is checked

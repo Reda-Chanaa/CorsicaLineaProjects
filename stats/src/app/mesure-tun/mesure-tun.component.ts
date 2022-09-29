@@ -57,6 +57,7 @@ export interface StatData {
   NIVEAU: string;
   VENTE: string;
   VENTEJ: string;
+  ACTION: string;
 }
 @Component({
   selector: 'app-mesure-tun',
@@ -74,7 +75,7 @@ export class MesureTunComponent {
 
   dataFrame: any;
   @ViewChild('TABLE') table: ElementRef;
-  displayedColumns: string[] = ['ID', 'NAVIRE', 'SENS', 'DATE', 'ECART', 'VENTE', 'VENTEJ'];
+  displayedColumns: string[] = ['ID', 'NAVIRE', 'SENS', 'DATE', 'ECART', 'VENTE', 'VENTEJ','ACTION'];
   dataSource: MatTableDataSource<StatData>;
 
   ecartSup: string = null;
@@ -201,6 +202,7 @@ createFile = () => {
     let c4: Observable<boolean> = this.ECART.valueChanges;
     let c5: Observable<boolean> = this.VENTE.valueChanges;
     let c6: Observable<boolean> = this.VENTEJ.valueChanges;
+    let c7: Observable<boolean> = this.ACTION.valueChanges;
     
     merge(c0, c1, c2, c3, c4, c5, c6).subscribe(v => {
       this.columnDefinitions[0].show = this.ID.value;
@@ -210,6 +212,7 @@ createFile = () => {
       this.columnDefinitions[4].show = this.ECART.value;
       this.columnDefinitions[5].show = this.VENTE.value;
       this.columnDefinitions[6].show = this.VENTEJ.value;
+      this.columnDefinitions[7].show = this.ACTION.value;
       
     });
   }
@@ -224,6 +227,7 @@ createFile = () => {
       { def: 'ECART', label: 'ECART', show: this.ECART.value },
       { def: 'VENTE', label: 'VENTE', show: this.VENTE.value },
       { def: 'VENTEJ', label: 'VENTEJ', show: this.VENTEJ.value },
+      { def: 'ACTION', label: 'ACTION', show: this.ACTION.value },
       
     ]
   }
@@ -237,6 +241,7 @@ createFile = () => {
     ECART: new FormControl(true),
     VENTE: new FormControl(true),
     VENTEJ: new FormControl(true),
+    ACTION: new FormControl(true),
     
   });
 
@@ -248,6 +253,7 @@ createFile = () => {
   ECART = this.form.get('ECART');
   VENTE = this.form.get('VENTE');
   VENTEJ = this.form.get('VENTEJ');
+  ACTION = this.form.get('ACTION');
   
 
   //Control column ordering and which columns are displayed.
@@ -259,6 +265,7 @@ createFile = () => {
     { def: 'ECART', label: 'ECART', show: this.ECART.value },
     { def: 'VENTE', label: 'VENTE', show: this.VENTE.value },
     { def: 'VENTEJ', label: 'VENTEJ', show: this.VENTEJ.value },
+    { def: 'ACTION', label: 'ACTION', show: this.ACTION.value },
   ]
 
   // Filter data in witch columns is checked

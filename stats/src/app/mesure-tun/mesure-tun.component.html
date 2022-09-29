@@ -113,6 +113,19 @@
                                 <td mat-cell *matCellDef="let element"> <b> {{ element.VENTEJ }} </b></td>
                                 
                             </ng-container>
+
+                            <ng-container matColumnDef="ACTION">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <button mat-icon-button>
+                                        <mat-icon>clear_all</mat-icon>
+                                    </button>
+                                </th>
+                                <td mat-cell *matCellDef="let element; let i = index;">
+                                    <button mat-icon-button (click)="delete(i)" matTooltip="Supprimer cette ligne">
+                                        <mat-icon>clear</mat-icon>
+                                    </button>
+                                </td>
+                            </ng-container>
                         
                             <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
                             <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
