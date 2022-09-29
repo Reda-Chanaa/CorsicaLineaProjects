@@ -1560,6 +1560,7 @@ def conco(df1,df_new, annee1, annee2):
         'ARMATEUR', 'NAVIRE', 'DATEHEUREDEPART', 'NAVIREW', 'DATEHEUREDEPARTW', 'MAXDATEFICHIER', 'INFO',
             'RESEAU', 'PORTDEP', 'PORTARR', 'PORTDEPW', 'PORTARRW', 'MODELE', 'NUMPACKAGE', 'NUMPACKAGEW', 'MINDATEFICHIER'
     ])
+    
     # pas meme navire
 
     #print("test1",len(data_ventes))
