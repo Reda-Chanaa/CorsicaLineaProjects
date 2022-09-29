@@ -57,6 +57,7 @@ export interface StatData {
   NIVEAU: string;
   VENTE: string;
   VENTEJ: string;
+  ACTION: string;
 }
 @Component({
   selector: 'app-mesure-alg',
@@ -64,17 +65,17 @@ export interface StatData {
   styleUrls: ['./mesure-alg.component.css'],
   providers: [ApiStat]
 })
-export class MesureAlgComponent{
+export class MesureAlgComponent {
 
   day = new Date().getDate()
   mois = new Date().getMonth() + 1
   annees = new Date().getFullYear()
 
-  date="MesureALG_" + this.day + "-" + this.mois + "-" + this.annees;
+  date = "MesureALG_" + this.day + "-" + this.mois + "-" + this.annees;
 
   dataFrame: any;
   @ViewChild('TABLE') table: ElementRef;
-  displayedColumns: string[] = ['ID', 'NAVIRE', 'SENS', 'DATE', 'ECART', 'VENTE', 'VENTEJ'];
+  displayedColumns: string[] = ['ID', 'NAVIRE', 'SENS', 'DATE', 'ECART', 'VENTE', 'VENTEJ', 'ACTION'];
   dataSource: MatTableDataSource<StatData>;
 
   ecartSup: string = null;
@@ -83,7 +84,7 @@ export class MesureAlgComponent{
   FecartSup = new FormControl('');
   FecartInf = new FormControl('');
 
-  value:number=10
+  value: number = 10
   df1: any = null;
   df2: any = null;
 
@@ -115,9 +116,15 @@ export class MesureAlgComponent{
     this.dataSource = new MatTableDataSource([]);
   }
 
+  delete(index: number) {
+    const data = this.dataSource.data;
+    data.splice((this.paginator.pageIndex * this.paginator.pageSize) + index, 1);
+
+    this.dataSource.data = data;
+  }
   printTable() {
     const printContents = document.getElementById("reporting").outerHTML
-    var newWin = window.open("");  
+    var newWin = window.open("");
     newWin.document.write(`
       <html>
         <head>
@@ -132,24 +139,24 @@ export class MesureAlgComponent{
     <body onload="window.print();window.close()">${printContents}</body>
       </html>`
     );
-    newWin.print();  
+    newWin.print();
     newWin.close();
-}
-// function executed when user click on Reporting button
+  }
+  // function executed when user click on Reporting button
   createFile = () => {
     if (this.df1 != null && this.df2 != null) {
       if (this.ecartSup != null) {
         if (this.ecartInf == null) {
-          this.value=0
+          this.value = 0
           this.DATACLEANING.sendFile(this.df1, this.df2, this.ecartSup).subscribe(
             data => {
-              this.value=10
+              this.value = 10
               console.log(data)
               this.dataFrame = data;
               // to choose witch data gonna be showing in the table
               this.InitializeVisualization();
               data.forEach(element => {
-                element.DATE=moment(element.DATE).format("DD/MM/YYYY HH:mm")
+                element.DATE = moment(element.DATE).format("DD/MM/YYYY HH:mm")
               });
               // puts data into the datasource table
               this.dataSource = new MatTableDataSource(data);
@@ -165,16 +172,16 @@ export class MesureAlgComponent{
           );
         }
         if (this.ecartInf != null) {
-          this.value=0
+          this.value = 0
           this.DATACLEANING.sendFilePlus(this.df1, this.df2, this.ecartSup, this.ecartInf).subscribe(
             data => {
-              this.value=10
+              this.value = 10
               console.log(data)
               this.dataFrame = data;
               // to choose witch data gonna be showing in the table
               this.InitializeVisualization();
               data.forEach(element => {
-                element.DATE=moment(element.DATE).format("DD/MM/YYYY HH:mm")
+                element.DATE = moment(element.DATE).format("DD/MM/YYYY HH:mm")
               });
               // puts data into the datasource table
               this.dataSource = new MatTableDataSource(data);
@@ -202,7 +209,8 @@ export class MesureAlgComponent{
     let c4: Observable<boolean> = this.ECART.valueChanges;
     let c5: Observable<boolean> = this.VENTE.valueChanges;
     let c6: Observable<boolean> = this.VENTEJ.valueChanges;
-    
+    let c7: Observable<boolean> = this.ACTION.valueChanges;
+
     merge(c0, c1, c2, c3, c4, c5, c6).subscribe(v => {
       this.columnDefinitions[0].show = this.ID.value;
       this.columnDefinitions[1].show = this.NAVIRE.value;
@@ -211,7 +219,8 @@ export class MesureAlgComponent{
       this.columnDefinitions[4].show = this.ECART.value;
       this.columnDefinitions[5].show = this.VENTE.value;
       this.columnDefinitions[6].show = this.VENTEJ.value;
-      
+      this.columnDefinitions[7].show = this.ACTION.value;
+
     });
   }
   // to initialize the visualisation with user's checkBox
@@ -224,7 +233,8 @@ export class MesureAlgComponent{
       { def: 'ECART', label: 'ECART', show: this.ECART.value },
       { def: 'VENTE', label: 'VENTE', show: this.VENTE.value },
       { def: 'VENTEJ', label: 'VENTEJ', show: this.VENTEJ.value },
-      
+      { def: 'ACTION', label: 'ACTION', show: this.ACTION.value },
+
     ]
   }
 
@@ -237,7 +247,8 @@ export class MesureAlgComponent{
     ECART: new FormControl(true),
     VENTE: new FormControl(true),
     VENTEJ: new FormControl(true),
-    
+    ACTION: new FormControl(true),
+
   });
 
   // geting the checkBox
@@ -248,7 +259,8 @@ export class MesureAlgComponent{
   ECART = this.form.get('ECART');
   VENTE = this.form.get('VENTE');
   VENTEJ = this.form.get('VENTEJ');
-  
+  ACTION = this.form.get('ACTION');
+
 
   //Control column ordering and which columns are displayed.
   columnDefinitions = [
@@ -259,6 +271,7 @@ export class MesureAlgComponent{
     { def: 'ECART', label: 'ECART', show: this.ECART.value },
     { def: 'VENTE', label: 'VENTE', show: this.VENTE.value },
     { def: 'VENTEJ', label: 'VENTEJ', show: this.VENTEJ.value },
+    { def: 'ACTION', label: 'ACTION', show: this.ACTION.value },
   ]
 
   // Filter data in witch columns is checked
