@@ -38,9 +38,9 @@ urlpatterns = [
     url(r'report-alg/', csrf_exempt(viewsMesureALG.ReportALG), name='file'),
     url(r'report-tun/', csrf_exempt(viewsMesureTUN.ReportTUN), name='file'),
 
-    url(r'profiling/', csrf_exempt(viewProfiling.pandasProfiling), name='file'),
+    #url(r'profiling/', csrf_exempt(viewProfiling.pandasProfiling), name='file'),
     url(r'sweetviz/', csrf_exempt(viewProfiling.sweetviz), name='file'),
-    url(r'pandasgui/', csrf_exempt(viewProfiling.pandasgui), name='file'),
+    #url(r'pandasgui/', csrf_exempt(viewProfiling.pandasgui), name='file'),
     url(r'getcolumn/', csrf_exempt(viewProfiling.getcolumn), name='file'),
 
     url(r'conco-csc/', csrf_exempt(viewsConcoCSC.ConcoCSC), name='file'),

@@ -5,13 +5,11 @@ import pandas as pd
 import webbrowser
 from django.http import HttpResponse
 from rest_framework.parsers import JSONParser
-from pandas_profiling import ProfileReport
 import numpy as np
 import sweetviz as sv
-from pandasgui import show
 
 # Statistiques avec pandas profiling
-
+'''
 def pandasProfiling(request):
     start_time = time.time()
     if request.method == 'POST':
@@ -37,7 +35,7 @@ def pandasProfiling(request):
                           autoraise=True)
     # pour retourner en response le résultat text de la page html du profiling
     return HttpResponse(json.dumps(mystr), content_type='text/plain')
-
+'''
 # Statistiques avec sweet Viz
 def sweetviz(request):
     start_time = time.time()
@@ -56,6 +54,7 @@ def sweetviz(request):
     return HttpResponse(total, content_type='text/plain')
 
 # Statistiques avec pandas GUI
+'''
 def pandasgui(request):
     start_time = time.time()
     if request.method == 'POST':
@@ -69,7 +68,7 @@ def pandasgui(request):
     print(total)
     # pour retourner en response le résultat text de la page html du profiling
     return HttpResponse(total, content_type='text/plain')
-
+'''
 # get column
 def getcolumn(request):
     start_time = time.time()

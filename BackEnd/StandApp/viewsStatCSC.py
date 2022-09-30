@@ -11,7 +11,7 @@ from StandApp.models import ReportingCorse
 from StandApp.serializers import ReportingCSCSerializer
 
 # Connect to your postgres DB
-conn = psycopg2.connect("dbname=yield password=2022 user=postgres")
+conn = psycopg2.connect("host=localhost dbname=yield password=2022 user=postgres")
 
 # Open a cursor to perform database operations
 cur = conn.cursor()
