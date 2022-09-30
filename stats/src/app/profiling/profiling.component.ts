@@ -15,7 +15,7 @@ export class ApiStat {
   constructor(private http: HttpClient) {
 
   }
-
+  /*
   sendStat(File: any): Observable<any> {
     let formData = new FormData();
     formData.append('file1', File, File.name);
@@ -23,7 +23,7 @@ export class ApiStat {
     var header = new HttpHeaders();
     header.append('Content-Type', 'multipart/form-data');
     return this.http.post(this.baseurl + '/profiling/', formData, { headers: header })
-  }
+  }*/
 
   sweetviz(File: any): Observable<any> {
     let formData = new FormData();
@@ -33,7 +33,7 @@ export class ApiStat {
     header.append('Content-Type', 'multipart/form-data');
     return this.http.post(this.baseurl + '/sweetviz/', formData, { headers: header })
   }
-
+  /*
   pandasgui(File: any): Observable<any> {
     let formData = new FormData();
     formData.append('file1', File, File.name);
@@ -41,7 +41,7 @@ export class ApiStat {
     var header = new HttpHeaders();
     header.append('Content-Type', 'multipart/form-data');
     return this.http.post(this.baseurl + '/pandasgui/', formData, { headers: header })
-  }
+  }*/
 
   getcolumn(File: any): Observable<any>{
     let formData = new FormData();
@@ -108,6 +108,7 @@ export class ProfilingComponent {
     }
   }
   // Get Statistics forms
+  /*
   profile() {
     if (this.df1 != null) {
       this.value=0
@@ -123,9 +124,11 @@ export class ProfilingComponent {
 
         });
     }
+   
   }
-
+ */
   // Get Statistics forms
+  /*
   pandasgui() {
     if (this.df1 != null) {
       this.value=0
@@ -141,6 +144,6 @@ export class ProfilingComponent {
 
         });
     }
-  }
+  }*/
 
 }
