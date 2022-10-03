@@ -8,38 +8,28 @@ import psycopg2
 from datetime import datetime
 from StandApp.models import MesureAlgerie
 from StandApp.serializers import MesureALGSerializer
-
+from config import config
 from django.http import HttpResponse
 
-# Connect to your postgres DB
-conn = psycopg2.connect("dbname=yield password=2022 user=postgres")
+""" Connect to the PostgreSQL database server """
+conn = None
+cur = None
+try:
+    # read connection parameters
+    params = config()
 
-# Open a cursor to perform database operations
-cur = conn.cursor()
+    # connect to the PostgreSQL server
+    conn = psycopg2.connect(**params)
+		
+    # create a cursor
+    cur = conn.cursor()
+        
+	# execute a statement
+    cur.execute('SELECT version()')
+       
+except (Exception, psycopg2.DatabaseError) as error:
+    print(error)
 
-'''cur.execute("""
-        CREATE TABLE mesurealg (
-            id SERIAL PRIMARY KEY,
-            annee-report VARCHAR(20) NOT NULL,
-            date VARCHAR(20) NOT NULL,
-            jour VARCHAR(2) NOT NULL,
-            mois VARCHAR(2) NOT NULL,
-            annee VARCHAR(4) NOT NULL,
-            jan VARCHAR(10) NOT NULL,
-            fev VARCHAR(10) NOT NULL,
-            mar VARCHAR(10) NOT NULL,
-            apr VARCHAR(10) NOT NULL,
-            may VARCHAR(10) NOT NULL,
-            jun VARCHAR(10) NOT NULL,
-            jul VARCHAR(10) NOT NULL,
-            aug VARCHAR(10) NOT NULL,
-            sep VARCHAR(10) NOT NULL,
-            oct VARCHAR(10) NOT NULL,
-            nov VARCHAR(10) NOT NULL,
-            dec VARCHAR(10) NOT NULL
-        )
-        """)
-'''
 
 def MesureALG(request):
     start_time = time.time()

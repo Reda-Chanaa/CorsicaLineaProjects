@@ -9,12 +9,32 @@ from django.http import HttpResponse
 import psycopg2
 from StandApp.models import ReportingCorse
 from StandApp.serializers import ReportingCSCSerializer
+from config import config
 
-# Connect to your postgres DB
-conn = psycopg2.connect("host=localhost dbname=yield password=2022 user=postgres")
+""" Connect to the PostgreSQL database server """
+conn = None
+cur = None
+try:
+    # read connection parameters
+    params = config()
 
-# Open a cursor to perform database operations
-cur = conn.cursor()
+    # connect to the PostgreSQL server
+    print('Connecting to the PostgreSQL database...')
+    conn = psycopg2.connect(**params)
+		
+    # create a cursor
+    cur = conn.cursor()
+        
+	# execute a statement
+    print('PostgreSQL database version:')
+    cur.execute('SELECT version()')
+
+    # display the PostgreSQL database server version
+    db_version = cur.fetchone()
+    print(db_version)
+       
+except (Exception, psycopg2.DatabaseError) as error:
+    print(error)
 
 
 def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):

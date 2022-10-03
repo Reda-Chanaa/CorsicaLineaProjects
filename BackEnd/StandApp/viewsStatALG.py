@@ -8,18 +8,35 @@ from django.http import HttpResponse
 import psycopg2
 from StandApp.models import ReportingAlgerie
 from StandApp.serializers import ReportingALGSerializer
+from config import config
 
-# Connect to your postgres DB
-conn = psycopg2.connect("dbname=yield password=2022 user=postgres")
+""" Connect to the PostgreSQL database server """
+conn = None
+cur = None
+try:
+    # read connection parameters
+    params = config()
 
-# Open a cursor to perform database operations
-cur = conn.cursor()
+    # connect to the PostgreSQL server
+    conn = psycopg2.connect(**params)
+
+    # create a cursor
+    cur = conn.cursor()
+
+    # execute a statement
+    cur.execute('SELECT version()')
+
+    # close the communication with the PostgreSQL
+    cur.close()
+except (Exception, psycopg2.DatabaseError) as error:
+    print(error)
 
 
 def Stat_ALG(data_yesterday, data_today, annee, mois, cible, budget):
     table_reseau_armateur_today = pd.pivot_table(
         data_today[(data_today.RESEAU == "ALGERIE")
-                   & (data_today.ARMATEUR == "CL") & (data_today.COM == "COURANT") &
+                   & (data_today.ARMATEUR == "CL") &
+                   (data_today.COM == "COURANT") &
                    (data_today.ANNEE.eq(int(annee)))],
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
@@ -30,7 +47,8 @@ def Stat_ALG(data_yesterday, data_today, annee, mois, cible, budget):
     print(table_reseau_armateur_today)
     table_reseau_armateur_yesterday = pd.pivot_table(
         data_yesterday[(data_yesterday.RESEAU == "ALGERIE")
-                       & (data_yesterday.ARMATEUR == "CL") & (data_yesterday.COM == "COURANT") &
+                       & (data_yesterday.ARMATEUR == "CL") &
+                       (data_yesterday.COM == "COURANT") &
                        (data_yesterday.ANNEE.eq(int(annee)))],
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
@@ -745,7 +763,8 @@ def Stat_ALG_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                       objectif):
     table_reseau_armateur_today = pd.pivot_table(
         data_today[(data_today.RESEAU == "ALGERIE")
-                   & (data_today.ARMATEUR == "CL") & (data_today.COM == "COURANT") &
+                   & (data_today.ARMATEUR == "CL") &
+                   (data_today.COM == "COURANT") &
                    (data_today.ANNEE.eq(int(annee)))],
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
@@ -756,7 +775,8 @@ def Stat_ALG_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
     print(table_reseau_armateur_today)
     table_reseau_armateur_yesterday = pd.pivot_table(
         data_yesterday[(data_yesterday.RESEAU == "ALGERIE")
-                       & (data_yesterday.ARMATEUR == "CL") & (data_yesterday.COM == "COURANT") &
+                       & (data_yesterday.ARMATEUR == "CL") &
+                       (data_yesterday.COM == "COURANT") &
                        (data_yesterday.ANNEE.eq(int(annee)))],
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
@@ -1588,7 +1608,8 @@ def Stat_ALG_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
 def Stat_ALG_plus(data_yesterday, data_today, annee, mois):
     table_reseau_armateur_today = pd.pivot_table(
         data_today[(data_today.RESEAU == "ALGERIE")
-                   & (data_today.ARMATEUR == "CL") & (data_today.COM == "COURANT") &
+                   & (data_today.ARMATEUR == "CL") &
+                   (data_today.COM == "COURANT") &
                    (data_today.ANNEE.eq(int(annee)))],
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
@@ -1599,7 +1620,8 @@ def Stat_ALG_plus(data_yesterday, data_today, annee, mois):
     print(table_reseau_armateur_today)
     table_reseau_armateur_yesterday = pd.pivot_table(
         data_yesterday[(data_yesterday.RESEAU == "ALGERIE")
-                       & (data_yesterday.ARMATEUR == "CL") & (data_yesterday.COM == "COURANT") &
+                       & (data_yesterday.ARMATEUR == "CL") &
+                       (data_yesterday.COM == "COURANT") &
                        (data_yesterday.ANNEE.eq(int(annee)))],
         index=['ANNEE', 'MOIS'],
         aggfunc={'PAX': np.sum})
@@ -2035,7 +2057,8 @@ def Stat_ALG_plus(data_yesterday, data_today, annee, mois):
             {
                 'ALGERIE':
                 'TOUTES SAISONS ' + annee,
-                'CIBLE':'',
+                'CIBLE':
+                '',
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + BS2["VENTE"][len(BS2) - 1] +
                 HS["VENTE"][len(HS) - 1] + MS1["VENTE"][len(MS1) - 1] +
@@ -2051,7 +2074,8 @@ def Stat_ALG_plus(data_yesterday, data_today, annee, mois):
             {
                 'ALGERIE':
                 'TOUTES SAISONS ' + annee,
-                'CIBLE':'',
+                'CIBLE':
+                '',
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
@@ -2066,7 +2090,8 @@ def Stat_ALG_plus(data_yesterday, data_today, annee, mois):
             {
                 'ALGERIE':
                 'TOUTES SAISONS ' + annee,
-                'CIBLE':'',
+                'CIBLE':
+                '',
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS2["VENTE"][len(MS2) - 1],
@@ -2080,7 +2105,7 @@ def Stat_ALG_plus(data_yesterday, data_today, annee, mois):
         reporting = reporting.append(
             {
                 'ALGERIE': 'TOUTES SAISONS ' + annee,
-                'CIBLE':'',
+                'CIBLE': '',
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + MS2["VENTE"][len(MS2) - 1],
                 "CUMUL": cumul_j_1,
@@ -2093,7 +2118,8 @@ def Stat_ALG_plus(data_yesterday, data_today, annee, mois):
             {
                 'ALGERIE':
                 'TOUTES SAISONS ' + annee,
-                'CIBLE':'',
+                'CIBLE':
+                '',
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
@@ -2109,7 +2135,8 @@ def Stat_ALG_plus(data_yesterday, data_today, annee, mois):
             {
                 'ALGERIE':
                 'TOUTES SAISONS ' + annee,
-                'CIBLE':'',
+                'CIBLE':
+                '',
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1],
@@ -2124,7 +2151,7 @@ def Stat_ALG_plus(data_yesterday, data_today, annee, mois):
         reporting = reporting.append(
             {
                 'ALGERIE': 'TOUTES SAISONS ' + annee,
-                'CIBLE':'',
+                'CIBLE': '',
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + MS1["VENTE"][len(MS1) - 1],
                 "CUMUL": cumul_j_1,

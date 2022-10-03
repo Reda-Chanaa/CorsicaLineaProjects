@@ -9,20 +9,28 @@ from django.http import HttpResponse
 import psycopg2 
 from StandApp.models import MesureTunisie
 from StandApp.serializers import MesureTUNSerializer
+from config import config
 
-# REFERENCE DATABASE CONNECTION
+""" Connect to the PostgreSQL database server """
+conn = None
+cur = None
+try:
+    # read connection parameters
+    params = config()
 
-client = MongoClient('localhost', 27017)
+    # connect to the PostgreSQL server
+    conn = psycopg2.connect(**params)
+		
+    # create a cursor
+    cur = conn.cursor()
+        
+	# execute a statement
+    cur.execute('SELECT version()')
+       
+except (Exception, psycopg2.DatabaseError) as error:
+    print(error)
 
-# Connect to your postgres DB
-conn = psycopg2.connect("dbname=yield password=2022 user=postgres")
 
-# Open a cursor to perform database operations
-cur = conn.cursor()
-# Nom de la base = Reporting
-
-db = client['Mesure']
-mesure = db['MesureTUN']
 
 def MesureTUN(request):
     start_time = time.time()

@@ -9,23 +9,29 @@ import psycopg2
 from datetime import datetime
 from StandApp.models import MesureCorse
 from StandApp.serializers import MesureCSCSerializer
+from config import config
 
 from django.http import HttpResponse
 
-# REFERENCE DATABASE CONNECTION
+""" Connect to the PostgreSQL database server """
+conn = None
+cur = None
+try:
+    # read connection parameters
+    params = config()
 
-client = MongoClient('localhost', 27017)
+    # connect to the PostgreSQL server
+    conn = psycopg2.connect(**params)
+		
+    # create a cursor
+    cur = conn.cursor()
+        
+	# execute a statement
+    cur.execute('SELECT version()')
+       
+except (Exception, psycopg2.DatabaseError) as error:
+    print(error)
 
-# Nom de la base = Reporting
-
-db = client['Mesure']
-mesure = db['MesureCSC']
-
-# Connect to your postgres DB
-conn = psycopg2.connect("dbname=yield password=2022 user=postgres")
-
-# Open a cursor to perform database operations
-cur = conn.cursor()
 
 def MesureCSC(request):
     start_time = time.time()
