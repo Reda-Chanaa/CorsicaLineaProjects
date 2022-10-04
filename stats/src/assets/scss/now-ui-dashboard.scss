@@ -12,26 +12,26 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$now-ui-dashboard-angular-primary: mat-palette($mat-indigo);
-$now-ui-dashboard-angular-accent: mat-palette($mat-pink, A200, A100, A400);
+$yield-data-primary: mat-palette($mat-indigo);
+$yield-data-accent: mat-palette($mat-pink, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$now-ui-dashboard-angular-warn: mat-palette($mat-red);
+$yield-data-warn: mat-palette($mat-red);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$now-ui-dashboard-angular-theme: mat-light-theme((
+$yield-data-theme: mat-light-theme((
   color: (
-    primary: $now-ui-dashboard-angular-primary,
-    accent: $now-ui-dashboard-angular-accent,
-    warn: $now-ui-dashboard-angular-warn,
+    primary: $yield-data-primary,
+    accent: $yield-data-accent,
+    warn: $yield-data-warn,
   )
 ));
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($now-ui-dashboard-angular-theme);
+@include angular-material-theme($yield-data-theme);
 
 /*!
 
