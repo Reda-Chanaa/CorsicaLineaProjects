@@ -155,8 +155,8 @@ Now Ui Dashboard
 │   │   ├── fonts
 │   │   ├── img
 │   │   └── scss
-│   │       ├── now-ui-dashboard
-│   │       └── now-ui-dashboard.scss
+│   │       ├── yield-databoard
+│   │       └── yield-databoard.scss
 │   ├── environments
 │   ├── favicon.ico
 │   ├── index.html
