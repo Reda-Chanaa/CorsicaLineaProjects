@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { merge, Observable } from 'rxjs';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 // class pour les requettes GET et POST.
 export class ApiStat {
 
-  baseurl = "http://127.0.0.1:8000";
+  baseurl = environment.BASE_URL;
 
   constructor(private http: HttpClient) {
 

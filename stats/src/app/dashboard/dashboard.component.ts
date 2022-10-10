@@ -1,6 +1,7 @@
 import { AfterViewInit,Injectable, Component, OnInit, APP_INITIALIZER } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export function loadConfig(config: ApiStat) {
   return () => config.ngOnInit();
@@ -14,7 +15,7 @@ export function loadConfig(config: ApiStat) {
 // class pour les requettes GET et POST.
 export class ApiStat implements OnInit {
 
-  baseurl = "http://127.0.0.1:8000";
+  baseurl = environment.BASE_URL;
 
   annee = (new Date().getFullYear()).toString()
   dataAll: any

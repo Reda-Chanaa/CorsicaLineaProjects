@@ -3,7 +3,7 @@ import { Component, Injectable, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import * as Highcharts from "highcharts";
 import { Observable } from 'rxjs';
-
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 // class pour les requettes GET et POST.
 export class ApiStat {
 
-  baseurl = "http://127.0.0.1:8000";
+  baseurl = environment.BASE_URL;
 
   constructor(private http: HttpClient) {
 
