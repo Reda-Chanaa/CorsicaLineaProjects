@@ -31,19 +31,19 @@
                             placeholder="Ecart" type="number" />
                         <br />
 
-                        <button (click)="deleteData()" [hidden]="dataSource.data.length === 0" style="background-color: rgb(256,54,54);" class="btn pull-right">
+                        <button (click)="deleteData()" [hidden]="dataSource.data.length === 0" style="background-color: #f44133;" class="btn pull-right">
                             <b>Supprimer le tableau</b>
                         </button>
 
                         &nbsp;&nbsp;&nbsp;
-                        <button (click)="createFile()" [hidden]="dataSource.data.length !== 0" style="background-color: rgb(256,54,54);"
+                        <button (click)="createFile()" [hidden]="dataSource.data.length !== 0" style="background-color: #f44133;"
                          class="btn pull-right">
                             <b>Mesures de ventes</b>
                         </button><br />
                     </form>
                     <br />
                     <br />
-                    <mat-spinner style="stroke: rgb(256,54,54);" strokeWidth="3" [diameter]="100"
+                    <mat-spinner style="stroke: #f44133;" strokeWidth="3" [diameter]="100"
                         *ngIf="dataSource.data.length === 0 && value === 0">
                     </mat-spinner>
                     <div #TABLE class="table-responsive" [hidden]="dataSource.data.length === 0">
@@ -132,9 +132,9 @@
                         </table>
                         <mat-paginator [pageSizeOptions]="[25, 100, 1000]"></mat-paginator>
                         <div class="export-container">
-                            <button style="background-color: rgb(256,54,54);" class="btn pull-right" mat-raised-button (click)="exporter.exportTable('xlsx', {fileName:date , sheet: 'CSC', Props: {Author: 'Reda CHANAA'}})">Exporter en Excel</button>
+                            <button style="background-color: #f44133;" class="btn pull-right" mat-raised-button (click)="exporter.exportTable('xlsx', {fileName:date , sheet: 'CSC', Props: {Author: 'Reda CHANAA'}})">Exporter en Excel</button>
 
-                            <button style="background-color: rgb(256,54,54);" class="btn pull-right" mat-raised-button
+                            <button style="background-color: #f44133;" class="btn pull-right" mat-raised-button
                                 (click)="printTable()">Imprimer</button>
                         </div>  
                     </div>

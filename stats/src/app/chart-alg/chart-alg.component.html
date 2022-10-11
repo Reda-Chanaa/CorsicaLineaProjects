@@ -12,11 +12,11 @@
                     <input [formControl]="Fannee" [(ngModel)]="annee" value="0" (change)='changed($event)'
                         placeholder="Annee" type="number" />
                     <br />
-                    <button (click)="dashboard()" style="background-color: rgb(256,54,54);" class="btn pull-right">
+                    <button (click)="dashboard()" style="background-color: #f44133;" class="btn pull-right">
                         <b>Report Quotidien</b>
                     </button>
                     <br />
-                    <mat-spinner style="stroke: rgb(256,54,54);" strokeWidth="3" [diameter]="100"
+                    <mat-spinner style="stroke: #f44133;" strokeWidth="3" [diameter]="100"
                         *ngIf="value === 0">
                     </mat-spinner>
                     <figure style="width: 100%; height: 400px; display: block;" class="highcharts-figure">
