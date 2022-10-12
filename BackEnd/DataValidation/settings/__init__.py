@@ -7,7 +7,7 @@ CONFIG_FILE = './config.json'
 try:
     with open(CONFIG_FILE) as config_file:
         config = json.load(config_file)
-        config['PROD']
+        PROD=config['PROD']
     from .prod import *
     print("prod")
 
