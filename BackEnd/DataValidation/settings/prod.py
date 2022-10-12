@@ -5,7 +5,7 @@ DEBUG = False
 #SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: update this when you have the production host
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost','192.168.178.231','P-CLYIELDAPP-A-01.corsicalinea.net']
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
