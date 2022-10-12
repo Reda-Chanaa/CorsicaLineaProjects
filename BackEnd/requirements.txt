@@ -25,7 +25,7 @@ ipython==8.3.0
 jdcal==1.4.1
 jedi==0.18.1
 Jinja2==3.1.2
-joblib==1.1.0
+joblib==1.2.0
 jours-feries-france==0.7.0
 kiwisolver==1.4.2
 MarkupSafe==2.1.1
