@@ -1,7 +1,7 @@
 import os
 import json
 
-'''
+
 CONFIG_FILE = '/etc/config.json'
 
 try:
@@ -14,4 +14,4 @@ try:
 except KeyError:
     from .dev import *
 
-SECRET_KEY = config['SECRET_KEY']'''
+'''SECRET_KEY = config['SECRET_KEY']'''
