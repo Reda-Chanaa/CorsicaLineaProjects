@@ -21,7 +21,7 @@ services:
       context: ./stats/
       dockerfile: Dockerfile.prod
     ports:
-      - "8080:80"
+      - "80:80"
     stdin_open: true
     depends_on:
       - backend
