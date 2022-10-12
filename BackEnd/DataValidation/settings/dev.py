@@ -1,4 +1,4 @@
-from DataValidation.settings.settings import *
+from .settings import *
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
