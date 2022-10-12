@@ -4,11 +4,9 @@ from django.http import HttpResponse
 import pandas as pd
 import numpy as np
 from datetime import date
-from pymongo import MongoClient
 import psycopg2 
 from datetime import datetime
 from StandApp.models import MesureCorse
-from StandApp.serializers import MesureCSCSerializer
 from config import config
 
 from django.http import HttpResponse

@@ -3,12 +3,10 @@ from django.http import HttpResponse
 import pandas as pd
 import numpy as np
 from datetime import date
-from pymongo import MongoClient
 from datetime import datetime
 from django.http import HttpResponse
 import psycopg2 
 from StandApp.models import MesureTunisie
-from StandApp.serializers import MesureTUNSerializer
 from config import config
 
 """ Connect to the PostgreSQL database server """

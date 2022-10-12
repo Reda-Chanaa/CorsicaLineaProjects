@@ -1,13 +1,11 @@
 import calendar
 from colorsys import hsv_to_rgb
 import numpy as np
-from pymongo import MongoClient
 import pandas as pd
 from pathlib import Path
 import psycopg2
 from django.http import HttpResponse
 from StandApp.models import ReportingTunisie
-from StandApp.serializers import ReportingTUNSerializer
 from config import config
 
 """ Connect to the PostgreSQL database server """
