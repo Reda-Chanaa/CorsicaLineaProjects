@@ -6,7 +6,7 @@ COPY . .
 
 RUN npm install -g @angular/cli
 RUN npm install
-RUN npm run build --prod --configuration=production
+RUN npm run build -- --configuration=production
 
 # stage 2
 FROM nginx:alpine
