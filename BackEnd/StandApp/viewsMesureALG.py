@@ -6,6 +6,7 @@ from datetime import date
 import psycopg2 
 from datetime import datetime
 from StandApp.models import MesureAlgerie
+from StandApp.serializers import MesureALGSerializer
 from config import config
 from django.http import HttpResponse
 

@@ -7,6 +7,7 @@ from datetime import date
 import psycopg2 
 from datetime import datetime
 from StandApp.models import MesureCorse
+from StandApp.serializers import MesureCSCSerializer
 from config import config
 
 from django.http import HttpResponse

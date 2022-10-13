@@ -90,7 +90,7 @@ export class ChartTunComponent implements OnInit {
         type: 'column'
       },
       title: {
-        text: 'Report Quotidien CSC'
+        text: 'Report Quotidien TUN'
       },
       subtitle: {
         text: 'Diffusion des écarts'

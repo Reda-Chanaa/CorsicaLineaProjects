@@ -91,7 +91,7 @@ export class ChartAlgComponent implements OnInit {
         type: 'column'
       },
       title: {
-        text: 'Report Quotidien CSC'
+        text: 'Report Quotidien ALG'
       },
       subtitle: {
         text: 'Diffusion des écarts'
