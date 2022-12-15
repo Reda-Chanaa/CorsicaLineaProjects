@@ -3018,9 +3018,10 @@ def conco(df1,df_new, annee1, annee2):
 
 def concoCSC(df1,df2, annee1, annee2):
     
-    df1=df1[['ARM','JOUR','NAV','DATE','HEURE','DEP','ARR','ID','PackageId','VTES']]
-    df2=df2[['ARM','JOUR','NAV','DATE','HEURE','DEP','ARR','ID','PackageId','VTES']]
-
+    #df1=df1[['ARM','JOUR','NAV','DATE','HEURE','DEP','ARR','ID','PackageId','VTES']]
+    #df2=df2[['ARM','JOUR','NAV','DATE','HEURE','DEP','ARR','ID','PackageId','VTES']]
+    df1=df1[['ARM','JOUR','NAV','DATE','HEURE','DEP','ARR','ID','PackageId']]
+    df2=df2[['ARM','JOUR','NAV','DATE','HEURE','DEP','ARR','ID','PackageId']]
     df1["MOIS"]=pd.DatetimeIndex(df1['DATE']).month
     df1['DAY'] = pd.DatetimeIndex(df1['DATE']).day
     df1['YEAR'] = pd.DatetimeIndex(df1['DATE']).year
@@ -3037,12 +3038,12 @@ def concoCSC(df1,df2, annee1, annee2):
 def ConcoCSC(request):
     start_time = time.time()
     if request.method == 'POST':
-        File1 = request.FILES["file1"]
+        file1 = (request.FILES["file1"])
         annee1 = request.POST["annee1"]
         annee2 = request.POST["annee2"]
-        xls = pd.ExcelFile(File1)
-        df1 = pd.read_excel(xls, '2')
-        df2 = pd.read_excel(xls, '1')
+        print("++++++++++++",file1)
+        df1 = pd.read_excel(file1, sheet_name="2") #2021
+        df2 = pd.read_excel(file1, sheet_name="1") #2022
         data=concoCSC(df1,df2,annee1,annee2)
 
     total = time.time() - start_time

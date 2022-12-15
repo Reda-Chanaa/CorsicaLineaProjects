@@ -8,8 +8,12 @@ try:
     with open(CONFIG_FILE) as config_file:
         config = json.load(config_file)
         PROD=config['PROD']
-    from .prod import *
-    print("prod")
+        if PROD=="True":
+            from .prod import *
+            print("prod")
+        else:
+            print("dev")
+            from .dev import *
 
 
 except KeyError:
