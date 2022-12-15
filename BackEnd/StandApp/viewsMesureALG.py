@@ -1009,14 +1009,29 @@ def ReportALG(request):
                 df_test["Oct"][i], df_test["Nov"][i], df_test["Dec"][i]
             ]
 
-        # close communication with the PostgreSQL database server
-        cur.close()
-        # commit the changes
-        conn.commit()
-        df = df.sort_values(by=['Annee','Mois','Jour'])
-        df.reset_index(inplace=True,drop=True)
-        print("#######")
-        #print(df)
+        try:
+            # read connection parameters
+            params = config()
+
+            # connect to the PostgreSQL server
+            conn = psycopg2.connect(**params)
+                
+            # create a cursor
+            cur = conn.cursor()
+                
+            # execute a statement
+            cur.execute('SELECT version()')
+            
+            # commit the changes
+            conn.commit()
+            df = df.sort_values(by=['Annee','Mois','Jour'])
+            df.reset_index(inplace=True,drop=True)
+            print("#######")
+            #print(df)
+            
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+       
     total = time.time() - start_time
     print(total)
     return HttpResponse(df.to_json(orient='records'))
