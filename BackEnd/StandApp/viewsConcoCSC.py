@@ -1524,7 +1524,7 @@ def conco(df1,df_new, annee1, annee2):
     data['DATEHEUREDEPART']=final['DATE']
     data['NAVIREW']=final['NAV REF']
     data['DATEHEUREDEPARTW']=final['DATE REF']
-    data['RESEAU']='ALG'
+    data['RESEAU']='CSC'
     data['PORTDEP']=final['DEP_x']
     data['PORTARR']=final['ARR_x']
     data['PORTDEPW']=final['DEP_y']
