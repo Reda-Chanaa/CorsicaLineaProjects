@@ -8,6 +8,9 @@ import datetime
 from jours_feries_france import JoursFeries
 from vacances_scolaires_france import SchoolHolidayDates
 
+from hijri.core import Hijriah
+from hijri_converter import Hijri, Gregorian
+
 def conco(df1,df_new, annee1, annee2):
     
     fusion1=df1.merge(df_new, how='left', on=['ARM','DEP','ARR','DAY',"MOIS"])
@@ -22,7 +25,8 @@ def conco(df1,df_new, annee1, annee2):
     indexNames = fusion1[ ((fusion1['DAY_x'] != 1) | (fusion1['MOIS_x'] != 1)) & ((fusion1['DAY_x'] != 14) | (fusion1['MOIS_x'] != 7)) & ((fusion1['DAY_x'] != 15) | (fusion1['MOIS_x'] != 8)) & ( (fusion1['DAY_x'] != 8) | (fusion1['MOIS_x'] != 5)) & ( (fusion1['DAY_x'] != 1) | (fusion1['MOIS_x'] != 5))& ((fusion1['DAY_x'] != 25) | (fusion1['MOIS_x'] != 12)) & ( (fusion1['DAY_x'] != 11) | (fusion1['MOIS_x'] != 11)) & ( (fusion1['DAY_x'] != 1) | (fusion1['MOIS_x'] != 11)) ].index
     fusion1.drop(indexNames , inplace=True)
     fusion1.reset_index(inplace=True,drop=True)
-    
+    print(len(fusion1))    
+
     fusion3=df1.merge(df_new, how='left', on=['ARM','JOUR','DEP','ARR'])
     fusion3=fusion3.dropna(subset=['NAV REF'])
     fusion3['ARM_y']=fusion3['ARM']
@@ -41,6 +45,264 @@ def conco(df1,df_new, annee1, annee2):
     df4.drop(indexNames , inplace=True)
     df4.reset_index(inplace=True,drop=True)
 
+    #  to do ramadan
+    fusion2=df1.merge(df_new, how='left', on=['ARM','DEP','ARR'])
+    fusion2=fusion2.dropna(subset=['NAV REF'])
+    fusion2['ARM_y']=fusion2['ARM']
+    fusion2['DEP_y']=fusion2['DEP']
+    fusion2['ARR_y']=fusion2['ARR']
+    fusion2 = fusion2.rename(columns={'ARM':'ARM_x','DEP':'DEP_x','ARR': 'ARR_x'})
+    df10=fusion2.loc[(fusion2['MOIS_x'] == fusion2['MOIS_y']) | (fusion2['MOIS_x'] == fusion2['MOIS_y']+1) | (fusion2['MOIS_y'] == fusion2['MOIS_x']+1)]
+    df10.reset_index(inplace=True,drop=True)
+    print("---First---")
+    print(len(df10))
+    indexNames = df10[df10['ID'].isin(fusion1['ID'])].index
+    df10.drop(indexNames , inplace=True)
+    df10.reset_index(inplace=True,drop=True)
+    indexNames = df10[df10['ID REF'].isin(fusion1['ID REF'])].index
+    df10.drop(indexNames , inplace=True)
+    df10.reset_index(inplace=True,drop=True)
+    print(len(df10))
+    h2 = Gregorian(int(annee2), 1, 1).to_hijri()
+    #print("date 2",str(h2))
+    h1 = Gregorian(int(annee1), 1, 1).to_hijri()
+    #print("date 1",str(h1))
+    date_object1 = datetime.datetime.strptime(str(h1), '%Y-%m-%d').date()
+    date_object2 = datetime.datetime.strptime(str(h2), '%Y-%m-%d').date()
+    #print(date_object1)
+    #print(date_object2)
+    try:
+        if date_object1.month<=9:
+            dateexact1=Hijri(date_object1.year,9,1).to_gregorian()
+            dateexactfin1=Hijri(date_object1.year,9,30).to_gregorian()
+        elif date_object1.month>9:
+            dateexact1=Hijri(date_object1.year+1,9,1).to_gregorian()
+            dateexactfin1=Hijri(date_object1.year+1,9,30).to_gregorian()
+    except:
+        if date_object1.month<=9:
+            dateexact1=Hijri(date_object1.year,9,1).to_gregorian()
+            dateexactfin1=Hijri(date_object1.year,9,29).to_gregorian()
+        elif date_object1.month>9:
+            dateexact1=Hijri(date_object1.year+1,9,1).to_gregorian()
+            dateexactfin1=Hijri(date_object1.year+1,9,29).to_gregorian()
+    #print(dateexact1)
+    try:
+        if date_object2.month<=9:
+            dateexact2=Hijri(date_object2.year,9,1).to_gregorian()
+            dateexactfin2=Hijri(date_object2.year,9,30).to_gregorian()
+        elif date_object2.month>9:
+            dateexact2=Hijri(date_object2.year+1,9,1).to_gregorian()
+            dateexactfin2=Hijri(date_object2.year+1,9,30).to_gregorian()
+    except:
+        if date_object2.month<=9:
+            dateexact2=Hijri(date_object2.year,9,1).to_gregorian()
+            dateexactfin2=Hijri(date_object2.year,9,29).to_gregorian()
+        elif date_object2.month>9:
+            dateexact2=Hijri(date_object2.year+1,9,1).to_gregorian()
+            dateexactfin2=Hijri(date_object2.year+1,9,29).to_gregorian()
+    #print(dateexact2)
+    
+    ramadan=df10.copy(deep=True)
+    ramadanDatex=dateexact2
+    ramadanDatey=dateexact1
+
+    ramadanDatexfin=dateexactfin2
+    ramadanDateyfin=dateexactfin1
+
+    print("ramadan")
+    print(ramadanDatex)
+    print(ramadanDatey)
+    print(ramadanDatexfin)
+    print(ramadanDateyfin)
+    
+    print("1 start end ramadan",ramadanDatex,"",ramadanDatexfin)
+    print("2 start end ramadan",ramadanDatey,"",ramadanDateyfin)
+    
+    if (int ((ramadanDatexfin - ramadanDatex).days)) > (int ((ramadanDateyfin - ramadanDatey).days)):
+        ramadanDatey=date(ramadanDatey.year, ramadanDatey.month, ramadanDatey.day)
+        vac_ramadan=pd.DataFrame()
+        print("bigger")
+        for n in range(int ((ramadanDatexfin - ramadanDatex).days)):
+            ramadan=df10.copy(deep=True)
+            if n==0:
+                indexNames=ramadan[(((ramadan['DAY_y'] != ramadanDatey.day) | (ramadan['MOIS_y'] != ramadanDatey.month)))].index
+                ramadan.drop(indexNames , inplace=True)
+                ramadan.reset_index(inplace=True,drop=True)
+                frames = [ramadan,vac_ramadan]
+                vac_ramadan = pd.concat(frames)
+                vac_ramadan.reset_index(inplace=True,drop=True) 
+            else:
+                indexNames=ramadan[(((ramadan['DAY_y'] != (ramadanDatey + timedelta(n)).day) | (ramadan['MOIS_y'] != (ramadanDatey + timedelta(n)).month)))].index
+                ramadan.drop(indexNames , inplace=True)
+                ramadan.reset_index(inplace=True,drop=True)
+                frames = [ramadan,vac_ramadan]
+                vac_ramadan = pd.concat(frames)
+                vac_ramadan.reset_index(inplace=True,drop=True)
+        print("yes")
+    elif (int ((ramadanDatexfin - ramadanDatex).days)) < (int ((ramadanDateyfin - ramadanDatey).days)):
+        print("no")
+        ramadanDatex=date(ramadanDatex.year, ramadanDatex.month, ramadanDatex.day-1)
+        vac_ramadan=pd.DataFrame()
+        print("smaller")
+        for n in range(int ((ramadanDatexfin - ramadanDatex).days)):
+            ramadan=df10.copy(deep=True)
+            if n==0:
+                indexNames=ramadan[(((ramadan['DAY_y'] != ramadanDatey.day) | (ramadan['MOIS_y'] != ramadanDatey.month)))].index
+                ramadan.drop(indexNames , inplace=True)
+                ramadan.reset_index(inplace=True,drop=True)
+                frames = [ramadan,vac_ramadan]
+                vac_ramadan = pd.concat(frames)
+                vac_ramadan.reset_index(inplace=True,drop=True) 
+            else:
+                indexNames=ramadan[(((ramadan['DAY_y'] != (ramadanDatey + timedelta(n)).day) | (ramadan['MOIS_y'] != (ramadanDatey + timedelta(n)).month)))].index
+                ramadan.drop(indexNames , inplace=True)
+                ramadan.reset_index(inplace=True,drop=True)
+                frames = [ramadan,vac_ramadan]
+                vac_ramadan = pd.concat(frames)
+                vac_ramadan.reset_index(inplace=True,drop=True)
+    else:
+        print("same days")
+        vac_ramadan=pd.DataFrame()
+        for n in range(int ((ramadanDatexfin - ramadanDatex).days)):
+            ramadan=df10.copy(deep=True)
+            if n==0:
+                indexNames=ramadan[(((ramadan['DAY_y'] != ramadanDatey.day) | (ramadan['MOIS_y'] != ramadanDatey.month)))].index
+                ramadan.drop(indexNames , inplace=True)
+                ramadan.reset_index(inplace=True,drop=True)
+                frames = [ramadan,vac_ramadan]
+                vac_ramadan = pd.concat(frames)
+                vac_ramadan.reset_index(inplace=True,drop=True) 
+            else:
+                indexNames=ramadan[(((ramadan['DAY_y'] != (ramadanDatey + timedelta(n)).day) | (ramadan['MOIS_y'] != (ramadanDatey + timedelta(n)).month)))].index
+                ramadan.drop(indexNames , inplace=True)
+                ramadan.reset_index(inplace=True,drop=True)
+                frames = [ramadan,vac_ramadan]
+                vac_ramadan = pd.concat(frames)
+                vac_ramadan.reset_index(inplace=True,drop=True)
+    indexNames = df10[df10['ID'].isin(vac_ramadan['ID'])].index
+    df10.drop(indexNames , inplace=True)
+    df10.reset_index(inplace=True,drop=True)
+    indexNames = df10[df10['ID REF'].isin(vac_ramadan['ID REF'])].index
+    df10.drop(indexNames , inplace=True)
+    df10.reset_index(inplace=True,drop=True)
+    vac_ramadan.reset_index(inplace=True,drop=True)
+    ramadan=vac_ramadan.copy(deep=True)
+    # second
+    if (int ((ramadanDatexfin - ramadanDatex).days)) > (int ((ramadanDateyfin - ramadanDatey).days)):
+        ramadanDatey=date(ramadanDatey.year, ramadanDatey.month, ramadanDatey.day)
+        vac_ramadan2=pd.DataFrame()
+        print("bigger")
+        for n in range(int ((ramadanDatexfin - ramadanDatex).days)):
+            ramadan=vac_ramadan.copy(deep=True)
+            if n==0:
+                indexNames=ramadan[(((ramadan['DAY_x'] != ramadanDatex.day) | (ramadan['MOIS_x'] != ramadanDatex.month)))].index
+                ramadan.drop(indexNames , inplace=True)
+                ramadan.reset_index(inplace=True,drop=True)
+                frames = [ramadan,vac_ramadan2]
+                vac_ramadan2 = pd.concat(frames)
+                vac_ramadan2.reset_index(inplace=True,drop=True) 
+            else:
+                indexNames=ramadan[(((ramadan['DAY_x'] != (ramadanDatex + timedelta(n)).day) | (ramadan['MOIS_x'] != (ramadanDatex + timedelta(n)).month)))].index
+                ramadan.drop(indexNames , inplace=True)
+                ramadan.reset_index(inplace=True,drop=True)
+                frames = [ramadan,vac_ramadan2]
+                vac_ramadan2 = pd.concat(frames)
+                vac_ramadan2.reset_index(inplace=True,drop=True)
+        print("yes")
+    elif (int ((ramadanDatexfin - ramadanDatex).days)) < (int ((ramadanDateyfin - ramadanDatey).days)):
+        print("no")
+        ramadanDatex=date(ramadanDatex.year, ramadanDatex.month, ramadanDatex.day-1)
+        vac_ramadan2=pd.DataFrame()
+        print("smaller")
+        for n in range(int ((ramadanDatexfin - ramadanDatex).days)):
+            ramadan=vac_ramadan.copy(deep=True)
+            if n==0:
+                indexNames=ramadan[(((ramadan['DAY_x'] != ramadanDatex.day) | (ramadan['MOIS_x'] != ramadanDatex.month)))].index
+                ramadan.drop(indexNames , inplace=True)
+                ramadan.reset_index(inplace=True,drop=True)
+                frames = [ramadan,vac_ramadan2]
+                vac_ramadan2 = pd.concat(frames)
+                vac_ramadan2.reset_index(inplace=True,drop=True) 
+            else:
+                indexNames=ramadan[(((ramadan['DAY_x'] != (ramadanDatex + timedelta(n)).day) | (ramadan['MOIS_x'] != (ramadanDatex + timedelta(n)).month)))].index
+                ramadan.drop(indexNames , inplace=True)
+                ramadan.reset_index(inplace=True,drop=True)
+                frames = [ramadan,vac_ramadan2]
+                vac_ramadan2 = pd.concat(frames)
+                vac_ramadan2.reset_index(inplace=True,drop=True)
+    else:
+        print("same days")
+        vac_ramadan2=pd.DataFrame()
+        for n in range(int ((ramadanDatexfin - ramadanDatex).days)):
+            ramadan=vac_ramadan.copy(deep=True)
+            if n==0:
+                indexNames=ramadan[(((ramadan['DAY_x'] != ramadanDatex.day) | (ramadan['MOIS_x'] != ramadanDatex.month)) )].index
+                ramadan.drop(indexNames , inplace=True)
+                ramadan.reset_index(inplace=True,drop=True)
+                frames = [ramadan,vac_ramadan2]
+                vac_ramadan2 = pd.concat(frames)
+                vac_ramadan2.reset_index(inplace=True,drop=True) 
+            else:
+                indexNames=ramadan[(((ramadan['DAY_x'] != (ramadanDatex + timedelta(n)).day) | (ramadan['MOIS_x'] != (ramadanDatex + timedelta(n)).month)))].index
+                ramadan.drop(indexNames , inplace=True)
+                ramadan.reset_index(inplace=True,drop=True)
+                frames = [ramadan,vac_ramadan2]
+                vac_ramadan2 = pd.concat(frames)
+                vac_ramadan2.reset_index(inplace=True,drop=True)
+    
+    print("leeeeeeen --------- leeeen",len(vac_ramadan))
+    print("leeeeeeen --------- leeeen",len(vac_ramadan2))
+
+    indexNames = vac_ramadan[vac_ramadan['ID'].isin(vac_ramadan2['ID'])].index
+    vac_ramadan.drop(indexNames , inplace=True)
+    vac_ramadan.reset_index(inplace=True,drop=True)
+    indexNames = vac_ramadan[vac_ramadan['ID REF'].isin(vac_ramadan2['ID REF'])].index
+    vac_ramadan.drop(indexNames , inplace=True)
+    vac_ramadan.reset_index(inplace=True,drop=True)
+
+    print("leeeeeeen --------- leeeen",len(vac_ramadan))
+    print("leeeeeeen --------- leeeen",len(vac_ramadan2))
+
+    vac_ramadan3=pd.DataFrame()
+    vac_ramadan2.sort_values(by=['DATE', 'DATE REF'], inplace=True, ascending=True)
+    vac_ramadan2.reset_index(inplace=True,drop=True)
+    print(vac_ramadan2)
+    ramadanDatex=date(vac_ramadan2['YEAR_x'][0], vac_ramadan2['MOIS_x'][0], vac_ramadan2['DAY_x'][0])
+    print("min x",ramadanDatex)
+    ramadanDatexfin=date(vac_ramadan2['YEAR_x'][len(vac_ramadan2)-1], vac_ramadan2['MOIS_x'][len(vac_ramadan2)-1], vac_ramadan2['DAY_x'][len(vac_ramadan2)-1])
+    print("max x",ramadanDatexfin)
+    ramadanDatey=date(vac_ramadan2['YEAR_y'][0], vac_ramadan2['MOIS_y'][0], vac_ramadan2['DAY_y'][0])
+    print("min y",ramadanDatey)
+    ramadanDateyfin=date(vac_ramadan2['YEAR_y'][len(vac_ramadan2)-1], vac_ramadan2['MOIS_y'][len(vac_ramadan2)-1], vac_ramadan2['DAY_y'][len(vac_ramadan2)-1])
+    print("max y",ramadanDateyfin)
+    for n in range(int ((ramadanDatexfin - ramadanDatex).days)):
+        ramadan=vac_ramadan2.copy(deep=True)
+        if n==0:
+            indexNames=ramadan[(((ramadan['DAY_x'] != ramadanDatex.day) | (ramadan['MOIS_x'] != ramadanDatex.month)) | ((ramadan['DAY_y'] != ramadanDatey.day) | (ramadan['MOIS_y'] != ramadanDatey.month)))].index
+            ramadan.drop(indexNames , inplace=True)
+            ramadan.reset_index(inplace=True,drop=True)
+            frames = [ramadan,vac_ramadan3]
+            vac_ramadan3 = pd.concat(frames)
+            vac_ramadan3.reset_index(inplace=True,drop=True) 
+        else:
+            indexNames=ramadan[(((ramadan['DAY_x'] != (ramadanDatex + timedelta(n)).day) | (ramadan['MOIS_x'] != (ramadanDatex + timedelta(n)).month)) | ((ramadan['DAY_y'] != (ramadanDatey + timedelta(n)).day) | (ramadan['MOIS_y'] != (ramadanDatey + timedelta(n)).month)))].index
+            ramadan.drop(indexNames , inplace=True)
+            ramadan.reset_index(inplace=True,drop=True)
+            frames = [ramadan,vac_ramadan3]
+            vac_ramadan3 = pd.concat(frames)
+            vac_ramadan3.reset_index(inplace=True,drop=True)
+    print("leeeeeeen --------- leeeen",len(vac_ramadan))
+    print("leeeeeeen --------- leeeen",len(vac_ramadan2))
+    print("leeeeeeen --------- leeeen",len(vac_ramadan3))
+    
+    indexNames = df4[df4['ID'].isin(vac_ramadan3['ID'])].index
+    df4.drop(indexNames , inplace=True)
+    df4.reset_index(inplace=True,drop=True)
+    indexNames = df4[df4['ID REF'].isin(vac_ramadan3['ID REF'])].index
+    df4.drop(indexNames , inplace=True)
+    df4.reset_index(inplace=True,drop=True)
+
+    #pentecote
     pentecote=df4.copy(deep=True)
     pentecoteDatex=JoursFeries.lundi_pentecote(int(annee2))
     pentecoteDatey=JoursFeries.lundi_pentecote(int(annee1))
@@ -1495,7 +1757,8 @@ def conco(df1,df_new, annee1, annee2):
         df4.drop(indexNames , inplace=True)
         df4.reset_index(inplace=True,drop=True)
     
-    frames = [fusion1,shipswitch,ascension,pentecote,paques,vac_dec_A,vac_dec_B,vac_dec_C,vac_hiver_A,vac_hiver_B,vac_hiver_C,vac_ete,vac_oct_A,vac_oct_B,vac_oct_C,vac_printemps_A,vac_printemps_B,vac_printemps_C,normaux]
+    frames = [fusion1,shipswitch,vac_ramadan3,ascension,pentecote,paques,vac_dec_A,vac_dec_B,vac_dec_C,vac_hiver_A,vac_hiver_B,vac_hiver_C,vac_ete,vac_oct_A,vac_oct_B,vac_oct_C,vac_printemps_A,vac_printemps_B,vac_printemps_C,normaux]
+    #frames=[vac_ramadan3]
     result = pd.concat(frames)
     result.reset_index(inplace=True,drop=True)
     print("--------test--------")
@@ -1589,7 +1852,7 @@ def conco(df1,df_new, annee1, annee2):
         print(data4['DATEHEUREDEPART'][0])
         print(data4['DATEHEUREDEPARTW'][0])
         print('------')
-
+    del data4["NUMPACKAGEW"]
     return data4
 
 

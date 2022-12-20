@@ -50,7 +50,6 @@ export interface StatData {
   PORTARRW: string;
   MODELE: string;
   NUMPACKAGE: string;
-  NUMPACKAGEW: string;
   MINDATEFICHIER: string;
 }
 @Component({
@@ -86,7 +85,7 @@ export class ConcoCscComponent {
 
   dataFrame: any;
 
-  displayedColumns: string[] = ['ARMATEUR', 'NAVIRE', 'DATEHEUREDEPART', 'NAVIREW', 'DATEHEUREDEPARTW', 'MAXDATEFICHIER', 'INFO', 'RESEAU', 'PORTDEP', 'PORTARR', 'PORTDEPW', 'PORTARRW', 'MODELE', 'NUMPACKAGE', 'NUMPACKAGEW', 'MINDATEFICHIER'];
+  displayedColumns: string[] = ['ARMATEUR', 'NAVIRE', 'DATEHEUREDEPART', 'NAVIREW', 'DATEHEUREDEPARTW', 'MAXDATEFICHIER', 'INFO', 'RESEAU', 'PORTDEP', 'PORTARR', 'PORTDEPW', 'PORTARRW', 'MODELE', 'NUMPACKAGE', 'MINDATEFICHIER'];
   dataSource: MatTableDataSource<StatData>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -179,9 +178,8 @@ export class ConcoCscComponent {
     let c11: Observable<boolean> = this.PORTARRW.valueChanges;
     let c12: Observable<boolean> = this.MODELE.valueChanges;
     let c13: Observable<boolean> = this.NUMPACKAGE.valueChanges;
-    let c14: Observable<boolean> = this.NUMPACKAGEW.valueChanges;
-    let c15: Observable<boolean> = this.MINDATEFICHIER.valueChanges;
-    merge(c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15).subscribe(v => {
+    let c14: Observable<boolean> = this.MINDATEFICHIER.valueChanges;
+    merge(c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14).subscribe(v => {
       this.columnDefinitions[0].show = this.ARMATEUR.value;
       this.columnDefinitions[1].show = this.NAVIRE.value;
       this.columnDefinitions[2].show = this.DATEHEUREDEPART.value;
@@ -196,8 +194,7 @@ export class ConcoCscComponent {
       this.columnDefinitions[11].show = this.PORTARRW.value;
       this.columnDefinitions[12].show = this.MODELE.value;
       this.columnDefinitions[13].show = this.NUMPACKAGE.value;
-      this.columnDefinitions[14].show = this.NUMPACKAGEW.value;
-      this.columnDefinitions[15].show = this.MINDATEFICHIER.value;
+      this.columnDefinitions[14].show = this.MINDATEFICHIER.value;
     });
   }
 
@@ -218,7 +215,6 @@ export class ConcoCscComponent {
       { def: 'PORTARRW', label: 'PORTARRW', show: this.PORTARRW.value },
       { def: 'MODELE', label: 'MODELE', show: this.MODELE.value },
       { def: 'NUMPACKAGE', label: 'NUMPACKAGE', show: this.NUMPACKAGE.value },
-      { def: 'NUMPACKAGEW', label: 'NUMPACKAGEW', show: this.NUMPACKAGEW.value },
       { def: 'MINDATEFICHIER', label: 'MINDATEFICHIER', show: this.MINDATEFICHIER.value }
     ]
   }
@@ -239,7 +235,6 @@ export class ConcoCscComponent {
     PORTARRW: new FormControl(true),
     MODELE: new FormControl(true),
     NUMPACKAGE: new FormControl(true),
-    NUMPACKAGEW: new FormControl(true),
     MINDATEFICHIER: new FormControl(true)
   });
 
@@ -258,7 +253,6 @@ export class ConcoCscComponent {
   PORTARRW = this.form.get('PORTARRW');
   MODELE = this.form.get('MODELE');
   NUMPACKAGE = this.form.get('NUMPACKAGE');
-  NUMPACKAGEW = this.form.get('NUMPACKAGEW');
   MINDATEFICHIER = this.form.get('MINDATEFICHIER')
 
   //Control column ordering and which columns are displayed.
@@ -277,7 +271,6 @@ export class ConcoCscComponent {
     { def: 'PORTARRW', label: 'PORTARRW', show: this.PORTARRW.value },
     { def: 'MODELE', label: 'MODELE', show: this.MODELE.value },
     { def: 'NUMPACKAGE', label: 'NUMPACKAGE', show: this.NUMPACKAGE.value },
-    { def: 'NUMPACKAGEW', label: 'NUMPACKAGEW', show: this.NUMPACKAGEW.value },
     { def: 'MINDATEFICHIER', label: 'MINDATEFICHIER', show: this.MINDATEFICHIER.value }
   ]
 
