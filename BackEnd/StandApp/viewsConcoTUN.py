@@ -1247,186 +1247,523 @@ def conco(df1,df_new, annee1, annee2):
     vac_dec_B=pd.DataFrame()
     vac_dec_C=pd.DataFrame()
     normaux=pd.DataFrame()
-    if (int(annee1))<= int(years):
-        items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1), 'A')
-        elsA = pd.DataFrame(columns=['date'])
-        for key, value in items.items():
-            test=list(value.values())
-            if(test[4]=="Vacances de NoÃ«l"):
-                if(test[0].month==12):
-                    elsA=elsA.append({'date': test[0]}, ignore_index=True)
-            elif(test[4]=="Vacances de Noël"):
-                if(test[0].month==12):
-                    elsA=elsA.append({'date': test[0]}, ignore_index=True)
+    try:
         items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1)+1, 'A')
-        print("-----")
-        #print(items)
-        for key, value in items.items():
-            test=list(value.values())
-            if(test[4]=="Vacances de NoÃ«l"):
-                if(test[0].month==1):
-                    elsA=elsA.append({'date': test[0]}, ignore_index=True)
-            elif(test[4]=="Vacances de Noël"):
-                if(test[0].month==1):
-                    elsA=elsA.append({'date': test[0]}, ignore_index=True)
-        items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1), 'B')
-        elsB = pd.DataFrame(columns=['date'])
-        for key, value in items.items():
-            test=list(value.values())
-            if(test[4]=="Vacances de NoÃ«l"):
-                if(test[0].month==12):
-                    elsB=elsB.append({'date': test[0]}, ignore_index=True)
-            elif(test[4]=="Vacances de Noël"):
-                if(test[0].month==12):
-                    elsB=elsB.append({'date': test[0]}, ignore_index=True)
-        items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1)+1, 'B')
-        for key, value in items.items():
-            test=list(value.values())
-            if(test[4]=="Vacances de NoÃ«l"):
-                if(test[0].month==1):
-                    elsB=elsB.append({'date': test[0]}, ignore_index=True)
-            elif(test[4]=="Vacances de Noël"):
-                if(test[0].month==1):
-                    elsB=elsB.append({'date': test[0]}, ignore_index=True)
-        items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1), 'C')
-        elsC = pd.DataFrame(columns=['date'])
-        for key, value in items.items():
-            test=list(value.values())
-            if(test[4]=="Vacances de NoÃ«l"):
-                if(test[0].month==12):
-                    elsC=elsC.append({'date': test[0]}, ignore_index=True)
-            elif(test[4]=="Vacances de Noël"):
-                if(test[0].month==12):
-                    elsC=elsC.append({'date': test[0]}, ignore_index=True)
-        items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1)+1, 'C')
-        for key, value in items.items():
-            test=list(value.values())
-            if(test[4]=="Vacances de NoÃ«l"):
-                if(test[0].month==1):
-                    elsC=elsC.append({'date': test[0]}, ignore_index=True)
-            elif(test[4]=="Vacances de Noël"):
-                if(test[0].month==1):
-                    elsC=elsC.append({'date': test[0]}, ignore_index=True)
-        items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2), 'A')
-        els_A = pd.DataFrame(columns=['date'])
-        for key, value in items.items():
-            test=list(value.values())
-            if(test[4]=="Vacances de NoÃ«l"):
-                if(test[0].month==12):
-                    els_A=els_A.append({'date': test[0]}, ignore_index=True)
-            elif(test[4]=="Vacances de Noël"):
-                if(test[0].month==12):
-                    els_A=els_A.append({'date': test[0]}, ignore_index=True)
-        items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2)+1, 'A')
-        for key, value in items.items():
-            test=list(value.values())
-            if(test[4]=="Vacances de NoÃ«l"):
-                if(test[0].month==1):
-                    els_A=els_A.append({'date': test[0]}, ignore_index=True)
-            elif(test[4]=="Vacances de Noël"):
-                if(test[0].month==1):
-                    els_A=els_A.append({'date': test[0]}, ignore_index=True)
-        items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2), 'B')
-        els_B = pd.DataFrame(columns=['date'])
-        for key, value in items.items():
-            test=list(value.values())
-            if(test[4]=="Vacances de NoÃ«l"):
-                if(test[0].month==12):
-                    els_B=els_B.append({'date': test[0]}, ignore_index=True)
-            elif(test[4]=="Vacances de Noël"):
-                if(test[0].month==12):
-                    els_B=els_B.append({'date': test[0]}, ignore_index=True)
-        items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2)+1, 'B')
-        for key, value in items.items():
-            test=list(value.values())
-            if(test[4]=="Vacances de NoÃ«l"):
-                if(test[0].month==1):
-                    els_B=els_B.append({'date': test[0]}, ignore_index=True)
-            elif(test[4]=="Vacances de Noël"):
-                if(test[0].month==1):
-                    els_B=els_B.append({'date': test[0]}, ignore_index=True)
-        items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2), 'C')
-        els_C = pd.DataFrame(columns=['date'])
-        for key, value in items.items():
-            test=list(value.values())
-            if(test[4]=="Vacances de NoÃ«l"):
-                if(test[0].month==12):
-                    els_C=els_C.append({'date': test[0]}, ignore_index=True)
-            elif(test[4]=="Vacances de Noël"):
-                if(test[0].month==12):
-                    els_C=els_C.append({'date': test[0]}, ignore_index=True)
-        items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2)+1, 'C')
-        for key, value in items.items():
-            test=list(value.values())
-            if(test[4]=="Vacances de NoÃ«l"):
-                if(test[0].month==1):
-                    els_C=els_C.append({'date': test[0]}, ignore_index=True)
-            elif(test[4]=="Vacances de Noël"):
-                if(test[0].month==1):
-                    els_C=els_C.append({'date': test[0]}, ignore_index=True)
+        print("hello")
+        if (((int(annee1))< int(years)) | ((int(annee1))== int(years))):
+            items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1), 'A')
+            elsA = pd.DataFrame(columns=['date'])
+            for key, value in items.items():
+                test=list(value.values())
+                if(test[4]=="Vacances de NoÃ«l"):
+                    if(test[0].month==12):
+                        elsA=elsA.append({'date': test[0]}, ignore_index=True)
+                elif(test[4]=="Vacances de Noël"):
+                    if(test[0].month==12):
+                        elsA=elsA.append({'date': test[0]}, ignore_index=True)
+            items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1)+1, 'A')
+            print("-----")
+            #print(items)
+            for key, value in items.items():
+                test=list(value.values())
+                if(test[4]=="Vacances de NoÃ«l"):
+                    if(test[0].month==1):
+                        elsA=elsA.append({'date': test[0]}, ignore_index=True)
+                elif(test[4]=="Vacances de Noël"):
+                    if(test[0].month==1):
+                        elsA=elsA.append({'date': test[0]}, ignore_index=True)
+            items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1), 'B')
+            elsB = pd.DataFrame(columns=['date'])
+            for key, value in items.items():
+                test=list(value.values())
+                if(test[4]=="Vacances de NoÃ«l"):
+                    if(test[0].month==12):
+                        elsB=elsB.append({'date': test[0]}, ignore_index=True)
+                elif(test[4]=="Vacances de Noël"):
+                    if(test[0].month==12):
+                        elsB=elsB.append({'date': test[0]}, ignore_index=True)
+            items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1)+1, 'B')
+            for key, value in items.items():
+                test=list(value.values())
+                if(test[4]=="Vacances de NoÃ«l"):
+                    if(test[0].month==1):
+                        elsB=elsB.append({'date': test[0]}, ignore_index=True)
+                elif(test[4]=="Vacances de Noël"):
+                    if(test[0].month==1):
+                        elsB=elsB.append({'date': test[0]}, ignore_index=True)
+            items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1), 'C')
+            elsC = pd.DataFrame(columns=['date'])
+            for key, value in items.items():
+                test=list(value.values())
+                if(test[4]=="Vacances de NoÃ«l"):
+                    if(test[0].month==12):
+                        elsC=elsC.append({'date': test[0]}, ignore_index=True)
+                elif(test[4]=="Vacances de Noël"):
+                    if(test[0].month==12):
+                        elsC=elsC.append({'date': test[0]}, ignore_index=True)
+            items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1)+1, 'C')
+            for key, value in items.items():
+                test=list(value.values())
+                if(test[4]=="Vacances de NoÃ«l"):
+                    if(test[0].month==1):
+                        elsC=elsC.append({'date': test[0]}, ignore_index=True)
+                elif(test[4]=="Vacances de Noël"):
+                    if(test[0].month==1):
+                        elsC=elsC.append({'date': test[0]}, ignore_index=True)
+            items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2), 'A')
+            els_A = pd.DataFrame(columns=['date'])
+            for key, value in items.items():
+                test=list(value.values())
+                if(test[4]=="Vacances de NoÃ«l"):
+                    if(test[0].month==12):
+                        els_A=els_A.append({'date': test[0]}, ignore_index=True)
+                elif(test[4]=="Vacances de Noël"):
+                    if(test[0].month==12):
+                        els_A=els_A.append({'date': test[0]}, ignore_index=True)
+            items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2)+1, 'A')
+            for key, value in items.items():
+                test=list(value.values())
+                if(test[4]=="Vacances de NoÃ«l"):
+                    if(test[0].month==1):
+                        els_A=els_A.append({'date': test[0]}, ignore_index=True)
+                elif(test[4]=="Vacances de Noël"):
+                    if(test[0].month==1):
+                        els_A=els_A.append({'date': test[0]}, ignore_index=True)
+            items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2), 'B')
+            els_B = pd.DataFrame(columns=['date'])
+            for key, value in items.items():
+                test=list(value.values())
+                if(test[4]=="Vacances de NoÃ«l"):
+                    if(test[0].month==12):
+                        els_B=els_B.append({'date': test[0]}, ignore_index=True)
+                elif(test[4]=="Vacances de Noël"):
+                    if(test[0].month==12):
+                        els_B=els_B.append({'date': test[0]}, ignore_index=True)
+            items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2)+1, 'B')
+            for key, value in items.items():
+                test=list(value.values())
+                if(test[4]=="Vacances de NoÃ«l"):
+                    if(test[0].month==1):
+                        els_B=els_B.append({'date': test[0]}, ignore_index=True)
+                elif(test[4]=="Vacances de Noël"):
+                    if(test[0].month==1):
+                        els_B=els_B.append({'date': test[0]}, ignore_index=True)
+            items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2), 'C')
+            els_C = pd.DataFrame(columns=['date'])
+            for key, value in items.items():
+                test=list(value.values())
+                if(test[4]=="Vacances de NoÃ«l"):
+                    if(test[0].month==12):
+                        els_C=els_C.append({'date': test[0]}, ignore_index=True)
+                elif(test[4]=="Vacances de Noël"):
+                    if(test[0].month==12):
+                        els_C=els_C.append({'date': test[0]}, ignore_index=True)
+            items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2)+1, 'C')
+            for key, value in items.items():
+                test=list(value.values())
+                if(test[4]=="Vacances de NoÃ«l"):
+                    if(test[0].month==1):
+                        els_C=els_C.append({'date': test[0]}, ignore_index=True)
+                elif(test[4]=="Vacances de Noël"):
+                    if(test[0].month==1):
+                        els_C=els_C.append({'date': test[0]}, ignore_index=True)
 
-        print(len(els_A))
-        print(len(elsA))
-        if(len(els_A)>len(elsA)):
-            start_date_A_2021 = date(els_A['date'][0].year, els_A['date'][0].month, els_A['date'][0].day-1)
-            end_date_A_2021 = date(els_A['date'][len(els_A)-1].year, els_A['date'][len(els_A)-1].month, els_A['date'][len(els_A)-1].day)
-            start_date_A_2022 = date(elsA['date'][0].year, elsA['date'][0].month, elsA['date'][0].day-1)
-            end_date_A_2022 = date(elsA['date'][len(elsA)-1].year, elsA['date'][len(elsA)-1].month, elsA['date'][len(elsA)-1].day+1)
-            #print("2021 start end A",start_date_A_2021,"",end_date_A_2021)
-            #print("2022 start end A",start_date_A_2022,"",end_date_A_2022)
-            start_date_B_2021 = date(els_B['date'][0].year, els_B['date'][0].month, els_B['date'][0].day-1)
-            end_date_B_2021 = date(els_B['date'][len(els_B)-1].year, els_B['date'][len(els_B)-1].month, els_B['date'][len(els_B)-1].day)
-            start_date_B_2022 = date(elsB['date'][0].year, elsB['date'][0].month, elsB['date'][0].day-1)
-            end_date_B_2022 = date(elsB['date'][len(elsB)-1].year, elsB['date'][len(elsB)-1].month, elsB['date'][len(elsB)-1].day+1)
-            #print("2021 start end B",start_date_B_2021,"",end_date_B_2021)
-            #print("2022 start end B",start_date_B_2022,"",end_date_B_2022)
-            start_date_C_2021=date(els_C['date'][0].year, els_C['date'][0].month, els_C['date'][0].day-1)
-            end_date_C_2021 = date(els_C['date'][len(els_C)-1].year, els_C['date'][len(els_C)-1].month, els_C['date'][len(els_C)-1].day)
-            start_date_C_2022 = date(elsC['date'][0].year, elsC['date'][0].month, elsC['date'][0].day-1)
-            end_date_C_2022 = date(elsC['date'][len(elsC)-1].year, elsC['date'][len(elsC)-1].month, elsC['date'][len(elsC)-1].day+1)
-            #print("2021 start end C",start_date_C_2021,"",end_date_C_2021)
-            #print("2022 start end C",start_date_C_2022,"",end_date_C_2022)
-        if(len(els_A)<len(elsA)):
-            start_date_A_2021 = date(els_A['date'][0].year, els_A['date'][0].month, els_A['date'][0].day-1)
-            end_date_A_2021 = date(els_A['date'][len(els_A)-1].year, els_A['date'][len(els_A)-1].month, els_A['date'][len(els_A)-1].day+1)
-            start_date_A_2022 = date(elsA['date'][0].year, elsA['date'][0].month, elsA['date'][0].day-1)
-            end_date_A_2022 = date(elsA['date'][len(elsA)-1].year, elsA['date'][len(elsA)-1].month, elsA['date'][len(elsA)-1].day)
-            #print("2021 start end A",start_date_A_2021,"",end_date_A_2021)
-            #print("2022 start end A",start_date_A_2022,"",end_date_A_2022)
-            start_date_B_2021 = date(els_B['date'][0].year, els_B['date'][0].month, els_B['date'][0].day-1)
-            end_date_B_2021 = date(els_B['date'][len(els_B)-1].year, els_B['date'][len(els_B)-1].month, els_B['date'][len(els_B)-1].day+1)
-            start_date_B_2022 = date(elsB['date'][0].year, elsB['date'][0].month, elsB['date'][0].day-1)
-            end_date_B_2022 = date(elsB['date'][len(elsB)-1].year, elsB['date'][len(elsB)-1].month, elsB['date'][len(elsB)-1].day)
-            #print("2021 start end B",start_date_B_2021,"",end_date_B_2021)
-            #print("2022 start end B",start_date_B_2022,"",end_date_B_2022)
-            start_date_C_2021=date(els_C['date'][0].year, els_C['date'][0].month, els_C['date'][0].day-1)
-            end_date_C_2021 = date(els_C['date'][len(els_C)-1].year, els_C['date'][len(els_C)-1].month, els_C['date'][len(els_C)-1].day+1)
-            start_date_C_2022 = date(elsC['date'][0].year, elsC['date'][0].month, elsC['date'][0].day-1)
-            end_date_C_2022 = date(elsC['date'][len(elsC)-1].year, elsC['date'][len(elsC)-1].month, elsC['date'][len(elsC)-1].day)
-            #print("2021 start end C",start_date_C_2021,"",end_date_C_2021)
-            #print("2022 start end C",start_date_C_2022,"",end_date_C_2022)
-        else:
-            start_date_A_2021 = date(els_A['date'][0].year, els_A['date'][0].month, els_A['date'][0].day-1)
-            end_date_A_2021 = date(els_A['date'][len(els_A)-1].year, els_A['date'][len(els_A)-1].month, els_A['date'][len(els_A)-1].day)
-            start_date_A_2022 = date(elsA['date'][0].year, elsA['date'][0].month, elsA['date'][0].day-1)
-            end_date_A_2022 = date(elsA['date'][len(elsA)-1].year, elsA['date'][len(elsA)-1].month, elsA['date'][len(elsA)-1].day)
-            #print("2021 start end A",start_date_A_2021,"",end_date_A_2021)
-            #print("2022 start end A",start_date_A_2022,"",end_date_A_2022)
-            start_date_B_2021 = date(els_B['date'][0].year, els_B['date'][0].month, els_B['date'][0].day-1)
-            end_date_B_2021 = date(els_B['date'][len(els_B)-1].year, els_B['date'][len(els_B)-1].month, els_B['date'][len(els_B)-1].day)
-            start_date_B_2022 = date(elsB['date'][0].year, elsB['date'][0].month, elsB['date'][0].day-1)
-            end_date_B_2022 = date(elsB['date'][len(elsB)-1].year, elsB['date'][len(elsB)-1].month, elsB['date'][len(elsB)-1].day)
-            #print("2021 start end B",start_date_B_2021,"",end_date_B_2021)
-            #print("2022 start end B",start_date_B_2022,"",end_date_B_2022)
-            start_date_C_2021=date(els_C['date'][0].year, els_C['date'][0].month, els_C['date'][0].day-1)
-            end_date_C_2021 = date(els_C['date'][len(els_C)-1].year, els_C['date'][len(els_C)-1].month, els_C['date'][len(els_C)-1].day)
-            start_date_C_2022 = date(elsC['date'][0].year, elsC['date'][0].month, elsC['date'][0].day-1)
-            end_date_C_2022 = date(elsC['date'][len(elsC)-1].year, elsC['date'][len(elsC)-1].month, elsC['date'][len(elsC)-1].day)
-            #print("2021 start end C",start_date_C_2021,"",end_date_C_2021)
-            #print("2022 start end C",start_date_C_2022,"",end_date_C_2022)
+            print(len(els_A))
+            print(len(elsA))
+            if(len(els_A)>len(elsA)):
+                start_date_A_2021 = date(els_A['date'][0].year, els_A['date'][0].month, els_A['date'][0].day-1)
+                end_date_A_2021 = date(els_A['date'][len(els_A)-1].year, els_A['date'][len(els_A)-1].month, els_A['date'][len(els_A)-1].day)
+                start_date_A_2022 = date(elsA['date'][0].year, elsA['date'][0].month, elsA['date'][0].day-1)
+                end_date_A_2022 = date(elsA['date'][len(elsA)-1].year, elsA['date'][len(elsA)-1].month, elsA['date'][len(elsA)-1].day+1)
+                #print("2021 start end A",start_date_A_2021,"",end_date_A_2021)
+                #print("2022 start end A",start_date_A_2022,"",end_date_A_2022)
+                start_date_B_2021 = date(els_B['date'][0].year, els_B['date'][0].month, els_B['date'][0].day-1)
+                end_date_B_2021 = date(els_B['date'][len(els_B)-1].year, els_B['date'][len(els_B)-1].month, els_B['date'][len(els_B)-1].day)
+                start_date_B_2022 = date(elsB['date'][0].year, elsB['date'][0].month, elsB['date'][0].day-1)
+                end_date_B_2022 = date(elsB['date'][len(elsB)-1].year, elsB['date'][len(elsB)-1].month, elsB['date'][len(elsB)-1].day+1)
+                #print("2021 start end B",start_date_B_2021,"",end_date_B_2021)
+                #print("2022 start end B",start_date_B_2022,"",end_date_B_2022)
+                start_date_C_2021=date(els_C['date'][0].year, els_C['date'][0].month, els_C['date'][0].day-1)
+                end_date_C_2021 = date(els_C['date'][len(els_C)-1].year, els_C['date'][len(els_C)-1].month, els_C['date'][len(els_C)-1].day)
+                start_date_C_2022 = date(elsC['date'][0].year, elsC['date'][0].month, elsC['date'][0].day-1)
+                end_date_C_2022 = date(elsC['date'][len(elsC)-1].year, elsC['date'][len(elsC)-1].month, elsC['date'][len(elsC)-1].day+1)
+                #print("2021 start end C",start_date_C_2021,"",end_date_C_2021)
+                #print("2022 start end C",start_date_C_2022,"",end_date_C_2022)
+            if(len(els_A)<len(elsA)):
+                start_date_A_2021 = date(els_A['date'][0].year, els_A['date'][0].month, els_A['date'][0].day-1)
+                end_date_A_2021 = date(els_A['date'][len(els_A)-1].year, els_A['date'][len(els_A)-1].month, els_A['date'][len(els_A)-1].day+1)
+                start_date_A_2022 = date(elsA['date'][0].year, elsA['date'][0].month, elsA['date'][0].day-1)
+                end_date_A_2022 = date(elsA['date'][len(elsA)-1].year, elsA['date'][len(elsA)-1].month, elsA['date'][len(elsA)-1].day)
+                #print("2021 start end A",start_date_A_2021,"",end_date_A_2021)
+                #print("2022 start end A",start_date_A_2022,"",end_date_A_2022)
+                start_date_B_2021 = date(els_B['date'][0].year, els_B['date'][0].month, els_B['date'][0].day-1)
+                end_date_B_2021 = date(els_B['date'][len(els_B)-1].year, els_B['date'][len(els_B)-1].month, els_B['date'][len(els_B)-1].day+1)
+                start_date_B_2022 = date(elsB['date'][0].year, elsB['date'][0].month, elsB['date'][0].day-1)
+                end_date_B_2022 = date(elsB['date'][len(elsB)-1].year, elsB['date'][len(elsB)-1].month, elsB['date'][len(elsB)-1].day)
+                #print("2021 start end B",start_date_B_2021,"",end_date_B_2021)
+                #print("2022 start end B",start_date_B_2022,"",end_date_B_2022)
+                start_date_C_2021=date(els_C['date'][0].year, els_C['date'][0].month, els_C['date'][0].day-1)
+                end_date_C_2021 = date(els_C['date'][len(els_C)-1].year, els_C['date'][len(els_C)-1].month, els_C['date'][len(els_C)-1].day+1)
+                start_date_C_2022 = date(elsC['date'][0].year, elsC['date'][0].month, elsC['date'][0].day-1)
+                end_date_C_2022 = date(elsC['date'][len(elsC)-1].year, elsC['date'][len(elsC)-1].month, elsC['date'][len(elsC)-1].day)
+                #print("2021 start end C",start_date_C_2021,"",end_date_C_2021)
+                #print("2022 start end C",start_date_C_2022,"",end_date_C_2022)
+            else:
+                start_date_A_2021 = date(els_A['date'][0].year, els_A['date'][0].month, els_A['date'][0].day-1)
+                end_date_A_2021 = date(els_A['date'][len(els_A)-1].year, els_A['date'][len(els_A)-1].month, els_A['date'][len(els_A)-1].day)
+                start_date_A_2022 = date(elsA['date'][0].year, elsA['date'][0].month, elsA['date'][0].day-1)
+                end_date_A_2022 = date(elsA['date'][len(elsA)-1].year, elsA['date'][len(elsA)-1].month, elsA['date'][len(elsA)-1].day)
+                #print("2021 start end A",start_date_A_2021,"",end_date_A_2021)
+                #print("2022 start end A",start_date_A_2022,"",end_date_A_2022)
+                start_date_B_2021 = date(els_B['date'][0].year, els_B['date'][0].month, els_B['date'][0].day-1)
+                end_date_B_2021 = date(els_B['date'][len(els_B)-1].year, els_B['date'][len(els_B)-1].month, els_B['date'][len(els_B)-1].day)
+                start_date_B_2022 = date(elsB['date'][0].year, elsB['date'][0].month, elsB['date'][0].day-1)
+                end_date_B_2022 = date(elsB['date'][len(elsB)-1].year, elsB['date'][len(elsB)-1].month, elsB['date'][len(elsB)-1].day)
+                #print("2021 start end B",start_date_B_2021,"",end_date_B_2021)
+                #print("2022 start end B",start_date_B_2022,"",end_date_B_2022)
+                start_date_C_2021=date(els_C['date'][0].year, els_C['date'][0].month, els_C['date'][0].day-1)
+                end_date_C_2021 = date(els_C['date'][len(els_C)-1].year, els_C['date'][len(els_C)-1].month, els_C['date'][len(els_C)-1].day)
+                start_date_C_2022 = date(elsC['date'][0].year, elsC['date'][0].month, elsC['date'][0].day-1)
+                end_date_C_2022 = date(elsC['date'][len(elsC)-1].year, elsC['date'][len(elsC)-1].month, elsC['date'][len(elsC)-1].day)
+                #print("2021 start end C",start_date_C_2021,"",end_date_C_2021)
+                #print("2022 start end C",start_date_C_2022,"",end_date_C_2022)
 
-        date2021End=end_date_C_2021
-        date2022End=end_date_C_2022
+            date2021End=end_date_C_2021
+            date2022End=end_date_C_2022
+            
+            items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2)-1, 'C')
+            els = pd.DataFrame(columns=['date'])
+            for key, value in items.items():
+                test=list(value.values())
+                if(test[4]=="Vacances de NoÃ«l"):
+                    if(test[0].month==12):
+                        els=els.append({'date': test[0]}, ignore_index=True)
+                elif(test[4]=="Vacances de Noël"):
+                    if(test[0].month==12):
+                        els=els.append({'date': test[0]}, ignore_index=True)
+            items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2), 'C')
+            for key, value in items.items():
+                test=list(value.values())
+                if(test[4]=="Vacances de NoÃ«l"):
+                    if(test[0].month==1):
+                        els=els.append({'date': test[0]}, ignore_index=True)
+                elif(test[4]=="Vacances de Noël"):
+                    if(test[0].month==1):
+                        els=els.append({'date': test[0]}, ignore_index=True)
+            print("els_normaux start 2019",date(els['date'][len(els)-1].year, els['date'][len(els)-1].month, els['date'][len(els)-1].day+1))
+            Start_2021=date(els['date'][len(els)-1].year, els['date'][len(els)-1].month, els['date'][len(els)-1].day+1)
+            End_2021=date2021End
+            print(Start_2021)
+            print(End_2021)
+            items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1)-1, 'C')
+            els2 = pd.DataFrame(columns=['date'])
+            for key, value in items.items():
+                test=list(value.values())
+                if(test[4]=="Vacances de NoÃ«l"):
+                    if(test[0].month==12):
+                        els2=els2.append({'date': test[0]}, ignore_index=True)
+                elif(test[4]=="Vacances de Noël"):
+                    if(test[0].month==12):
+                        els2=els2.append({'date': test[0]}, ignore_index=True)
+            items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee1), 'C')
+            for key, value in items.items():
+                test=list(value.values())
+                if(test[4]=="Vacances de NoÃ«l"):
+                    if(test[0].month==1):
+                        els2=els2.append({'date': test[0]}, ignore_index=True)
+                elif(test[4]=="Vacances de Noël"):
+                    if(test[0].month==1):
+                        els2=els2.append({'date': test[0]}, ignore_index=True)
+            print("els_normaux start 2022",date(els2['date'][len(els2)-1].year, els2['date'][len(els2)-1].month, els2['date'][len(els2)-1].day+1))
+            Start_2022=date(els2['date'][len(els2)-1].year, els2['date'][len(els2)-1].month, els2['date'][len(els2)-1].day+1)
+            End_2022=date2022End
+            print(Start_2022)
+            print(End_2022)
+            # zone c
+            if (int ((end_date_C_2021 - start_date_C_2021).days)) > (int ((end_date_C_2022 - start_date_C_2022).days)):
+                print("bigger")
+                start_date_C_2022=date(elsC['date'][0].year, elsC['date'][0].month, elsC['date'][0].day-((int ((end_date_C_2021 - start_date_C_2021).days)) - (int ((end_date_C_2022 - start_date_C_2022).days))))
+                vac_dec_C=pd.DataFrame()
+                for n in range(int((end_date_C_2021 - start_date_C_2021).days)):
+                    decC=df4.copy(deep=True)
+                    if n==0:
+                        indexNames=decC[(((decC['DAY_x'] != start_date_C_2021.day) | (decC['MOIS_x'] != start_date_C_2021.month)) | ((decC['DAY_y'] != start_date_C_2022.day) | (decC['MOIS_y'] != start_date_C_2022.month)))].index
+                        decC.drop(indexNames , inplace=True)
+                        decC.reset_index(inplace=True,drop=True)
+                        frames = [decC,vac_dec_C]
+                        vac_dec_C = pd.concat(frames)
+                        vac_dec_C.reset_index(inplace=True,drop=True) 
+                    else:
+                        indexNames=decC[(((decC['DAY_x'] != (start_date_C_2021 + timedelta(n)).day) | (decC['MOIS_x'] != (start_date_C_2021 + timedelta(n)).month)) | ((decC['DAY_y'] != (start_date_C_2022 + timedelta(n)).day) | (decC['MOIS_y'] != (start_date_C_2022 + timedelta(n)).month)))].index
+                        decC.drop(indexNames , inplace=True)
+                        decC.reset_index(inplace=True,drop=True)
+                        frames = [decC,vac_dec_C]
+                        vac_dec_C = pd.concat(frames)
+                        vac_dec_C.reset_index(inplace=True,drop=True)
+            elif (int ((end_date_C_2021 - start_date_C_2021).days)) < (int ((end_date_C_2022 - start_date_C_2022).days)):
+                print("smaller")
+                start_date_C_2021=date(els_C['date'][0].year, els_C['date'][0].month, els_C['date'][0].day-((int ((end_date_C_2022 - start_date_C_2022).days))-(int ((end_date_C_2021 - start_date_C_2021).days))))
+                vac_dec_C=pd.DataFrame()
+                for n in range(int((end_date_C_2021 - start_date_C_2021).days)):
+                    decC=df4.copy(deep=True)
+                    if n==0:
+                        indexNames=decC[(((decC['DAY_x'] != start_date_C_2021.day) | (decC['MOIS_x'] != start_date_C_2021.month)) | ((decC['DAY_y'] != start_date_C_2022.day) | (decC['MOIS_y'] != start_date_C_2022.month)))].index
+                        decC.drop(indexNames , inplace=True)
+                        decC.reset_index(inplace=True,drop=True)
+                        frames = [decC,vac_dec_C]
+                        vac_dec_C = pd.concat(frames)
+                        vac_dec_C.reset_index(inplace=True,drop=True) 
+                    else:
+                        indexNames=decC[(((decC['DAY_x'] != (start_date_C_2021 + timedelta(n)).day) | (decC['MOIS_x'] != (start_date_C_2021 + timedelta(n)).month)) | ((decC['DAY_y'] != (start_date_C_2022 + timedelta(n)).day) | (decC['MOIS_y'] != (start_date_C_2022 + timedelta(n)).month)))].index
+                        decC.drop(indexNames , inplace=True)
+                        decC.reset_index(inplace=True,drop=True)
+                        frames = [decC,vac_dec_C]
+                        vac_dec_C = pd.concat(frames)
+                        vac_dec_C.reset_index(inplace=True,drop=True)
+            else:
+                vac_dec_C=pd.DataFrame()
+                for n in range(int((end_date_C_2021 - start_date_C_2021).days)):
+                    decC=df4.copy(deep=True)
+                    if n==0:
+                        indexNames=decC[(((decC['DAY_x'] != start_date_C_2021.day) | (decC['MOIS_x'] != start_date_C_2021.month)) | ((decC['DAY_y'] != start_date_C_2022.day) | (decC['MOIS_y'] != start_date_C_2022.month)))].index
+                        decC.drop(indexNames , inplace=True)
+                        decC.reset_index(inplace=True,drop=True)
+                        frames = [decC,vac_dec_C]
+                        vac_dec_C = pd.concat(frames)
+                        vac_dec_C.reset_index(inplace=True,drop=True) 
+                    else:
+                        indexNames=decC[(((decC['DAY_x'] != (start_date_C_2021 + timedelta(n)).day) | (decC['MOIS_x'] != (start_date_C_2021 + timedelta(n)).month)) | ((decC['DAY_y'] != (start_date_C_2022 + timedelta(n)).day) | (decC['MOIS_y'] != (start_date_C_2022 + timedelta(n)).month)))].index
+                        decC.drop(indexNames , inplace=True)
+                        decC.reset_index(inplace=True,drop=True)
+                        frames = [decC,vac_dec_C]
+                        vac_dec_C = pd.concat(frames)
+                        vac_dec_C.reset_index(inplace=True,drop=True)
+
+            indexNames = df4[df4['ID'].isin(vac_dec_C['ID'])].index
+            df4.drop(indexNames , inplace=True)
+            df4.reset_index(inplace=True,drop=True)
+
+            indexNames = df4[df4['ID REF'].isin(vac_dec_C['ID REF'])].index
+            df4.drop(indexNames , inplace=True)
+            df4.reset_index(inplace=True,drop=True)
+
+            # zone B
+            if (int ((end_date_B_2021 - start_date_B_2021).days)) > (int ((end_date_B_2022 - start_date_B_2022).days)):
+                print("bigger")
+                start_date_B_2022=date(elsB['date'][0].year, elsB['date'][0].month, elsB['date'][0].day-((int ((end_date_B_2021 - start_date_B_2021).days)) - (int ((end_date_B_2022 - start_date_B_2022).days))))
+                vac_dec_B=pd.DataFrame()
+                for n in range(int((end_date_B_2021 - start_date_B_2021).days)):
+                    decB=df4.copy(deep=True)
+                    if n==0:
+                        indexNames=decB[(((decB['DAY_x'] != start_date_B_2021.day) | (decB['MOIS_x'] != start_date_B_2021.month)) | ((decB['DAY_y'] != start_date_B_2022.day) | (decB['MOIS_y'] != start_date_B_2022.month)))].index
+                        decB.drop(indexNames , inplace=True)
+                        decB.reset_index(inplace=True,drop=True)
+                        frames = [decB,vac_dec_B]
+                        vac_dec_B = pd.concat(frames)
+                        vac_dec_B.reset_index(inplace=True,drop=True) 
+                    else:
+                        indexNames=decB[(((decB['DAY_x'] != (start_date_B_2021 + timedelta(n)).day) | (decB['MOIS_x'] != (start_date_B_2021 + timedelta(n)).month)) | ((decB['DAY_y'] != (start_date_B_2022 + timedelta(n)).day) | (decB['MOIS_y'] != (start_date_B_2022 + timedelta(n)).month)))].index
+                        decB.drop(indexNames , inplace=True)
+                        decB.reset_index(inplace=True,drop=True)
+                        frames = [decB,vac_dec_B]
+                        vac_dec_B = pd.concat(frames)
+                        vac_dec_B.reset_index(inplace=True,drop=True)
+            elif (int ((end_date_B_2021 - start_date_B_2021).days)) < (int ((end_date_B_2022 - start_date_B_2022).days)):
+                print("smaller")
+                start_date_B_2021=date(els_B['date'][0].year, els_B['date'][0].month, els_B['date'][0].day-((int ((end_date_B_2022 - start_date_B_2022).days))-(int ((end_date_B_2021 - start_date_B_2021).days))))
+                vac_dec_B=pd.DataFrame()
+                for n in range(int((end_date_B_2021 - start_date_B_2021).days)):
+                    decB=df4.copy(deep=True)
+                    if n==0:
+                        indexNames=decB[(((decB['DAY_x'] != start_date_B_2021.day) | (decB['MOIS_x'] != start_date_B_2021.month)) | ((decB['DAY_y'] != start_date_B_2022.day) | (decB['MOIS_y'] != start_date_B_2022.month)))].index
+                        decB.drop(indexNames , inplace=True)
+                        decB.reset_index(inplace=True,drop=True)
+                        frames = [decB,vac_dec_B]
+                        vac_dec_B = pd.concat(frames)
+                        vac_dec_B.reset_index(inplace=True,drop=True) 
+                    else:
+                        indexNames=decB[(((decB['DAY_x'] != (start_date_B_2021 + timedelta(n)).day) | (decB['MOIS_x'] != (start_date_B_2021 + timedelta(n)).month)) | ((decB['DAY_y'] != (start_date_B_2022 + timedelta(n)).day) | (decB['MOIS_y'] != (start_date_B_2022 + timedelta(n)).month)))].index
+                        decB.drop(indexNames , inplace=True)
+                        decB.reset_index(inplace=True,drop=True)
+                        frames = [decB,vac_dec_B]
+                        vac_dec_B = pd.concat(frames)
+                        vac_dec_B.reset_index(inplace=True,drop=True)
+            else:
+                vac_dec_B=pd.DataFrame()
+                for n in range(int((end_date_B_2021 - start_date_B_2021).days)):
+                    decB=df4.copy(deep=True)
+                    if n==0:
+                        indexNames=decB[(((decB['DAY_x'] != start_date_B_2021.day) | (decB['MOIS_x'] != start_date_B_2021.month)) | ((decB['DAY_y'] != start_date_B_2022.day) | (decB['MOIS_y'] != start_date_B_2022.month)))].index
+                        decB.drop(indexNames , inplace=True)
+                        decB.reset_index(inplace=True,drop=True)
+                        frames = [decB,vac_dec_B]
+                        vac_dec_B = pd.concat(frames)
+                        vac_dec_B.reset_index(inplace=True,drop=True) 
+                    else:
+                        indexNames=decB[(((decB['DAY_x'] != (start_date_B_2021 + timedelta(n)).day) | (decB['MOIS_x'] != (start_date_B_2021 + timedelta(n)).month)) | ((decB['DAY_y'] != (start_date_B_2022 + timedelta(n)).day) | (decB['MOIS_y'] != (start_date_B_2022 + timedelta(n)).month)))].index
+                        decB.drop(indexNames , inplace=True)
+                        decB.reset_index(inplace=True,drop=True)
+                        frames = [decB,vac_dec_B]
+                        vac_dec_B = pd.concat(frames)
+                        vac_dec_B.reset_index(inplace=True,drop=True)
+
+            indexNames = df4[df4['ID'].isin(vac_dec_B['ID'])].index
+            df4.drop(indexNames , inplace=True)
+            df4.reset_index(inplace=True,drop=True)
+
+            indexNames = df4[df4['ID REF'].isin(vac_dec_B['ID REF'])].index
+            df4.drop(indexNames , inplace=True)
+            df4.reset_index(inplace=True,drop=True)
+
+            # zone A
+
+            if (int ((end_date_A_2021 - start_date_A_2021).days)) > (int ((end_date_A_2022 - start_date_A_2022).days)):
+                print("bigger")
+                start_date_A_2022=date(elsA['date'][0].year, elsA['date'][0].month, elsA['date'][0].day-((int ((end_date_A_2021 - start_date_A_2021).days)) - (int ((end_date_A_2022 - start_date_A_2022).days))))
+                vac_dec_A=pd.DataFrame()
+                for n in range(int((end_date_A_2021 - start_date_A_2021).days)):
+                    decA=df4.copy(deep=True)
+                    if n==0:
+                        indexNames=decA[(((decA['DAY_x'] != start_date_A_2021.day) | (decA['MOIS_x'] != start_date_A_2021.month)) | ((decA['DAY_y'] != start_date_A_2022.day) | (decA['MOIS_y'] != start_date_A_2022.month)))].index
+                        decA.drop(indexNames , inplace=True)
+                        decA.reset_index(inplace=True,drop=True)
+                        frames = [decA,vac_dec_A]
+                        vac_dec_A = pd.concat(frames)
+                        vac_dec_A.reset_index(inplace=True,drop=True) 
+                    else:
+                        indexNames=decA[(((decA['DAY_x'] != (start_date_A_2021 + timedelta(n)).day) | (decA['MOIS_x'] != (start_date_A_2021 + timedelta(n)).month)) | ((decA['DAY_y'] != (start_date_A_2022 + timedelta(n)).day) | (decA['MOIS_y'] != (start_date_A_2022 + timedelta(n)).month)))].index
+                        decA.drop(indexNames , inplace=True)
+                        decA.reset_index(inplace=True,drop=True)
+                        frames = [decA,vac_dec_A]
+                        vac_dec_A = pd.concat(frames)
+                        vac_dec_A.reset_index(inplace=True,drop=True)
+            elif (int ((end_date_A_2021 - start_date_A_2021).days)) < (int ((end_date_A_2022 - start_date_A_2022).days)):
+                print("smaller")
+                start_date_A_2021=date(els_A['date'][0].year, els_A['date'][0].month, els_A['date'][0].day-((int ((end_date_A_2022 - start_date_A_2022).days))-(int ((end_date_A_2021 - start_date_A_2021).days))))
+                vac_dec_A=pd.DataFrame()
+                for n in range(int((end_date_A_2021 - start_date_A_2021).days)):
+                    decA=df4.copy(deep=True)
+                    if n==0:
+                        indexNames=decA[(((decA['DAY_x'] != start_date_A_2021.day) | (decA['MOIS_x'] != start_date_A_2021.month)) | ((decA['DAY_y'] != start_date_A_2022.day) | (decA['MOIS_y'] != start_date_A_2022.month)))].index
+                        decA.drop(indexNames , inplace=True)
+                        decA.reset_index(inplace=True,drop=True)
+                        frames = [decA,vac_dec_A]
+                        vac_dec_A = pd.concat(frames)
+                        vac_dec_A.reset_index(inplace=True,drop=True) 
+                    else:
+                        indexNames=decA[(((decA['DAY_x'] != (start_date_A_2021 + timedelta(n)).day) | (decA['MOIS_x'] != (start_date_A_2021 + timedelta(n)).month)) | ((decA['DAY_y'] != (start_date_A_2022 + timedelta(n)).day) | (decA['MOIS_y'] != (start_date_A_2022 + timedelta(n)).month)))].index
+                        decA.drop(indexNames , inplace=True)
+                        decA.reset_index(inplace=True,drop=True)
+                        frames = [decA,vac_dec_A]
+                        vac_dec_A = pd.concat(frames)
+                        vac_dec_A.reset_index(inplace=True,drop=True)
+            else:
+                vac_dec_A=pd.DataFrame()
+                for n in range(int((end_date_A_2021 - start_date_A_2021).days)):
+                    decA=df4.copy(deep=True)
+                    if n==0:
+                        indexNames=decA[(((decA['DAY_x'] != start_date_A_2021.day) | (decA['MOIS_x'] != start_date_A_2021.month)) | ((decA['DAY_y'] != start_date_A_2022.day) | (decA['MOIS_y'] != start_date_A_2022.month)))].index
+                        decA.drop(indexNames , inplace=True)
+                        decA.reset_index(inplace=True,drop=True)
+                        frames = [decA,vac_dec_A]
+                        vac_dec_A = pd.concat(frames)
+                        vac_dec_A.reset_index(inplace=True,drop=True) 
+                    else:
+                        indexNames=decA[(((decA['DAY_x'] != (start_date_A_2021 + timedelta(n)).day) | (decA['MOIS_x'] != (start_date_A_2021 + timedelta(n)).month)) | ((decA['DAY_y'] != (start_date_A_2022 + timedelta(n)).day) | (decA['MOIS_y'] != (start_date_A_2022 + timedelta(n)).month)))].index
+                        decA.drop(indexNames , inplace=True)
+                        decA.reset_index(inplace=True,drop=True)
+                        frames = [decA,vac_dec_A]
+                        vac_dec_A = pd.concat(frames)
+                        vac_dec_A.reset_index(inplace=True,drop=True)
+                
+            indexNames = df4[df4['ID'].isin(vac_dec_A['ID'])].index
+            df4.drop(indexNames , inplace=True)
+            df4.reset_index(inplace=True,drop=True)
+
+            indexNames = df4[df4['ID REF'].isin(vac_dec_A['ID REF'])].index
+            df4.drop(indexNames , inplace=True)
+            df4.reset_index(inplace=True,drop=True)
+            df4
+
+            # Jours normaux
+            start_date_A_2021 =Start_2021
+            end_date_A_2021 = End_2021
+            start_date_A_2022 = Start_2022
+            end_date_A_2022 = End_2022
+
+            # zone A
+
+            if (int ((end_date_A_2021 - start_date_A_2021).days)) > (int ((end_date_A_2022 - start_date_A_2022).days)):
+                print("bigger")
+                start_date_A_2022=date(date2021End.year, date2021End.month, date2021End.day-((int ((end_date_A_2021 - start_date_A_2021).days)) - (int ((end_date_A_2022 - start_date_A_2022).days))))
+                normaux=pd.DataFrame()
+                for n in range(int((end_date_A_2021 - start_date_A_2021).days)):
+                    norm=df4.copy(deep=True)
+                    if n==0:
+                        indexNames=norm[(((norm['DAY_x'] != start_date_A_2021.day) | (norm['MOIS_x'] != start_date_A_2021.month)) | ((norm['DAY_y'] != start_date_A_2022.day) | (norm['MOIS_y'] != start_date_A_2022.month)))].index
+                        norm.drop(indexNames , inplace=True)
+                        norm.reset_index(inplace=True,drop=True)
+                        frames = [norm,normaux]
+                        normaux = pd.concat(frames)
+                        normaux.reset_index(inplace=True,drop=True) 
+                    else:
+                        indexNames=norm[(((norm['DAY_x'] != (start_date_A_2021 + timedelta(n)).day) | (norm['MOIS_x'] != (start_date_A_2021 + timedelta(n)).month)) | ((norm['DAY_y'] != (start_date_A_2022 + timedelta(n)).day) | (norm['MOIS_y'] != (start_date_A_2022 + timedelta(n)).month)))].index
+                        norm.drop(indexNames , inplace=True)
+                        norm.reset_index(inplace=True,drop=True)
+                        frames = [norm,normaux]
+                        normaux = pd.concat(frames)
+                        normaux.reset_index(inplace=True,drop=True)
+            elif (int ((end_date_A_2021 - start_date_A_2021).days)) < (int ((end_date_A_2022 - start_date_A_2022).days)):
+                print("smaller")
+                start_date_A_2021=date(els['date'][len(els)-1].year, els['date'][len(els)-1].month, els['date'][len(els)-1].day)
+                normaux=pd.DataFrame()
+                for n in range(int((end_date_A_2021 - start_date_A_2021).days)):
+                    norm=df4.copy(deep=True)
+                    if n==0:
+                        indexNames=norm[(((norm['DAY_x'] != start_date_A_2021.day) | (norm['MOIS_x'] != start_date_A_2021.month)) | ((norm['DAY_y'] != start_date_A_2022.day) | (norm['MOIS_y'] != start_date_A_2022.month)))].index
+                        norm.drop(indexNames , inplace=True)
+                        norm.reset_index(inplace=True,drop=True)
+                        frames = [norm,normaux]
+                        normaux = pd.concat(frames)
+                        normaux.reset_index(inplace=True,drop=True) 
+                    else:
+                        indexNames=norm[(((norm['DAY_x'] != (start_date_A_2021 + timedelta(n)).day) | (norm['MOIS_x'] != (start_date_A_2021 + timedelta(n)).month)) | ((norm['DAY_y'] != (start_date_A_2022 + timedelta(n)).day) | (norm['MOIS_y'] != (start_date_A_2022 + timedelta(n)).month)))].index
+                        norm.drop(indexNames , inplace=True)
+                        norm.reset_index(inplace=True,drop=True)
+                        frames = [norm,normaux]
+                        normaux = pd.concat(frames)
+                        normaux.reset_index(inplace=True,drop=True)
+            else:
+                normaux=pd.DataFrame()
+                for n in range(int((end_date_A_2021 - start_date_A_2021).days)):
+                    norm=df4.copy(deep=True)
+                    if n==0:
+                        indexNames=norm[(((norm['DAY_x'] != start_date_A_2021.day) | (norm['MOIS_x'] != start_date_A_2021.month)) | ((norm['DAY_y'] != start_date_A_2022.day) | (norm['MOIS_y'] != start_date_A_2022.month)))].index
+                        norm.drop(indexNames , inplace=True)
+                        norm.reset_index(inplace=True,drop=True)
+                        frames = [norm,normaux]
+                        normaux = pd.concat(frames)
+                        normaux.reset_index(inplace=True,drop=True) 
+                    else:
+                        indexNames=norm[(((norm['DAY_x'] != (start_date_A_2021 + timedelta(n)).day) | (norm['MOIS_x'] != (start_date_A_2021 + timedelta(n)).month)) | ((norm['DAY_y'] != (start_date_A_2022 + timedelta(n)).day) | (norm['MOIS_y'] != (start_date_A_2022 + timedelta(n)).month)))].index
+                        norm.drop(indexNames , inplace=True)
+                        norm.reset_index(inplace=True,drop=True)
+                        frames = [norm,normaux]
+                        normaux = pd.concat(frames)
+                        normaux.reset_index(inplace=True,drop=True)
+                
+            indexNames = df4[df4['ID'].isin(normaux['ID'])].index
+            df4.drop(indexNames , inplace=True)
+            df4.reset_index(inplace=True,drop=True)
+
+            indexNames = df4[df4['ID REF'].isin(normaux['ID REF'])].index
+            df4.drop(indexNames , inplace=True)
+            df4.reset_index(inplace=True,drop=True)
+    except:
+        date2021End=date(2023,1,2)
+        date2022End=date(2024,1,1)
+        print("fin 2022",date2021End)
+        print("fin 2023",date2022End)
         
         items=SchoolHolidayDates().holidays_for_year_and_zone(int(annee2)-1, 'C')
         els = pd.DataFrame(columns=['date'])
@@ -1447,8 +1784,8 @@ def conco(df1,df_new, annee1, annee2):
             elif(test[4]=="Vacances de Noël"):
                 if(test[0].month==1):
                     els=els.append({'date': test[0]}, ignore_index=True)
-        print("els_normaux start 2019",date(els['date'][len(els)-1].year, els['date'][len(els)-1].month, els['date'][len(els)-1].day+1))
-        Start_2021=date(els['date'][len(els)-1].year, els['date'][len(els)-1].month, els['date'][len(els)-1].day+1)
+        print("els_normaux start 2022",date(els['date'][len(els)-1].year, els['date'][len(els)-1].month, els['date'][len(els)-1].day+1))
+        Start_2021=date(els['date'][len(els)-1].year, els['date'][len(els)-1].month, els['date'][len(els)-1].day+2)
         End_2021=date2021End
         print(Start_2021)
         print(End_2021)
@@ -1756,7 +2093,6 @@ def conco(df1,df_new, annee1, annee2):
         indexNames = df4[df4['ID REF'].isin(normaux['ID REF'])].index
         df4.drop(indexNames , inplace=True)
         df4.reset_index(inplace=True,drop=True)
-    
     frames = [fusion1,shipswitch,vac_ramadan3,ascension,pentecote,paques,vac_dec_A,vac_dec_B,vac_dec_C,vac_hiver_A,vac_hiver_B,vac_hiver_C,vac_ete,vac_oct_A,vac_oct_B,vac_oct_C,vac_printemps_A,vac_printemps_B,vac_printemps_C,normaux]
     #frames=[vac_ramadan3]
     result = pd.concat(frames)
