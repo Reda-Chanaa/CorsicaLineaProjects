@@ -296,6 +296,7 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                                 | df_mask.MOIS.eq(mois[11])]
     if len(df_mask_cumul) == 0:
         return pd.DataFrame()
+    '''
     print("////////////////")
     cumul_j_1=df_mask["CUMUL-19"].sum()
     basseS1=df_mask.loc[(df_mask["MOIS"]==1) | (df_mask["MOIS"]==2) | (df_mask["MOIS"]==3)]
@@ -313,7 +314,7 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
     basseS2=df_mask.loc[(df_mask["MOIS"]==11) | (df_mask["MOIS"]==12)]
     bs22=basseS2["CUMUL-19"].sum()
     print(bs22)
-    print(cumul_j_1)
+    print(cumul_j_1)'''
     print("-------------------------")
     if len(df_mask_cumul) == 1:
         df_mask_cumul['BUDGET'] = budget[0]
@@ -452,9 +453,9 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                     "BASSE SAISON 1",
                     BS1["CIBLE"][0] + BS1["CIBLE"][1] + BS1["CIBLE"][2],
                     BS1["VENTE"][0] + BS1["VENTE"][1] + BS1["VENTE"][2],
-                    bs11,
+                    BS1["CUMUL"][0] + BS1["CUMUL"][1] + BS1["CUMUL"][2],
                     round((
-                        (bs11) /
+                        (BS1["CUMUL"][0] + BS1["CUMUL"][1] + BS1["CUMUL"][2]) /
                         (mesure["BUD"][i - 2] + mesure["BUD"][i - 1] +
                          mesure["BUD"][i])) * 100)
                 ]
@@ -462,14 +463,14 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                 BS1.loc[3] = [
                     "BASSE SAISON 1", BS1["CIBLE"][1] + BS1["CIBLE"][2],
                     BS1["VENTE"][1] + BS1["VENTE"][2],
-                    bs11,
-                    round(((bs11) /
+                    BS1["CUMUL"][1] + BS1["CUMUL"][2],
+                    round(((BS1["CUMUL"][1] + BS1["CUMUL"][2]) /
                            (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100)
                 ]
             else:
                 BS1.loc[3] = [
                     "BASSE SAISON 1", BS1["CIBLE"][2], BS1["VENTE"][2],
-                    bs11, BS1["BUDGET"][2]
+                    BS1["CUMUL"][2], BS1["BUDGET"][2]
                 ]
         #  1 MS
         if mesure["CORSE"][i] == "Apr":
@@ -492,9 +493,9 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                     "MOYENNE SAISON 1",
                     MS1["CIBLE"][0] + MS1["CIBLE"][1] + MS1["CIBLE"][2],
                     MS1["VENTE"][0] + MS1["VENTE"][1] + MS1["VENTE"][2],
-                    ms11,
+                    MS1["CUMUL"][0] + MS1["CUMUL"][1] + MS1["CUMUL"][2],
                     round((
-                        (ms11) /
+                        (MS1["CUMUL"][0] + MS1["CUMUL"][1] + MS1["CUMUL"][2]) /
                         (mesure["BUD"][i - 2] + mesure["BUD"][i - 1] +
                          mesure["BUD"][i])) * 100)
                 ]
@@ -502,14 +503,14 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                 MS1.loc[3] = [
                     "MOYENNE SAISON 1", MS1["CIBLE"][1] + MS1["CIBLE"][2],
                     MS1["VENTE"][1] + MS1["VENTE"][2],
-                    ms11,
-                    round(((ms11) /
+                    MS1["CUMUL"][1] + MS1["CUMUL"][2],
+                    round(((MS1["CUMUL"][1] + MS1["CUMUL"][2]) /
                            (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100)
                 ]
             else:
                 MS1.loc[3] = [
                     "MOYENNE SAISON 1", MS1["CIBLE"][2], MS1["VENTE"][2],
-                    ms11, MS1["BUDGET"][2]
+                    MS1["CUMUL"][2], MS1["BUDGET"][2]
                 ]
         #  HS
         if mesure["CORSE"][i] == "Jul":
@@ -526,14 +527,14 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                 HS.loc[2] = [
                     "HAUTE SAISON", HS["CIBLE"][0] + HS["CIBLE"][1],
                     HS["VENTE"][0] + HS["VENTE"][1],
-                    hs1,
-                    round(((hs1) /
+                    HS["CUMUL"][0] + HS["CUMUL"][1],
+                    round(((HS["CUMUL"][0] + HS["CUMUL"][1]) /
                            (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100)
                 ]
             else:
                 HS.loc[2] = [
                     "HAUTE SAISON", HS["CIBLE"][1], HS["VENTE"][1],
-                    hs1, HS["BUDGET"][1]
+                    HS["CUMUL"][1], HS["BUDGET"][1]
                 ]
         #  2 MS
         if mesure["CORSE"][i] == "Sep":
@@ -550,14 +551,14 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                 MS2.loc[2] = [
                     "MOYENNE SAISON 2", MS2["CIBLE"][0] + MS2["CIBLE"][1],
                     MS2["VENTE"][0] + MS2["VENTE"][1],
-                    ms22,
-                    round(((ms22) /
+                    MS2["CUMUL"][0] + MS2["CUMUL"][1],
+                    round(((MS2["CUMUL"][0] + MS2["CUMUL"][1]) /
                            (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100)
                 ]
             else:
                 MS2.loc[2] = [
                     "MOYENNE SAISON 2", MS2["CIBLE"][1], MS2["VENTE"][1],
-                    ms22, MS2["BUDGET"][1]
+                    MS2["CUMUL"][1], MS2["BUDGET"][1]
                 ]
         #  2 BS
         if mesure["CORSE"][i] == "Nov":
@@ -574,14 +575,14 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                 BS2.loc[2] = [
                     "BASSE SAISON 2", BS2["CIBLE"][0] + BS2["CIBLE"][1],
                     BS2["VENTE"][0] + BS2["VENTE"][1],
-                    bs22,
-                    round(((bs22) /
+                    BS2["CUMUL"][0] + BS2["CUMUL"][1],
+                    round(((BS2["CUMUL"][0] + BS2["CUMUL"][1]) /
                            (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100)
                 ]
             else:
                 BS2.loc[2] = [
                     "BASSE SAISON 2", BS2["CIBLE"][1], BS2["VENTE"][1],
-                    bs22, BS2["BUDGET"][1]
+                    BS2["CUMUL"][1], BS2["BUDGET"][1]
                 ]
     '''print("BS1", len(BS1))
     print("BS2", len(BS2))
@@ -631,7 +632,9 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                 BS1["VENTE"][len(BS1) - 1] + BS2["VENTE"][len(BS2) - 1] +
                 HS["VENTE"][len(HS) - 1] + MS1["VENTE"][len(MS1) - 1] +
                 MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":BS1["CUMUL"][len(BS1) - 1] + BS2["CUMUL"][len(BS2) - 1] +
+                HS["CUMUL"][len(HS) - 1] + MS1["CUMUL"][len(MS1) - 1] +
+                MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":""
             },
             ignore_index=True)
@@ -646,7 +649,8 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":""
             },
             ignore_index=True)
@@ -661,7 +665,8 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":""
             },
             ignore_index=True)
@@ -674,7 +679,7 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                 BS2["CIBLE"][len(BS2) - 1] + MS2["CIBLE"][len(MS2) - 1],
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":BS2["CUMUL"][len(BS2) - 1] + MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":""
             },
             ignore_index=True)
@@ -690,7 +695,8 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":BS1["CUMUL"][len(BS1) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":""
             },
             ignore_index=True)
@@ -706,7 +712,8 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":BS1["CUMUL"][len(BS1) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1],
                 "BUDGET":""
             },
             ignore_index=True)
@@ -720,7 +727,7 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                 BS1["CIBLE"][len(BS1) - 1] + MS1["CIBLE"][len(MS1) - 1],
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + MS1["VENTE"][len(MS1) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":BS1["CUMUL"][len(BS1) - 1] + MS1["CUMUL"][len(MS1) - 1],
                 "BUDGET":""
             },
             ignore_index=True)
@@ -731,7 +738,7 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                 'CORSE': 'TOUTES SAISONS ' + annee,
                 'CIBLE': BS1["CIBLE"][len(BS1) - 1],
                 'VENTE': BS1["VENTE"][len(BS1) - 1],
-                "CUMUL": cumul_j_1,
+                "CUMUL": BS1["CUMUL"][len(BS1) - 1],
                 "BUDGET": ""
             },
             ignore_index=True)
@@ -741,7 +748,7 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                 'CORSE': 'TOUTES SAISONS ' + annee,
                 'CIBLE': BS2["CIBLE"][len(BS2) - 1],
                 'VENTE': BS2["VENTE"][len(BS2) - 1],
-                "CUMUL": cumul_j_1,
+                "CUMUL": BS2["CUMUL"][len(BS2) - 1],
                 "BUDGET": ""
             },
             ignore_index=True)
@@ -1011,6 +1018,7 @@ def Stat_CSC_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                                 | df_mask.MOIS.eq(mois[10])
                                 | df_mask.MOIS.eq(mois[11])]
     print("////////////////")
+    '''
     cumul_j_1=df_mask["CUMUL-19"].sum()
     basseS1=df_mask.loc[(df_mask["MOIS"]==1) | (df_mask["MOIS"]==2) | (df_mask["MOIS"]==3)]
     bs11=basseS1["CUMUL-19"].sum()
@@ -1028,7 +1036,7 @@ def Stat_CSC_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
     bs22=basseS2["CUMUL-19"].sum()
     print(bs22)
     print(cumul_j_1)
-
+    '''
     if len(df_mask_cumul) == 0:
         return pd.DataFrame()
         print("-------------------------")
@@ -1215,9 +1223,9 @@ def Stat_CSC_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                     "BASSE SAISON 1",
                     BS1["CIBLE"][0] + BS1["CIBLE"][1] + BS1["CIBLE"][2],
                     BS1["VENTE"][0] + BS1["VENTE"][1] + BS1["VENTE"][2],
-                    bs11,
+                    BS1["CUMUL"][0] + BS1["CUMUL"][1] + BS1["CUMUL"][2],
                     round((
-                        (bs11) /
+                        (BS1["CUMUL"][0] + BS1["CUMUL"][1] + BS1["CUMUL"][2]) /
                         (mesure["BUD"][i - 2] + mesure["BUD"][i - 1] +
                          mesure["BUD"][i])) * 100),
                     round((BS1["OBJECTIF"][0] + BS1["OBJECTIF"][1] +
@@ -1229,9 +1237,9 @@ def Stat_CSC_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                     BS1.loc[3] = [
                         "BASSE SAISON 1", BS1["CIBLE"][1] + BS1["CIBLE"][2],
                         BS1["VENTE"][1] + BS1["VENTE"][2],
-                        bs11,
+                        BS1["CUMUL"][1] + BS1["CUMUL"][2],
                         round(
-                            ((bs11) /
+                            ((BS1["CUMUL"][1] + BS1["CUMUL"][2]) /
                              (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100),
                         round((BS1["OBJECTIF"][1] + BS1["OBJECTIF"][2]) / 2)
                     ]
@@ -1239,16 +1247,16 @@ def Stat_CSC_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                     BS1.loc[3] = [
                         "BASSE SAISON 1", BS1["CIBLE"][1] + BS1["CIBLE"][2],
                         BS1["VENTE"][1] + BS1["VENTE"][2],
-                        bs11,
+                        BS1["CUMUL"][1] + BS1["CUMUL"][2],
                         round(
-                            ((bs11) /
+                            ((BS1["CUMUL"][1] + BS1["CUMUL"][2]) /
                              (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100),
                         round((BS1["OBJECTIF"][1] + BS1["OBJECTIF"][2]) / 2)
                     ]
             else:
                 BS1.loc[3] = [
                     "BASSE SAISON 1", BS1["CIBLE"][2], BS1["VENTE"][2],
-                    bs11, BS1["BUDGET"][2], BS1["OBJECTIF"][2]
+                    BS1["CUMUL"][2], BS1["BUDGET"][2], BS1["OBJECTIF"][2]
                 ]
         #  1 MS
         if mesure["CORSE"][i] == "Apr":
@@ -1271,9 +1279,9 @@ def Stat_CSC_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                     "MOYENNE SAISON 1",
                     MS1["CIBLE"][0] + MS1["CIBLE"][1] + MS1["CIBLE"][2],
                     MS1["VENTE"][0] + MS1["VENTE"][1] + MS1["VENTE"][2],
-                    ms11,
+                    MS1["CUMUL"][0] + MS1["CUMUL"][1] + MS1["CUMUL"][2],
                     round((
-                        (ms11) /
+                        (MS1["CUMUL"][0] + MS1["CUMUL"][1] + MS1["CUMUL"][2]) /
                         (mesure["BUD"][i - 2] + mesure["BUD"][i - 1] +
                          mesure["BUD"][i])) * 100),
                     round((MS1["OBJECTIF"][0] + MS1["OBJECTIF"][1] +
@@ -1285,22 +1293,22 @@ def Stat_CSC_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                     MS1.loc[3] = [
                         "MOYENNE SAISON 1", MS1["CIBLE"][1] + MS1["CIBLE"][2],
                         MS1["VENTE"][1] + MS1["VENTE"][2],
-                        ms11, 0, 0
+                        MS1["CUMUL"][1] + MS1["CUMUL"][2], 0, 0
                     ]
                 else:
                     MS1.loc[3] = [
                         "MOYENNE SAISON 1", MS1["CIBLE"][1] + MS1["CIBLE"][2],
                         MS1["VENTE"][1] + MS1["VENTE"][2],
-                        ms11,
+                        MS1["CUMUL"][1] + MS1["CUMUL"][2],
                         round(
-                            ((ms11) /
+                            ((MS1["CUMUL"][1] + MS1["CUMUL"][2]) /
                              (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100),
                         round((MS1["OBJECTIF"][1] + MS1["OBJECTIF"][2]) / 2)
                     ]
             else:
                 MS1.loc[3] = [
                     "MOYENNE SAISON 1", MS1["CIBLE"][2], MS1["VENTE"][2],
-                    ms11, MS1["BUDGET"][2], MS1["OBJECTIF"][2]
+                    MS1["CUMUL"][1] + MS1["CUMUL"][2], MS1["BUDGET"][2], MS1["OBJECTIF"][2]
                 ]
         #  HS
         if mesure["CORSE"][i] == "Jul":
@@ -1319,22 +1327,22 @@ def Stat_CSC_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                     HS.loc[2] = [
                         "HAUTE SAISON", HS["CIBLE"][0] + HS["CIBLE"][1],
                         HS["VENTE"][0] + HS["VENTE"][1],
-                        hs1, 0, 0
+                        HS["CUMUL"][0] + HS["CUMUL"][1], 0, 0
                     ]
                 else:
                     HS.loc[2] = [
                         "HAUTE SAISON", HS["CIBLE"][0] + HS["CIBLE"][1],
                         HS["VENTE"][0] + HS["VENTE"][1],
-                        hs1,
+                        HS["CUMUL"][0] + HS["CUMUL"][1],
                         round(
-                            ((hs1) /
+                            ((HS["CUMUL"][0] + HS["CUMUL"][1]) /
                              (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100),
                         round((HS["OBJECTIF"][0] + HS["OBJECTIF"][1]) / 2)
                     ]
             else:
                 HS.loc[2] = [
                     "HAUTE SAISON", HS["CIBLE"][1], HS["VENTE"][1],
-                    hs1, HS["BUDGET"][1], HS["OBJECTIF"][1]
+                    HS["CUMUL"][1], HS["BUDGET"][1], HS["OBJECTIF"][1]
                 ]
         #  2 MS
         if mesure["CORSE"][i] == "Sep":
@@ -1353,22 +1361,22 @@ def Stat_CSC_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                     MS2.loc[2] = [
                         "MOYENNE SAISON 2", MS2["CIBLE"][0] + MS2["CIBLE"][1],
                         MS2["VENTE"][0] + MS2["VENTE"][1],
-                        ms22, 0, 0
+                        MS2["CUMUL"][0] + MS2["CUMUL"][1], 0, 0
                     ]
                 else:
                     MS2.loc[2] = [
                         "MOYENNE SAISON 2", MS2["CIBLE"][0] + MS2["CIBLE"][1],
                         MS2["VENTE"][0] + MS2["VENTE"][1],
-                        ms22,
+                        MS2["CUMUL"][0] + MS2["CUMUL"][1],
                         round(
-                            ((ms22) /
+                            ((MS2["CUMUL"][0] + MS2["CUMUL"][1]) /
                              (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100),
                         round((MS2["OBJECTIF"][0] + MS2["OBJECTIF"][1]) / 2)
                     ]
             else:
                 MS2.loc[2] = [
                     "MOYENNE SAISON 2", MS2["CIBLE"][1], MS2["VENTE"][1],
-                    ms22, MS2["BUDGET"][1], MS2["OBJECTIF"][1]
+                    MS2["CUMUL"][1], MS2["BUDGET"][1], MS2["OBJECTIF"][1]
                 ]
         #  2 BS
         if mesure["CORSE"][i] == "Nov":
@@ -1394,22 +1402,22 @@ def Stat_CSC_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                     BS2.loc[2] = [
                         "BASSE SAISON 2", BS2["CIBLE"][0] + BS2["CIBLE"][1],
                         BS2["VENTE"][0] + BS2["VENTE"][1],
-                        bs22, 0, 0
+                        BS2["CUMUL"][0] + BS2["CUMUL"][1], 0, 0
                     ]
                 else:
                     BS2.loc[2] = [
                         "BASSE SAISON 2", BS2["CIBLE"][0] + BS2["CIBLE"][1],
                         BS2["VENTE"][0] + BS2["VENTE"][1],
-                        bs22,
+                        BS2["CUMUL"][0] + BS2["CUMUL"][1],
                         round(
-                            ((bs22) /
+                            ((BS2["CUMUL"][0] + BS2["CUMUL"][1]) /
                              (mesure["BUD"][i - 1] + mesure["BUD"][i])) * 100),
                         round((BS2["OBJECTIF"][0] + BS2["OBJECTIF"][1]) / 2)
                     ]
             else:
                 BS2.loc[2] = [
                     "BASSE SAISON 2", BS2["CIBLE"][1], BS2["VENTE"][1],
-                    bs22, BS2["BUDGET"][1], BS2["OBJECTIF"][1]
+                    BS2["CUMUL"][1], BS2["BUDGET"][1], BS2["OBJECTIF"][1]
                 ]
     '''print("BS1", len(BS1))
     print("BS2", len(BS2))
@@ -1460,7 +1468,9 @@ def Stat_CSC_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 BS1["VENTE"][len(BS1) - 1] + BS2["VENTE"][len(BS2) - 1] +
                 HS["VENTE"][len(HS) - 1] + MS1["VENTE"][len(MS1) - 1] +
                 MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":BS1["CUMUL"][len(BS1) - 1] + BS2["CUMUL"][len(BS2) - 1] +
+                HS["CUMUL"][len(HS) - 1] + MS1["CUMUL"][len(MS1) - 1] +
+                MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":"",
                 "OBJECTIF":""
             },
@@ -1476,7 +1486,8 @@ def Stat_CSC_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":"",
                 "OBJECTIF":""
             },
@@ -1492,7 +1503,8 @@ def Stat_CSC_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":"",
                 "OBJECTIF":""
             },
@@ -1506,7 +1518,7 @@ def Stat_CSC_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 BS2["CIBLE"][len(BS2) - 1] + MS2["CIBLE"][len(MS2) - 1],
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":BS2["CUMUL"][len(BS2) - 1] + MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":"",
                 "OBJECTIF":""
             },
@@ -1523,7 +1535,8 @@ def Stat_CSC_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":BS1["CUMUL"][len(BS1) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":"",
                 "OBJECTIF":""
             },
@@ -1540,7 +1553,8 @@ def Stat_CSC_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":BS1["CUMUL"][len(BS1) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1],
                 "BUDGET":"",
                 "OBJECTIF":""
             },
@@ -1555,7 +1569,7 @@ def Stat_CSC_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 BS1["CIBLE"][len(BS1) - 1] + MS1["CIBLE"][len(MS1) - 1],
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + MS1["VENTE"][len(MS1) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":BS1["CUMUL"][len(BS1) - 1] + MS1["CUMUL"][len(MS1) - 1],
                 "BUDGET":"",
                 "OBJECTIF":""
             },
@@ -1567,7 +1581,7 @@ def Stat_CSC_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 'CORSE': 'TOUTES SAISONS ' + annee,
                 'CIBLE': BS1["CIBLE"][len(BS1) - 1],
                 'VENTE': BS1["VENTE"][len(BS1) - 1],
-                "CUMUL": cumul_j_1,
+                "CUMUL": BS1["CUMUL"][len(BS1) - 1],
                 "BUDGET": "",
                 "OBJECTIF": ""
             },
@@ -1578,7 +1592,7 @@ def Stat_CSC_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 'CORSE': 'TOUTES SAISONS ' + annee,
                 'CIBLE': BS2["CIBLE"][len(BS2) - 1],
                 'VENTE': BS2["VENTE"][len(BS2) - 1],
-                "CUMUL": cumul_j_1,
+                "CUMUL": BS2["CUMUL"][len(BS2) - 1],
                 "BUDGET": "",
                 "OBJECTIF": ""
             },
@@ -1849,6 +1863,7 @@ def Stat_CSC_plus(data_yesterday, data_today, annee, mois):
                                 | df_mask.MOIS.eq(mois[10])
                                 | df_mask.MOIS.eq(mois[11])]
     print("////////////////")
+    '''
     cumul_j_1=df_mask["CUMUL-19"].sum()
     basseS1=df_mask.loc[(df_mask["MOIS"]==1) | (df_mask["MOIS"]==2) | (df_mask["MOIS"]==3)]
     bs11=basseS1["CUMUL-19"].sum()
@@ -1866,6 +1881,7 @@ def Stat_CSC_plus(data_yesterday, data_today, annee, mois):
     bs22=basseS2["CUMUL-19"].sum()
     print(bs22)
     print(cumul_j_1)
+    '''
     print("////////////////")
     if len(df_mask_cumul) == 0:
         print("-------------------------")
@@ -2045,7 +2061,9 @@ def Stat_CSC_plus(data_yesterday, data_today, annee, mois):
                 BS1["VENTE"][len(BS1) - 1] + BS2["VENTE"][len(BS2) - 1] +
                 HS["VENTE"][len(HS) - 1] + MS1["VENTE"][len(MS1) - 1] +
                 MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":BS1["CUMUL"][len(BS1) - 1] + BS2["CUMUL"][len(BS2) - 1] +
+                HS["CUMUL"][len(HS) - 1] + MS1["CUMUL"][len(MS1) - 1] +
+                MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":"",
                 "OBJECTIF":""
             },
@@ -2059,7 +2077,8 @@ def Stat_CSC_plus(data_yesterday, data_today, annee, mois):
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":"",
                 "OBJECTIF":""
             },
@@ -2073,7 +2092,8 @@ def Stat_CSC_plus(data_yesterday, data_today, annee, mois):
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":"",
                 "OBJECTIF":""
             },
@@ -2086,7 +2106,7 @@ def Stat_CSC_plus(data_yesterday, data_today, annee, mois):
                 'CIBLE':'',
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":BS2["CUMUL"][len(BS2) - 1] + MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":"",
                 "OBJECTIF":""
             },
@@ -2101,7 +2121,7 @@ def Stat_CSC_plus(data_yesterday, data_today, annee, mois):
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":"",
                 "OBJECTIF":""
             },
@@ -2116,7 +2136,8 @@ def Stat_CSC_plus(data_yesterday, data_today, annee, mois):
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS1["VENTE"][len(MS1) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":BS1["CUMUL"][len(BS1) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1],
                 "BUDGET":"",
                 "OBJECTIF":""
             },
@@ -2130,7 +2151,7 @@ def Stat_CSC_plus(data_yesterday, data_today, annee, mois):
                 'CIBLE':'',
                 'VENTE':
                 BS1["VENTE"][len(BS1) - 1] + MS1["VENTE"][len(MS1) - 1],
-                "CUMUL":cumul_j_1,
+                "CUMUL":BS1["CUMUL"][len(BS1) - 1] + MS1["CUMUL"][len(MS1) - 1],
                 "BUDGET":"",
                 "OBJECTIF":""
             },
@@ -2142,7 +2163,7 @@ def Stat_CSC_plus(data_yesterday, data_today, annee, mois):
                 'CORSE': 'TOUTES SAISONS ' + annee,
                 'CIBLE': '',
                 'VENTE': BS1["VENTE"][len(BS1) - 1],
-                "CUMUL": cumul_j_1,
+                "CUMUL": BS1["CUMUL"][len(BS1) - 1],
                 "BUDGET": "",
                 "OBJECTIF": ""
             },
@@ -2153,7 +2174,7 @@ def Stat_CSC_plus(data_yesterday, data_today, annee, mois):
                 'CORSE': 'TOUTES SAISONS ' + annee,
                 'CIBLE': '',
                 'VENTE': BS2["VENTE"][len(BS2) - 1],
-                "CUMUL": cumul_j_1,
+                "CUMUL": BS2["CUMUL"][len(BS2) - 1],
                 "BUDGET": "",
                 "OBJECTIF": ""
             },
