@@ -291,28 +291,6 @@ def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
                                 | df_mask.MOIS.eq(mois[10])
                                 | df_mask.MOIS.eq(mois[11])]
     print("////////////////")
-    '''
-    cumul_j_1 = df_mask["CUMUL-19"].sum()
-    basseS1 = df_mask.loc[(df_mask["MOIS"] == 1) | (df_mask["MOIS"] == 2) |
-                          (df_mask["MOIS"] == 3)]
-    bs11 = basseS1["CUMUL-19"].sum()
-    print(bs11)
-    moyS1 = df_mask.loc[(df_mask["MOIS"] == 4) | (df_mask["MOIS"] == 5) |
-                        (df_mask["MOIS"] == 6)]
-    ms11 = moyS1["CUMUL-19"].sum()
-    print(ms11)
-    hauteS = df_mask.loc[(df_mask["MOIS"] == 7) | (df_mask["MOIS"] == 8)]
-    hs1 = hauteS["CUMUL-19"].sum()
-    print(hs1)
-    moyS2 = df_mask.loc[(df_mask["MOIS"] == 9) | (df_mask["MOIS"] == 10)]
-    ms22 = moyS2["CUMUL-19"].sum()
-    print(ms22)
-    basseS2 = df_mask.loc[(df_mask["MOIS"] == 11) | (df_mask["MOIS"] == 12)]
-    bs22 = basseS2["CUMUL-19"].sum()
-    print(bs22)
-    print(cumul_j_1)
-    '''
-    print("////////////////")
     if len(df_mask_cumul) == 0:
         return pd.DataFrame()
     print("-------------------------")
@@ -596,177 +574,568 @@ def Stat_TUN(data_yesterday, data_today, annee, mois, cible, budget):
     HS.reset_index(inplace=True)
     BS1.reset_index(inplace=True)
     BS2.reset_index(inplace=True)
-    if len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
-            MS2) != 0 and len(BS2) != 0:
-        reporting = pd.concat([BS1, MS1, HS, MS2, BS2])
-    elif len(MS1) != 0 and len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
-        reporting = pd.concat([MS1, HS, MS2, BS2])
-    elif len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
-        reporting = pd.concat([HS, MS2, BS2])
-    elif len(MS2) != 0 and len(BS2) != 0:
-        reporting = pd.concat([MS2, BS2])
-    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
-            MS2) != 0 and len(BS2) == 0:
-        reporting = pd.concat([BS1, MS1, HS, MS2])
-    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
-            MS2) == 0 and len(BS2) == 0:
-        reporting = pd.concat([BS1, MS1, HS])
-    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) == 0 and len(
-            MS2) == 0 and len(BS2) == 0:
-        reporting = pd.concat([BS1, MS1])
-    elif len(BS1) != 0 and len(MS1) == 0 and len(HS) == 0 and len(
-            MS2) == 0 and len(BS2) == 0:
-        reporting = BS1
-    else:
-        reporting = BS2
+    if len(BS1)==0:
+       if(len(MS1))==0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = BS2
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([MS2, BS2])
+                    else:
+                        reporting = MS2
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([HS, BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([HS, MS2, BS2])
+                    else:
+                        reporting = pd.concat([HS, MS2])
+       if(len(MS1))!=0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([MS1,BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([MS1, MS2, BS2])
+                    else:
+                        reporting = pd.concat([MS1,MS2])
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([MS1,HS, BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([MS1,HS, MS2, BS2])
+                    else:
+                        reporting = pd.concat([MS1,HS, MS2])
+    elif len(BS1)!=0:
+       if(len(MS1))==0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,MS2, BS2])
+                    else:
+                        reporting = pd.concat([BS1,MS2])
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,HS, BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,HS, MS2, BS2])
+                    else:
+                        reporting = pd.concat([BS1,HS, MS2])
+       if(len(MS1))!=0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,MS1,BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,MS1, MS2, BS2])
+                    else:
+                        reporting = pd.concat([BS1,MS1,MS2])
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,MS1,HS, BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,MS1,HS, MS2, BS2])
+                    else:
+                        reporting = pd.concat([BS1,MS1,HS, MS2])
+    
     #print("reporting", reporting)
     reporting.reset_index(inplace=True)
-    if len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
-            MS2) != 0 and len(BS2) != 0:
-        reporting = reporting.append(
+    if len(BS1)==0:
+       if(len(MS1))==0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
             {
-                'TUNISIE':
+                'CORSE':
                 'TOUTES SAISONS ' + annee,
                 'CIBLE':
-                BS1["CIBLE"][len(BS1) - 1] + BS2["CIBLE"][len(BS2) - 1] +
-                HS["CIBLE"][len(HS) - 1] + MS1["CIBLE"][len(MS1) - 1] +
-                MS2["CIBLE"][len(MS2) - 1],
+                BS2["CIBLE"][len(BS2) - 1],
                 'VENTE':
-                BS1["VENTE"][len(BS1) - 1] + BS2["VENTE"][len(BS2) - 1] +
-                HS["VENTE"][len(HS) - 1] + MS1["VENTE"][len(MS1) - 1] +
-                MS2["VENTE"][len(MS2) - 1],
+                BS2["VENTE"][len(BS2) - 1],
                 "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] + BS2["CUMUL"][len(BS2) - 1] +
-                HS["CUMUL"][len(HS) - 1] + MS1["CUMUL"][len(MS1) - 1] +
-                MS2["CUMUL"][len(MS2) - 1],
+                BS2["CUMUL"][len(BS2) - 1],
                 "BUDGET":
+                "",
+                "OBJECTIF":
                 ""
             },
             ignore_index=True)
-    elif len(MS1) != 0 and len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
-        reporting = reporting.append(
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting = reporting.append(
             {
-                'TUNISIE':
+                'CORSE':
                 'TOUTES SAISONS ' + annee,
-                'CIBLE':
-                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
-                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1],
-                'VENTE':
-                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
-                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":
-                BS2["CUMUL"][len(BS2) - 1] +
-                HS["CUMUL"][len(HS) - 1] + MS1["CUMUL"][len(MS1) - 1] +
-                MS2["CUMUL"][len(MS2) - 1],
-                "BUDGET":
-                ""
-            },
-            ignore_index=True)
-    elif len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
-        reporting = reporting.append(
-            {
-                'TUNISIE':
-                'TOUTES SAISONS ' + annee,
-                'CIBLE':
-                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
-                MS2["CIBLE"][len(MS2) - 1],
-                'VENTE':
-                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
-                MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":
-                BS2["CUMUL"][len(BS2) - 1] +
-                HS["CUMUL"][len(HS) - 1] + MS1["CUMUL"][len(MS1) - 1] +
-                MS2["CUMUL"][len(MS2) - 1],
-                "BUDGET":
-                ""
-            },
-            ignore_index=True)
-    elif len(MS2) != 0 and len(BS2) != 0:
-        reporting = reporting.append(
-            {
-                'TUNISIE': 'TOUTES SAISONS ' + annee,
                 'CIBLE':
                 BS2["CIBLE"][len(BS2) - 1] + MS2["CIBLE"][len(MS2) - 1],
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL": BS2["CUMUL"][len(BS2) - 1] +
-                MS2["CUMUL"][len(MS2) - 1],
-                "BUDGET": ""
-            },
-            ignore_index=True)
-    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
-            MS2) != 0 and len(BS2) == 0:
-        reporting = reporting.append(
-            {
-                'TUNISIE':
-                'TOUTES SAISONS ' + annee,
-                'CIBLE':
-                BS1["CIBLE"][len(BS1) - 1] + HS["CIBLE"][len(HS) - 1] +
-                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1],
-                'VENTE':
-                BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
-                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
                 "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] +
-                HS["CUMUL"][len(HS) - 1] + MS1["CUMUL"][len(MS1) - 1] +
-                MS2["CUMUL"][len(MS2) - 1],
+                BS2["CUMUL"][len(BS2) - 1] + MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":
+                "",
+                "OBJECTIF":
                 ""
             },
             ignore_index=True)
-    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
-            MS2) == 0 and len(BS2) == 0:
-        reporting = reporting.append(
+                    else:
+                        reporting = reporting.append(
             {
-                'TUNISIE':
+                'CORSE':
                 'TOUTES SAISONS ' + annee,
                 'CIBLE':
-                BS1["CIBLE"][len(BS1) - 1] + HS["CIBLE"][len(HS) - 1] +
+                MS2["CIBLE"][len(MS2) - 1],
+                'VENTE':
+                MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                MS2["CUMUL"][len(MS2) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
+                MS2["CIBLE"][len(MS2) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
+                MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS2["CUMUL"][len(MS2) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                    else:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                HS["CIBLE"][len(HS) - 1] +
+                MS2["CIBLE"][len(MS2) - 1],
+                'VENTE':
+                HS["VENTE"][len(HS) - 1] +
+                MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                HS["CUMUL"][len(HS) - 1] +
+                MS2["CUMUL"][len(MS2) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+       if(len(MS1))!=0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1]+
                 MS1["CIBLE"][len(MS1) - 1],
                 'VENTE':
-                BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
+                BS2["VENTE"][len(BS2) - 1] +
                 MS1["VENTE"][len(MS1) - 1],
                 "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] +
-                HS["CUMUL"][len(HS) - 1] + MS1["CUMUL"][len(MS1) - 1],
+                BS2["CUMUL"][len(BS2) - 1]+
+                MS1["CUMUL"][len(MS1) - 1],
                 "BUDGET":
+                "",
+                "OBJECTIF":
                 ""
             },
             ignore_index=True)
-    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) == 0 and len(
-            MS2) == 0 and len(BS2) == 0:
-        reporting = reporting.append(
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
             {
-                'TUNISIE': 'TOUTES SAISONS ' + annee,
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
                 'CIBLE':
-                BS1["CIBLE"][len(BS1) - 1] + MS1["CIBLE"][len(MS1) - 1],
+                BS2["CIBLE"][len(BS2) - 1]+
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1],
                 'VENTE':
-                BS1["VENTE"][len(BS1) - 1] + MS1["VENTE"][len(MS1) - 1],
-                "CUMUL": BS1["CUMUL"][len(BS1) - 1] + MS1["CUMUL"][len(MS1) - 1],
-                "BUDGET": ""
+                BS2["VENTE"][len(BS2) - 1]+
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1]+
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
             },
             ignore_index=True)
-    elif len(BS1) != 0 and len(MS1) == 0 and len(HS) == 0 and len(
-            MS2) == 0 and len(BS2) == 0:
-        reporting = reporting.append(
+                    else:
+                       reporting = reporting.append(
             {
-                'TUNISIE': 'TOUTES SAISONS ' + annee,
-                'CIBLE': BS1["CIBLE"][len(BS1) - 1],
-                'VENTE': BS1["VENTE"][len(BS1) - 1],
-                "CUMUL": BS1["CUMUL"][len(BS1) - 1],
-                "BUDGET": ""
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1],
+                'VENTE':
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
             },
             ignore_index=True)
-    else:
-        reporting = reporting.append(
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
             {
-                'TUNISIE': 'TOUTES SAISONS ' + annee,
-                'CIBLE': BS2["CIBLE"][len(BS2) - 1],
-                'VENTE': BS2["VENTE"][len(BS2) - 1],
-                "CUMUL": BS2["CUMUL"][len(BS2) - 1],
-                "BUDGET": ""
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
+                MS1["CIBLE"][len(MS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
             },
             ignore_index=True)
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                    else:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                HS["CIBLE"][len(HS) - 1] +
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1],
+                'VENTE':
+                HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+    elif len(BS1)!=0:
+       if(len(MS1))==0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                    else:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
+                MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
+                MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                    else:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                HS["CIBLE"][len(HS) - 1] +
+                MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                HS["VENTE"][len(HS) - 1] +
+                MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                HS["CUMUL"][len(HS) - 1] +
+                MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+       if(len(MS1))!=0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1]+
+                MS1["CIBLE"][len(MS1) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] +
+                MS1["VENTE"][len(MS1) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1]+
+                MS1["CUMUL"][len(MS1) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1]+
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1]+
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1]+
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                    else:
+                       reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
+                MS1["CIBLE"][len(MS1) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                    else:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                HS["CIBLE"][len(HS) - 1] +
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+
 
     del reporting['index']
 
@@ -1041,28 +1410,6 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                                 | df_mask.MOIS.eq(mois[9])
                                 | df_mask.MOIS.eq(mois[10])
                                 | df_mask.MOIS.eq(mois[11])]
-    print("////////////////")
-    '''
-    cumul_j_1 = df_mask["CUMUL-19"].sum()
-    basseS1 = df_mask.loc[(df_mask["MOIS"] == 1) | (df_mask["MOIS"] == 2) |
-                          (df_mask["MOIS"] == 3)]
-    bs11 = basseS1["CUMUL-19"].sum()
-    print(bs11)
-    moyS1 = df_mask.loc[(df_mask["MOIS"] == 4) | (df_mask["MOIS"] == 5) |
-                        (df_mask["MOIS"] == 6)]
-    ms11 = moyS1["CUMUL-19"].sum()
-    print(ms11)
-    hauteS = df_mask.loc[(df_mask["MOIS"] == 7) | (df_mask["MOIS"] == 8)]
-    hs1 = hauteS["CUMUL-19"].sum()
-    print(hs1)
-    moyS2 = df_mask.loc[(df_mask["MOIS"] == 9) | (df_mask["MOIS"] == 10)]
-    ms22 = moyS2["CUMUL-19"].sum()
-    print(ms22)
-    basseS2 = df_mask.loc[(df_mask["MOIS"] == 11) | (df_mask["MOIS"] == 12)]
-    bs22 = basseS2["CUMUL-19"].sum()
-    print(bs22)
-    print(cumul_j_1)
-    '''
     print("////////////////")
     if len(df_mask_cumul) == 0:
         return pd.DataFrame()
@@ -1456,48 +1803,136 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
     HS.reset_index(inplace=True)
     BS1.reset_index(inplace=True)
     BS2.reset_index(inplace=True)
-    if len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
-            MS2) != 0 and len(BS2) != 0:
-        reporting = pd.concat([BS1, MS1, HS, MS2, BS2])
-    elif len(MS1) != 0 and len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
-        reporting = pd.concat([MS1, HS, MS2, BS2])
-    elif len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
-        reporting = pd.concat([HS, MS2, BS2])
-    elif len(MS2) != 0 and len(BS2) != 0:
-        reporting = pd.concat([MS2, BS2])
-    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
-            MS2) != 0 and len(BS2) == 0:
-        reporting = pd.concat([BS1, MS1, HS, MS2])
-    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
-            MS2) == 0 and len(BS2) == 0:
-        reporting = pd.concat([BS1, MS1, HS])
-    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) == 0 and len(
-            MS2) == 0 and len(BS2) == 0:
-        reporting = pd.concat([BS1, MS1])
-    elif len(BS1) != 0 and len(MS1) == 0 and len(HS) == 0 and len(
-            MS2) == 0 and len(BS2) == 0:
-        reporting = BS1
-    else:
-        reporting = BS2
+    if len(BS1)==0:
+       if(len(MS1))==0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = BS2
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([MS2, BS2])
+                    else:
+                        reporting = MS2
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([HS, BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([HS, MS2, BS2])
+                    else:
+                        reporting = pd.concat([HS, MS2])
+       if(len(MS1))!=0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([MS1,BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([MS1, MS2, BS2])
+                    else:
+                        reporting = pd.concat([MS1,MS2])
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([MS1,HS, BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([MS1,HS, MS2, BS2])
+                    else:
+                        reporting = pd.concat([MS1,HS, MS2])
+    elif len(BS1)!=0:
+       if(len(MS1))==0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,MS2, BS2])
+                    else:
+                        reporting = pd.concat([BS1,MS2])
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,HS, BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,HS, MS2, BS2])
+                    else:
+                        reporting = pd.concat([BS1,HS, MS2])
+       if(len(MS1))!=0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,MS1,BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,MS1, MS2, BS2])
+                    else:
+                        reporting = pd.concat([BS1,MS1,MS2])
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,MS1,HS, BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,MS1,HS, MS2, BS2])
+                    else:
+                        reporting = pd.concat([BS1,MS1,HS, MS2])
+    
     #print("reporting", reporting)
     reporting.reset_index(inplace=True)
-    if len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
-            MS2) != 0 and len(BS2) != 0:
-        reporting = reporting.append(
+    if len(BS1)==0:
+       if(len(MS1))==0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
             {
-                'TUNISIE':
+                'CORSE':
                 'TOUTES SAISONS ' + annee,
                 'CIBLE':
-                BS1["CIBLE"][len(BS1) - 1] + BS2["CIBLE"][len(BS2) - 1] +
-                HS["CIBLE"][len(HS) - 1] + MS1["CIBLE"][len(MS1) - 1] +
+                BS2["CIBLE"][len(BS2) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + MS2["CIBLE"][len(MS2) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + MS2["CUMUL"][len(MS2) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                    else:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
                 MS2["CIBLE"][len(MS2) - 1],
                 'VENTE':
-                BS1["VENTE"][len(BS1) - 1] + BS2["VENTE"][len(BS2) - 1] +
-                HS["VENTE"][len(HS) - 1] + MS1["VENTE"][len(MS1) - 1] +
                 MS2["VENTE"][len(MS2) - 1],
                 "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] + BS2["CUMUL"][len(BS2) - 1] +
-                HS["CUMUL"][len(HS) - 1] + MS1["CUMUL"][len(MS1) - 1] +
                 MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":
                 "",
@@ -1505,31 +1940,30 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 ""
             },
             ignore_index=True)
-    elif len(MS1) != 0 and len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
-        reporting = reporting.append(
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
             {
-                'TUNISIE':
+                'CORSE':
                 'TOUTES SAISONS ' + annee,
                 'CIBLE':
-                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
-                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1],
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1],
                 'VENTE':
-                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
-                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1],
                 "CUMUL":
-                BS2["CUMUL"][len(BS2) - 1] +
-                HS["CUMUL"][len(HS) - 1] + MS1["CUMUL"][len(MS1) - 1] +
-                MS2["CUMUL"][len(MS2) - 1],
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1],
                 "BUDGET":
                 "",
                 "OBJECTIF":
                 ""
             },
             ignore_index=True)
-    elif len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
-        reporting = reporting.append(
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
             {
-                'TUNISIE':
+                'CORSE':
                 'TOUTES SAISONS ' + annee,
                 'CIBLE':
                 BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
@@ -1538,7 +1972,26 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
                 MS2["VENTE"][len(MS2) - 1],
                 "CUMUL":
-                BS2["CUMUL"][len(BS2) - 1] +
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS2["CUMUL"][len(MS2) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                    else:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                HS["CIBLE"][len(HS) - 1] +
+                MS2["CIBLE"][len(MS2) - 1],
+                'VENTE':
+                HS["VENTE"][len(HS) - 1] +
+                MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
                 HS["CUMUL"][len(HS) - 1] +
                 MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":
@@ -1547,98 +2000,368 @@ def Stat_TUN_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                 ""
             },
             ignore_index=True)
-    elif len(MS2) != 0 and len(BS2) != 0:
-        reporting = reporting.append(
+       if(len(MS1))!=0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
             {
-                'TUNISIE': 'TOUTES SAISONS ' + annee,
-                'CIBLE':
-                BS2["CIBLE"][len(BS2) - 1] + MS2["CIBLE"][len(MS2) - 1],
-                'VENTE':
-                BS2["VENTE"][len(BS2) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL": BS2["CUMUL"][len(BS2) - 1] +
-                MS2["CUMUL"][len(MS2) - 1],
-                "BUDGET": "",
-                "OBJECTIF": ""
-            },
-            ignore_index=True)
-    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
-            MS2) != 0 and len(BS2) == 0:
-        reporting = reporting.append(
-            {
-                'TUNISIE':
+                'CORSE':
                 'TOUTES SAISONS ' + annee,
                 'CIBLE':
-                BS1["CIBLE"][len(BS1) - 1] + HS["CIBLE"][len(HS) - 1] +
-                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1],
-                'VENTE':
-                BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
-                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] +
-                HS["CUMUL"][len(HS) - 1] + MS1["CUMUL"][len(MS1) - 1] +
-                MS2["CUMUL"][len(MS2) - 1],
-                "BUDGET":
-                "",
-                "OBJECTIF":
-                ""
-            },
-            ignore_index=True)
-    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
-            MS2) == 0 and len(BS2) == 0:
-        reporting = reporting.append(
-            {
-                'TUNISIE':
-                'TOUTES SAISONS ' + annee,
-                'CIBLE':
-                BS1["CIBLE"][len(BS1) - 1] + HS["CIBLE"][len(HS) - 1] +
+                BS2["CIBLE"][len(BS2) - 1]+
                 MS1["CIBLE"][len(MS1) - 1],
                 'VENTE':
-                BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
+                BS2["VENTE"][len(BS2) - 1] +
                 MS1["VENTE"][len(MS1) - 1],
                 "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] +
-                HS["CUMUL"][len(HS) - 1] + MS1["CUMUL"][len(MS1) - 1],
+                BS2["CUMUL"][len(BS2) - 1]+
+                MS1["CUMUL"][len(MS1) - 1],
                 "BUDGET":
                 "",
                 "OBJECTIF":
                 ""
             },
             ignore_index=True)
-    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) == 0 and len(
-            MS2) == 0 and len(BS2) == 0:
-        reporting = reporting.append(
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
             {
-                'TUNISIE': 'TOUTES SAISONS ' + annee,
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
                 'CIBLE':
-                BS1["CIBLE"][len(BS1) - 1] + MS1["CIBLE"][len(MS1) - 1],
+                BS2["CIBLE"][len(BS2) - 1]+
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1],
                 'VENTE':
-                BS1["VENTE"][len(BS1) - 1] + MS1["VENTE"][len(MS1) - 1],
-                "CUMUL": BS1["CUMUL"][len(BS1) - 1] + MS1["CUMUL"][len(MS1) - 1],
-                "BUDGET": "",
-                "OBJECTIF": ""
+                BS2["VENTE"][len(BS2) - 1]+
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1]+
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
             },
             ignore_index=True)
-    elif len(BS1) != 0 and len(MS1) == 0 and len(HS) == 0 and len(
-            MS2) == 0 and len(BS2) == 0:
-        reporting = reporting.append(
+                    else:
+                       reporting = reporting.append(
             {
-                'TUNISIE': 'TOUTES SAISONS ' + annee,
-                'CIBLE': BS1["CIBLE"][len(BS1) - 1],
-                'VENTE': BS1["VENTE"][len(BS1) - 1],
-                "CUMUL": BS1["CUMUL"][len(BS1) - 1],
-                "BUDGET": "",
-                "OBJECTIF": ""
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1],
+                'VENTE':
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
             },
             ignore_index=True)
-    else:
-        reporting = reporting.append(
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
             {
-                'TUNISIE': 'TOUTES SAISONS ' + annee,
-                'CIBLE': BS2["CIBLE"][len(BS2) - 1],
-                'VENTE': BS2["VENTE"][len(BS2) - 1],
-                "CUMUL": BS2["CUMUL"][len(BS2) - 1],
-                "BUDGET": "",
-                "OBJECTIF": ""
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
+                MS1["CIBLE"][len(MS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                    else:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                HS["CIBLE"][len(HS) - 1] +
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1],
+                'VENTE':
+                HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+    elif len(BS1)!=0:
+       if(len(MS1))==0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                    else:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
+                MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
+                MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                    else:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                HS["CIBLE"][len(HS) - 1] +
+                MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                HS["VENTE"][len(HS) - 1] +
+                MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                HS["CUMUL"][len(HS) - 1] +
+                MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+       if(len(MS1))!=0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1]+
+                MS1["CIBLE"][len(MS1) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] +
+                MS1["VENTE"][len(MS1) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1]+
+                MS1["CUMUL"][len(MS1) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1]+
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1]+
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1]+
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                    else:
+                       reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
+                MS1["CIBLE"][len(MS1) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                    else:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                HS["CIBLE"][len(HS) - 1] +
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
             },
             ignore_index=True)
 
@@ -1914,28 +2637,6 @@ def Stat_TUN_plus(data_yesterday, data_today, annee, mois):
                                 | df_mask.MOIS.eq(mois[10])
                                 | df_mask.MOIS.eq(mois[11])]
     print("////////////////")
-    '''
-    cumul_j_1 = df_mask["CUMUL-19"].sum()
-    basseS1 = df_mask.loc[(df_mask["MOIS"] == 1) | (df_mask["MOIS"] == 2) |
-                          (df_mask["MOIS"] == 3)]
-    bs11 = basseS1["CUMUL-19"].sum()
-    print(bs11)
-    moyS1 = df_mask.loc[(df_mask["MOIS"] == 4) | (df_mask["MOIS"] == 5) |
-                        (df_mask["MOIS"] == 6)]
-    ms11 = moyS1["CUMUL-19"].sum()
-    print(ms11)
-    hauteS = df_mask.loc[(df_mask["MOIS"] == 7) | (df_mask["MOIS"] == 8)]
-    hs1 = hauteS["CUMUL-19"].sum()
-    print(hs1)
-    moyS2 = df_mask.loc[(df_mask["MOIS"] == 9) | (df_mask["MOIS"] == 10)]
-    ms22 = moyS2["CUMUL-19"].sum()
-    print(ms22)
-    basseS2 = df_mask.loc[(df_mask["MOIS"] == 11) | (df_mask["MOIS"] == 12)]
-    bs22 = basseS2["CUMUL-19"].sum()
-    print(bs22)
-    print(cumul_j_1)
-    '''
-    print("////////////////")
     if len(df_mask_cumul) == 0:
         print("-------------------------")
         return pd.DataFrame()
@@ -2082,47 +2783,137 @@ def Stat_TUN_plus(data_yesterday, data_today, annee, mois):
     #print(HS)
     #print(BS1)
     #print(BS2)
-    if len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
-            MS2) != 0 and len(BS2) != 0:
-        reporting = pd.concat([BS1, MS1, HS, MS2, BS2])
-    elif len(MS1) != 0 and len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
-        reporting = pd.concat([MS1, HS, MS2, BS2])
-    elif len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
-        reporting = pd.concat([HS, MS2, BS2])
-    elif len(MS2) != 0 and len(BS2) != 0:
-        reporting = pd.concat([MS2, BS2])
-    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
-            MS2) != 0 and len(BS2) == 0:
-        reporting = pd.concat([BS1, MS1, HS, MS2])
-    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
-            MS2) == 0 and len(BS2) == 0:
-        reporting = pd.concat([BS1, MS1, HS])
-    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) == 0 and len(
-            MS2) == 0 and len(BS2) == 0:
-        reporting = pd.concat([BS1, MS1])
-    elif len(BS1) != 0 and len(MS1) == 0 and len(HS) == 0 and len(
-            MS2) == 0 and len(BS2) == 0:
-        reporting = BS1
-    else:
-        reporting = BS2
+    if len(BS1)==0:
+       if(len(MS1))==0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = BS2
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([MS2, BS2])
+                    else:
+                        reporting = MS2
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([HS, BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([HS, MS2, BS2])
+                    else:
+                        reporting = pd.concat([HS, MS2])
+       if(len(MS1))!=0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([MS1,BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([MS1, MS2, BS2])
+                    else:
+                        reporting = pd.concat([MS1,MS2])
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([MS1,HS, BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([MS1,HS, MS2, BS2])
+                    else:
+                        reporting = pd.concat([MS1,HS, MS2])
+    elif len(BS1)!=0:
+       if(len(MS1))==0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,MS2, BS2])
+                    else:
+                        reporting = pd.concat([BS1,MS2])
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,HS, BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,HS, MS2, BS2])
+                    else:
+                        reporting = pd.concat([BS1,HS, MS2])
+       if(len(MS1))!=0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,MS1,BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,MS1, MS2, BS2])
+                    else:
+                        reporting = pd.concat([BS1,MS1,MS2])
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,MS1,HS, BS2])
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = pd.concat([BS1,MS1,HS, MS2, BS2])
+                    else:
+                        reporting = pd.concat([BS1,MS1,HS, MS2])
+    
 
     #print("reporting", reporting)
     reporting.reset_index(inplace=True)
-    if len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
-            MS2) != 0 and len(BS2) != 0:
-        reporting = reporting.append(
+    if len(BS1)==0:
+       if(len(MS1))==0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
             {
-                'TUNISIE':
+                'CORSE':
                 'TOUTES SAISONS ' + annee,
                 'CIBLE':
-                '',
+                BS2["CIBLE"][len(BS2) - 1],
                 'VENTE':
-                BS1["VENTE"][len(BS1) - 1] + BS2["VENTE"][len(BS2) - 1] +
-                HS["VENTE"][len(HS) - 1] + MS1["VENTE"][len(MS1) - 1] +
+                BS2["VENTE"][len(BS2) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + MS2["CIBLE"][len(MS2) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + MS2["CUMUL"][len(MS2) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                    else:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                MS2["CIBLE"][len(MS2) - 1],
+                'VENTE':
                 MS2["VENTE"][len(MS2) - 1],
                 "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] + BS2["CUMUL"][len(BS2) - 1] +
-                HS["CUMUL"][len(HS) - 1] + MS1["CUMUL"][len(MS1) - 1] +
                 MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":
                 "",
@@ -2130,19 +2921,39 @@ def Stat_TUN_plus(data_yesterday, data_today, annee, mois):
                 ""
             },
             ignore_index=True)
-    elif len(MS1) != 0 and len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
-        reporting = reporting.append(
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
             {
-                'TUNISIE':
+                'CORSE':
                 'TOUTES SAISONS ' + annee,
                 'CIBLE':
-                '',
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
+                MS2["CIBLE"][len(MS2) - 1],
                 'VENTE':
                 BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
-                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
+                MS2["VENTE"][len(MS2) - 1],
                 "CUMUL":
-                BS2["CUMUL"][len(BS2) - 1] +
-                HS["CUMUL"][len(HS) - 1] + MS1["CUMUL"][len(MS1) - 1] +
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
                 MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":
                 "",
@@ -2150,18 +2961,18 @@ def Stat_TUN_plus(data_yesterday, data_today, annee, mois):
                 ""
             },
             ignore_index=True)
-    elif len(HS) != 0 and len(MS2) != 0 and len(BS2) != 0:
-        reporting = reporting.append(
+                    else:
+                        reporting = reporting.append(
             {
-                'TUNISIE':
+                'CORSE':
                 'TOUTES SAISONS ' + annee,
                 'CIBLE':
-                '',
+                HS["CIBLE"][len(HS) - 1] +
+                MS2["CIBLE"][len(MS2) - 1],
                 'VENTE':
-                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
+                HS["VENTE"][len(HS) - 1] +
                 MS2["VENTE"][len(MS2) - 1],
                 "CUMUL":
-                BS2["CUMUL"][len(BS2) - 1] +
                 HS["CUMUL"][len(HS) - 1] +
                 MS2["CUMUL"][len(MS2) - 1],
                 "BUDGET":
@@ -2170,96 +2981,371 @@ def Stat_TUN_plus(data_yesterday, data_today, annee, mois):
                 ""
             },
             ignore_index=True)
-    elif len(MS2) != 0 and len(BS2) != 0:
-        reporting = reporting.append(
+       if(len(MS1))!=0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
             {
-                'TUNISIE': 'TOUTES SAISONS ' + annee,
-                'CIBLE': '',
-                'VENTE':
-                BS2["VENTE"][len(BS2) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL": BS2["CUMUL"][len(BS2) - 1] +
-                MS2["CUMUL"][len(MS2) - 1],
-                "BUDGET": "",
-                "OBJECTIF": ""
-            },
-            ignore_index=True)
-    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
-            MS2) != 0 and len(BS2) == 0:
-        reporting = reporting.append(
-            {
-                'TUNISIE':
+                'CORSE':
                 'TOUTES SAISONS ' + annee,
                 'CIBLE':
-                '',
+                BS2["CIBLE"][len(BS2) - 1]+
+                MS1["CIBLE"][len(MS1) - 1],
                 'VENTE':
-                BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
-                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
-                "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] +
-                HS["CUMUL"][len(HS) - 1] + MS1["CUMUL"][len(MS1) - 1] +
-                MS2["CUMUL"][len(MS2) - 1],
-                "BUDGET":
-                "",
-                "OBJECTIF":
-                ""
-            },
-            ignore_index=True)
-    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) != 0 and len(
-            MS2) == 0 and len(BS2) == 0:
-        reporting = reporting.append(
-            {
-                'TUNISIE':
-                'TOUTES SAISONS ' + annee,
-                'CIBLE':
-                '',
-                'VENTE':
-                BS1["VENTE"][len(BS1) - 1] + HS["VENTE"][len(HS) - 1] +
+                BS2["VENTE"][len(BS2) - 1] +
                 MS1["VENTE"][len(MS1) - 1],
                 "CUMUL":
-                BS1["CUMUL"][len(BS1) - 1] +
-                HS["CUMUL"][len(HS) - 1] + MS1["CUMUL"][len(MS1) - 1],
+                BS2["CUMUL"][len(BS2) - 1]+
+                MS1["CUMUL"][len(MS1) - 1],
                 "BUDGET":
                 "",
                 "OBJECTIF":
                 ""
             },
             ignore_index=True)
-    elif len(BS1) != 0 and len(MS1) != 0 and len(HS) == 0 and len(
-            MS2) == 0 and len(BS2) == 0:
-        reporting = reporting.append(
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
             {
-                'TUNISIE': 'TOUTES SAISONS ' + annee,
-                'CIBLE': '',
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1]+
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1],
                 'VENTE':
-                BS1["VENTE"][len(BS1) - 1] + MS1["VENTE"][len(MS1) - 1],
-                "CUMUL": BS1["CUMUL"][len(BS1) - 1] + MS1["CUMUL"][len(MS1) - 1],
-                "BUDGET": "",
-                "OBJECTIF": ""
+                BS2["VENTE"][len(BS2) - 1]+
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1]+
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
             },
             ignore_index=True)
-    elif len(BS1) != 0 and len(MS1) == 0 and len(HS) == 0 and len(
-            MS2) == 0 and len(BS2) == 0:
-        reporting = reporting.append(
+                    else:
+                       reporting = reporting.append(
             {
-                'TUNISIE': 'TOUTES SAISONS ' + annee,
-                'CIBLE': '',
-                'VENTE': BS1["VENTE"][len(BS1) - 1],
-                "CUMUL": BS1["CUMUL"][len(BS1) - 1],
-                "BUDGET": "",
-                "OBJECTIF": ""
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1],
+                'VENTE':
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
             },
             ignore_index=True)
-    else:
-        reporting = reporting.append(
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
             {
-                'TUNISIE': 'TOUTES SAISONS ' + annee,
-                'CIBLE': '',
-                'VENTE': BS2["VENTE"][len(BS2) - 1],
-                "CUMUL": BS2["CUMUL"][len(BS2) - 1],
-                "BUDGET": "",
-                "OBJECTIF": ""
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
+                MS1["CIBLE"][len(MS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
             },
             ignore_index=True)
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                    else:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                HS["CIBLE"][len(HS) - 1] +
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1],
+                'VENTE':
+                HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1],
+                "CUMUL":
+                HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+    elif len(BS1)!=0:
+       if(len(MS1))==0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                    else:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
+                MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
+                MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                    else:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                HS["CIBLE"][len(HS) - 1] +
+                MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                HS["VENTE"][len(HS) - 1] +
+                MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                HS["CUMUL"][len(HS) - 1] +
+                MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+       if(len(MS1))!=0:
+            if(len(HS))==0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1]+
+                MS1["CIBLE"][len(MS1) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] +
+                MS1["VENTE"][len(MS1) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1]+
+                MS1["CUMUL"][len(MS1) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1]+
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1]+
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1]+
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                    else:
+                       reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+            elif(len(HS))!=0:
+                if(len(MS2))==0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
+                MS1["CIBLE"][len(MS1) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                elif(len(MS2))!=0:
+                    if(len(BS2))!=0:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                BS2["CIBLE"][len(BS2) - 1] + HS["CIBLE"][len(HS) - 1] +
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                BS2["VENTE"][len(BS2) - 1] + HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                BS2["CUMUL"][len(BS2) - 1] + HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+                    else:
+                        reporting = reporting.append(
+            {
+                'CORSE':
+                'TOUTES SAISONS ' + annee,
+                'CIBLE':
+                HS["CIBLE"][len(HS) - 1] +
+                MS1["CIBLE"][len(MS1) - 1] + MS2["CIBLE"][len(MS2) - 1]+BS1["CIBLE"][len(BS1) - 1],
+                'VENTE':
+                HS["VENTE"][len(HS) - 1] +
+                MS1["VENTE"][len(MS1) - 1] + MS2["VENTE"][len(MS2) - 1]+BS1["VENTE"][len(BS1) - 1],
+                "CUMUL":
+                HS["CUMUL"][len(HS) - 1] +
+                MS1["CUMUL"][len(MS1) - 1] + MS2["CUMUL"][len(MS2) - 1]+BS1["CUMUL"][len(BS1) - 1],
+                "BUDGET":
+                "",
+                "OBJECTIF":
+                ""
+            },
+            ignore_index=True)
+
 
     del reporting['index']
 
