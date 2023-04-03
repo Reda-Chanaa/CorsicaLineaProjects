@@ -301,25 +301,6 @@ def Stat_CSC(data_yesterday, data_today, annee, mois, cible, budget):
                                 | df_mask.MOIS.eq(mois[11])]
     if len(df_mask_cumul) == 0:
         return pd.DataFrame()
-    '''
-    print("////////////////")
-    cumul_j_1=df_mask["CUMUL-19"].sum()
-    basseS1=df_mask.loc[(df_mask["MOIS"]==1) | (df_mask["MOIS"]==2) | (df_mask["MOIS"]==3)]
-    bs11=basseS1["CUMUL-19"].sum()
-    print(bs11)
-    moyS1=df_mask.loc[(df_mask["MOIS"]==4) | (df_mask["MOIS"]==5) | (df_mask["MOIS"]==6)]
-    ms11=moyS1["CUMUL-19"].sum()
-    print(ms11)
-    hauteS=df_mask.loc[(df_mask["MOIS"]==7) | (df_mask["MOIS"]==8)]
-    hs1=hauteS["CUMUL-19"].sum()
-    print(hs1)
-    moyS2=df_mask.loc[(df_mask["MOIS"]==9) | (df_mask["MOIS"]==10)]
-    ms22=moyS2["CUMUL-19"].sum()
-    print(ms22)
-    basseS2=df_mask.loc[(df_mask["MOIS"]==11) | (df_mask["MOIS"]==12)]
-    bs22=basseS2["CUMUL-19"].sum()
-    print(bs22)
-    print(cumul_j_1)'''
     print("-------------------------")
     if len(df_mask_cumul) == 0:
         return pd.DataFrame()
@@ -1432,25 +1413,6 @@ def Stat_CSC_Objectif(data_yesterday, data_today, annee, mois, cible, budget,
                                 | df_mask.MOIS.eq(mois[10])
                                 | df_mask.MOIS.eq(mois[11])]
     print("////////////////")
-    '''
-    cumul_j_1=df_mask["CUMUL-19"].sum()
-    basseS1=df_mask.loc[(df_mask["MOIS"]==1) | (df_mask["MOIS"]==2) | (df_mask["MOIS"]==3)]
-    bs11=basseS1["CUMUL-19"].sum()
-    print(bs11)
-    moyS1=df_mask.loc[(df_mask["MOIS"]==4) | (df_mask["MOIS"]==5) | (df_mask["MOIS"]==6)]
-    ms11=moyS1["CUMUL-19"].sum()
-    print(ms11)
-    hauteS=df_mask.loc[(df_mask["MOIS"]==7) | (df_mask["MOIS"]==8)]
-    hs1=hauteS["CUMUL-19"].sum()
-    print(hs1)
-    moyS2=df_mask.loc[(df_mask["MOIS"]==9) | (df_mask["MOIS"]==10)]
-    ms22=moyS2["CUMUL-19"].sum()
-    print(ms22)
-    basseS2=df_mask.loc[(df_mask["MOIS"]==11) | (df_mask["MOIS"]==12)]
-    bs22=basseS2["CUMUL-19"].sum()
-    print(bs22)
-    print(cumul_j_1)
-    '''
     if len(df_mask_cumul) == 0:
         return pd.DataFrame()
         print("-------------------------")
@@ -2705,16 +2667,17 @@ def Stat_CSC_plus(data_yesterday, data_today, annee, mois):
             if len(BS1) == 3:
                 BS1.loc[3] = [
                     "BASSE SAISON 1", "",
-                    BS1["VENTE"][0] + BS1["VENTE"][1] + BS1["VENTE"][2], bs11,
+                    BS1["VENTE"][0] + BS1["VENTE"][1] + BS1["VENTE"][2], 
+                    BS1["CUMUL"][0] + BS1["CUMUL"][1] + BS1["CUMUL"][2],
                     ""
                 ]
             elif len(BS1) == 2:
                 BS1.loc[3] = [
                     "BASSE SAISON 1", "", BS1["VENTE"][1] + BS1["VENTE"][2],
-                    bs11, ""
+                    BS1["CUMUL"][1] + BS1["CUMUL"][2], ""
                 ]
             else:
-                BS1.loc[3] = ["BASSE SAISON 1", "", BS1["VENTE"][2], bs11, ""]
+                BS1.loc[3] = ["BASSE SAISON 1", "", BS1["VENTE"][2], BS1["CUMUL"][2], ""]
         #  1 MS
         if mesure["CORSE"][i] == "Apr":
             MS1.loc[0] = [
@@ -2731,17 +2694,17 @@ def Stat_CSC_plus(data_yesterday, data_today, annee, mois):
             if len(MS1) == 3:
                 MS1.loc[3] = [
                     "MOYENNE SAISON 1", "",
-                    MS1["VENTE"][0] + MS1["VENTE"][1] + MS1["VENTE"][2], ms11,
+                    MS1["VENTE"][0] + MS1["VENTE"][1] + MS1["VENTE"][2], MS1["CUMUL"][0] + MS1["CUMUL"][1] + MS1["CUMUL"][2],
                     ""
                 ]
             elif len(MS1) == 2:
                 MS1.loc[3] = [
                     "MOYENNE SAISON 1", "", MS1["VENTE"][1] + MS1["VENTE"][2],
-                    ms11, ""
+                    MS1["CUMUL"][1] + MS1["CUMUL"][2], ""
                 ]
             else:
                 MS1.loc[3] = [
-                    "MOYENNE SAISON 1", "", MS1["VENTE"][2], ms11, ""
+                    "MOYENNE SAISON 1", "", MS1["VENTE"][2], MS1["CUMUL"][2], ""
                 ]
         #  HS
         if mesure["CORSE"][i] == "Jul":
@@ -2754,11 +2717,11 @@ def Stat_CSC_plus(data_yesterday, data_today, annee, mois):
             ]
             if len(HS) == 2:
                 HS.loc[2] = [
-                    "HAUTE SAISON", "", HS["VENTE"][0] + HS["VENTE"][1], hs1,
+                    "HAUTE SAISON", "", HS["VENTE"][0] + HS["VENTE"][1], HS["CUMUL"][0]+HS["CUMUL"][1],
                     ""
                 ]
             else:
-                HS.loc[2] = ["HAUTE SAISON", "", HS["VENTE"][1], hs1, ""]
+                HS.loc[2] = ["HAUTE SAISON", "", HS["VENTE"][1], HS["CUMUL"][1], ""]
         #  2 MS
         if mesure["CORSE"][i] == "Sep":
             MS2.loc[0] = [
@@ -2771,11 +2734,11 @@ def Stat_CSC_plus(data_yesterday, data_today, annee, mois):
             if len(MS2) == 2:
                 MS2.loc[2] = [
                     "MOYENNE SAISON 2", "", MS2["VENTE"][0] + MS2["VENTE"][1],
-                    ms22, ""
+                    MS2["CUMUL"][0] + MS2["CUMUL"][1], ""
                 ]
             else:
                 MS2.loc[2] = [
-                    "MOYENNE SAISON 2", "", MS2["VENTE"][1], ms22, ""
+                    "MOYENNE SAISON 2", "", MS2["VENTE"][1], MS2["CUMUL"][1], ""
                 ]
         #  2 BS
         if mesure["CORSE"][i] == "Nov":
@@ -2789,10 +2752,10 @@ def Stat_CSC_plus(data_yesterday, data_today, annee, mois):
             if len(BS2) == 2:
                 BS2.loc[2] = [
                     "BASSE SAISON 2", "", BS2["VENTE"][0] + BS2["VENTE"][1],
-                    bs22, ""
+                    BS2["CUMUL"][0] + BS2["CUMUL"][1], ""
                 ]
             else:
-                BS2.loc[2] = ["BASSE SAISON 2", "", BS2["VENTE"][1], bs22, ""]
+                BS2.loc[2] = ["BASSE SAISON 2", "", BS2["VENTE"][1], BS2["CUMUL"][1], ""]
 
     MS1.reset_index(inplace=True)
     MS2.reset_index(inplace=True)
