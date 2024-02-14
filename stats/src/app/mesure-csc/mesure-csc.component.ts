@@ -56,6 +56,8 @@ export interface StatData {
   ID: string;
   NAVIRE: string;
   SENS: string;
+  DEPART: string;
+  ARRIVEE: string;
   DATE: string;
   ECART: string;
   NIVEAU: string;
@@ -80,7 +82,7 @@ export class MesureCscComponent {
   options: any
   dataFrame: any;
   @ViewChild('TABLE') table: ElementRef;
-  displayedColumns: string[] = ['ID', 'NAVIRE', 'SENS', 'DATE', 'ECART', 'VENTE', 'VENTEJ','ACTION'];
+  displayedColumns: string[] = ['ID', 'NAVIRE', 'SENS','DEPART','ARRIVEE', 'DATE', 'ECART', 'VENTE', 'VENTEJ','ACTION'];
   dataSource: MatTableDataSource<StatData>;
 
   ecartSup: string = null;
@@ -218,6 +220,8 @@ export class MesureCscComponent {
     let c0: Observable<boolean> = this.ID.valueChanges;
     let c1: Observable<boolean> = this.NAVIRE.valueChanges;
     let c2: Observable<boolean> = this.SENS.valueChanges;
+    let c8: Observable<boolean> = this.DEPART.valueChanges;
+    let c9: Observable<boolean> = this.ARRIVEE.valueChanges;
     let c3: Observable<boolean> = this.DATE.valueChanges;
     let c4: Observable<boolean> = this.ECART.valueChanges;
     let c5: Observable<boolean> = this.VENTE.valueChanges;
@@ -232,6 +236,8 @@ export class MesureCscComponent {
       this.columnDefinitions[5].show = this.VENTE.value;
       this.columnDefinitions[6].show = this.VENTEJ.value;
       this.columnDefinitions[7].show = this.ACTION.value;
+      this.columnDefinitions[8].show = this.DEPART.value;
+      this.columnDefinitions[9].show = this.ARRIVEE.value;
     });
   }
   exportTable() {
@@ -256,6 +262,8 @@ export class MesureCscComponent {
       { def: 'ID', label: 'ID', show: this.ID.value },
       { def: 'NAVIRE', label: 'NAVIRE', show: this.NAVIRE.value },
       { def: 'SENS', label: 'SENS', show: this.SENS.value },
+      { def: 'DEPART', label: 'DEPART', show: this.DEPART.value },
+      { def: 'ARRIVEE', label: 'ARRIVEE', show: this.ARRIVEE.value },
       { def: 'DATE', label: 'DATE', show: this.DATE.value },
       { def: 'ECART', label: 'ECART', show: this.ECART.value },
       { def: 'VENTE', label: 'VENTE', show: this.VENTE.value },
@@ -270,6 +278,8 @@ export class MesureCscComponent {
     ID: new FormControl(true),
     NAVIRE: new FormControl(true),
     SENS: new FormControl(true),
+    DEPART: new FormControl(true),
+    ARRIVEE: new FormControl(true),
     DATE: new FormControl(true),
     ECART: new FormControl(true),
     VENTE: new FormControl(true),
@@ -282,6 +292,8 @@ export class MesureCscComponent {
   ID = this.form.get('ID');
   NAVIRE = this.form.get('NAVIRE');
   SENS = this.form.get('SENS');
+  DEPART = this.form.get('DEPART');
+  ARRIVEE = this.form.get('ARRIVEE');
   DATE = this.form.get('DATE');
   ECART = this.form.get('ECART');
   VENTE = this.form.get('VENTE');
@@ -294,6 +306,8 @@ export class MesureCscComponent {
     { def: 'ID', label: 'ID', show: this.ID.value },
     { def: 'NAVIRE', label: 'NAVIRE', show: this.NAVIRE.value },
     { def: 'SENS', label: 'SENS', show: this.SENS.value },
+    { def: 'DEPART', label: 'DEPART', show: this.DEPART.value },
+    { def: 'ARRIVEE', label: 'ARRIVEE', show: this.ARRIVEE.value },
     { def: 'DATE', label: 'DATE', show: this.DATE.value },
     { def: 'ECART', label: 'ECART', show: this.ECART.value },
     { def: 'VENTE', label: 'VENTE', show: this.VENTE.value },

@@ -155,7 +155,7 @@ def MesureTUN(request):
         df_test = pd.DataFrame(df)
         df_test.reset_index(drop=True, inplace=True)
         df_test['SENS'] = [
-            "N" if sens == "MRS" else "S" for sens in df_test['PORT_DEPART']
+            "N" if (sens == "MRS" or sens=="SET") else "S" for sens in df_test['PORT_DEPART']
         ]
         df_test = df_test.drop(['DATE_DEPART_y'], axis=1)
         df_test = df_test.sort_values([
@@ -176,7 +176,7 @@ def MesureTUN(request):
         df = df[(df["ECART"] >= float(ecart))]
         df.reset_index(drop=True, inplace=True)
         df['SENS'] = [
-            "N" if sens == "MRS" else "S" for sens in df['PORT_DEPART']
+            "N" if (sens == "MRS" or sens=="SET") else "S" for sens in df['PORT_DEPART']
         ]
         df = df.drop(['DATE_DEPART_y'], axis=1)
         df = df.sort_values([
@@ -633,7 +633,7 @@ def MesureTUNPLUS(request):
         df_test = pd.DataFrame(df)
         df_test.reset_index(drop=True, inplace=True)
         df_test['SENS'] = [
-            "N" if sens == "MRS" else "S" for sens in df_test['PORT_DEPART']
+            "N" if (sens == "MRS" or sens=="SET") else "S" for sens in df_test['PORT_DEPART']
         ]
         df_test = df_test.drop(['DATE_DEPART_y'], axis=1)
         df_test = df_test.sort_values([
@@ -654,7 +654,7 @@ def MesureTUNPLUS(request):
         df = df[(df["ECART"] >= float(ecartSup))&(df["ECART"] <= float(ecartInf))]
         df.reset_index(drop=True, inplace=True)
         df['SENS'] = [
-            "N" if sens == "MRS" else "S" for sens in df['PORT_DEPART']
+            "N" if (sens == "MRS" or sens=="SET") else "S" for sens in df['PORT_DEPART']
         ]
         df = df.drop(['DATE_DEPART_y'], axis=1)
         df = df.sort_values([
